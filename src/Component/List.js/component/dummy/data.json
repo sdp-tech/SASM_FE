@@ -1,0 +1,24 @@
+[ 
+    {
+      "name": "Store1",
+      "location": "Seoul",
+      "day": "Monday"
+    },
+    {
+      "name": "Store2",
+      "location": "Seoul",
+      "day": "Monday"
+    },
+    {
+      "name": "Store3",
+      "location": "Seoul",
+      "day": "Monday"
+    },
+    {
+      "name": "Store4",
+      "location": "Seoul",
+      "day": "Sunday"
+    }
+
+
+  ]
