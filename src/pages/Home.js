@@ -1,16 +1,17 @@
-import React, { useState, useRef } from 'react';
-import { BrowserRouter,Route,Link,Switch } from "react-router-dom"
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Home() {
-  
+const Home = () => {
   return (
-    <>
-      <div>
-        홈입니다!
-      </div>
-      <Link to='/Login'>로그인</Link>
-    </>
+    <div>
+      <h1>홈</h1>
+      <div>리스트</div>
+      <div>지도</div>
+      <br/>
+      <Link to="/auth">로그인</Link>
+    </div>
+
   );
-}
+};
 
 export default Home;
