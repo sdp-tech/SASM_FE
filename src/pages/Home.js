@@ -1,16 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { createGlobalStyle } from 'styled-components';
+
+import Navibar from '../components/Home/Navi';
+import List from '../components/Home/List';
+// import Maps from '../components/Home/Maps';
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    background: #e9ecef;
+  }
+`;
 
 const Home = () => {
   return (
-    <div>
-      <h1>홈</h1>
-      <div>리스트</div>
-      <div>지도</div>
-      <br/>
-      <Link to="/auth">로그인</Link>
-    </div>
-
+    <>
+      <GlobalStyle />
+      <Navibar/>
+      <List/>
+      {/* <Maps></Maps> */}
+    </>
   );
 };
 
