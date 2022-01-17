@@ -6,9 +6,11 @@ import ListItemText from '@mui/material/ListItemText';
 import { FixedSizeList } from 'react-window';
 import { useState } from 'react';
 
-var data = require('../../datas/list/data.json');
+// Code Refactoring 1 : JSON import 방식 통일
+// var data = require('../../datas/list/data.json');
+import data from '../../datas/list/data.json';
 
-// console.log(data);
+console.log(data);
 
 function renderRow(props) {
 //   const { index, style } = props;
