@@ -14,7 +14,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -57,30 +56,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navibar() {
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
+  };
+  
+  const handlePageRedirection = () => {
     window.location.href = '/auth';
-  };
+  }
+  
+  const handlePageBackToRoot = () => {
+    window.location.href = '/';
+  }
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
+  // 프로필 아이콘 클릭시 팝업 메뉴 모달
   const menuId = 'menu';
   const renderMenu = (
     <Menu
@@ -98,66 +94,8 @@ export default function Navibar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Login</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  // 우측 상단 아이콘 메뉴들
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    > 
-      {/* 우측상단 메시지함 */}
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-
-      {/* 우측상단 알림함 */}
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-
-      {/* 우측상단 프로필 아이콘 */}
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      <MenuItem onClick={handlePageRedirection}>Login</MenuItem>
+      <MenuItem onClick={handlePageRedirection}>My account</MenuItem>
     </Menu>
   );
 
@@ -166,6 +104,7 @@ export default function Navibar() {
       <AppBar position="static">
         <Toolbar>
 
+          {/* 햄버거 메뉴 */}
           <IconButton
             size="large"
             edge="start"
@@ -176,15 +115,18 @@ export default function Navibar() {
             <MenuIcon />
           </IconButton>
 
+          {/* 타이틀(페이지 이름) */}
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
+            onClick={handlePageBackToRoot}
           >
             SASM
           </Typography>
 
+          {/* 검색창 */}
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -195,14 +137,20 @@ export default function Navibar() {
             />
           </Search>
 
+          {/* 중간 공백용 */}
           <Box sx={{ flexGrow: 1 }} />
 
+          {/* 아이콘 3개 모음 */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            
+            {/* 메일함 아이콘 */}
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
+            
+            {/* 공지함 아이콘 */}
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -212,6 +160,8 @@ export default function Navibar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+
+            {/* 프로필 아이콘 */}
             <IconButton
               size="large"
               edge="end"
@@ -224,22 +174,10 @@ export default function Navibar() {
               <AccountCircle />
             </IconButton>
           </Box>
-          
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
+
+      {/* 프로필 클릭 시 anchor값 설정되서 프로필 메뉴 팝업 */}
       {renderMenu}
     </Box>
   );
