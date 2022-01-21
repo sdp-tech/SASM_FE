@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 
 import Navibar from '../components/Home/Navibar';
-import List from '../components/Home/List';
+import SpotList from '../components/Home/SpotList';
 import Map from '../components/Home/Map';
 
 const GlobalStyle = createGlobalStyle`
@@ -13,24 +13,12 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const TempMap = styled.div`
+const SpotMapWrapper = styled.div`
   height: 100vh;
   width: 100vw;
   position: fixed;
   z-index: 0;
 `;
-
-const Color =styled.div`
-  height: 100%;
-  width: 100%;
-  background: #e9ecef;
-`;
-const Test =styled.div`
-  height: 100%;
-  width: 100px;
-  background: orange;
-`;
-
 /*
 Idea
 홈 페이지의 핵심은 전체 창에 대한 스크롤이 생기지 않게 페이지 구성하는 것
@@ -44,9 +32,11 @@ Map 전체 창에 띄우고 그 위에 Navibar, List가 얹혀있는 느낌이 �
 const Home = () => {
   return (
     <>
-    <TempMap/>
+    <SpotMapWrapper>
+      <Map/>
+    </SpotMapWrapper>
     <Navibar/>
-    <List/>
+    <SpotList/>
     </>
   );
 };

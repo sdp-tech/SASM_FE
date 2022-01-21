@@ -36,7 +36,7 @@ const Map = () => {
         overflow: "hidden",
         width: "100%",
         height: "100%",
-        position: 'fixed'
+        position: 'relative'
     };
 
     const skater = new Icon({
