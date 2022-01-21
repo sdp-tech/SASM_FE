@@ -4,7 +4,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { FixedSizeList } from 'react-window';
-import { useState } from 'react';
 
 // Code Refactoring 1 : JSON import 방식 통일
 // var data = require('../../datas/list/data.json');
@@ -13,17 +12,9 @@ import data from '../../datas/list/data.json';
 console.log(data);
 
 function renderRow(props) {
-//   const { index, style } = props;
-
   const { data, style } = props;
 
   return (
-    // <ListItem style={style} key={index} component="div" disablePadding>
-    //   <ListItemButton>
-    //     {/* <ListItemText primary={`Item ${index + 1}`} /> */}
-    //     <ListItemText primary="Brunch this weekend?" />
-    //   </ListItemButton>
-    // </ListItem>
     <ListItem style={style} key={data} component="div" disablePadding>
     <ListItemButton>
       {/* <ListItemText primary={`Item ${index + 1}`} /> */}
