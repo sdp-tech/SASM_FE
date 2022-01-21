@@ -1,7 +1,7 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
 
-import Navibar from '../components/Home/Navi';
+import Navibar from '../components/Home/Navibar';
 import List from '../components/Home/List';
 import Maps from '../components/Home/Map';
 

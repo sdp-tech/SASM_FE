@@ -74,7 +74,7 @@ export default function Navibar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-    window.open('/auth');
+    window.location.href = '/auth';
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -103,6 +103,7 @@ export default function Navibar() {
     </Menu>
   );
 
+  // 우측 상단 아이콘 메뉴들
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -119,7 +120,8 @@ export default function Navibar() {
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
-    >
+    > 
+      {/* 우측상단 메시지함 */}
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
@@ -128,6 +130,8 @@ export default function Navibar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
+
+      {/* 우측상단 알림함 */}
       <MenuItem>
         <IconButton
           size="large"
@@ -140,6 +144,8 @@ export default function Navibar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
+
+      {/* 우측상단 프로필 아이콘 */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -159,6 +165,7 @@ export default function Navibar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
+
           <IconButton
             size="large"
             edge="start"
@@ -168,6 +175,7 @@ export default function Navibar() {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography
             variant="h6"
             noWrap
@@ -176,6 +184,7 @@ export default function Navibar() {
           >
             SASM
           </Typography>
+
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -185,7 +194,9 @@ export default function Navibar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+
           <Box sx={{ flexGrow: 1 }} />
+
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
@@ -213,6 +224,7 @@ export default function Navibar() {
               <AccountCircle />
             </IconButton>
           </Box>
+          
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"

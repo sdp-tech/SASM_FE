@@ -48,7 +48,7 @@ const Contents = styled.div`
 const AuthWrapper = ({children}) => (
   <Positioner>
     <LogoWrapper>
-      <Logo to="/">SASM</Logo>      
+      <Logo to="/home">SASM</Logo>      
     </LogoWrapper>
     <Contents>
       {children}
