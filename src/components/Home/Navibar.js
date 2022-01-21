@@ -100,8 +100,10 @@ export default function Navibar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box 
+      sx={{ flexGrow: 1, height: "64px",  minHeight: "64px", maxHeight: "64px", width: '100%', position:'fixed'}}
+    >
+      <AppBar>
         <Toolbar>
 
           {/* 햄버거 메뉴 */}

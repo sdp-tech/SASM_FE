@@ -9,7 +9,7 @@ import { Icon } from "leaflet";
 // 개인적으로 import가 직관적이고 외부 모듈 데이터 가져온거 볼 또 상단에 묶여있으니까 좋은 듯
 import parkData from "../../datas/map/skateboard-parks";
 
-console.log(parkData);
+// console.log(parkData);
 
 // Code Refactoring 2 : 함수형 컴포넌트로 통일
 // 실제로 지금 코드에서도 클래스형 컴포넌트에서 사용할 수 없는 Hook(useState)을 사용해서 코드 에러 뜬 것도 있고
@@ -29,19 +29,24 @@ const Map = () => {
         lng: -75.7,
         zoom: 12
     }
+
     const position = [state.lat, state.lng];
+
     const mapStyles = {
         overflow: "hidden",
         width: "100%",
-        height: "100vh"
+        height: "100%",
+        position: 'fixed'
     };
+
     const skater = new Icon({
         iconUrl: "/skateboarding.svg",
         iconSize:[25, 25]
     });
+
     const [activePark, setActivePark] = useState(null);
     const parks = parkData.features;
-    console.log(parks);
+    // console.log(parks);
 
     return (
         <MapContainer styles={mapStyles} center={position} zoom={state.zoom} scrollWheelZoom={false}>
