@@ -12,6 +12,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "alloyfinger": "^0.1.16",
+    "axios": "^0.25.0",
     "leaflet": "^1.7.1",
     "open-color": "^1.9.1",
     "react": "^17.0.2",
