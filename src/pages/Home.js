@@ -41,14 +41,13 @@ const Home = () => {
   };
 
   loadItem();
-  // console.log("WWWWW",state.ItemList);
   return (
     <>
     <SpotMapWrapper>
       <Map/>
     </SpotMapWrapper>
     <Navibar/>
-    <SpotList Itemcard={state.ItemList}/>
+    {/* <SpotList Itemcard={state.ItemList}/> */}
     </>
   );
 };
