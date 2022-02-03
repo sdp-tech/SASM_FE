@@ -41,7 +41,7 @@ export default function Intro(){
           <Link to="/Home">Go to Home</Link>
         </Button>
         <Button>
-          <Link to="/Blog">Go to Story</Link>
+          <Link to="/story">Go to Story</Link>
         </Button>
       </Wrapper>
     </>
