@@ -1,18 +1,10 @@
 import * as React from 'react';
-import { List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-
+import { List } from '@mui/material';
 import ItemCard from './SpotList/ItemCard.js'
-import jsonData from '../../datas/list/data.json';
-
-
-const storeList = jsonData.storeList;
-console.log(storeList);
 
 export default function SpotList(props) {
 
-  console.log('Props', typeof(props), props);
   const Item = props.Itemcard;
-  console.log('Item', typeof(Item));
 
   return (
     <List
