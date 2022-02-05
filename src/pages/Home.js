@@ -42,6 +42,8 @@ const Home = () => {
 
   loadItem();
   // console.log("WWWWW",state.ItemList);
+
+
   return (
     <>
     <SpotMapWrapper>
