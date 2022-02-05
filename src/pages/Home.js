@@ -46,7 +46,7 @@ const Home = () => {
     <SpotMapWrapper>
       <Map/>
     </SpotMapWrapper>
-    <Navibar/>
+    {/* <Navibar/> */}
     <SpotList Itemcard={state.ItemList}/>
     </>
   );

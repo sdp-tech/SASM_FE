@@ -15,6 +15,11 @@ function CurrentLocation(){
     navigator.geolocation.getCurrentPosition(resolve, rejected, options);
   });
 }
+/*
+navigator.geolocation.getCurrentPosition(success, error, options)
+*/
+
+
 
 /*
 함수형 컴포넌트들도 function 방식으로 적다보니 실제는 React component임을 까먹게 됨
@@ -50,7 +55,6 @@ const NaverMapAPI = () => {
     }
     updateCurLocation();
   }, [])
-
 
 	return (
     <>
