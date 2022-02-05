@@ -3,35 +3,18 @@ import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
 
 function CurrentLocation(){
   
-  let latitude= 37.551229;
-  let longitude = 126.988205;
+  const options =     {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: Infinity
+  };
 
-  function success (pos){
-    latitude = pos.coords.latitude;
-    longitude = pos.coords.longitude;
-    console.log("콜백 내부", latitude, longitude);
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    success, 
-    function error(error) {
-      console.error(error);
-      alert("위치 정보를 확인할 수 없어 기본 위치로 이동합니다");
-    },
-    {
-      enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: Infinity
-    }
-  );
-  
-  console.log("콜백 외부", latitude, longitude);
-  return {latitude, longitude};
+  return new Promise((resolve, rejected) => {
+    navigator.geolocation.getCurrentPosition(resolve, rejected, options);
+  });
 }
 
-console.log("함수 호출", CurrentLocation());
-
-function NaverMapAPI() {
+async function NaverMapAPI() {
   
   const navermaps = window.naver.maps;
   
@@ -43,12 +26,17 @@ function NaverMapAPI() {
   });
   
   useEffect(() => {
-    setState({
-      center : {
-        lat: 37.5520579,
-        lng: 126.9394652
-      }
-    });
+    async function updateCurLocation(){
+      let position = await CurrentLocation();
+      console.log("동기화 처리", position);
+      setState({
+        center : {
+          lat: 37.5520579,
+          lng: 126.9394652
+        }
+      });
+    }
+    updateCurLocation();
     console.log("내부", state);
   }, [])
 
