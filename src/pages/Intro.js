@@ -37,7 +37,8 @@ export default function Intro(){
       <IntroImg src={img}></IntroImg>
       <Wrapper>
         <div>SASM INTRO Page</div>
-        <Button variant="outlined">
+        {/* variant="outlined" */}
+        <Button > 
           <Link to="/Home">Go to Home</Link>
         </Button>
         <Button>
