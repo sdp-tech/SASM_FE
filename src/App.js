@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Auth from './pages/Auth'
 import Intro from './pages/Intro';
 import Story from './pages/Story';
+import BlogContent from './pages/BlogContent'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/story" element={<Story />} />
         <Route path="/auth/*" element={<Auth />} />
+        <Route path="/detail" element={< BlogContent/>} />
       </Routes>
     </BrowserRouter>
   );

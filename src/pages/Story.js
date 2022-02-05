@@ -33,7 +33,11 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const theme = createTheme();
 
-export default function Story() {
+const Story = () => {
+  const viewPage = () => {
+    window.location.href='/detail' //replace는 뒤로가기 불가능, href는 가능
+  }
+
   return (
     <ThemeProvider theme={theme}>
  
@@ -83,7 +87,7 @@ export default function Story() {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">View</Button>
+                    <Button onClick={viewPage} size="small">View</Button>
                     <Button size="small"> <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /></Button>
                   </CardActions>
                 </Card>
@@ -111,3 +115,4 @@ export default function Story() {
     </ThemeProvider>
   );
 }
+export default Story;
