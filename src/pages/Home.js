@@ -41,6 +41,7 @@ const Home = () => {
   };
 
   loadItem();
+
   return (
     <>
     <SpotMapWrapper>
