@@ -1,85 +1,97 @@
-import React, { useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Icon } from "leaflet";
+import React, {useState, useEffect} from 'react';
+import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
 
+// Geoloation 사용해서 현재 위치 정보 받아오기
+// Promise를 이용해 동기화처리해주기
+function CurrentLocation(){
+  
+  const options =     {
+    enableHighAccuracy: true,
+    maximumAge: 0,
+    timeout: Infinity
+  };
 
-// import * as parkData from "../../datas/map/skateboard-parks";
-// var parkData = require('../../datas/map/skateboard-parks');
-// Code Refactoring 1 : JSON import 방식 통일
-// -> List.js에서도 require로 받았는데 나름 우리끼리 통일하는게 좋을 듯
-// 개인적으로 import가 직관적이고 외부 모듈 데이터 가져온거 볼 또 상단에 묶여있으니까 좋은 듯
-import parkData from "../../datas/map/skateboard-parks";
-
-console.log(parkData);
-
-// Code Refactoring 2 : 함수형 컴포넌트로 통일
-// 실제로 지금 코드에서도 클래스형 컴포넌트에서 사용할 수 없는 Hook(useState)을 사용해서 코드 에러 뜬 것도 있고
-// 최근의 기술적 동향으로는 함수형 컴포넌트 사용을 지향한다고 하니 함수형 컴포넌트로 사용하는게 좋을 듯
-// 추가로 수현이는 함수형 컴포넌트 사용하기는 했는데 일반적 함수 방식이고
-// 나는 화살표 함수형으로 사용해서 이것도 통일하면 코드 통일성 더 맞아서 좋을것 같아
-// 관련 설명 링크 https://devowen.com/298
-
-
-// Code Refactoring 3 : 컴포넌트 요소 단수형 이름 사용하기
-// 물론 복수형 요소인 경우도 있을 수는 있지만 컴포넌트 개념 자체적으로
-// 개별 개체를 의미하는 요소다보니까 단수형으로 이름 관리하는게 좋을것 같아
-const Map = () => {
-
-    const state = {
-        lat: 45.4,
-        lng: -75.7,
-        zoom: 12
-    }
-    const position = [state.lat, state.lng];
-    const mapStyles = {
-        overflow: "hidden",
-        width: "100vw",
-        height: "100vh"
-    };
-    const skater = new Icon({
-        iconUrl: "/skateboarding.svg",
-        iconSize:[25, 25]
-    });
-    const [activePark, setActivePark] = useState(null);
-    const parks = parkData.features;
-    console.log(parks);
-
-    return (
-        <MapContainer styles={mapStyles} center={position} zoom={state.zoom} scrollWheelZoom={false}>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {parks.map(park => (
-                <Marker 
-                    key={park.properties.PARK_ID}
-                    position={[
-                        park.geometry.coordinates[1],
-                        park.geometry.coordinates[0]
-                    ]}
-                    onClick={()=> {
-                        setActivePark(park);
-                    }}
-                    icon={skater}
-                    />
-            ))}
-            {activePark && (
-                <Popup
-                    position={[
-                        activePark.geometry.coordinates[1],
-                        activePark.geometry.coordinates[0]
-                    ]}
-                    onClose={()=>{
-                        setActivePark(null);
-                    }}
-                >
-                    <div>
-                        <h2>{activePark.properties.NAME}</h2>
-                        <p>{activePark.properties.DESCRIPITO}</p>
-                    </div>
-                </Popup>
-            )}                     
-        </MapContainer>
-    )
+  return new Promise((resolve, rejected) => {
+    navigator.geolocation.getCurrentPosition(resolve, rejected, options);
+  });
 }
+
+/*
+함수형 컴포넌트들도 function 방식으로 적다보니 실제는 React component임을 까먹게 됨
+리액트 컴포넌트들은 화살표 함수 방식으로 표기하고
+세부 동작으로 작성한 함수들은 function 선언 방식으로 표기하는 것이 좋을 듯
+
+추가로 React component 요소에는 async를 넣어놓을 수 없음
+*/
+const NaverMapAPI = () => {
+  
+  const navermaps = window.naver.maps;
+  
+  // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
+  const [state, setState] = useState({
+    center : {
+      lat: 37.551229,
+      lng: 126.988205
+    }
+  });
+  
+  // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
+  // useEffect 안에서 async한 함수 사용하고 싶을 때는
+  // 아래와 같이 useEffect안에서 aysnc function 정의해서 사용하기
+  useEffect(() => {
+    async function updateCurLocation(){
+      let position = await CurrentLocation();
+      setState({
+        center : {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+      });
+    }
+    updateCurLocation();
+  }, [])
+
+
+	return (
+    <>
+      <NaverMap
+        mapDivId={'maps-getting-started-uncontrolled'}
+        style={{
+          width: '100%',
+          height: '100%'
+        }}
+        center={state.center}
+        defaultZoom={16}
+        // onCenterChanged={center => {console.log(center)}}
+      >
+        
+        <Marker 
+          key={1}
+          position={new navermaps.LatLng(37.551229, 126.988205)}
+          // animation={2}
+          onClick={() => {alert('여기는 서울타워입니다.');}}   
+        />
+        <Marker 
+          key={2}
+          position={new navermaps.LatLng(37.5520579, 126.9394652)}
+          // animation={2}
+          onClick={() => {alert('여기는 서강대입니다.');}}   
+        />
+      </NaverMap> 
+    </>
+  );
+}
+
+const Map = () => {
+  return (
+    <RenderAfterNavermapsLoaded
+      ncpClientId={'aef7a2wcmn'}
+      error={<p>Maps Load Error</p>}
+      loading={<p>Maps Loading...</p>}
+    >
+      <NaverMapAPI />
+    </RenderAfterNavermapsLoaded>
+  );
+};
 
 export default Map;
