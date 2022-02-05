@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { List } from '@mui/material';
-import ItemCard from './SpotList/ItemCard.js'
-import SearchBar from './SpotList/SearchBar.js'
+import MainCard from './SpotDetail/MainCard.js'
 
-export default function SpotList(props) {
+export default function SpotDetail(props) {
 
-  const Item = props.Itemcard;
-
-  const SpotDetail(itemdata) => {
-    
-  }
+  const Item = props.MainCard;
 
   return (
     <>
@@ -19,10 +14,9 @@ export default function SpotList(props) {
               width: '100%', height: '100%', overflow: 'hidden',
               maxWidth: 360, bgcolor: 'background.paper'}}
       >
-        <SearchBar/>
         {Item &&
         Item.map((itemdata) => (
-            <ItemCard onClick={() => SpotDetail(itemdata)}
+            <MainCard
               ImageURL={itemdata.ImageURL}
               StoreName={itemdata.StoreName}
               StoreType={itemdata.StoreType}
