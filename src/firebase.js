@@ -20,14 +20,14 @@ const auth = getAuth(firebaseApp);
 //...
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseApp);
 
-//Id 로그인
+// Id 로그인
 export const loginId = (Id, password) => {
   return signInWithIdAndPassword(auth, Id, password);
 };
 
-//Email + Id 회원가입
+// Email + Id 회원가입
 export const signupEmailAndId = (email, Id, password) => {
   return createUserWithEmailAndIdAndPassword(auth, email, Id, password);
 };

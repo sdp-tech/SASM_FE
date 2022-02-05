@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import {initializeApp} from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-app.js';
 import {getAuth, onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/9.2.0/firebase-auth.js'; 
+import './index.css';
 
 
 const firebaseApp = initializeApp({
@@ -15,17 +16,15 @@ const firebaseApp = initializeApp({
     measurementId: "G-VNG0L9XCDB"
 });
 const auth = getAuth(firebaseApp);
+console.log(auth);
 
 onAuthStateChanged(auth, user => {
     if(user != null ) {
-        consolel.log('logged in!');
+        console.log('logged in!');
     } else {
         console.log('No user');
     }
 });
-
-import './index.css';
-
 
 ReactDOM.render( <App />, document.getElementById('root'));
 
