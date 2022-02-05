@@ -7,9 +7,9 @@ export default function SpotList(props) {
 
   const Item = props.Itemcard;
 
-  const SpotDetail(itemdata) => {
-    
-  }
+  // const SpotDetail(itemdata) => {
+
+  // }
 
   return (
     <>
@@ -22,7 +22,7 @@ export default function SpotList(props) {
         <SearchBar/>
         {Item &&
         Item.map((itemdata) => (
-            <ItemCard onClick={() => SpotDetail(itemdata)}
+            <ItemCard //onClick={() => SpotDetail(itemdata)}
               ImageURL={itemdata.ImageURL}
               StoreName={itemdata.StoreName}
               StoreType={itemdata.StoreType}
