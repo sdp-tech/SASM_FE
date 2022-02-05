@@ -2,12 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledCard = styled.section`
-  border: 1.5px solid black;
   padding: 1em;
-
-  :hover {
-    background: #EBF5FB;
-  }
 `;
 
 const Content = styled.p`
@@ -15,7 +10,7 @@ const Content = styled.p`
   color: black;
 `;
 
-function ItemCard({ key, ImageURL, StoreName, StoreType, OpeningHours, Address }) {
+function MainCard({ key, ImageURL, StoreName, StoreType, OpeningHours, Address }) {
     return (
       <StyledCard className="component component--item_card" key={key}>
         <img src={ImageURL} className="image--itemcard" alt="" width="300" height="250" />
@@ -35,4 +30,4 @@ function ItemCard({ key, ImageURL, StoreName, StoreType, OpeningHours, Address }
     );
 }
 
-export default ItemCard;
+export default MainCard;
