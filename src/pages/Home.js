@@ -5,6 +5,7 @@ import axios from "axios";
 import Navibar from '../components/Home/Navibar';
 import SpotList from '../components/Home/SpotList';
 import Map from '../components/Home/Map';
+// import Map from '../components/Home/MapTry';
 
 const SpotMapWrapper = styled.div`
   height: 100vh;

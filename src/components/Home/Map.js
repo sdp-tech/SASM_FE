@@ -22,12 +22,14 @@ const NaverMapAPI = () => {
   
   // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
   const [state, setState] = useState({
-    center : {
+    center: {
       lat: 37.551229,
       lng: 126.988205
-    }
+    },
+    zoom: 16
   });
-  
+  const [render, setRender] = useState(0);
+   
   // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
   // useEffect 안에서 async한 함수 사용하고 싶을 때는
   // 아래와 같이 useEffect안에서 aysnc function 정의해서 사용하기
@@ -35,6 +37,7 @@ const NaverMapAPI = () => {
     async function updateCurLocation(){
       let position = await CurrentLocation();
       setState({
+        ...state,
         center : {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -46,10 +49,21 @@ const NaverMapAPI = () => {
 
   // 버튼 클릭 시 지도 현재 위치 중심으로 이동
   const handleBackToCenter = () => {
-    console.log('Clicked');
-    const map = document.getElementById('react-naver-map');
-    console.log(map);
+    async function updateCurLocation(){
+      let position = await CurrentLocation();
+      setState({
+        ...state,
+        center : {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        },
+        zoom: 16
+      });
+    }
+    updateCurLocation();
   };
+  
+  // console.log(state.zoom);
 
 	return (
     <>
@@ -66,14 +80,15 @@ const NaverMapAPI = () => {
       </button>
 
       <NaverMap
-        mapDivId={'maps-getting-started-uncontrolled'}
+        mapDivId={'SASM_map'}
         style={{
           width: '100%',
           height: '100%'
         }}
         center={state.center}
-        defaultZoom={16}
+        defaultZoom={state.zoom}
         // onCenterChanged={center => {console.log(center)}}
+        onZoomChanged={zoom => {console.log(zoom)}}
       >
         
         <Marker 
