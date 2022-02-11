@@ -81,6 +81,25 @@ const NaverMapAPI = () => {
           // animation={2}
           onClick={() => {alert('여기는 서강대입니다.');}}   
         />
+        <Marker 
+          key={4}
+          position={state.center}
+          // animation={2}
+          onClick={() => {alert('여기는 현재위치입니다.');}}   
+        />
+        <Marker 
+          key={3}
+          position={state.center}
+          clickable={false}
+          icon={{
+            url: './img/red_dot.png',
+            size: new navermaps.Size(20, 20),
+            origin: new navermaps.Point(190, 190),
+            anchor: new navermaps.Point(10, 10)
+          }}
+          // animation={2}
+          onClick={() => {alert('여기는 현재 위치입니다.');}}   
+        />
       </NaverMap> 
     </>
   );
