@@ -15,19 +15,7 @@ function CurrentLocation(){
     navigator.geolocation.getCurrentPosition(resolve, rejected, options);
   });
 }
-/*
-navigator.geolocation.getCurrentPosition(success, error, options)
-*/
 
-
-
-/*
-함수형 컴포넌트들도 function 방식으로 적다보니 실제는 React component임을 까먹게 됨
-리액트 컴포넌트들은 화살표 함수 방식으로 표기하고
-세부 동작으로 작성한 함수들은 function 선언 방식으로 표기하는 것이 좋을 듯
-
-추가로 React component 요소에는 async를 넣어놓을 수 없음
-*/
 const NaverMapAPI = () => {
   
   const navermaps = window.naver.maps;
@@ -56,8 +44,27 @@ const NaverMapAPI = () => {
     updateCurLocation();
   }, [])
 
+  // 버튼 클릭 시 지도 현재 위치 중심으로 이동
+  const handleBackToCenter = () => {
+    console.log('Clicked');
+    const map = document.getElementById('react-naver-map');
+    console.log(map);
+  };
+
 	return (
     <>
+      <button
+        style={{
+          position: 'fixed',
+          top: '70px',
+          right: '10px',
+          zIndex: '4'
+        }}
+        onClick={handleBackToCenter}
+      >
+          현재 위치로
+      </button>
+
       <NaverMap
         mapDivId={'maps-getting-started-uncontrolled'}
         style={{
@@ -81,12 +88,7 @@ const NaverMapAPI = () => {
           // animation={2}
           onClick={() => {alert('여기는 서강대입니다.');}}   
         />
-        <Marker 
-          key={4}
-          position={state.center}
-          // animation={2}
-          onClick={() => {alert('여기는 현재위치입니다.');}}   
-        />
+
         <Marker 
           key={3}
           position={state.center}
@@ -99,6 +101,12 @@ const NaverMapAPI = () => {
           }}
           // animation={2}
           onClick={() => {alert('여기는 현재 위치입니다.');}}   
+        />
+        <Marker 
+          key={4}
+          position={state.center}
+          // animation={2}
+          onClick={() => {alert('여기는 현재위치입니다.');}}   
         />
       </NaverMap> 
     </>
