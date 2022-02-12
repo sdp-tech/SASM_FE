@@ -37,7 +37,6 @@ const NaverMapAPI = () => {
     async function updateCurLocation(){
       let position = await CurrentLocation();
       setState({
-        ...state,
         center : {
           lat: position.coords.latitude,
           lng: position.coords.longitude

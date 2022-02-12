@@ -16,7 +16,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-
+import { useNavigate } from "react-router";
 
 
 function Copyright() {
@@ -36,12 +36,13 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const theme = createTheme();
 
-const Story = ({history}) => {
+const Story = () => {
   const viewPage = () => {
     window.location.href='/detail' //replace는 뒤로가기 불가능, href는 가능
   }
-  // const history = useHistory();
+  const navigate = useNavigate();
 
+  // console.log(window.history);
   return (
     <ThemeProvider theme={theme}>
  
@@ -91,7 +92,7 @@ const Story = ({history}) => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => history.push("/blog")} size="small">View</Button>
+                    <Button onClick={() => {navigate('/detail')}} size="small">View</Button>
                     <Button size="small"> <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /></Button>
                   </CardActions>
                 </Card>
