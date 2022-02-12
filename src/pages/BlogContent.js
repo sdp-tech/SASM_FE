@@ -75,6 +75,7 @@ align-items:flex-end;
 margin:7px;
 `;
 
+// 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
 background-color: #FCF16E;
 padding: 0px 13px;

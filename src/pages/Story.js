@@ -16,6 +16,9 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+
+
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -33,10 +36,11 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
 const theme = createTheme();
 
-const Story = () => {
+const Story = ({history}) => {
   const viewPage = () => {
     window.location.href='/detail' //replace는 뒤로가기 불가능, href는 가능
   }
+  // const history = useHistory();
 
   return (
     <ThemeProvider theme={theme}>
@@ -87,7 +91,7 @@ const Story = () => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={viewPage} size="small">View</Button>
+                    <Button onClick={() => history.push("/blog")} size="small">View</Button>
                     <Button size="small"> <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /></Button>
                   </CardActions>
                 </Card>
