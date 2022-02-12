@@ -16,6 +16,8 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import Navibar from "../components/Home/Navibar";
+
 import { useNavigate } from "react-router";
 
 
@@ -44,7 +46,9 @@ const Story = () => {
 
   // console.log(window.history);
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      <Navibar/>
+      <ThemeProvider theme={theme}>
  
       {/* <AppBar position="relative">
         <Toolbar>
@@ -92,7 +96,12 @@ const Story = () => {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button onClick={() => {navigate('/detail')}} size="small">View</Button>
+                    <Button 
+                      onClick={() => {
+                        // 서버에서 쿼리처리!!
+                        navigate('/detail')
+                        }} 
+                      size="small">View</Button>
                     <Button size="small"> <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /></Button>
                   </CardActions>
                 </Card>
@@ -117,7 +126,9 @@ const Story = () => {
         <Copyright />
       </Box>
       {/* End footer */}
-    </ThemeProvider>
+      </ThemeProvider>
+    </>
+
   );
 }
 export default Story;

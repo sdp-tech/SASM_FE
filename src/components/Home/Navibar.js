@@ -29,10 +29,21 @@ export default function Navibar() {
     window.location.href = '/auth';
   }
   
-  const handlePageBackToRoot = () => {
+  const handlePageGoToIntro = () => {
     window.location.href = '/';
   }
-
+  const handlePageGoToHome = () => {
+    window.location.href = '/home';
+  }
+  const handlePageGoToStory = () => {
+    window.location.href = '/story';
+  }
+  const handlePageGoToAuth = () => {
+    window.location.href = '/auth';
+  }
+  const handlePageGoToAbout = () => {
+    window.location.href = '/about';
+  }
   // 프로필 아이콘 클릭시 팝업 메뉴 모달
   const menuId = 'menu';
   const renderMenu = (
@@ -63,65 +74,74 @@ export default function Navibar() {
       <AppBar>
         <Toolbar>
 
-          {/* 햄버거 메뉴 */}
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-
           {/* 타이틀(페이지 이름) */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-            onClick={handlePageBackToRoot}
-          >
-            SASM
-          </Typography>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ 
+                display: { xs: 'none', sm: 'block' },
+              }}
+              // onClick={handlePageBackToIntro}
+            >
+              SASM_____
+            </Typography>
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              onClick={handlePageGoToIntro}
+            >
+              HOME____
+            </Typography>
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              onClick={handlePageGoToHome}
+            >
+              MAP____
+            </Typography>
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              onClick={handlePageGoToStory}
+            >
+              STORY____
+            </Typography>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              onClick={handlePageGoToAuth}
+            >
+              MY PAGE____
+            </Typography>
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+              onClick={handlePageGoToAbout}
+            >
+              ABOUT____
+            </Typography>
+          </Box>
+          
           {/* 중간 공백용 */}
           <Box sx={{ flexGrow: 1 }} />
 
-          {/* 아이콘 3개 모음 */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            
-            {/* 메일함 아이콘 */}
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            
-            {/* 공지함 아이콘 */}
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
-            {/* 프로필 아이콘 */}
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
         </Toolbar>
       </AppBar>
 
