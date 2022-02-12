@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-import Navibar from '../components/Home/Navibar';
-import SpotList from '../components/Home/SpotList';
-import Map from '../components/Home/Map';
-// import Map from '../components/Home/MapTry';
+import Navibar from "../components/Home/Navibar";
+import SpotList from "../components/Home/SpotList";
+import Map from "../components/Home/Map";
+import SpotDetail from "../components/Home/SpotDetail";
+
 
 const SpotMapWrapper = styled.div`
   height: 100vh;
@@ -15,7 +16,6 @@ const SpotMapWrapper = styled.div`
 `;
 
 const Home = () => {
-  
   const [state, setState] = useState({
     loading: false,
     ItemList: [] // 처음 Itemlist는 있는 상태로 기획 []
@@ -32,7 +32,7 @@ const Home = () => {
           ItemList: data.Item // 비어있던 Itemlist는 data에 Item객체를 찾아넣어준다. ( Item : json파일에 있는 항목)
         });
       })
-      .catch(e => {
+      .catch((e) => {
         // json이 로드되지않은 시간엔
         console.error(e); // 에러표시
         setState({
@@ -45,11 +45,12 @@ const Home = () => {
 
   return (
     <>
-    <SpotMapWrapper>
-      <Map/>
-    </SpotMapWrapper>
-    <Navibar/>
-    {/* <SpotList Itemcard={state.ItemList}/> */}
+      <SpotMapWrapper>
+        <Map/>
+      </SpotMapWrapper>
+      <Navibar />
+      <SpotDetail />
+      <SpotList Itemcard={state.ItemList} />
     </>
   );
 };
