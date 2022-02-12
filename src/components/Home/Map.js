@@ -15,31 +15,21 @@ function CurrentLocation(){
     navigator.geolocation.getCurrentPosition(resolve, rejected, options);
   });
 }
-/*
-navigator.geolocation.getCurrentPosition(success, error, options)
-*/
 
-
-
-/*
-함수형 컴포넌트들도 function 방식으로 적다보니 실제는 React component임을 까먹게 됨
-리액트 컴포넌트들은 화살표 함수 방식으로 표기하고
-세부 동작으로 작성한 함수들은 function 선언 방식으로 표기하는 것이 좋을 듯
-
-추가로 React component 요소에는 async를 넣어놓을 수 없음
-*/
 const NaverMapAPI = () => {
   
   const navermaps = window.naver.maps;
   
   // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
   const [state, setState] = useState({
-    center : {
+    center: {
       lat: 37.551229,
       lng: 126.988205
-    }
+    },
+    zoom: 16
   });
-  
+  const [render, setRender] = useState(0);
+   
   // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
   // useEffect 안에서 async한 함수 사용하고 싶을 때는
   // 아래와 같이 useEffect안에서 aysnc function 정의해서 사용하기
@@ -47,6 +37,7 @@ const NaverMapAPI = () => {
     async function updateCurLocation(){
       let position = await CurrentLocation();
       setState({
+        ...state,
         center : {
           lat: position.coords.latitude,
           lng: position.coords.longitude
@@ -56,17 +47,48 @@ const NaverMapAPI = () => {
     updateCurLocation();
   }, [])
 
+  // 버튼 클릭 시 지도 현재 위치 중심으로 이동
+  const handleBackToCenter = () => {
+    async function updateCurLocation(){
+      let position = await CurrentLocation();
+      setState({
+        ...state,
+        center : {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        },
+        zoom: 16
+      });
+    }
+    updateCurLocation();
+  };
+  
+  // console.log(state.zoom);
+
 	return (
     <>
+      <button
+        style={{
+          position: 'fixed',
+          top: '70px',
+          right: '10px',
+          zIndex: '4'
+        }}
+        onClick={handleBackToCenter}
+      >
+          현재 위치로
+      </button>
+
       <NaverMap
-        mapDivId={'maps-getting-started-uncontrolled'}
+        mapDivId={'SASM_map'}
         style={{
           width: '100%',
           height: '100%'
         }}
         center={state.center}
-        defaultZoom={16}
+        defaultZoom={state.zoom}
         // onCenterChanged={center => {console.log(center)}}
+        onZoomChanged={zoom => {console.log(zoom)}}
       >
         
         <Marker 
@@ -80,6 +102,26 @@ const NaverMapAPI = () => {
           position={new navermaps.LatLng(37.5520579, 126.9394652)}
           // animation={2}
           onClick={() => {alert('여기는 서강대입니다.');}}   
+        />
+
+        <Marker 
+          key={3}
+          position={state.center}
+          clickable={false}
+          icon={{
+            url: './img/red_dot.png',
+            size: new navermaps.Size(20, 20),
+            origin: new navermaps.Point(190, 190),
+            anchor: new navermaps.Point(10, 10)
+          }}
+          // animation={2}
+          onClick={() => {alert('여기는 현재 위치입니다.');}}   
+        />
+        <Marker 
+          key={4}
+          position={state.center}
+          // animation={2}
+          onClick={() => {alert('여기는 현재위치입니다.');}}   
         />
       </NaverMap> 
     </>
