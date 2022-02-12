@@ -7,6 +7,7 @@ import SpotList from "../components/Home/SpotList";
 import Map from "../components/Home/Map";
 import SpotDetail from "../components/Home/SpotDetail";
 
+
 const SpotMapWrapper = styled.div`
   height: 100vh;
   width: 100vw;
@@ -44,7 +45,9 @@ const Home = () => {
 
   return (
     <>
-      <SpotMapWrapper></SpotMapWrapper>
+      <SpotMapWrapper>
+        <Map/>
+      </SpotMapWrapper>
       <Navibar />
       <SpotDetail />
       <SpotList Itemcard={state.ItemList} />
