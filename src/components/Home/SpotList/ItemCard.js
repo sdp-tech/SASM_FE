@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import archiveIcon from "../../img/archiveIcon.png";
 
-const StyledCard = styled.button`
+const StyledCard = styled.div`
   border: 1.5px solid black;
   padding: 1em;
 

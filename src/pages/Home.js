@@ -41,12 +41,15 @@ const Home = () => {
       });
   };
 
+  // Hook Flow 수정 이전
+  // loadItem();
+  // console.log(hi);  
+
   // 렌더링 관리
   useEffect(()=>{
     loadItem();
   }, []);
-
-  console.log("HI");
+  console.log(state);
 
   return (
     <>
