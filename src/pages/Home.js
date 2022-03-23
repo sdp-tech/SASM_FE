@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -23,7 +23,7 @@ const Home = () => {
 
   const loadItem = async () => {
     // Json Data 불러오기
-    axios // axios를 이용해
+    await axios // axios를 이용해
       .get("./SearchJson.json") // json을 가져온다음
       .then(({ data }) => {
         // data라는 이름으로 json 파일에 있는 값에 state값을 바꿔준다.
@@ -41,7 +41,12 @@ const Home = () => {
       });
   };
 
-  loadItem();
+  // 렌더링 관리
+  useEffect(()=>{
+    loadItem();
+  }, []);
+
+  console.log("HI");
 
   return (
     <>

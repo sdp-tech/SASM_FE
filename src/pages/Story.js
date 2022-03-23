@@ -128,7 +128,6 @@ const Story = () => {
       {/* End footer */}
       </ThemeProvider>
     </>
-
   );
 }
 export default Story;
