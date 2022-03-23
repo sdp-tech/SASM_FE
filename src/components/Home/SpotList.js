@@ -24,8 +24,9 @@ export default function SpotList(props) {
       >
         <SearchBar />
         {Item &&
-          Item.map((itemdata) => (
+          Item.map((itemdata, index) => (
             <ItemCard
+              key={index}
               ImageURL={itemdata.ImageURL}
               StoreName={itemdata.StoreName}
               StoreType={itemdata.StoreType}
