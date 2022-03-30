@@ -6,16 +6,12 @@ import AuthWrapper from '../components/Auth/AuthWrapper';
 import Login from '../containers/Auth/Login';
 import Register from '../containers/Auth/Register';
 
-const Auth = () => {
+const RegisterPage = () => {
   return (
       <AuthWrapper>
-       {/* <Routes>
-            <Route path="/" element={<Login />}/>
-            <Route path="/register" element={<Register />}/>
-        </Routes> */}
         <Register />
       </AuthWrapper>
   );
 }
 
-export default Auth;
+export default RegisterPage;
