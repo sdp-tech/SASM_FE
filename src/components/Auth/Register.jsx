@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from '../../components/Auth';
+import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from './module';
 
 const Register = () => {
     return (

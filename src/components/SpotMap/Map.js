@@ -1,21 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
 
-// Geoloation 사용해서 현재 위치 정보 받아오기
-// Promise를 이용해 동기화처리해주기
-function CurrentLocation(){
-  
-  const options =     {
-    enableHighAccuracy: true,
-    maximumAge: 0,
-    timeout: Infinity
-  };
-
-  return new Promise((resolve, rejected) => {
-    navigator.geolocation.getCurrentPosition(resolve, rejected, options);
-  });
-}
-
 const NaverMapAPI = () => {
   
   const navermaps = window.naver.maps;
@@ -28,42 +13,38 @@ const NaverMapAPI = () => {
     },
     zoom: 16
   });
-  const [render, setRender] = useState(0);
    
+  // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
+  async function updateCurLocation(){
+    await navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setState({
+          center : {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+        });
+      }, 
+      (error) => {console.log(error);}
+      , 
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: Infinity
+      }
+    );
+  }
+
   // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
-  // useEffect 안에서 async한 함수 사용하고 싶을 때는
-  // 아래와 같이 useEffect안에서 aysnc function 정의해서 사용하기
   useEffect(() => {
-    async function updateCurLocation(){
-      let position = await CurrentLocation();
-      setState({
-        center : {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-      });
-    }
     updateCurLocation();
   }, [])
 
   // 버튼 클릭 시 지도 현재 위치 중심으로 이동
   const handleBackToCenter = () => {
-    async function updateCurLocation(){
-      let position = await CurrentLocation();
-      setState({
-        ...state,
-        center : {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        },
-        zoom: 16
-      });
-    }
     updateCurLocation();
   };
   
-  // console.log(state.zoom);
-
 	return (
     <>
       <button

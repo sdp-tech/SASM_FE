@@ -1,10 +1,9 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 
-import AuthWrapper from '../components/Auth/AuthWrapper';
-
-import Login from '../containers/Auth/Login';
-import Register from '../containers/Auth/Register';
+import AuthWrapper from '../components/Auth/module/AuthWrapper';
+import Login from '../components/Auth/Login';
+import Register from '../components/Auth/Register';
 
 const Auth = () => {
   return (
