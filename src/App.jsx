@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import SpotMap from './pages/SpotMap';
 import Story from './pages/Story';
 import Auth from './pages/Auth'
-import BlogContent from './pages/BlogContent'
+import StoryContent from './components/Story/StoryContent'
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
         <Route path="/map" element={<SpotMap />} />
         <Route path="/story" element={<Story />} />
         <Route path="/auth/*" element={<Auth />} />
-        <Route path="/detail" element={< BlogContent/>} />
+        <Route path="/detail" element={< StoryContent/>} />
       </Routes>
     </BrowserRouter>
   );
