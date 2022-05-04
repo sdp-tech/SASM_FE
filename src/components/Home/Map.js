@@ -28,37 +28,26 @@ const NaverMapAPI = () => {
     },
     zoom: 16
   });
-  const [render, setRender] = useState(0);
    
   // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
   // useEffect 안에서 async한 함수 사용하고 싶을 때는
   // 아래와 같이 useEffect안에서 aysnc function 정의해서 사용하기
+  async function updateCurLocation(){
+    let position = await CurrentLocation();
+    setState({
+      center : {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+    });
+  }
+
   useEffect(() => {
-    async function updateCurLocation(){
-      let position = await CurrentLocation();
-      setState({
-        center : {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-      });
-    }
     updateCurLocation();
   }, [])
 
   // 버튼 클릭 시 지도 현재 위치 중심으로 이동
   const handleBackToCenter = () => {
-    async function updateCurLocation(){
-      let position = await CurrentLocation();
-      setState({
-        ...state,
-        center : {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        },
-        zoom: 16
-      });
-    }
     updateCurLocation();
   };
   
