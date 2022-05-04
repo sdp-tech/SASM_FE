@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
-import img from '../img/space1.jpg'
+import img from '../assets/Home/space1.jpg'
 
 const IntroImg = styled.img`
   width: 100%;

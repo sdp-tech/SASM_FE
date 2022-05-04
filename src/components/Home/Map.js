@@ -33,7 +33,6 @@ const NaverMapAPI = () => {
         timeout: Infinity
       }
     );
-    
   }
 
   // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
