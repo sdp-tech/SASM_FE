@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-import Navibar from "../components/Home/Navibar";
+import Navibar from "../components/common/Navibar";
 import SpotList from "../components/Home/SpotList";
 import Map from "../components/Home/Map";
 import SpotDetail from "../components/Home/SpotDetail";

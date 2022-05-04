@@ -16,7 +16,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import Navibar from "../components/Home/Navibar";
+import Navibar from "../components/common/Navibar";
 
 import { useNavigate } from "react-router";
 

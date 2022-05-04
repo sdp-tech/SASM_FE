@@ -1,8 +1,7 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 
-import AuthWrapper from '../components/Auth/AuthWrapper';
-
+import AuthWrapper from '../components/Auth/module/AuthWrapper';
 import Login from '../components/Auth/Login';
 import Register from '../components/Auth/Register';
 
