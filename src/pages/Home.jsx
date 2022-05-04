@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
 
-import img from '../assets/Home/space1.jpg'
+import HomeScreen from '../assets/img/HomeScreen.jpg'
 
 const IntroImg = styled.img`
   width: 100%;
@@ -34,7 +34,7 @@ ISSUE 1
 export default function Home(){
   return(
     <>
-      <IntroImg src={img}></IntroImg>
+      <IntroImg src={HomeScreen}></IntroImg>
       <Wrapper>
         <div>SASM Homepage</div>
         {/* variant="outlined" */}
