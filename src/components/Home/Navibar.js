@@ -11,6 +11,23 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import styled from 'styled-components';
+
+
+
+const NavBox = styled(Box)`
+  // background : green;
+  color: black;
+  // height: 48px;
+  // height: 70px;
+  width:1000px;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:center;
+  margin-left : 400px;
+  // border:1px solid red;
+`;
 
 export default function Navibar() {
   
@@ -42,7 +59,7 @@ export default function Navibar() {
     window.location.href = '/auth';
   }
   const handlePageGoToAbout = () => {
-    window.location.href = '/about';
+    window.location.href = '/';
   }
   // 프로필 아이콘 클릭시 팝업 메뉴 모달
   const menuId = 'menu';
@@ -69,56 +86,49 @@ export default function Navibar() {
 
   return (
     <Box 
-      sx={{ flexGrow: 1, height: "64px",  minHeight: "64px", maxHeight: "64px", width: '100%', position:'fixed'}}
+      sx={{  flexGrow: 1, height: "204px",  minHeight: "204px", maxHeight: "204px", width: '100%', position:'fixed'}}
     >
       <AppBar>
         <Toolbar>
 
-          {/* 타이틀(페이지 이름) */}
+          {/* 로고 */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ 
-                display: { xs: 'none', sm: 'block' },
-              }}
-              // onClick={handlePageBackToIntro}
-            >
-              SASM_____
-            </Typography>
-
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
               onClick={handlePageGoToIntro}
             >
-              HOME____
+              SASM
             </Typography>
+        </Box>
+
+         {/* 메뉴 */}
+        <NavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
 
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
               onClick={handlePageGoToHome}
             >
-              MAP____
+              MAP
             </Typography>
 
+        
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
               onClick={handlePageGoToStory}
             >
-              STORY____
+              STORY
             </Typography>
-            <Typography
+            {/* <Typography
               variant="h6"
               noWrap
               component="div"
@@ -126,18 +136,28 @@ export default function Navibar() {
               onClick={handlePageGoToAuth}
             >
               MY PAGE____
+            </Typography> */}
+
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
+              onClick={handlePageGoToAbout}
+            >
+              ABOUT
             </Typography>
 
             <Typography
               variant="h6"
               noWrap
               component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
+              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
               onClick={handlePageGoToAbout}
             >
-              ABOUT____
+              MY PICK
             </Typography>
-          </Box>
+          </NavBox>
           
           {/* 중간 공백용 */}
           <Box sx={{ flexGrow: 1 }} />
