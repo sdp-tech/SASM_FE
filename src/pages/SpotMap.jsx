@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-import Navibar from "../components/Home/Navibar";
-import SpotList from "../components/Home/SpotList";
-import Map from "../components/Home/Map";
-import SpotDetail from "../components/Home/SpotDetail";
+import Navibar from "../components/common/Navibar";
+import SpotList from "../components/SpotMap/SpotList";
+import Map from "../components/SpotMap/Map";
+import SpotDetail from "../components/SpotMap/SpotDetail";
 
 
 const SpotMapWrapper = styled.div`
@@ -15,7 +15,7 @@ const SpotMapWrapper = styled.div`
   z-index: 0;
 `;
 
-const Home = () => {
+const SpotMap = () => {
   const [state, setState] = useState({
     loading: false,
     ItemList: [] // 처음 Itemlist는 있는 상태로 기획 []
@@ -23,7 +23,7 @@ const Home = () => {
 
   const loadItem = async () => {
     // Json Data 불러오기
-    axios // axios를 이용해
+    await axios // axios를 이용해
       .get("./SearchJson.json") // json을 가져온다음
       .then(({ data }) => {
         // data라는 이름으로 json 파일에 있는 값에 state값을 바꿔준다.
@@ -41,7 +41,15 @@ const Home = () => {
       });
   };
 
-  loadItem();
+  // Hook Flow 수정 이전
+  // loadItem();
+  // console.log(hi);  
+
+  // 렌더링 관리
+  useEffect(()=>{
+    loadItem();
+  }, []);
+  console.log(state);
 
   return (
     <>
@@ -55,4 +63,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SpotMap;

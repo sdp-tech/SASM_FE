@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
-import img from '../img/img.jpg'
+import img from '../assets/img/img.jpg'
+
+// import HomeScreen from '../assets/img/HomeScreen.jpg'
 
 const IntroImg = styled.img`
   width: 100%;
@@ -13,7 +15,6 @@ const IntroImg = styled.img`
   left: 50%;
   transform: translate(-50%, -50%);
 `;
-
 
 
 const SASM = styled.div`
@@ -89,7 +90,7 @@ ISSUE 1
 일단 Routing만 짜놓고 좀 더 확실한 UI 디자인 나오면
 그거에 맞춰서 작업하는 걸로 지금 스타일링 해봐야 의미가 없음
 */
-export default function Intro(){
+export default function Home(){
   return(
     <>
       <IntroImg src={img}></IntroImg>
@@ -105,7 +106,7 @@ export default function Intro(){
         <Wrapper>
         {/* hover 추가하기 */}
         <NavBtn>
-          <StyledLink to="/Home">MAP</StyledLink>
+          <StyledLink to="/map">MAP</StyledLink>
         </NavBtn>
     
   
@@ -137,4 +138,4 @@ ISSUE 2
 페이지 전반의 구성과 그리고 그것이 어떤 방식으로 연결되면 좋을지
 레퍼런스 페이지들이나 이런 것들을 바탕으로 좀 더 정확하게 알면 좋을 것 같음
 리서치팀에서 나온 것들을 종합해서 페이지구조도 자체는 확정이 되야 작업할 수 있겠다
-*/
+*/ 

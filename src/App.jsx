@@ -1,21 +1,21 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from './pages/Home'
-import Auth from './pages/Auth'
-import Intro from './pages/Intro';
+import Home from './pages/Home';
+import SpotMap from './pages/SpotMap';
 import Story from './pages/Story';
-import BlogContent from './pages/BlogContent'
+import Auth from './pages/Auth'
+import StoryContent from './components/Story/StoryContent'
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Intro />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/map" element={<SpotMap />} />
         <Route path="/story" element={<Story />} />
         <Route path="/auth/*" element={<Auth />} />
-        <Route path="/detail" element={< BlogContent/>} />
+        <Route path="/detail" element={< StoryContent/>} />
       </Routes>
     </BrowserRouter>
   );
