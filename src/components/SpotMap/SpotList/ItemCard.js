@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import archiveIcon from "../../../assets/Map/archiveIcon.png";
+import archiveIcon from "../../../assets/SpotMap/archiveIcon.png";
 
 function ItemCard(props) {
   const [state, setState] = useState({

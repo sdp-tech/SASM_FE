@@ -31,15 +31,15 @@ ISSUE 1
 일단 Routing만 짜놓고 좀 더 확실한 UI 디자인 나오면
 그거에 맞춰서 작업하는 걸로 지금 스타일링 해봐야 의미가 없음
 */
-export default function Intro(){
+export default function Home(){
   return(
     <>
       <IntroImg src={img}></IntroImg>
       <Wrapper>
-        <div>SASM INTRO Page</div>
+        <div>SASM Homepage</div>
         {/* variant="outlined" */}
         <Button > 
-          <Link to="/Home">Go to Home</Link>
+          <Link to="/map">Go to Map</Link>
         </Button>
         <Button>
           <Link to="/story">Go to Story</Link>
