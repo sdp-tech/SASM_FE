@@ -9,6 +9,10 @@ const SpotMapWrapper = styled.div`
   z-index: 0;
 `;
 
+const MapSection = styled.div`
+  background-color: yellow;
+  grid-area: map;
+`
 const NaverMapAPI = () => {
   
   const navermaps = window.naver.maps;
@@ -116,9 +120,9 @@ const NaverMapAPI = () => {
   );
 }
 
-const Map = () => {
+export default function Map(){
   return (
-    <SpotMapWrapper>
+    <MapSection>
       <RenderAfterNavermapsLoaded
         ncpClientId={'aef7a2wcmn'}
         error={<p>Maps Load Error</p>}
@@ -126,8 +130,6 @@ const Map = () => {
         >
         <NaverMapAPI />
       </RenderAfterNavermapsLoaded>
-    </SpotMapWrapper>
+    </MapSection>
   );
 };
-
-export default Map;
