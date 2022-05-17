@@ -1,5 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
+import styled from "styled-components";
+
+const SpotMapWrapper = styled.div`
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 0;
+`;
 
 const NaverMapAPI = () => {
   
@@ -110,13 +118,15 @@ const NaverMapAPI = () => {
 
 const Map = () => {
   return (
-    <RenderAfterNavermapsLoaded
-      ncpClientId={'aef7a2wcmn'}
-      error={<p>Maps Load Error</p>}
-      loading={<p>Maps Loading...</p>}
-    >
-      <NaverMapAPI />
-    </RenderAfterNavermapsLoaded>
+    <SpotMapWrapper>
+      <RenderAfterNavermapsLoaded
+        ncpClientId={'aef7a2wcmn'}
+        error={<p>Maps Load Error</p>}
+        loading={<p>Maps Loading...</p>}
+        >
+        <NaverMapAPI />
+      </RenderAfterNavermapsLoaded>
+    </SpotMapWrapper>
   );
 };
 

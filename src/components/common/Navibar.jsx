@@ -14,9 +14,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import styled from 'styled-components';
 
 
-
 const NavBox = styled(Box)`
-  // background : green;
+  background : green;
   color: black;
   // height: 48px;
   // height: 70px;
@@ -37,15 +36,12 @@ export default function Navibar() {
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  
   const handlePageRedirection = () => {
     window.location.href = '/auth';
   }
-  
   const handlePageGoToIntro = () => {
     window.location.href = '/';
   }
@@ -90,7 +86,6 @@ export default function Navibar() {
     >
       <AppBar>
         <Toolbar>
-
           {/* 로고 */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 
@@ -103,10 +98,10 @@ export default function Navibar() {
             >
               SASM
             </Typography>
-        </Box>
+          </Box>
 
-         {/* 메뉴 */}
-        <NavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
+          {/* 메뉴 */}
+          <NavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
 
             <Typography
               variant="h6"
