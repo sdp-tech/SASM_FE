@@ -2,17 +2,18 @@ import React, {useState, useEffect} from 'react';
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
 import styled from "styled-components";
 
-const SpotMapWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  z-index: 0;
-`;
-
 const MapSection = styled.div`
+  position: relative;
   background-color: yellow;
   grid-area: map;
 `
+const CurrentLocationButton = styled.button`
+  position: absolute;
+  bottom: 3vh;
+  left: 3vh;
+  zIndex: 4;
+`;
+
 const NaverMapAPI = () => {
   
   const navermaps = window.naver.maps;
@@ -59,18 +60,6 @@ const NaverMapAPI = () => {
   
 	return (
     <>
-      <button
-        style={{
-          position: 'fixed',
-          top: '70px',
-          right: '10px',
-          zIndex: '4'
-        }}
-        onClick={handleBackToCenter}
-      >
-          현재 위치로
-      </button>
-
       <NaverMap
         mapDivId={'SASM_map'}
         style={{
@@ -130,6 +119,12 @@ export default function Map(){
         >
         <NaverMapAPI />
       </RenderAfterNavermapsLoaded>
+
+      <CurrentLocationButton
+        // onClick={handleBackToCenter}
+      >
+          현재 위치로
+      </CurrentLocationButton>
     </MapSection>
   );
 };
