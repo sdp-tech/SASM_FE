@@ -7,25 +7,6 @@ import SpotList from "../components/SpotMap/SpotList";
 import Map from "../components/SpotMap/Map";
 import SpotDetail from "../components/SpotMap/SpotDetail";
 
-const Sections = styled.div`
-  box-sizing: border-box;
-  display: grid;
-  position: relative;
-  height: 100vh;
-  grid-template-rows: 0.1fr 0.9fr;
-  grid-template-columns: 0.35fr 0.65fr;
-  grid-template-areas: 
-    "navibar navibar"
-    "spotlist map"
-  ;
-`;
-
-const SpotListSection = styled.div`
-  position: relative;
-  background-color: blue;
-  grid-area: spotlist;
-`
-
 export default function SpotMap() {
   const [state, setState] = useState({
     loading: false,
@@ -66,3 +47,22 @@ export default function SpotMap() {
     </Sections>
   );
 };
+
+const Sections = styled.div`
+  box-sizing: border-box;
+  display: grid;
+  position: relative;
+  height: 100vh;
+  grid-template-rows: 0.1fr 0.9fr;
+  grid-template-columns: 0.35fr 0.65fr;
+  grid-template-areas: 
+    "navibar navibar"
+    "spotlist map"
+  ;
+`;
+
+const SpotListSection = styled.div`
+  position: relative;
+  background-color: blue;
+  grid-area: spotlist;
+`
