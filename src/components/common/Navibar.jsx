@@ -26,10 +26,13 @@ const LogoBox = styled.div`
   height: 100%;
   width: 20%;
   // background-color: red;
+  display: flex;
+  align-items: center;
 `
 const Logo = styled.img`
+  display: block;
   width: auto;
-  height: 100%;
+  height: 80%;
   position: absolute;
   left: 5%;
 `
@@ -37,9 +40,9 @@ const Logo = styled.img`
 const PagesBox = styled.div`
   position: absolute;
   height: 100%;
-  width: 50%;
+  width: 40%;
   // background-color: yellow;
-  left: 25%;
+  left: 30%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -48,13 +51,13 @@ const PagesBox = styled.div`
 const AuthBox = styled.div`
   position: absolute;
   height: 100%;
-  width: 7%;
+  width: 10%;
   // background-color: green;
   right: 5%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  // justify-content: space-between;
 `
 
 // 페이지 이동을 위한 정보와 기능
@@ -72,7 +75,7 @@ const handlePageRedirection = (title) => {
 
 const PageTitle = ({title}) => {
   return (
-    <div
+    <div style={{fontSize: '150%'}}
       onClick={()=>handlePageRedirection(title)}
     >
       {title}
@@ -100,7 +103,7 @@ export default function Navibar() {
         {/* 로그인 및 회원가입 */}
         <AuthBox>
           <PageTitle title='LOG IN'></PageTitle>
-          <div>|</div>
+          <div style={{padding: '1%'}}>|</div>
           <PageTitle title='JOIN'></PageTitle>
         </AuthBox>
       </Bar>
