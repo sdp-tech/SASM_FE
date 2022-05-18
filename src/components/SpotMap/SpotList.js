@@ -19,7 +19,7 @@ export default function SpotList(props) {
           height: "100%",
           overflow: "hidden",
           maxWidth: 360,
-          bgcolor: "background.paper"
+          bgcolor: "background.paper",
         }}
       >
         <SearchBar />

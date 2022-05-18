@@ -50,7 +50,7 @@ export default function Navibar() {
     window.location.href = '/';
   }
   const handlePageGoToHome = () => {
-    window.location.href = '/home';
+    window.location.href = '/map';
   }
   const handlePageGoToStory = () => {
     window.location.href = '/story';
