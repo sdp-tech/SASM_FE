@@ -21,17 +21,10 @@ const Sections = styled.div`
   ;
 `;
 
-const NaviBarSection = styled.div`
-  background-color: red;
-  grid-area: navibar;
-`
-
 const SpotListSection = styled.div`
   background-color: blue;
   grid-area: spotlist;
 `
-
-
 
 export default function SpotMap() {
   const [state, setState] = useState({
@@ -62,7 +55,7 @@ export default function SpotMap() {
 
   return (
     <Sections>
-      <NaviBarSection></NaviBarSection>
+      <Navibar></Navibar>
       <SpotListSection></SpotListSection>
       <Map/>
 

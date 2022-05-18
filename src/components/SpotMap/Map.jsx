@@ -68,7 +68,6 @@ const NaverMapAPI = () => {
         }}
         center={state.center}
         defaultZoom={state.zoom}
-        // onCenterChanged={center => {console.log(center)}}
         onZoomChanged={zoom => {console.log(zoom)}}
       >
         

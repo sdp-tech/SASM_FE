@@ -28,6 +28,21 @@ const NavBox = styled(Box)`
   // border:1px solid red;
 `;
 
+const NavibarSection = styled.div`
+  background-color: red;
+  grid-area: navibar;
+`
+
+const urlHash = {
+  'SASM': '',
+  'MAP': 'map',
+  'STORY': 'story',
+  'MY PICK': 'mypage',
+  'LOGIN': 'auth',
+  'JOIN': 'auth'
+}
+
+
 export default function Navibar() {
   
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -39,8 +54,10 @@ export default function Navibar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  const handlePageRedirection = () => {
-    window.location.href = '/auth';
+
+
+  const handlePageRedirection = (title) => {
+    window.location.href = '/' + urlHash[title];
   }
   const handlePageGoToIntro = () => {
     window.location.href = '/';
@@ -51,12 +68,13 @@ export default function Navibar() {
   const handlePageGoToStory = () => {
     window.location.href = '/story';
   }
-  const handlePageGoToAuth = () => {
-    window.location.href = '/auth';
+  const handlePageGoToMypage = () => {
+    window.location.href = '/mypage';
   }
   const handlePageGoToAbout = () => {
     window.location.href = '/';
   }
+
   // 프로필 아이콘 클릭시 팝업 메뉴 모달
   const menuId = 'menu';
   const renderMenu = (
@@ -81,87 +99,70 @@ export default function Navibar() {
   );
 
   return (
-    <Box 
-      sx={{  flexGrow: 1, height: "204px",  minHeight: "204px", maxHeight: "204px", width: '100%', position:'fixed'}}
-    >
-      <AppBar>
-        <Toolbar>
-          {/* 로고 */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+    <NavibarSection>
+      <Box 
+        sx={{ flexGrow: 1, height: "100%",  minHeight: "204px", width: '100%', position:'fixed'}}
+        >
+        <AppBar>
+          <Toolbar>
+            {/* 로고 */}
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
 
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-              onClick={handlePageGoToIntro}
-            >
-              SASM
-            </Typography>
-          </Box>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+                onClick={()=>handlePageRedirection('SASM')}
+              >
+                SASM
+              </Typography>
+            </Box>
 
-          {/* 메뉴 */}
-          <NavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
+            {/* 메뉴 */}
+            <NavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
 
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-              onClick={handlePageGoToHome}
-            >
-              MAP
-            </Typography>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
+                onClick={handlePageGoToHome}
+              >
+                MAP
+              </Typography>
 
-        
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-              onClick={handlePageGoToStory}
-            >
-              STORY
-            </Typography>
-            {/* <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ display: { xs: 'none', sm: 'block' } }}
-              onClick={handlePageGoToAuth}
-            >
-              MY PAGE____
-            </Typography> */}
-
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-              onClick={handlePageGoToAbout}
-            >
-              ABOUT
-            </Typography>
-
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-              onClick={handlePageGoToAbout}
-            >
-              MY PICK
-            </Typography>
-          </NavBox>
           
-          {/* 중간 공백용 */}
-          <Box sx={{ flexGrow: 1 }} />
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
+                onClick={handlePageGoToStory}
+              >
+                STORY
+              </Typography>
 
-        </Toolbar>
-      </AppBar>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
+                onClick={handlePageGoToMypage}
+              >
+                MY PICK
+              </Typography>
+            </NavBox>
+            
+            {/* 중간 공백용 */}
+            <Box sx={{ flexGrow: 1 }} />
 
-      {/* 프로필 클릭 시 anchor값 설정되서 프로필 메뉴 팝업 */}
-      {renderMenu}
-    </Box>
+          </Toolbar>
+        </AppBar>
+
+        {/* 프로필 클릭 시 anchor값 설정되서 프로필 메뉴 팝업 */}
+        {renderMenu}
+      </Box>
+    </NavibarSection>
   );
 }
