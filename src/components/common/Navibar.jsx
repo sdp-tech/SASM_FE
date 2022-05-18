@@ -2,20 +2,15 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import styled from 'styled-components';
 
-
+const NavibarSection = styled.div`
+background-color: red;
+grid-area: navibar;
+`
 const NavBox = styled(Box)`
-  background : green;
+  // background : green;
   color: black;
   // height: 48px;
   // height: 70px;
@@ -28,75 +23,34 @@ const NavBox = styled(Box)`
   // border:1px solid red;
 `;
 
-const NavibarSection = styled.div`
-  background-color: red;
-  grid-area: navibar;
-`
-
 const urlHash = {
   'SASM': '',
   'MAP': 'map',
   'STORY': 'story',
   'MY PICK': 'mypage',
-  'LOGIN': 'auth',
-  'JOIN': 'auth'
+  'LOG IN': 'auth',
+  'JOIN': 'auth/register'
 }
 
+const handlePageRedirection = (title) => {
+  window.location.href = '/' + urlHash[title];
+}
+
+const PageTitle = ({title}) => {
+  return (
+    <Typography
+      variant="h6"
+      noWrap
+      component="div"
+      sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+      onClick={()=>handlePageRedirection(title)}
+    >
+      {title}
+    </Typography>
+  )
+}
 
 export default function Navibar() {
-  
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-
-  const handlePageRedirection = (title) => {
-    window.location.href = '/' + urlHash[title];
-  }
-  const handlePageGoToIntro = () => {
-    window.location.href = '/';
-  }
-  const handlePageGoToHome = () => {
-    window.location.href = '/home';
-  }
-  const handlePageGoToStory = () => {
-    window.location.href = '/story';
-  }
-  const handlePageGoToMypage = () => {
-    window.location.href = '/mypage';
-  }
-  const handlePageGoToAbout = () => {
-    window.location.href = '/';
-  }
-
-  // 프로필 아이콘 클릭시 팝업 메뉴 모달
-  const menuId = 'menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handlePageRedirection}>Login</MenuItem>
-      <MenuItem onClick={handlePageRedirection}>My account</MenuItem>
-    </Menu>
-  );
 
   return (
     <NavibarSection>
@@ -107,61 +61,27 @@ export default function Navibar() {
           <Toolbar>
             {/* 로고 */}
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-                onClick={()=>handlePageRedirection('SASM')}
-              >
-                SASM
-              </Typography>
+              <PageTitle title='SASM'></PageTitle>
             </Box>
 
             {/* 메뉴 */}
             <NavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
-
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-                onClick={handlePageGoToHome}
-              >
-                MAP
-              </Typography>
-
-          
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-                onClick={handlePageGoToStory}
-              >
-                STORY
-              </Typography>
-
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ mr: 10, display: { xs: 'none', md: 'flex' } }}
-                onClick={handlePageGoToMypage}
-              >
-                MY PICK
-              </Typography>
+              <PageTitle title='MAP'></PageTitle>
+              <PageTitle title='STORY'></PageTitle>
+              <PageTitle title='MY PICK'></PageTitle>
             </NavBox>
             
             {/* 중간 공백용 */}
             <Box sx={{ flexGrow: 1 }} />
+            
+            {/* 로그인 및 회원가입 */}
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <PageTitle title='LOG IN'></PageTitle>
+              <PageTitle title='JOIN'></PageTitle>
+            </Box>
 
           </Toolbar>
         </AppBar>
-
-        {/* 프로필 클릭 시 anchor값 설정되서 프로필 메뉴 팝업 */}
-        {renderMenu}
       </Box>
     </NavibarSection>
   );
