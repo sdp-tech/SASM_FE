@@ -3,8 +3,10 @@ import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
 import styled from "styled-components";
 
 const MapSection = styled.div`
+  box-sizing: border-box;
+  padding: 1%;
   position: relative;
-  background-color: yellow;
+  // background-color: yellow;
   grid-area: map;
 `
 const CurrentLocationButton = styled.button`

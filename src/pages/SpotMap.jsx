@@ -36,14 +36,12 @@ export default function SpotMap() {
 
   return (
     <Sections>
-      <Navibar></Navibar>
-      <SpotListSection></SpotListSection>
+      <Navibar/>
+      <SpotList Itemcard={state.ItemList}/>
       <Map/>
 
-      {/* <Map/>
-      <Navibar />
-      <SpotDetail />
-      <SpotList Itemcard={state.ItemList} /> */}
+      {/* <SpotList Itemcard={state.ItemList} /> */}
+      {/* <SpotDetail /> */}
     </Sections>
   );
 };
@@ -54,15 +52,10 @@ const Sections = styled.div`
   position: relative;
   height: 100vh;
   grid-template-rows: 0.1fr 0.9fr;
-  grid-template-columns: 0.35fr 0.65fr;
+  grid-template-columns: 0.28fr 0.72fr;
   grid-template-areas: 
     "navibar navibar"
     "spotlist map"
   ;
+  // gap: 1% 0.5%;
 `;
-
-const SpotListSection = styled.div`
-  position: relative;
-  background-color: blue;
-  grid-area: spotlist;
-`
