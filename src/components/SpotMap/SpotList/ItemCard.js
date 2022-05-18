@@ -24,7 +24,7 @@ function ItemCard(props) {
       {state.isToggleOn ? "ON" : "OFF"}
       <button
         style={{
-          position: "relative",
+          position: "absolute",
           top: "0px",
           left: "120px",
           padding: "0px",
@@ -63,7 +63,6 @@ function ItemCard(props) {
 const StyledCard = styled.div`
   border: 1.5px solid black;
   padding: 1em;
-
   :hover {
     background: #ebf5fb;
   }

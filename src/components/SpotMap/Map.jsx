@@ -1,5 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from 'react-naver-maps';
+import styled from "styled-components";
+
+const MapSection = styled.div`
+  box-sizing: border-box;
+  padding: 1%;
+  position: relative;
+  // background-color: yellow;
+  grid-area: map;
+`
+const CurrentLocationButton = styled.button`
+  position: absolute;
+  bottom: 3vh;
+  left: 3vh;
+  zIndex: 4;
+`;
 
 const NaverMapAPI = () => {
   
@@ -47,18 +62,6 @@ const NaverMapAPI = () => {
   
 	return (
     <>
-      <button
-        style={{
-          position: 'fixed',
-          top: '70px',
-          right: '10px',
-          zIndex: '4'
-        }}
-        onClick={handleBackToCenter}
-      >
-          현재 위치로
-      </button>
-
       <NaverMap
         mapDivId={'SASM_map'}
         style={{
@@ -67,7 +70,6 @@ const NaverMapAPI = () => {
         }}
         center={state.center}
         defaultZoom={state.zoom}
-        // onCenterChanged={center => {console.log(center)}}
         onZoomChanged={zoom => {console.log(zoom)}}
       >
         
@@ -108,16 +110,22 @@ const NaverMapAPI = () => {
   );
 }
 
-const Map = () => {
+export default function Map(){
   return (
-    <RenderAfterNavermapsLoaded
-      ncpClientId={'aef7a2wcmn'}
-      error={<p>Maps Load Error</p>}
-      loading={<p>Maps Loading...</p>}
-    >
-      <NaverMapAPI />
-    </RenderAfterNavermapsLoaded>
+    <MapSection>
+      <RenderAfterNavermapsLoaded
+        ncpClientId={'aef7a2wcmn'}
+        error={<p>Maps Load Error</p>}
+        loading={<p>Maps Loading...</p>}
+        >
+        <NaverMapAPI />
+      </RenderAfterNavermapsLoaded>
+
+      <CurrentLocationButton
+        // onClick={handleBackToCenter}
+      >
+          현재 위치로
+      </CurrentLocationButton>
+    </MapSection>
   );
 };
-
-export default Map;

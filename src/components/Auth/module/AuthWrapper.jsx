@@ -10,14 +10,15 @@ const Positioner = styled.div`
   transform: translate(-50%, -50%);
   background: red;
   width: 500px;
-  shadowColor: "#000",
+  shadowColor: "#000";
   shadowOffset: {
     width: 0,
     height: 2,
-  },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
+  };
+  shadowOpacity: 0.25;
+  shadowRadius: 3.84;
+  elevation: 5;
+  grid-area: auth;
 `;
 
 const LogoWrapper = styled.div`
@@ -48,7 +49,7 @@ const Contents = styled.div`
 const AuthWrapper = ({children}) => (
   <Positioner>
     <LogoWrapper>
-      <Logo to="/home">SASM</Logo>      
+      <Logo to="/">SASM</Logo>      
     </LogoWrapper>
     <Contents>
       {children}

@@ -13,7 +13,7 @@ function Main(props) {
       item
       xs={12}
       md={8}
-      sx={{
+      sx={{ 
         '& .markdown': {
           py: 3,
         },

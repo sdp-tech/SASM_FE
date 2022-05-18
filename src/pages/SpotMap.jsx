@@ -1,66 +1,61 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
 import axios from "axios";
+import styled from "styled-components";
 
 import Navibar from "../components/common/Navibar";
 import SpotList from "../components/SpotMap/SpotList";
 import Map from "../components/SpotMap/Map";
 import SpotDetail from "../components/SpotMap/SpotDetail";
 
-
-const SpotMapWrapper = styled.div`
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  z-index: 0;
-`;
-
-const SpotMap = () => {
+export default function SpotMap() {
   const [state, setState] = useState({
     loading: false,
-    ItemList: [] // 처음 Itemlist는 있는 상태로 기획 []
+    ItemList: []
   });
 
   const loadItem = async () => {
-    // Json Data 불러오기
-    await axios // axios를 이용해
-      .get("./SearchJson.json") // json을 가져온다음
+    await axios 
+      .get("./SearchJson.json")
       .then(({ data }) => {
-        // data라는 이름으로 json 파일에 있는 값에 state값을 바꿔준다.
         setState({
-          loading: true, // load되었으니 true,
-          ItemList: data.Item // 비어있던 Itemlist는 data에 Item객체를 찾아넣어준다. ( Item : json파일에 있는 항목)
+          loading: true,
+          ItemList: data.Item
         });
       })
       .catch((e) => {
-        // json이 로드되지않은 시간엔
-        console.error(e); // 에러표시
+        console.error(e);
         setState({
-          loading: false // 이때는 load 가 false 유지
+          loading: false
         });
       });
   };
 
-  // Hook Flow 수정 이전
-  // loadItem();
-  // console.log(hi);  
-
-  // 렌더링 관리
   useEffect(()=>{
     loadItem();
   }, []);
-  console.log(state);
 
   return (
-    <>
-      <SpotMapWrapper>
-        <Map/>
-      </SpotMapWrapper>
-      <Navibar />
-      <SpotDetail />
-      <SpotList Itemcard={state.ItemList} />
-    </>
+    <Sections>
+      <Navibar/>
+      <SpotList Itemcard={state.ItemList}/>
+      <Map/>
+
+      {/* <SpotList Itemcard={state.ItemList} /> */}
+      {/* <SpotDetail /> */}
+    </Sections>
   );
 };
 
-export default SpotMap;
+const Sections = styled.div`
+  box-sizing: border-box;
+  display: grid;
+  position: relative;
+  height: 100vh;
+  grid-template-rows: 0.1fr 0.9fr;
+  grid-template-columns: 0.28fr 0.72fr;
+  grid-template-areas: 
+    "navibar navibar"
+    "spotlist map"
+  ;
+  // gap: 1% 0.5%;
+`;
