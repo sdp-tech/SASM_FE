@@ -19,6 +19,7 @@ const Positioner = styled.div`
   shadowRadius: 3.84;
   elevation: 5;
   grid-area: auth;
+  background-color: yellow;
 `;
 
 const LogoWrapper = styled.div`

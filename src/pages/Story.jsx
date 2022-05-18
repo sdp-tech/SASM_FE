@@ -50,26 +50,8 @@ export default function Story() {
       <Navibar/>
       <StorySection>
         <ThemeProvider theme={theme}>
-  
-        {/* <AppBar position="relative">
-          <Toolbar>
-            <Typography variant="h6" color="inherit" noWrap>
-              SASM
-            </Typography>
-          </Toolbar>
-        </AppBar> */}
 
         <main>
-          
-          {/* <Box // 이후 검색창 구현
-            sx={{
-              bgcolor: 'background.paper',
-              // pt: 8, //paddingTop
-              pb: 6, //paddingBottom
-              border: '1px solid RED',
-            }}
-          >
-          </Box> */}
 
           <Container sx={{ py: 8 }} maxWidth="lg"> 
         
@@ -157,5 +139,6 @@ const Sections = styled.div`
 
 const StorySection = styled.div`
   position: relative;
+  background-color: yellow;
   grid-area: story;
 `
