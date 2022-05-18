@@ -21,16 +21,15 @@ import Navibar from "../components/common/Navibar";
 
 import { useNavigate } from "react-router";
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         SASM
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -41,8 +40,8 @@ const theme = createTheme();
 
 export default function Story() {
   const viewPage = () => {
-    window.location.href='/detail' //replace는 뒤로가기 불가능, href는 가능
-  }
+    window.location.href = "/detail"; //replace는 뒤로가기 불가능, href는 가능
+  };
   const navigate = useNavigate();
 
   // console.log(window.history);
@@ -78,14 +77,20 @@ export default function Story() {
               {cards.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
                   <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                    sx={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
                   >
                     <CardMedia
                       component="img"
-                      sx={{
-                        // 16:9
-                        // pt: '56.25%',
-                      }}
+                      sx={
+                        {
+                          // 16:9
+                          // pt: '56.25%',
+                        }
+                      }
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
@@ -93,18 +98,22 @@ export default function Story() {
                       <Typography gutterBottom variant="h5" component="h2">
                         제목
                       </Typography>
-                      <Typography>
-                        내용
-                      </Typography>
+                      <Typography>내용</Typography>
                     </CardContent>
                     <CardActions>
-                      <Button 
+                      <Button
                         onClick={() => {
                           // 서버에서 쿼리처리!!
-                          navigate('/detail')
-                          }} 
-                        size="small">View</Button>
-                      <Button size="small"> <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /></Button>
+                          navigate("/detail");
+                        }}
+                        size="small"
+                      >
+                        View
+                      </Button>
+                      <Button size="small">
+                        {" "}
+                        <FavoriteBorderRoundedIcon sx={{ mr: 2 }} />
+                      </Button>
                     </CardActions>
                   </Card>
                 </Grid>
@@ -113,7 +122,7 @@ export default function Story() {
           </Container>
         </main>
         {/* Footer */}
-        <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+        <Box sx={{ bgcolor: "background.paper", p: 6 }} component="footer">
           <Typography variant="h6" align="center" gutterBottom>
             Footer
           </Typography>
