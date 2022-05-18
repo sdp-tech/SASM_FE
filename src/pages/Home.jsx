@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
 import styled from 'styled-components';
+import Button from '@mui/material/Button';
 import img from '../assets/img/img.jpg'
 
-// import HomeScreen from '../assets/img/HomeScreen.jpg'
 
 const IntroImg = styled.img`
   width: 100%;

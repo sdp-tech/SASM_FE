@@ -8,7 +8,6 @@ import Map from "../components/SpotMap/Map";
 import SpotDetail from "../components/SpotMap/SpotDetail";
 
 const Sections = styled.div`
-
   box-sizing: border-box;
   display: grid;
   position: relative;
@@ -22,6 +21,7 @@ const Sections = styled.div`
 `;
 
 const SpotListSection = styled.div`
+  position: relative;
   background-color: blue;
   grid-area: spotlist;
 `
