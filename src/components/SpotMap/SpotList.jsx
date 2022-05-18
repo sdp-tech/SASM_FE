@@ -35,14 +35,14 @@ const SpotListSection = styled.div`
   // box-sizing: border-box;
   // padding: 10px;
   position: relative;
-  // background-color: blue;
+  background-color: blue;
   grid-area: spotlist;
   // overflow: hidden;
 `
 
 const SearchFilterBar = styled.div`
   position: absolute;
-  // background-color: red;
+  background-color: red;
   width: 100%;
   height: 10%;
   border: 4px solid black;
@@ -51,7 +51,7 @@ const SearchFilterBar = styled.div`
 
 const SpotsWrapper = styled.div`
   position: absolute;
-  // background-color: yellow;
+  background-color: yellow;
   width: 100%;
   height: 90%;
   top: 10%;
