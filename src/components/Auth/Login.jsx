@@ -3,11 +3,12 @@ import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from './mod
 
 const Login = () => {
     return (
-      <AuthContent title="로그인">
-          <InputWithLabel label="아이디" name="id" placeholder="아이디"/>
-          <InputWithLabel label="비밀번호" name="password" placeholder="비밀번호" type="password"/>
-          <AuthButton>로그인</AuthButton>
-          <RightAlignedLink to="/auth/register">회원가입</RightAlignedLink>
+      <AuthContent title="LOG IN">
+          <InputWithLabel name="email" placeholder="Email"/>
+          <InputWithLabel  name="password" placeholder="Password" type="password"/>
+          <RightAlignedLink to="/auth/register">아이디/비밀번호 찾기</RightAlignedLink>
+          <RightAlignedLink to="/auth/register">회원가입 하기</RightAlignedLink>
+          <AuthButton>Log in</AuthButton>
       </AuthContent> 
     );
 }
