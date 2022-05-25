@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'kopub';
+  src: url(./assets/font/KoPubWorld\ Batang\ Medium.ttf);
+}
+
+* {
+  font-family: 'kopub';
+}

@@ -25,7 +25,7 @@ const SASM = styled.div`
 `;
 
 const Tittle = styled.div`
-  font-family: 'Crimson Text';
+  // font-family: 'Crimson Text';
   color : white;
   font-size : 120px;
   // border:1px solid RED;
@@ -33,7 +33,7 @@ const Tittle = styled.div`
 
 const Content = styled.div`
   position: absolute;
-  font-family: 'Crimson Text';
+  // font-family: 'Crimson Text';
   color : white;
   font-size : 30px;
 `;
