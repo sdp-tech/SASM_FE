@@ -9,15 +9,15 @@ import Navibar from '../components/common/Navibar';
 
 export default function Auth (){
   return (
-      <Sections>
-        <Navibar/>
-        <AuthWrapper>
-          <Routes>
-              <Route path="/" element={<Login />}/>
-              <Route path="/register" element={<Register />}/>
-          </Routes>
-        </AuthWrapper>
-      </Sections>
+    <Sections>
+      <Navibar/>
+      <AuthWrapper>
+        <Routes>
+          <Route path="/" element={<Login />}/>
+          <Route path="/register" element={<Register />}/>
+        </Routes>
+      </AuthWrapper>
+    </Sections>
   );
 };
 
