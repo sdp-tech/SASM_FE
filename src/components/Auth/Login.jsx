@@ -2,6 +2,9 @@ import { ConstructionOutlined } from '@mui/icons-material';
 import React, { useState } from 'react';
 import CheckLogin from '../../functions/Auth/CheckLogin';
 import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from './module';
+import google_login from '../../assets/img/google_login.svg'
+import naver_login from '../../assets/img/naver_login.svg'
+import kakaotalk_login from '../../assets/img/kakaotalk_login.svg'
 
 const Login = () => {
 
@@ -21,7 +24,7 @@ const Login = () => {
           })}} 
           name="email" placeholder="Email"/>
           
-        <InputWithLabel  onChange={(event)=>{
+        <InputWithLabel onChange={(event)=>{
           setInfo({
             ...info,
             password: event.target.value
@@ -31,6 +34,11 @@ const Login = () => {
         <RightAlignedLink to="/auth/register">아이디/비밀번호 찾기</RightAlignedLink>
         <RightAlignedLink to="/auth/register">회원가입 하기</RightAlignedLink>
         <AuthButton onClick={()=>CheckLogin(info)}>Log in</AuthButton>
+        
+        <img src={google_login}></img>
+        <img src={naver_login}></img>
+        <img src={kakaotalk_login}></img>
+
     </AuthContent> 
   );
 }
