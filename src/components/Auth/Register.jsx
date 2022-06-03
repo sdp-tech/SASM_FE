@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from './module';
 import styled from "styled-components";
 import { NoEncryption } from '@mui/icons-material';
+import TryRegister from '../../functions/Auth/TryRegister';
+import CheckRepetition from '../../functions/Auth/CheckRepetition';
 
 const InputAndButton = styled.div`
     position: relative;
@@ -47,7 +49,12 @@ const Register = () => {
                             email: event.target.value
                     })}}
                     label="메일 주소" name="email" placeholder="sasm@sdp.com"/>
-                <Button>중복확인</Button>
+                <Button
+                    onClick={(e)=>CheckRepetition(e.target.id, info.email)}
+                    id='email'
+                >  
+                    중복확인
+                </Button>
             </InputAndButton>
 
             <InputWithLabel 
@@ -88,7 +95,12 @@ const Register = () => {
                             nickname: event.target.value
                     })}}
                     label="닉네임" name="nickname"/>
-                <Button>중복확인</Button>
+                <Button
+                    onClick={(e)=>CheckRepetition(e.target.id, info.nickname)}
+                    id='nickname'
+                >
+                    중복확인
+                </Button>
             </InputAndButton>
 
             <InputWithLabel 
@@ -118,9 +130,7 @@ const Register = () => {
                     padding: '10px'
                 }}
                 
-                onClick={()=>{
-                    console.log(info)
-                }}
+                onClick={()=>TryRegister(info)}
             >
                     인증하고 시작하기</AuthButton>
         </AuthContent>

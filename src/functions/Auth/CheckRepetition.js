@@ -1,17 +1,11 @@
 import axios from "axios";
 
-export default async function TrySocialLogin(site){
-  
-  var url = ''
-  if(site === 'google')
-    url = 'google_url'
-  if(site === 'naver')
-    url = 'naver_url'
-  if(site === 'kakaotalk')
-    url = 'kakaotalk_url'
+export default async function CheckRepetition(type, data){
 
-  console.log(url);
-  
+  console.log(type, data)
+
+  // const url = 'https://6lro33prdc.execute-api.ap-northeast-2.amazonaws.com/prod/login'
+
   // await axios.post(url, {
   //   email: info.email,
   //   password: info.password
