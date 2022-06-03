@@ -5,16 +5,15 @@ import oc from 'open-color';
 const Wrapper = styled.div`
   width: 60%;
 
-  position: absolute;
-  bottom : -15%;
-  left: 50%;
-  transform: translate(-50%, 10%);
+  transform: translate(30%, 20%);
 
   margin-top: 1rem;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
 
-  border: 3px solid  ${oc.teal[6]};
+  border: 4px solid transparent;
+  border-image: linear-gradient(to right, rgba(180, 227, 182, 1), rgba(180, 199, 244, 1));
+  border-image-slice: 1;
   color: black;
 
   text-align: center;
@@ -26,10 +25,10 @@ const Wrapper = styled.div`
   translation: .2s all;
 
   &:hover {
-    background: ${oc.teal[5]};
+    background: rgba(180, 227, 182, 1);
   }
   &:active {
-    background: ${oc.teal[7]};
+    background: rgba(180, 199, 244, 1);
   }
 `;
 

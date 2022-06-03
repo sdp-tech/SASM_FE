@@ -6,6 +6,8 @@ const Wrapper = styled.div`
   & + & {
     margin-top: 1rem;
   }
+  display: flex;
+  justify-content: center;
 `;
 
 const Label = styled.div`
@@ -25,6 +27,8 @@ const Input = styled.input`
   ::placeholder {
     color: ${oc.gray[3]};
   }
+
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
 const InputWithLabel = ({label, ...rest}) => (

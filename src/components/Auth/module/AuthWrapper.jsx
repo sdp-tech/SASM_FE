@@ -16,7 +16,8 @@ const Contents = styled.div`
   position: relative;
   padding: 2rem;
   height: auto;
-
+  display: flex;
+  justify-content: center;
   // background: red;
   // border: 2px solid ${oc.teal[5]};
 `;
