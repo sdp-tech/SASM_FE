@@ -2,6 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
 
+const Wrapper = styled.div`
+    width: 80%;
+    // background-color: pink;
+    // display: flex;
+    // position: relative;
+    // flex-direction: column;
+    // justify-content: center;
+`
+
 const Title = styled.div`
     font-size: 1.5rem;
     font-weight: 500;
@@ -11,10 +20,10 @@ const Title = styled.div`
 `;
 
 const AuthContent = ({title, children}) => (
-    <div>
+    <Wrapper>
         <Title>{title}</Title>
         {children}
-    </div>
+    </Wrapper>
 );
 
 export default AuthContent;

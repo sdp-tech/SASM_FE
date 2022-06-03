@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/sasm_logo.svg';
 
 // 페이지 이동을 위한 정보와 기능
 const urlHash = {

@@ -6,11 +6,15 @@ const Wrapper = styled.div`
   & + & {
     margin-top: 1rem;
   }
+  // display: flex;
+  // justify-content: center;
 `;
 
 const Label = styled.div`
-  font-size: 1rem;
-  color: ${oc.gray[6]};
+  // font-size: 1rem;
+  font-weight: 700;
+  font-size: 14px;
+  color: black;
   margin-bottom: 0.25rem;
 `;
 
@@ -20,11 +24,14 @@ const Input = styled.input`
   outline: none;
   border-radius: 4px;
   line-height: 2.5rem;
-  font-size: 1.2rem;
-
+  font-size: 0.8rem;
+  // padding-left: 10px; 
   ::placeholder {
-    color: ${oc.gray[3]};
+    padding: 4px;
+    color: rgba(17, 17, 17, 0.48);
   }
+
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
 const InputWithLabel = ({label, ...rest}) => (
