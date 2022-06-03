@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from "styled-components";
 
+import TrySocialLogin from '../../../functions/Auth/TrySocialLogin';
+
 import google_login from '../../../assets/img/google_login.svg'
 import naver_login from '../../../assets/img/naver_login.svg'
 import kakaotalk_login from '../../../assets/img/kakaotalk_login.svg'
@@ -43,9 +45,9 @@ const SocialLogin = () => {
     <Wrapper>
       SNS 계정으로 시작하기
       <LogoWrapper>
-        <SocialLogo src={google_login}/>
-        <SocialLogo src={naver_login}/>
-        <SocialLogo src={kakaotalk_login}/> 
+        <SocialLogo onClick={(e)=>TrySocialLogin(e.target.id)} id='google' src={google_login}/>
+        <SocialLogo onClick={(e)=>TrySocialLogin(e.target.id)} id='naver' src={naver_login}/>
+        <SocialLogo onClick={(e)=>TrySocialLogin(e.target.id)} id='kakaotalk' src={kakaotalk_login}/> 
       </LogoWrapper>
     </Wrapper>
   )
