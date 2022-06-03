@@ -7,11 +7,6 @@ const Login = () => {
 
   const [info, setInfo] = useState({});
 
-  const props ={
-    email : 'dzf12424@naver.com',
-    password: '4445'
-  }
-
   return (
     <AuthContent title="LOG IN">
       <InputWithLabel onChange={(event)=>{
