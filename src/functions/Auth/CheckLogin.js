@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export default async function CheckLogin({email, password}){
+export default async function CheckLogin(info){
   const url = 'https://6lro33prdc.execute-api.ap-northeast-2.amazonaws.com/prod/login'
 
   await axios.post(url, {
-    email: email,
-    password: password
+    email: info.email,
+    password: info.password
   })
   .then(function(res){
     console.log(res.data.body);

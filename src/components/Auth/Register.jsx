@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from './module';
 import styled from "styled-components";
 import { NoEncryption } from '@mui/icons-material';
@@ -32,27 +32,82 @@ const Button = styled.div`
 `
 
 const Register = () => {
+    const [info, setInfo] = useState({})
+
+    // console.log(info)
+
     return (
         <AuthContent title="JOIN">
+
             <InputAndButton>
-                <InputWithLabel label="메일 주소" name="email" placeholder="sasm@sdp.com"/>
+                <InputWithLabel 
+                    onChange={(event)=>{
+                        setInfo({
+                            ...info,
+                            email: event.target.value
+                    })}}
+                    label="메일 주소" name="email" placeholder="sasm@sdp.com"/>
                 <Button>중복확인</Button>
             </InputAndButton>
 
-            <InputWithLabel label="비밀번호" name="password" type="password"/>
+            <InputWithLabel 
+                onChange={(event)=>{
+                    setInfo({
+                        ...info,
+                        password: event.target.value
+                })}}
+                label="비밀번호" name="password" type="password"
+            />
             
             <InputAndButton>
-                <InputWithLabel label="비밀번호 확인" name="passwordConfirm" type="password"/>
-                <Button>확인</Button>
+                <InputWithLabel 
+                    onChange={(event)=>{
+                        setInfo({
+                            ...info,
+                            passwordConfirm: event.target.value
+                    })}}
+
+                    label="비밀번호 확인" name="passwordConfirm" type="password"/>
+                <Button
+                    onClick={()=>{
+                        if(info.password === info.passwordConfirm)
+                            alert("password match")
+                        else
+                            alert("password not matched")
+                    }}
+                >
+                    확인
+                </Button>
             </InputAndButton>
 
             <InputAndButton>
-                <InputWithLabel label="닉네임" name="nickname"/>
+                <InputWithLabel 
+                    onChange={(event)=>{
+                        setInfo({
+                            ...info,
+                            nickname: event.target.value
+                    })}}
+                    label="닉네임" name="nickname"/>
                 <Button>중복확인</Button>
             </InputAndButton>
 
-            <InputWithLabel label="생년월일 (선택)" name="dob" placeholder="ex) 1997.08.30"/>
-            <InputWithLabel label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"/>
+            <InputWithLabel 
+                onChange={(event)=>{
+                    setInfo({
+                        ...info,
+                        dob: event.target.value
+                })}}
+                label="생년월일 (선택)" name="dob" placeholder="ex) 1997.08.30"
+            />
+
+            <InputWithLabel 
+                onChange={(event)=>{
+                    setInfo({
+                        ...info,
+                        location: event.target.value
+                })}}
+                label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"
+            />
 
             <AuthButton 
                 style={{
@@ -61,7 +116,12 @@ const Register = () => {
                     border: 'none',
                     fontSize: '16px',
                     padding: '10px'
-                }}>
+                }}
+                
+                onClick={()=>{
+                    console.log(info)
+                }}
+            >
                     인증하고 시작하기</AuthButton>
         </AuthContent>
     );
