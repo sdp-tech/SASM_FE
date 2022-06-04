@@ -8,8 +8,6 @@ import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { truncate } from "../../helpers/utilities";
-import Navibar from "../../components/common/Navibar";
-import styled from "styled-components";
 
 export const TRUNCATION_LIMIT = 150;
 
@@ -22,8 +20,8 @@ const StoryList = () => {
   //     const { fetchPosts, isLoading, posts } = this.props;
 
   return (
-    <Sections>
-      <Navibar />
+    <>
+      {/* <Navibar /> */}
       <div>
         {/* posts */}
         {posts.map(({ id, maintitle, content, date, slug }, index) => (
@@ -59,20 +57,9 @@ const StoryList = () => {
         </div>
         <br />
       </div>
-    </Sections>
+    </>
   );
   //   }
 };
 
 export default StoryList;
-
-const Sections = styled.div`
-  box-sizing: border-box;
-  display: grid;
-  position: relative;
-  height: 100vh;
-  grid-template-rows: 0.1fr 0.9fr;
-  grid-template-areas:
-    "navibar"
-    "story";
-`;
