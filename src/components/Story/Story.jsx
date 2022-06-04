@@ -1,14 +1,10 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 // import moment from "moment";
-
 import CircularProgress from "@mui/material/CircularProgress";
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";
 import { getFullYear } from "../../helpers/utilities";
-// import { height as headerHeight } from "./Header";
-import Navibar from "../../components/common/Navibar";
-import styled from "styled-components";
 
 const footerHeight = 300;
 const contentStyle = {
@@ -71,8 +67,7 @@ const Story = () => {
 
   //   render() {
   return (
-    <Sections>
-      <Navibar />
+    <>
       <div>
         <div style={contentStyle}>
           {posts ? _renderPost() : _renderProgress()}
@@ -84,19 +79,8 @@ const Story = () => {
           <footer>list</footer>
         </Paper>
       </div>
-    </Sections>
+    </>
   );
   //   }
 };
 export default Story;
-
-const Sections = styled.div`
-  box-sizing: border-box;
-  display: grid;
-  position: relative;
-  height: 100vh;
-  grid-template-rows: 0.1fr 0.9fr;
-  grid-template-areas:
-    "navibar"
-    "story";
-`;
