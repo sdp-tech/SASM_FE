@@ -1,19 +1,32 @@
 import axios from "axios";
 
-export default async function CheckRepetition(type, data){
+export default async function CheckRepetition(type, data) {
 
-  console.log(type, data)
+  const url = 'http://127.0.0.1:8000/users/rep_check/'
 
-  // const url = 'https://6lro33prdc.execute-api.ap-northeast-2.amazonaws.com/prod/login'
+  var new_data = {}
 
-  // await axios.post(url, {
-  //   email: info.email,
-  //   password: info.password
-  // })
-  // .then(function(res){
-  //   console.log(res.data.body);
-  // })
-  // .catch(function(error){
-  //   console.log(error);
-  // })
+  if (type === 'email') {
+    new_data = {
+      type: type,
+      email: data
+    }
+  }
+
+  if (type === 'nickname') {
+    new_data = {
+      type: type,
+      nickname: data
+    }
+  }
+
+  await axios.post(url, new_data)
+    .then(function (res) {
+      console.log(res);
+      // if(res.data === '존재하는 이메일입니다')
+      alert(res.data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
 };
