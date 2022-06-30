@@ -1,11 +1,12 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
-import AuthWrapper from '../components/Auth/module/AuthWrapper';
-import Login from '../components/Auth/Login';
-import Register from '../components/Auth/Register';
-import Navibar from '../components/common/Navibar';
+import AuthWrapper from "../components/Auth/module/AuthWrapper";
+import Login from "../components/Auth/Login";
+import Register from "../components/Auth/Register";
+import Navibar from "../components/common/Navibar";
+import FindIDnPW from "../components/Auth/FindIDnPW";
 
 export default function Auth() {
   return (
@@ -16,11 +17,12 @@ export default function Auth() {
           <Route path="/" element={<Login />} />
           <Route path="/*" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/find" element={<FindIDnPW />} />
         </Routes>
       </AuthWrapper>
     </Sections>
   );
-};
+}
 
 const Sections = styled.div`
   box-sizing: border-box;
@@ -28,8 +30,7 @@ const Sections = styled.div`
   position: relative;
   height: 100vh;
   grid-template-rows: 0.15fr 0.85fr;
-  grid-template-areas: 
+  grid-template-areas:
     "navibar"
-    "auth"
-  ;
+    "auth";
 `;
