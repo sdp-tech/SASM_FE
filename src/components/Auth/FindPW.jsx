@@ -1,6 +1,6 @@
 import { color } from "@mui/system";
 import React, { useState } from "react";
-import CheckLogin from "../../functions/Auth/CheckLogin";
+import FindPw from "../../functions/Auth/FindPw";
 import {
   AuthContent,
   InputWithLabel,
@@ -69,7 +69,7 @@ const FindPW = () => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => CheckLogin(pw)}
+        onClick={() => FindPw(pw)}
       >
         확인
       </AuthButton>
