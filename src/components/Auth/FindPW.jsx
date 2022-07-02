@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 `;
 
 const FindPW = () => {
-  const [info, setInfo] = useState({});
+  const [pw, setPw] = useState({});
 
   return (
     <>
@@ -43,8 +43,8 @@ const FindPW = () => {
 
       <InputWithLabel
         onChange={(event) => {
-          setInfo({
-            ...info,
+          setPw({
+            ...pw,
             email: event.target.value,
           });
         }}
@@ -69,7 +69,7 @@ const FindPW = () => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => CheckLogin(info)}
+        onClick={() => CheckLogin(pw)}
       >
         확인
       </AuthButton>

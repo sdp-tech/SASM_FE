@@ -1,6 +1,6 @@
 import { color } from "@mui/system";
 import React, { useState } from "react";
-import CheckLogin from "../../functions/Auth/CheckLogin";
+import FindId from "../../functions/Auth/FindId";
 import {
   AuthContent,
   InputWithLabel,
@@ -31,7 +31,7 @@ const Wrapper = styled.div`
 `;
 
 const FindID = () => {
-  const [info, setInfo] = useState({});
+  const [id, setId] = useState({});
 
   return (
     <>
@@ -43,8 +43,8 @@ const FindID = () => {
 
       <InputWithLabel
         onChange={(event) => {
-          setInfo({
-            ...info,
+          setId({
+            ...id,
             email: event.target.value,
           });
         }}
@@ -69,7 +69,7 @@ const FindID = () => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => CheckLogin(info)}
+        onClick={() => FindId(id)}
       >
         확인
       </AuthButton>
