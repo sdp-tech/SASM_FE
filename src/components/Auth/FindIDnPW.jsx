@@ -48,13 +48,18 @@ const FindIDnPW = () => {
   };
 
   return (
-    <AuthContent title="아이디/비밀번호 찾기">
+    <>
+      {/* <AuthContent title="아이디/비밀번호 찾기"> */}
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box>
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+            // indicatorColor="secondary"
+            textColor="inherit"
+            variant="fullWidth"
+            centered
           >
             <Tab label="아이디 찾기" {...a11yProps(0)} />
             <Tab label="비밀번호 찾기" {...a11yProps(1)} />
@@ -67,7 +72,8 @@ const FindIDnPW = () => {
           <FindPW />
         </TabPanel>
       </Box>
-    </AuthContent>
+      {/* </AuthContent> */}
+    </>
   );
 };
 export default FindIDnPW;
