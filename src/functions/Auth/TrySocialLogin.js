@@ -5,8 +5,10 @@ export default async function TrySocialLogin(site) {
 
   var url = ''
   if (site === 'google')
-    url = '/users/google/login/'
+    url = 'http://localhost:8000/users/google/login/'
     // url = '/o/oauth2/v2/auth/oauthchooseaccount?client_id=1037934278190-17b3othcsdmik8im5e1occ4u4kfpko2f.apps.googleusercontent.com&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Fgoogle%2Fcallback%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&flowName=GeneralOAuthFlow'
+    // url = 'https://accounts.google.com'
+    // url = '/'
 
   if (site === 'naver')
     // url = 'naver_url'
@@ -18,7 +20,7 @@ export default async function TrySocialLogin(site) {
 
   await axios.get(url, {
     header: {
-      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Origin': 'https://accounts.google.com'
     }
   })
     .then(function (res) {

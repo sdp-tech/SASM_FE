@@ -8,29 +8,29 @@ import CheckRepetition from '../../functions/Auth/CheckRepetition';
 const InputAndButton = styled.div`
     position: relative;
     display: flex;
-    // background-color: pink;
+    flex-wrap: nowrap;
+    align-items: end;
     width: 100%;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    & + & {
-        margin-top: 0rem;
-    }
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
 `
 
 const Button = styled.div`
-    position: absolute;
-
     background-color: rgba(84, 128, 229, 1);
-    width: 20%;
     height: 60%;
-    right: 0;
-    bottom: 0;
     text-align: center;
     line-height: 3;
     border-radius: 4px;
     font-size: 16px;
     color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     cursor: pointer;
+    flex-grow: 0.5;
+    margin-left: 0.7em;
 `
 
 const Register = () => {
@@ -42,7 +42,7 @@ const Register = () => {
         <AuthContent title="JOIN">
 
             <InputAndButton>
-                <InputWithLabel 
+                <InputWithLabel
                     onChange={(event)=>{
                         setInfo({
                             ...info,
@@ -57,34 +57,26 @@ const Register = () => {
                 </Button>
             </InputAndButton>
 
-            <InputWithLabel 
-                onChange={(event)=>{
-                    setInfo({
-                        ...info,
-                        password: event.target.value
-                })}}
-                label="비밀번호" name="password" type="password"
-            />
-            
             <InputAndButton>
                 <InputWithLabel 
                     onChange={(event)=>{
                         setInfo({
                             ...info,
-                            passwordConfirm: event.target.value
-                    })}}
+                            password: event.target.value
+                        })}}
+                        label="비밀번호" name="password" type="password"
+                        />
+            </InputAndButton>
 
-                    label="비밀번호 확인" name="passwordConfirm" type="password"/>
-                <Button
-                    onClick={()=>{
-                        if(info.password === info.passwordConfirm)
-                            alert("password match")
-                        else
-                            alert("password not matched")
-                    }}
-                >
-                    확인
-                </Button>
+            <InputAndButton>
+                <InputWithLabel 
+                        onChange={(event)=>{
+                            setInfo({
+                                ...info,
+                                passwordConfirm: event.target.value
+                            })}}
+                            
+                            label="비밀번호 확인" name="passwordConfirm" type="password"/>
             </InputAndButton>
 
             <InputAndButton>
@@ -102,24 +94,28 @@ const Register = () => {
                     중복확인
                 </Button>
             </InputAndButton>
-
+            
+            <InputAndButton>
             <InputWithLabel 
                 onChange={(event)=>{
                     setInfo({
                         ...info,
                         dob: event.target.value
-                })}}
-                label="생년월일 (선택)" name="dob" placeholder="ex) 1997.08.30"
-            />
-
+                    })}}
+                    label="생년월일 (선택)" name="dob" placeholder="ex) 1997.08.30"
+                    />
+            </InputAndButton>
+            
+            <InputAndButton>
             <InputWithLabel 
                 onChange={(event)=>{
                     setInfo({
                         ...info,
                         location: event.target.value
-                })}}
-                label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"
-            />
+                    })}}
+                    label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"
+                    />
+            </InputAndButton>
 
             <AuthButton 
                 style={{

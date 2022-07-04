@@ -6,8 +6,12 @@ const Wrapper = styled.div`
   & + & {
     margin-top: 1rem;
   }
-  // display: flex;
-  // justify-content: center;
+  // background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+  flex-grow: 3;
 `;
 
 const Label = styled.div`
@@ -16,6 +20,8 @@ const Label = styled.div`
   font-size: 14px;
   color: black;
   margin-bottom: 0.25rem;
+  // background-color: black;
+
 `;
 
 const Input = styled.input`
