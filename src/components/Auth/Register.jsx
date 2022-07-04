@@ -17,7 +17,7 @@ const InputAndButton = styled.div`
 
 const Button = styled.div`
     background-color: rgba(84, 128, 229, 1);
-    height: 60%;
+    height: 100%;
     text-align: center;
     line-height: 3;
     border-radius: 4px;
@@ -27,10 +27,10 @@ const Button = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    padding: 0.3em;
     cursor: pointer;
     flex-grow: 0.5;
-    margin-left: 0.7em;
+    margin-left: 1.5em;
 `
 
 const Register = () => {

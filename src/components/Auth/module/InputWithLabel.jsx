@@ -21,7 +21,6 @@ const Label = styled.div`
   color: black;
   margin-bottom: 0.25rem;
   // background-color: black;
-
 `;
 
 const Input = styled.input`
@@ -30,13 +29,13 @@ const Input = styled.input`
   outline: none;
   border-radius: 4px;
   line-height: 2.5rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   // padding-left: 10px; 
   ::placeholder {
     padding: 4px;
     color: rgba(17, 17, 17, 0.48);
   }
-
+  padding: 0.5em;
   box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
