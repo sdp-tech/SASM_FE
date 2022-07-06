@@ -24,12 +24,11 @@ const Login = () => {
   // 이메일 체크
   var flag = false
   for(const format of emailFormat){
-    if(info.email.includes(format) || info.email == ''){
+    if(info.email.includes(format) || info.email === ''){
       flag = true
       break
     }
   }
-  console.log(flag)
 
   return (
     <AuthContent title="LOG IN">
