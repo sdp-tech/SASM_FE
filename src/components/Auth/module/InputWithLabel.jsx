@@ -39,7 +39,7 @@ const Input = styled.input`
   box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
-const InputWithLabel = ({label, ...rest}) => (
+const InputWithLabel = ({label, message, ...rest}) => (
   <Wrapper>
     <Label>{label}</Label>
     <Input {...rest}/>
