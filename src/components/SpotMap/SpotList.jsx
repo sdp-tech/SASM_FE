@@ -1,5 +1,4 @@
 import * as React from "react";
-import { List } from "@mui/material";
 import styled from "styled-components";
 
 import ItemCard from "./SpotList/ItemCard.js";
@@ -53,9 +52,11 @@ export default function SpotList(props) {
 
   return (
     <SpotListSection>
+
       <SearchFilterBar>
         <SearchBar /> 
       </SearchFilterBar>
+
       <SpotsWrapper>
         {Item &&
           Item.map((itemdata, index) => (
