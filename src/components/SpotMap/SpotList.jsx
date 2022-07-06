@@ -7,18 +7,19 @@ import SearchBar from "./SpotList/SearchBar.js";
 
 const SpotListSection = styled.div`
 // background-color: blue;
-
-  margin: 15px 0px 15px 15px;
   position: relative;
+  margin: 15px 0px 15px 15px;
   grid-area: spotlist;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `
 
 const SearchFilterBar = styled.div`
 // background-color: red;
  
-  position: absolute;
   width: 100%;
-  height: 10%;
+  height: 5%;
   border: 4px solid black;
 
   border: 1px solid #99A0B0;
@@ -28,10 +29,8 @@ const SearchFilterBar = styled.div`
 const SpotsWrapper = styled.div`
   // background-color: yellow;
 
-  position: absolute;
   width: 100%;
-  height: 90%;
-  top: 10%;
+  height: 95%;
   overflow: auto;
   border-left: 1px solid #99A0B0;
   border-right: 1px solid #99A0B0;

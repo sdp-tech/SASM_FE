@@ -74,7 +74,8 @@ const NaverMapAPI = () => {
         mapDivId={'SASM_map'}
         style={{
           width: '100%',
-          height: '100%'
+          height: '100%',
+          outline: 'none'
         }}
         center={state.center}
         defaultZoom={state.zoom}
