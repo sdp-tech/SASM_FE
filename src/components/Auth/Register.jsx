@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { NoEncryption } from '@mui/icons-material';
 import TryRegister from '../../functions/Auth/TryRegister';
 import CheckRepetition from '../../functions/Auth/CheckRepetition';
+import SelectWithLabel from './module/SelectWithLabel';
 
 const InputAndButton = styled.div`
     position: relative;
@@ -33,10 +34,20 @@ const Button = styled.div`
     margin-left: 1em;
 `
 
+const year = ['년도']
+const month = ['월']
+const day = ['일']
+for(var i=1950; i<=new Date().getFullYear(); i++)
+    year.push(i)
+for(var i=1; i<=12; i++)
+    month.push(i)
+for(var i=1; i<=31; i++)
+    day.push(i)
+
+console.log(year, month, day)
+
 const Register = () => {
     const [info, setInfo] = useState({})
-
-    // console.log(info)
 
     return (
         <AuthContent title="JOIN">
@@ -96,14 +107,17 @@ const Register = () => {
             </InputAndButton>
             
             <InputAndButton>
-            <InputWithLabel 
+            <SelectWithLabel 
+                label="생년월일 (선택)"
+                item1={year}
+                item2={month}
+                item3={day}
                 onChange={(event)=>{
                     setInfo({
                         ...info,
                         dob: event.target.value
                     })}}
-                    label="생년월일 (선택)" name="dob" placeholder="ex) 1997.08.30"
-                    />
+            />
             </InputAndButton>
             
             <InputAndButton>
