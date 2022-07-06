@@ -4,16 +4,24 @@ import styled from "styled-components";
 
 const MapSection = styled.div`
   box-sizing: border-box;
-  padding: 1%;
+  margin: 1%;
   position: relative;
   // background-color: yellow;
   grid-area: map;
+  outline: none;
 `
-const CurrentLocationButton = styled.button`
+const SearchAgainButton = styled.button`
   position: absolute;
-  bottom: 3vh;
-  left: 3vh;
-  zIndex: 4;
+
+  top: 3vh;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  background: #C4C4C4;
+  border-radius: 14px;
+  border: none;
+  padding: 6px 22px;
+  z-index: 4;
+  cursor: pointer;
 `;
 
 const NaverMapAPI = () => {
@@ -66,7 +74,8 @@ const NaverMapAPI = () => {
         mapDivId={'SASM_map'}
         style={{
           width: '100%',
-          height: '100%'
+          height: '100%',
+          outline: 'none'
         }}
         center={state.center}
         defaultZoom={state.zoom}
@@ -121,11 +130,11 @@ export default function Map(){
         <NaverMapAPI />
       </RenderAfterNavermapsLoaded>
 
-      <CurrentLocationButton
+      <SearchAgainButton
         // onClick={handleBackToCenter}
       >
-          현재 위치로
-      </CurrentLocationButton>
+          지금 지도에서 검색
+      </SearchAgainButton>
     </MapSection>
   );
 };

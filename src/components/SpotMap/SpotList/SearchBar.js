@@ -1,59 +1,52 @@
-import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
+import React from 'react';
+import styled from "styled-components";
+import searchIcon from '../../../assets/img/search.svg'
+import filteringIcon from '../../../assets/img/filtering.svg'
 
-export default function SearchBar() {
+const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+`
 
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginBottom: '10px',
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  }));
-    
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2), 
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
-  }));
-  
+const SearchForm = styled.input`
+  height: 100%;
+  border-box: box-sizing;
+  outline: none;
+  flex-grow: 1;
+  padding: 0 0 0 2%;
+  border: none;
+`
+
+const IconWrapper = styled.div`
+  // background-color: pink;
+
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2%;
+  cursor: pointer;
+  border-left: 1px solid #99A0B0;
+`
+const FilterIcon = styled.div`
+
+`
+export default function SearchBar({handleFilterToggle, handleSearchToggle}) {
+
   return (
-      <Search>
-        <SearchIconWrapper>
-          <SearchIcon />
-        </SearchIconWrapper>
-        <StyledInputBase
-          placeholder="Search…"
-          inputProps={{ 'aria-label': 'search' }}
-        />
-      </Search>
-  );
+    <Wrapper>
+      <SearchForm
+        placeholder='지속가능한 공간을 검색해보세요'
+      />
+      <IconWrapper onClick={handleSearchToggle}>
+        <img src={searchIcon}></img>
+      </IconWrapper>
+      <IconWrapper onClick={handleFilterToggle}>
+        <img src={filteringIcon}></img>
+      </IconWrapper>
+    </Wrapper>
+  ) 
 };

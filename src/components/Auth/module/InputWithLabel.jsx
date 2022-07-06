@@ -6,8 +6,12 @@ const Wrapper = styled.div`
   & + & {
     margin-top: 1rem;
   }
-  // display: flex;
-  // justify-content: center;
+  // background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // align-items: center;
+  flex-grow: 3;
 `;
 
 const Label = styled.div`
@@ -16,6 +20,7 @@ const Label = styled.div`
   font-size: 14px;
   color: black;
   margin-bottom: 0.25rem;
+  // background-color: black;
 `;
 
 const Input = styled.input`
@@ -24,17 +29,17 @@ const Input = styled.input`
   outline: none;
   border-radius: 4px;
   line-height: 2.5rem;
-  font-size: 0.8rem;
+  font-size: 1rem;
   // padding-left: 10px; 
   ::placeholder {
     padding: 4px;
     color: rgba(17, 17, 17, 0.48);
   }
-
+  padding: 0.2em;
   box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
-const InputWithLabel = ({label, ...rest}) => (
+const InputWithLabel = ({label, message, ...rest}) => (
   <Wrapper>
     <Label>{label}</Label>
     <Input {...rest}/>

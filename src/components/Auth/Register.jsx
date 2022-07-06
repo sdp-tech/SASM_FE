@@ -4,51 +4,93 @@ import styled from "styled-components";
 import { NoEncryption } from '@mui/icons-material';
 import TryRegister from '../../functions/Auth/TryRegister';
 import CheckRepetition from '../../functions/Auth/CheckRepetition';
+import SelectWithLabel from './module/SelectWithLabel';
 
 const InputAndButton = styled.div`
     position: relative;
     display: flex;
-    // background-color: pink;
+    flex-wrap: nowrap;
+    align-items: end;
     width: 100%;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    & + & {
-        margin-top: 0rem;
-    }
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
 `
 
 const Button = styled.div`
-    position: absolute;
-
     background-color: rgba(84, 128, 229, 1);
-    width: 20%;
-    height: 60%;
-    right: 0;
-    bottom: 0;
+    height: 100%;
     text-align: center;
     line-height: 3;
     border-radius: 4px;
     font-size: 16px;
     color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.1em;
     cursor: pointer;
+    flex-grow: 0.5;
+    margin-left: 1em;
+`
+const Message = styled.div`
+  font-size: 0.2em;
+//   margin-top: 1.1em;
+  color: #DB524E;
 `
 
-const Register = () => {
-    const [info, setInfo] = useState({})
+const year = ['년도']
+const month = ['월']
+const day = ['일']
+for(var i=1950; i<=new Date().getFullYear(); i++)
+    year.push(i.toString())
+for(var i=1; i<=12; i++){
+    if(i<=9)
+        month.push('0'+ i.toString())
+    else
+        month.push(i.toString())
+}
+for(var i=1; i<=31; i++){
+    if(i<=9)
+        day.push('0'+ i.toString())
+    else
+        day.push(i.toString())
+}
 
-    // console.log(info)
+const emailFormat = ['@naver.com', '@gmail.com', '@daum.net', '@hanmail.net', '.ac.kr']
+
+const Register = () => {
+    const [info, setInfo] = useState({
+        email: '',
+        passwordConfirm: ''
+    })
+
+    // 이메일 체크
+    var emailCheck = false
+    for(const format of emailFormat){
+        if(info.email.includes(format) || info.email === ''){
+        emailCheck = true
+        break
+        }
+    }
+
+    // 비밀번호 확인 체크
+    var passwordCheck = false
+    if(info.password === info.passwordConfirm || info.passwordConfirm === '')
+        passwordCheck = true
 
     return (
         <AuthContent title="JOIN">
 
             <InputAndButton>
-                <InputWithLabel 
+                <InputWithLabel
                     onChange={(event)=>{
                         setInfo({
                             ...info,
                             email: event.target.value
                     })}}
-                    label="메일 주소" name="email" placeholder="sasm@sdp.com"/>
+                    label="메일 주소" name="email" placeholder="sasm@sdp.com"
+                    style={emailCheck?{} : {backgroundColor: '#F9E3E3'}}/>
                 <Button
                     onClick={(e)=>CheckRepetition(e.target.id, info.email)}
                     id='email'
@@ -56,36 +98,35 @@ const Register = () => {
                     중복확인
                 </Button>
             </InputAndButton>
+            <Message>
+                {emailCheck ? '' : '이메일 형식이 올바르지 않습니다'}
+            </Message>
 
-            <InputWithLabel 
-                onChange={(event)=>{
-                    setInfo({
-                        ...info,
-                        password: event.target.value
-                })}}
-                label="비밀번호" name="password" type="password"
-            />
-            
             <InputAndButton>
                 <InputWithLabel 
                     onChange={(event)=>{
                         setInfo({
                             ...info,
-                            passwordConfirm: event.target.value
-                    })}}
-
-                    label="비밀번호 확인" name="passwordConfirm" type="password"/>
-                <Button
-                    onClick={()=>{
-                        if(info.password === info.passwordConfirm)
-                            alert("password match")
-                        else
-                            alert("password not matched")
-                    }}
-                >
-                    확인
-                </Button>
+                            password: event.target.value
+                        })}}
+                        label="비밀번호" name="password" type="password"
+                        />
             </InputAndButton>
+
+            <InputAndButton>
+                <InputWithLabel 
+                        onChange={(event)=>{
+                            setInfo({
+                                ...info,
+                                passwordConfirm: event.target.value
+                            })}}
+                            
+                            label="비밀번호 확인" name="passwordConfirm" type="password"
+                            style={passwordCheck?{} : {backgroundColor: '#F9E3E3'}}/>
+            </InputAndButton>
+            <Message>
+                {passwordCheck ? '' : '입력한 비밀번호와 일치하지 않습니다.'}
+            </Message>
 
             <InputAndButton>
                 <InputWithLabel 
@@ -102,24 +143,35 @@ const Register = () => {
                     중복확인
                 </Button>
             </InputAndButton>
-
-            <InputWithLabel 
-                onChange={(event)=>{
-                    setInfo({
-                        ...info,
-                        dob: event.target.value
-                })}}
-                label="생년월일 (선택)" name="dob" placeholder="ex) 1997.08.30"
-            />
-
-            <InputWithLabel 
-                onChange={(event)=>{
-                    setInfo({
-                        ...info,
-                        location: event.target.value
-                })}}
-                label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"
-            />
+            
+            <InputAndButton>
+                <SelectWithLabel 
+                    label="생년월일 (선택)"
+                    item1={year}
+                    item2={month}
+                    item3={day}
+                    onChange={() => {
+                        let dob = ""
+                        const items = document.getElementsByClassName("DOB")
+                        for(const item of items)
+                            dob += item.value
+                        setInfo({
+                            ...info,
+                            dob: dob
+                        })}}
+                />
+            </InputAndButton>
+            
+            <InputAndButton>
+                <InputWithLabel 
+                    onChange={(event)=>{
+                        setInfo({
+                            ...info,
+                            location: event.target.value
+                        })}}
+                        label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"
+                        />
+            </InputAndButton>
 
             <AuthButton 
                 style={{
