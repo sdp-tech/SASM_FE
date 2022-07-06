@@ -3,14 +3,15 @@
 import axios from "axios";
 export default async function FindId(id) {
   const url = "http://127.0.0.1:8000/users/findid/";
-
-  await axios
+  return await axios
     .post(url, {
       email: id.email,
     })
     .then(function (res) {
-      console.log(res.data.success);
-      alert(res.data);
+      if (res.data === "존재하는 이메일입니다") {
+        console.log("exist");
+      }
+      return [res.data, id];
       // window.location.href = "/map";
     })
     .catch(function (error) {

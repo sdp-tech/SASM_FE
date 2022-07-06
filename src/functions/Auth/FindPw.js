@@ -9,7 +9,6 @@ export default async function FindPw(pw) {
       email: pw.email,
     })
     .then(function (res) {
-      console.log(res.data.success);
       alert(res.data);
       // window.location.href = "/map";
     })

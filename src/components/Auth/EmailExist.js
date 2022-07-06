@@ -1,5 +1,5 @@
 import React from "react";
-import { InputWithLabel, AuthButton } from "./module";
+import { AuthButton } from "./module";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -22,16 +22,34 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const FindID = ({ Try, handleId }) => {
+const EmailExist = (id) => {
+  const urlHash = {
+    SASM: "",
+    MAP: "map",
+    STORY: "story",
+    "MY PICK": "mypage",
+    "LOG IN": "auth",
+    JOIN: "auth/register",
+  };
+  const handlePageRedirection = (title) => {
+    window.location.href = "/" + urlHash[title];
+  };
   return (
     <>
       <Wrapper>
-        <div>SASM은 이메일을 아이디로 사용합니다.</div>
-        <div>소유하신 이메일을 입력하시면,</div>
-        <div>가입여부를 알려드립니다.</div>
+        <div
+          style={{
+            height: "30px",
+            fontWeight: "600",
+            margin: "auto",
+          }}
+        >
+          {id.id.email}
+        </div>
+        <br />
+        <div>회원으로 등록된 이메일 아이디입니다.</div>
+        <div>해당 이메일로 로그인하고 SASM을 이용하세요.</div>
       </Wrapper>
-
-      <InputWithLabel onChange={handleId} name="email" placeholder="Email" />
 
       <AuthButton
         style={{
@@ -50,12 +68,12 @@ const FindID = ({ Try, handleId }) => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={Try}
+        onClick={() => handlePageRedirection("LOG IN")}
       >
-        확인
+        로그인
       </AuthButton>
     </>
   );
 };
 
-export default FindID;
+export default EmailExist;
