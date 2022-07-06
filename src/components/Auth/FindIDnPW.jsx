@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import { AuthContent } from "./module";
 import FindID from "./FindID";
 import FindPW from "./FindPW";
+import EmailExist from "./EmailExist";
+import EmailNotExist from "./EmailNotExist";
+import FindId from "../../functions/Auth/FindId";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,10 +43,28 @@ function a11yProps(index) {
 }
 
 const FindIDnPW = () => {
+  const [id, setId] = React.useState({});
+  const [page, setPage] = React.useState(0);
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+  const handleId = (event) => {
+    setId({
+      ...id,
+      email: event.target.value,
+    });
+  };
+
+  const Try = async () => {
+    const res = await FindId(id);
+    console.log(res);
+    if (res[0] === "존재하는 이메일입니다") {
+      setPage(1);
+    } else if (res[0] === "존재하지 않는 이메일입니다") {
+      setPage(2);
+    }
   };
 
   return (
@@ -56,21 +76,37 @@ const FindIDnPW = () => {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
-            // indicatorColor="secondary"
             textColor="inherit"
             variant="fullWidth"
+            position="sticky"
             centered
           >
             <Tab label="아이디 찾기" {...a11yProps(0)} />
             <Tab label="비밀번호 찾기" {...a11yProps(1)} />
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          <FindID />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <FindPW />
-        </TabPanel>
+        <>
+          <Box
+            sx={{
+              minHeight: "300px",
+            }}
+          >
+            <TabPanel value={value} index={0}>
+              {page === 0 ? (
+                <FindID Try={Try} handleId={handleId} />
+              ) : page === 1 ? (
+                //이메일 존재할 경우
+                <EmailExist id={id} />
+              ) : (
+                //이메일 존재하지 않을 경우
+                <EmailNotExist id={id} />
+              )}
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <FindPW />
+            </TabPanel>
+          </Box>
+        </>
       </Box>
       {/* </AuthContent> */}
     </>
