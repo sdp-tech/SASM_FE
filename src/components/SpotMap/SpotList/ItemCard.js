@@ -3,7 +3,23 @@ import styled from "styled-components";
 
 import archiveIcon from "../../../assets/img/Like.png";
 
-function ItemCard(props) {
+const StyledCard = styled.div`
+  position: relative;
+  padding: 1em;
+  border-bottom: 1px solid #99A0B0;
+  border-right: 1px solid #99A0B0;
+  &:last-child {
+    border-bottom: none;
+  }
+`;
+
+const Content = styled.p`
+  font-size: 1em;
+  color: black;
+`;
+
+
+export default function ItemCard(props) {
   const [state, setState] = useState({
     isToggleOn: true
   });
@@ -21,8 +37,8 @@ function ItemCard(props) {
 
   return (
     <StyledCard onClick={handleClick} key={Date.now()}>
-      {state.isToggleOn ? "ON" : "OFF"}
-      <button
+      {/* {state.isToggleOn ? "ON" : "OFF"} */}
+      {/* <button
         style={{
           position: "absolute",
           top: "0px",
@@ -44,7 +60,7 @@ function ItemCard(props) {
           alt=""
           onClick={myfunction}
         />
-      </button>
+      </button> */}
       <img
         src={props.ImageURL}
         className="image--itemcard"
@@ -59,18 +75,3 @@ function ItemCard(props) {
     </StyledCard>
   );
 }
-
-const StyledCard = styled.div`
-  border: 1.5px solid black;
-  padding: 1em;
-  :hover {
-    background: #ebf5fb;
-  }
-`;
-
-const Content = styled.p`
-  font-size: 1em;
-  color: black;
-`;
-
-export default ItemCard;
