@@ -27,10 +27,10 @@ const Button = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.3em;
+    padding: 0.1em;
     cursor: pointer;
     flex-grow: 0.5;
-    margin-left: 1.5em;
+    margin-left: 1em;
 `
 
 const Register = () => {

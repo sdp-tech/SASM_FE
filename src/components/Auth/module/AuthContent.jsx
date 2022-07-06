@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 
 const Wrapper = styled.div`
-    width: 80%;
+    width: 90%;
     // background-color: pink;
     // display: flex;
     // position: relative;
