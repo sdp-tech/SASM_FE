@@ -41,11 +41,11 @@ const Select = styled.select`
   box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
-const SelectWithLabel = ({label, item1, item2, item3}) => (
+const SelectWithLabel = ({label, item1, item2, item3, onChange}) => (
   <Wrapper>
     <Label>{label}</Label>
     <SelectWrapper>
-      <Select >
+      <Select className="DOB" onChange={onChange}>
         {item1.map(item => (
           <option value={item} key={item}>
             {item}
@@ -53,7 +53,7 @@ const SelectWithLabel = ({label, item1, item2, item3}) => (
         ))}
       </Select>
 
-      <Select >
+      <Select className="DOB" onChange={onChange}>
         <option value="default" disabled>년도</option>
         {item2.map(item => (
           <option value={item} key={item}>
@@ -62,7 +62,7 @@ const SelectWithLabel = ({label, item1, item2, item3}) => (
         ))}
       </Select>
 
-      <Select >
+      <Select className="DOB" onChange={onChange}>
         {item3.map(item => (
           <option value={item} key={item}>
             {item}

@@ -12,8 +12,8 @@ const InputAndButton = styled.div`
     flex-wrap: nowrap;
     align-items: end;
     width: 100%;
-    margin-top: 0.6em;
-    margin-bottom: 0.6em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
 `
 
 const Button = styled.div`
@@ -38,13 +38,19 @@ const year = ['년도']
 const month = ['월']
 const day = ['일']
 for(var i=1950; i<=new Date().getFullYear(); i++)
-    year.push(i)
-for(var i=1; i<=12; i++)
-    month.push(i)
-for(var i=1; i<=31; i++)
-    day.push(i)
-
-console.log(year, month, day)
+    year.push(i.toString())
+for(var i=1; i<=12; i++){
+    if(i<=9)
+        month.push('0'+ i.toString())
+    else
+        month.push(i.toString())
+}
+for(var i=1; i<=31; i++){
+    if(i<=9)
+        day.push('0'+ i.toString())
+    else
+        day.push(i.toString())
+}
 
 const Register = () => {
     const [info, setInfo] = useState({})
@@ -107,17 +113,21 @@ const Register = () => {
             </InputAndButton>
             
             <InputAndButton>
-            <SelectWithLabel 
-                label="생년월일 (선택)"
-                item1={year}
-                item2={month}
-                item3={day}
-                onChange={(event)=>{
-                    setInfo({
-                        ...info,
-                        dob: event.target.value
-                    })}}
-            />
+                <SelectWithLabel 
+                    label="생년월일 (선택)"
+                    item1={year}
+                    item2={month}
+                    item3={day}
+                    onChange={() => {
+                        let dob = ""
+                        const items = document.getElementsByClassName("DOB")
+                        for(const item of items)
+                            dob += item.value
+                        setInfo({
+                            ...info,
+                            dob: dob
+                        })}}
+                />
             </InputAndButton>
             
             <InputAndButton>
