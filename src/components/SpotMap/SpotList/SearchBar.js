@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from "styled-components";
 import searchIcon from '../../../assets/img/search.svg'
 import filteringIcon from '../../../assets/img/filtering.svg'
@@ -34,7 +34,7 @@ const IconWrapper = styled.div`
 const FilterIcon = styled.div`
 
 `
-export default function SearchBar() {
+export default function SearchBar({handleFilterToggle}) {
 
   return (
     <Wrapper>
@@ -44,7 +44,7 @@ export default function SearchBar() {
       <IconWrapper>
         <img src={searchIcon}></img>
       </IconWrapper>
-      <IconWrapper>
+      <IconWrapper onClick={handleFilterToggle}>
         <img src={filteringIcon}></img>
       </IconWrapper>
     </Wrapper>
