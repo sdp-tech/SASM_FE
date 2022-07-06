@@ -34,14 +34,14 @@ const IconWrapper = styled.div`
 const FilterIcon = styled.div`
 
 `
-export default function SearchBar({handleFilterToggle}) {
+export default function SearchBar({handleFilterToggle, handleSearchToggle}) {
 
   return (
     <Wrapper>
       <SearchForm
         placeholder='지속가능한 공간을 검색해보세요'
       />
-      <IconWrapper>
+      <IconWrapper onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
       </IconWrapper>
       <IconWrapper onClick={handleFilterToggle}>

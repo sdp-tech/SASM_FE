@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import ItemCard from "./SpotList/ItemCard.js";
 import SearchBar from "./SpotList/SearchBar.js";
+import nothingIcon from '../../assets/img/nothing.svg'
 
 const SpotListSection = styled.div`
 // background-color: blue;
@@ -13,7 +14,6 @@ const SpotListSection = styled.div`
   flex-direction: column;
   overflow: hidden;
 `
-
 const SearchFilterBar = styled.div`
 // background-color: red;
   width: 100%;
@@ -21,54 +21,47 @@ const SearchFilterBar = styled.div`
   border: 1px solid #99A0B0;
   box-sizing: border-box;
 `
-
-const SearchSpots = styled.div`
-  width: 100%;
-  min-height: 30%;
-  border-left: 1px solid #99A0B0;
-  border-right: 1px solid #99A0B0;
-  border-bottom: 1px solid #99A0B0;
-  box-sizing: border-box;
- 
-`
-
 const FilterOptions = styled.div`
   width: 100%;
-  height: 40%;
-  box-sizing: border-box;
-
-// background-color: red;
-
+  min-height: 25%;
   border-left: 1px solid #99A0B0;
   border-right: 1px solid #99A0B0;
   border-bottom: 1px solid #99A0B0;
+  box-sizing: border-box;
 
 `
+const NothingSearched = styled.div`
+// background-color: yellow;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+`
 const RecommendTitle = styled.div`
   width: 100%;
   min-height: 4%;
-  border-left: 1px solid #99A0B0;
-  border-right: 1px solid #99A0B0;
-  border-bottom: 1px solid #99A0B0;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-left: 1px solid #99A0B0;
+  border-right: 1px solid #99A0B0;
+  border-bottom: 1px solid #99A0B0;
   box-sizing: border-box;
-
 `
-
-const RecommendSpots = styled.div` 
+const SpotsWrapper = styled.div` 
   // background-color: yellow;
-
   width: 100%;
-  height: 95%;
+  min-height: 30%;
   overflow: auto;
   border-left: 1px solid #99A0B0;
   border-right: 1px solid #99A0B0;
   border-bottom: 1px solid #99A0B0;
   box-sizing: border-box;
-
   &::-webkit-scrollbar {
     width: 12px;
   }
@@ -82,29 +75,60 @@ const RecommendSpots = styled.div`
 
 export default function SpotList(props) {
   const Item = props.Itemcard;
+  const [searchedItems, setSearchedItems] = useState([...Item])
 
-  const [filterToggle, setFilterToggle] = useState(false) 
-  
+  const [filterToggle, setFilterToggle] = useState(false)
+  const [searchToggle, setSearchToggle] = useState(false)
+
+  console.log(searchedItems)
   const handleFilterToggle = () => {
     setFilterToggle(!filterToggle)
+  }
+  const handleSearchToggle = () => {
+    setSearchToggle(true)
   }
 
   return (
     <SpotListSection>
 
       <SearchFilterBar>
-        <SearchBar handleFilterToggle={handleFilterToggle}/> 
+        <SearchBar handleFilterToggle={handleFilterToggle} handleSearchToggle={handleSearchToggle}/> 
       </SearchFilterBar>
 
-      { filterToggle ? (
-        <FilterOptions>
+      { 
+        filterToggle ? (
+          <FilterOptions>
+            
+          </FilterOptions>
+        ) : null
+      }
 
-        </FilterOptions>
-      ) : <></>
+      { 
+        searchToggle ? (
+          <SpotsWrapper>
+            {
+              searchedItems.length === 0 ?
+                <NothingSearched>
+                  <img src={nothingIcon} style={{marginBottom: '10px'}}/>
+                  해당하는 장소가 없습니다!
+                </NothingSearched> :
+                searchedItems.map((itemdata, index) => (
+                  <ItemCard
+                    key={index}
+                    ImageURL={itemdata.ImageURL}
+                    StoreName={itemdata.StoreName}
+                    StoreType={itemdata.StoreType}
+                    OpeningHours={itemdata.OpeningHours}
+                    Address={itemdata.Address}
+                    />
+                ))
+            }
+          </SpotsWrapper>
+        ) : <></>
       }
 
       <RecommendTitle>이런 장소는 어떠세요?</RecommendTitle>
-      <RecommendSpots>
+      <SpotsWrapper>
         {Item &&
           Item.map((itemdata, index) => (
             <ItemCard
@@ -116,7 +140,7 @@ export default function SpotList(props) {
               Address={itemdata.Address}
               />
           ))}
-      </RecommendSpots>
+      </SpotsWrapper>
 
     </SpotListSection>
   );
