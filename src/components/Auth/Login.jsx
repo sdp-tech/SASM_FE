@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import CheckLogin from "../../functions/Auth/CheckLogin";
+import TryLogin from "../../functions/Auth/TryLogin";
 import {
   AuthContent,
   InputWithLabel,
@@ -62,7 +62,11 @@ const Login = () => {
       <RightAlignedLink to="/auth/find">아이디/비밀번호 찾기</RightAlignedLink>
       <RightAlignedLink to="/auth/register">회원가입 하기</RightAlignedLink>
 
-      <AuthButton onClick={() => CheckLogin(info)}>Log in</AuthButton>
+      <AuthButton 
+        onClick={ async () => {
+            const res = await TryLogin(info)
+            console.log("외부", res)
+          }}>Log in</AuthButton>
       <SocialLogin />
     </AuthContent>
   );
