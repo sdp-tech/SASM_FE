@@ -99,7 +99,7 @@ const FindIDnPW = () => {
                 <EmailExist id={id} />
               ) : (
                 //이메일 존재하지 않을 경우
-                <EmailNotExist id={id} />
+                <EmailNotExist id={id} handleAnotherEmail={()=>setPage(0)}/>
               )}
             </TabPanel>
             <TabPanel value={value} index={1}>

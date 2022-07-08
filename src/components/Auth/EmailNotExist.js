@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const EmailNotExist = (id) => {
+const EmailNotExist = ({id, handleAnotherEmail}) => {
   const urlHash = {
     SASM: "",
     MAP: "map",
@@ -31,9 +31,11 @@ const EmailNotExist = (id) => {
     "LOG IN": "auth",
     JOIN: "auth/register",
   };
+
   const handlePageRedirection = (title) => {
     window.location.href = "/" + urlHash[title];
   };
+
   return (
     <>
       <Wrapper>
@@ -44,7 +46,7 @@ const EmailNotExist = (id) => {
             margin: "auto",
           }}
         >
-          {id.id.email}
+          {id.email}
         </div>
         <br />
         <div>는 SASM에 등록되지 않은 이메일입니다.</div>
@@ -84,7 +86,7 @@ const EmailNotExist = (id) => {
           width: "100%",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => handlePageRedirection("LOG IN")}
+        onClick={handleAnotherEmail}
       >
         다른 이메일로 확인
       </AuthButton>
