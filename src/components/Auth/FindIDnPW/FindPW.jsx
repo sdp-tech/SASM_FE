@@ -1,5 +1,13 @@
-import React from "react";
-import { AuthButton } from "./module";
+import { color } from "@mui/system";
+import React, { useState } from "react";
+import FindPw from "../../../functions/Auth/FindPw";
+import {
+  AuthContent,
+  InputWithLabel,
+  AuthButton,
+  RightAlignedLink,
+} from "../module";
+
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -22,34 +30,27 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const EmailExist = (id) => {
-  const urlHash = {
-    SASM: "",
-    MAP: "map",
-    STORY: "story",
-    "MY PICK": "mypage",
-    "LOG IN": "auth",
-    JOIN: "auth/register",
-  };
-  const handlePageRedirection = (title) => {
-    window.location.href = "/" + urlHash[title];
-  };
+const FindPW = () => {
+  const [pw, setPw] = useState({});
+
   return (
     <>
       <Wrapper>
-        <div
-          style={{
-            height: "30px",
-            fontWeight: "600",
-            margin: "auto",
-          }}
-        >
-          {id.id.email}
-        </div>
-        <br />
-        <div>회원으로 등록된 이메일 아이디입니다.</div>
-        <div>해당 이메일로 로그인하고 SASM을 이용하세요.</div>
+        <div>가입하셨던 이메일 계정을 입력하시면,</div>
+        <div>비밀번호를 새로 만들 수 있는 링크를</div>
+        <div>이메일로 발송해드립니다.</div>
       </Wrapper>
+
+      <InputWithLabel
+        onChange={(event) => {
+          setPw({
+            ...pw,
+            email: event.target.value,
+          });
+        }}
+        name="email"
+        placeholder="Email"
+      />
 
       <AuthButton
         style={{
@@ -68,12 +69,14 @@ const EmailExist = (id) => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => handlePageRedirection("LOG IN")}
+        onClick={() => FindPw(pw)}
       >
-        로그인
+        확인
       </AuthButton>
+
+      {/* <Button variant="contained">Contained</Button> */}
     </>
   );
 };
 
-export default EmailExist;
+export default FindPW;

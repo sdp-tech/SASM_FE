@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -6,8 +6,12 @@ import Navibar from "../components/common/Navibar";
 import SpotList from "../components/SpotMap/SpotList";
 import Map from "../components/SpotMap/Map";
 import SpotDetail from "../components/SpotMap/SpotDetail";
+import { LoginContext } from "../contexts/LoginContexts";
 
 export default function SpotMap() {
+  const [login, setLogin] = useContext(LoginContext)
+  console.log(login)
+
   const [state, setState] = useState({
     loading: false,
     ItemList: []

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { LoginContext } from "../../contexts/LoginContexts";
 
-import CheckLogin from "../../functions/Auth/CheckLogin";
+import TryLogin from "../../functions/Auth/TryLogin";
 import {
   AuthContent,
   InputWithLabel,
@@ -20,7 +21,8 @@ const Message = styled.div`
 
 const Login = () => {
   const [info, setInfo] = useState({email: ''});
-  
+  const [login, setLogin] = useContext(LoginContext)
+
   // 이메일 체크
   var flag = false
   for(const format of emailFormat){
@@ -62,7 +64,19 @@ const Login = () => {
       <RightAlignedLink to="/auth/find">아이디/비밀번호 찾기</RightAlignedLink>
       <RightAlignedLink to="/auth/register">회원가입 하기</RightAlignedLink>
 
-      <AuthButton onClick={() => CheckLogin(info)}>Log in</AuthButton>
+      <AuthButton 
+        onClick={ async () => {
+          const res = await TryLogin(info)
+          console.log("외부", res)
+          
+          if("success" in res){
+            setLogin({...login, loggedIn: true, token: res.token})
+            console.log("외부", login)
+
+            // window.location.href = "/map";
+          }
+
+        }}>Log in</AuthButton>
       <SocialLogin />
     </AuthContent>
   );
