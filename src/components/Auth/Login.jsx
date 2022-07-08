@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { LoginContext } from "../../contexts/LoginContexts";
 
 import TryLogin from "../../functions/Auth/TryLogin";
 import {
@@ -20,7 +21,8 @@ const Message = styled.div`
 
 const Login = () => {
   const [info, setInfo] = useState({email: ''});
-  
+  const [login, setLogin] = useContext(LoginContext)
+
   // 이메일 체크
   var flag = false
   for(const format of emailFormat){
@@ -64,9 +66,17 @@ const Login = () => {
 
       <AuthButton 
         onClick={ async () => {
-            const res = await TryLogin(info)
-            console.log("외부", res)
-          }}>Log in</AuthButton>
+          const res = await TryLogin(info)
+          console.log("외부", res)
+          
+          if("success" in res){
+            setLogin({...login, loggedIn: true, token: res.token})
+            console.log("외부", login)
+
+            // window.location.href = "/map";
+          }
+
+        }}>Log in</AuthButton>
       <SocialLogin />
     </AuthContent>
   );
