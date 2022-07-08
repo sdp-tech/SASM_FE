@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthButton } from "./module";
+import { AuthButton } from "../module";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

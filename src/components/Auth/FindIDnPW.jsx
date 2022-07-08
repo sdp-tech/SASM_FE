@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import FindID from "./FindID";
-import FindPW from "./FindPW";
-import EmailExist from "./EmailExist";
-import EmailNotExist from "./EmailNotExist";
+
+import FindID from "./FindIDnPW/FindID";
+import FindPW from "./FindIDnPW/FindPW";
+import EmailExist from "./FindIDnPW/EmailExist";
+import EmailNotExist from "./FindIDnPW/EmailNotExist";
 import FindId from "../../functions/Auth/FindId";
 
 function TabPanel(props) {

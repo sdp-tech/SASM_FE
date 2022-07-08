@@ -1,13 +1,5 @@
-import { color } from "@mui/system";
-import React, { useState } from "react";
-import FindPw from "../../functions/Auth/FindPw";
-import {
-  AuthContent,
-  InputWithLabel,
-  AuthButton,
-  RightAlignedLink,
-} from "./module";
-
+import React from "react";
+import { InputWithLabel, AuthButton } from "../module";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -30,27 +22,16 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const FindPW = () => {
-  const [pw, setPw] = useState({});
-
+const FindID = ({ Try, handleId }) => {
   return (
     <>
       <Wrapper>
-        <div>가입하셨던 이메일 계정을 입력하시면,</div>
-        <div>비밀번호를 새로 만들 수 있는 링크를</div>
-        <div>이메일로 발송해드립니다.</div>
+        <div>SASM은 이메일을 아이디로 사용합니다.</div>
+        <div>소유하신 이메일을 입력하시면,</div>
+        <div>가입여부를 알려드립니다.</div>
       </Wrapper>
 
-      <InputWithLabel
-        onChange={(event) => {
-          setPw({
-            ...pw,
-            email: event.target.value,
-          });
-        }}
-        name="email"
-        placeholder="Email"
-      />
+      <InputWithLabel onChange={handleId} name="email" placeholder="Email" />
 
       <AuthButton
         style={{
@@ -69,14 +50,12 @@ const FindPW = () => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => FindPw(pw)}
+        onClick={Try}
       >
         확인
       </AuthButton>
-
-      {/* <Button variant="contained">Contained</Button> */}
     </>
   );
 };
 
-export default FindPW;
+export default FindID;
