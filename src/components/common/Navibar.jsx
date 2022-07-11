@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { useNavigate} from "react-router";
 
 import logo from '../../assets/img/sasm_logo.svg';
 import { LoginContext } from '../../contexts/LoginContexts';
+import PageRedirection from '../../functions/common/PageRedirection';
 
 const NavibarSection = styled.div`
   position: relative;
@@ -56,27 +58,27 @@ const AuthBox = styled.div`
   // justify-content: space-between;
 `
 
-
-// 페이지 이동을 위한 정보와 기능
-const urlHash = {
-  'SASM': '',
-  'MAP': 'map',
-  'STORY': 'story',
-  'MY PICK': 'mypage',
-  'LOG IN': 'auth',
-  'JOIN': 'auth/register'
-}
-const handlePageRedirection = (title) => {
-  window.location.href = '/' + urlHash[title];
-}
-
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
-const PageTitle = ({title}) => {
+const PageTitle = ({navigate, title}) => {
+
   return (
     <div style={{fontSize: '150%'}}
-      onClick={()=>handlePageRedirection(title)}
+      onClick={()=>PageRedirection(navigate, title.includes('님')? 'MY PICK' : title)}
     >
       {title}
+    </div>
+  )
+}
+
+const LoggingOut = ({login, setLogin}) => {
+
+  return (
+    <div style={{fontSize: '150%'}}
+      onClick={()=> setLogin({
+        loggedIn: false
+      })}
+    >
+      LOG OUT
     </div>
   )
 }
@@ -84,20 +86,21 @@ const PageTitle = ({title}) => {
 export default function Navibar() {
 
   const [login, setLogin] = useContext(LoginContext)
+  const navigate = useNavigate();
 
   return (
     <NavibarSection>
       <Bar>
         {/* 로고 */}
         <LogoBox>
-          <Logo src={logo} onClick={()=>handlePageRedirection('SASM')}></Logo>
+          <Logo src={logo} onClick={()=>PageRedirection(navigate, 'SASM')}></Logo>
         </LogoBox>
 
         {/* 메뉴 */}
         <PagesBox>
-          <PageTitle title='MAP'></PageTitle>
-          <PageTitle title='STORY'></PageTitle>
-          <PageTitle title='MY PICK'></PageTitle>
+          <PageTitle navigate={navigate} title='MAP'></PageTitle>
+          <PageTitle navigate={navigate} title='STORY'></PageTitle>
+          <PageTitle navigate={navigate} title='MY PICK'></PageTitle>
         </PagesBox>
         
         
@@ -106,15 +109,15 @@ export default function Navibar() {
           {
             !login.loggedIn ? 
               <>
-                <PageTitle title='LOG IN'></PageTitle>
+                <PageTitle navigate={navigate} title='LOG IN'></PageTitle>
                 <div style={{padding: '5%'}}>|</div>
-                <PageTitle title='JOIN'></PageTitle>
+                <PageTitle navigate={navigate} title='JOIN'></PageTitle>
               </>
             :
               <>
-                <PageTitle title="SDP님"></PageTitle>
+                <PageTitle navigate={navigate} title="SDP님"></PageTitle>
                 <div style={{padding: '5%'}}>|</div>
-                <PageTitle title='LOG OUT'></PageTitle>
+                <LoggingOut login={login} setLogin={setLogin}/>
               </>
           }
         </AuthBox>

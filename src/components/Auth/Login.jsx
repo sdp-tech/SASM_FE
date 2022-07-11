@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { LoginContext } from "../../contexts/LoginContexts";
+import { useNavigate} from "react-router";
+
 
 import TryLogin from "../../functions/Auth/TryLogin";
 import {
@@ -22,6 +24,8 @@ const Message = styled.div`
 const Login = () => {
   const [info, setInfo] = useState({email: ''});
   const [login, setLogin] = useContext(LoginContext)
+
+  const navigate = useNavigate();
 
   // 이메일 체크
   var flag = false
@@ -72,7 +76,8 @@ const Login = () => {
           if("success" in res){
             setLogin({...login, loggedIn: true, token: res.token})
             console.log("외부", login)
-
+             
+            navigate('/map')
             // window.location.href = "/map";
           }
 

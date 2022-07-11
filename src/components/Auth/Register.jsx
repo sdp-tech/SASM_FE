@@ -161,17 +161,7 @@ const Register = () => {
                         })}}
                 />
             </InputAndButton>
-            
-            <InputAndButton>
-                <InputWithLabel 
-                    onChange={(event)=>{
-                        setInfo({
-                            ...info,
-                            location: event.target.value
-                        })}}
-                        label="거주지역 (선택)" name="location" placeholder="ex) 서울시 마포구 창천동"
-                        />
-            </InputAndButton>
+        
 
             <AuthButton 
                 style={{

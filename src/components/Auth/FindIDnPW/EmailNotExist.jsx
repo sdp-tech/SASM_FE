@@ -1,6 +1,9 @@
 import React from "react";
 import { AuthButton } from "../module";
+import { useNavigate } from 'react-router-dom'
+
 import styled from "styled-components";
+import PageRedirection from "../../../functions/common/PageRedirection";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,18 +26,7 @@ const Wrapper = styled.div`
 `;
 
 const EmailNotExist = ({id, handleAnotherEmail}) => {
-  const urlHash = {
-    SASM: "",
-    MAP: "map",
-    STORY: "story",
-    "MY PICK": "mypage",
-    "LOG IN": "auth",
-    JOIN: "auth/register",
-  };
-
-  const handlePageRedirection = (title) => {
-    window.location.href = "/" + urlHash[title];
-  };
+  const navigate = useNavigate() 
 
   return (
     <>
@@ -70,7 +62,7 @@ const EmailNotExist = ({id, handleAnotherEmail}) => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => handlePageRedirection("JOIN")}
+        onClick={() => PageRedirection(navigate, "JOIN")}
       >
         회원가입하기
       </AuthButton>

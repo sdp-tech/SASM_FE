@@ -1,6 +1,8 @@
 import React from "react";
 import { AuthButton } from "../module";
+import { useNavigate } from 'react-router-dom'
 import styled from "styled-components";
+import PageRedirection from "../../../functions/common/PageRedirection";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -23,17 +25,9 @@ const Wrapper = styled.div`
 `;
 
 const EmailExist = (id) => {
-  const urlHash = {
-    SASM: "",
-    MAP: "map",
-    STORY: "story",
-    "MY PICK": "mypage",
-    "LOG IN": "auth",
-    JOIN: "auth/register",
-  };
-  const handlePageRedirection = (title) => {
-    window.location.href = "/" + urlHash[title];
-  };
+
+  const navigate = useNavigate() 
+
   return (
     <>
       <Wrapper>
@@ -68,7 +62,7 @@ const EmailExist = (id) => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => handlePageRedirection("LOG IN")}
+        onClick={() => PageRedirection(navigate, "LOG IN")}
       >
         로그인
       </AuthButton>
