@@ -28,7 +28,6 @@ const Wrapper = styled.div`
 const EmailNotExist = ({id, handleAnotherEmail}) => {
   const navigate = useNavigate() 
 
-
   return (
     <>
       <Wrapper>

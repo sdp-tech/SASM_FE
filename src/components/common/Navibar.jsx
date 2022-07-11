@@ -70,6 +70,19 @@ const PageTitle = ({navigate, title}) => {
   )
 }
 
+const LoggingOut = ({login, setLogin}) => {
+
+  return (
+    <div style={{fontSize: '150%'}}
+      onClick={()=> setLogin({
+        loggedIn: false
+      })}
+    >
+      LOG OUT
+    </div>
+  )
+}
+
 export default function Navibar() {
 
   const [login, setLogin] = useContext(LoginContext)
@@ -104,7 +117,7 @@ export default function Navibar() {
               <>
                 <PageTitle title="SDP님"></PageTitle>
                 <div style={{padding: '5%'}}>|</div>
-                <PageTitle title='LOG OUT'></PageTitle>
+                <LoggingOut login={login} setLogin={setLogin}/>
               </>
           }
         </AuthBox>
