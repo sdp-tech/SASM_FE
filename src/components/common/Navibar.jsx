@@ -63,7 +63,7 @@ const PageTitle = ({navigate, title}) => {
 
   return (
     <div style={{fontSize: '150%'}}
-      onClick={()=>PageRedirection(navigate, title)}
+      onClick={()=>PageRedirection(navigate, title.includes('님')? 'MY PICK' : title)}
     >
       {title}
     </div>
@@ -115,7 +115,7 @@ export default function Navibar() {
               </>
             :
               <>
-                <PageTitle title="SDP님"></PageTitle>
+                <PageTitle navigate={navigate} title="SDP님"></PageTitle>
                 <div style={{padding: '5%'}}>|</div>
                 <LoggingOut login={login} setLogin={setLogin}/>
               </>
