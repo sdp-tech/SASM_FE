@@ -58,28 +58,12 @@ const AuthBox = styled.div`
   // justify-content: space-between;
 `
 
-
-// 페이지 이동을 위한 정보와 기능
-
-const handlePageRedirection = (title) => {
-  // window.location.href = '/' + urlHash[title];
-}
-
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({navigate, title}) => {
 
-  const urlHash = {
-    'SASM': '',
-    'MAP': 'map',
-    'STORY': 'story',
-    'MY PICK': 'mypage',
-    'LOG IN': 'auth',
-    'JOIN': 'auth/register'
-  }
-
   return (
     <div style={{fontSize: '150%'}}
-      onClick={()=>navigate('/'+urlHash[title])}
+      onClick={()=>PageRedirection(navigate, title)}
     >
       {title}
     </div>
@@ -103,7 +87,7 @@ export default function Navibar() {
         <PagesBox>
           <PageTitle navigate={navigate} title='MAP'></PageTitle>
           <PageTitle navigate={navigate} title='STORY'></PageTitle>
-          <PageTitle title='MY PICK'></PageTitle>
+          <PageTitle navigate={navigate} title='MY PICK'></PageTitle>
         </PagesBox>
         
         
@@ -112,9 +96,9 @@ export default function Navibar() {
           {
             !login.loggedIn ? 
               <>
-                <PageTitle title='LOG IN'></PageTitle>
+                <PageTitle navigate={navigate} title='LOG IN'></PageTitle>
                 <div style={{padding: '5%'}}>|</div>
-                <PageTitle title='JOIN'></PageTitle>
+                <PageTitle navigate={navigate} title='JOIN'></PageTitle>
               </>
             :
               <>
