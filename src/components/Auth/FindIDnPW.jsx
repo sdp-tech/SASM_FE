@@ -116,6 +116,7 @@ const FindIDnPW = () => {
                 <Route path="/" element={<FindID TryFindEmail={TryFindEmail} handleId={handleId} />}/>
                 <Route path="/IdExist" element={<EmailExist id={id} />}/>
                 <Route path="/IdNotExist" element={<EmailNotExist id={id} />}/>
+                <Route path='/*' element={<div>Nothing</div>} />
               </Routes>
             </TabPanel>
 
@@ -124,6 +125,7 @@ const FindIDnPW = () => {
                 <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId}/>}/>
                 <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />}/>
                 <Route path="/SetNewPassword" element={<SetNewPassword setValue={setValue}/>}/>
+                <Route path='/*' element={<div>Nothing</div>} />
               </Routes>
             </TabPanel>
           </Box>

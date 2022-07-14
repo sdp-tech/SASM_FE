@@ -23,6 +23,7 @@ const Message = styled.div`
 
 const Login = () => {
   const [info, setInfo] = useState({email: ''});
+  const [fail, setFail] = useState(false)
   const [login, setLogin] = useContext(LoginContext)
 
   const navigate = useNavigate();
@@ -65,6 +66,10 @@ const Login = () => {
         type="password"
       />
 
+      <Message>
+        {!fail ? '' : 'SASM에 등록되지 않은 아이디거나, 아이디 또는 비밀번호가 회원정보와 일치하지 않습니다.'}
+      </Message>
+
       <RightAlignedLink to="/auth/find">아이디/비밀번호 찾기</RightAlignedLink>
       <RightAlignedLink to="/auth/register">회원가입 하기</RightAlignedLink>
 
@@ -80,6 +85,10 @@ const Login = () => {
             navigate('/map')
             // window.location.href = "/map";
           }
+          else{
+            setFail(true)
+          }
+          
 
         }}>Log in</AuthButton>
       <SocialLogin />
