@@ -97,14 +97,16 @@ const FindIDnPW = () => {
           >
             <TabPanel value={value} index={0}>
               <Routes>
-                <Route path="/" element={<FindID Try={Try} handleId={handleId} />}></Route>
-                <Route path="/IdExist" element={<EmailExist id={id} />}></Route>
-                <Route path="/IdNotExist" element={<EmailNotExist id={id} />}></Route>
+                <Route path="/" element={<FindID Try={Try} handleId={handleId} />}/>
+                <Route path="/IdExist" element={<EmailExist id={id} />}/>
+                <Route path="/IdNotExist" element={<EmailNotExist id={id} />}/>
               </Routes>
             </TabPanel>
 
             <TabPanel value={value} index={1}>
-              <FindPW />
+              <Routes>
+                <Route path="/" element={<FindPW />}/>
+              </Routes>
             </TabPanel>
           </Box>
         </>

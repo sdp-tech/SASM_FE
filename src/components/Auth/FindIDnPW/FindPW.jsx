@@ -32,7 +32,7 @@ const Wrapper = styled.div`
 
 const FindPW = () => {
   const [pw, setPw] = useState({});
-
+  const [pressed, setPressed] = useState(false)
   return (
     <>
       <Wrapper>
@@ -69,12 +69,14 @@ const FindPW = () => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={() => FindPw(pw)}
+        onClick={() => {
+          FindPw(pw)
+          setPressed(true)
+        }}
       >
-        확인
+        {pressed? '링크 재발송하기': '링크 발송하기'}
       </AuthButton>
 
-      {/* <Button variant="contained">Contained</Button> */}
     </>
   );
 };
