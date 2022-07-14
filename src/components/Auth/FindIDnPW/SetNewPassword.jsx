@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthButton, InputWithLabel } from "../module";
 import { useNavigate } from 'react-router-dom'
 import styled from "styled-components";
@@ -38,7 +38,7 @@ const Message = styled.div`
   color: #DB524E;
 `
 
-const SetNewPassword = (id) => {
+const SetNewPassword = () => {
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const navigate = useNavigate() 
@@ -75,6 +75,7 @@ const SetNewPassword = (id) => {
                 <InputWithLabel 
                   onChange={(event)=>{setPasswordConfirm(event.target.value)}}
                   label="새로운 비밀번호 확인" name="passwordConfirm" type="password"
+                  style={passwordCheck?{} : {backgroundColor: '#F9E3E3'}}
                 />
       </InputAndButton>
       <Message>

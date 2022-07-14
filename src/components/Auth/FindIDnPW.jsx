@@ -49,13 +49,13 @@ function a11yProps(index) {
 
 const FindIDnPW = () => {
   const [id, setId] = React.useState({});
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(window.location.href.includes('SetNewPassword') ? 1 : 0);
 
   const navigate = useNavigate() 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    navigate('./')
+    // navigate('./')
   };
 
   const handleId = (event) => {
@@ -123,7 +123,7 @@ const FindIDnPW = () => {
               <Routes>
                 <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId}/>}/>
                 <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />}/>
-                <Route path="/SetNewPassword" element={<SetNewPassword id={id} />}/>
+                <Route path="/SetNewPassword" element={<SetNewPassword setValue={setValue}/>}/>
               </Routes>
             </TabPanel>
           </Box>
