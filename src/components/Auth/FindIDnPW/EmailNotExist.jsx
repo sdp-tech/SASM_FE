@@ -78,7 +78,7 @@ const EmailNotExist = ({id, handleAnotherEmail}) => {
           width: "100%",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={handleAnotherEmail}
+        onClick={() => navigate('../')}
       >
         다른 이메일로 확인
       </AuthButton>

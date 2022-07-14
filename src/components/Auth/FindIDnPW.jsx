@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -45,8 +47,9 @@ function a11yProps(index) {
 
 const FindIDnPW = () => {
   const [id, setId] = React.useState({});
-  const [page, setPage] = React.useState(0);
   const [value, setValue] = React.useState(0);
+
+  const navigate = useNavigate() 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -60,11 +63,11 @@ const FindIDnPW = () => {
 
   const Try = async () => {
     const res = await FindId(id);
-    console.log(res);
+
     if (res[0] === "존재하는 이메일입니다") {
-      setPage(1);
+      navigate('./IdExist')
     } else if (res[0] === "존재하지 않는 이메일입니다") {
-      setPage(2);
+      navigate('./IdNotExist')
     }
   };
 
@@ -93,16 +96,13 @@ const FindIDnPW = () => {
             }}
           >
             <TabPanel value={value} index={0}>
-              {page === 0 ? (
-                <FindID Try={Try} handleId={handleId} />
-              ) : page === 1 ? (
-                //이메일 존재할 경우
-                <EmailExist id={id} />
-              ) : (
-                //이메일 존재하지 않을 경우
-                <EmailNotExist id={id} handleAnotherEmail={()=>setPage(0)}/>
-              )}
+              <Routes>
+                <Route path="/" element={<FindID Try={Try} handleId={handleId} />}></Route>
+                <Route path="/IdExist" element={<EmailExist id={id} />}></Route>
+                <Route path="/IdNotExist" element={<EmailNotExist id={id} />}></Route>
+              </Routes>
             </TabPanel>
+
             <TabPanel value={value} index={1}>
               <FindPW />
             </TabPanel>
