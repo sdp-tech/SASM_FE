@@ -76,7 +76,6 @@ const FindPW = () => {
       >
         {pressed? '링크 재발송하기': '링크 발송하기'}
       </AuthButton>
-
     </>
   );
 };
