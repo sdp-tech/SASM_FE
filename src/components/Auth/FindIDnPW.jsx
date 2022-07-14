@@ -12,6 +12,7 @@ import EmailExist from "./FindIDnPW/EmailExist";
 import EmailNotExist from "./FindIDnPW/EmailNotExist";
 import FindId from "../../functions/Auth/FindId";
 import FindPw from "../../functions/Auth/FindPw";
+import SetNewPassword from "./FindIDnPW/SetNewPassword";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,7 +55,7 @@ const FindIDnPW = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    navigate('/auth/find')
+    navigate('./')
   };
 
   const handleId = (event) => {
@@ -81,13 +82,14 @@ const FindIDnPW = () => {
 
     if(res[0] === '존재하지 않는 이메일입니다')
       navigate('./IdNotExistonPw')
-    else
+    else{
       FindPw(id)
+      navigate('./SetNewPassword')
+    }
   }
 
   return (
     <>
-      {/* <AuthContent title="아이디/비밀번호 찾기"> */}
       <Box sx={{ width: "100%" }}>
         <Box>
           <Tabs
@@ -121,13 +123,12 @@ const FindIDnPW = () => {
               <Routes>
                 <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId}/>}/>
                 <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />}/>
-
+                <Route path="/SetNewPassword" element={<SetNewPassword id={id} />}/>
               </Routes>
             </TabPanel>
           </Box>
         </>
       </Box>
-      {/* </AuthContent> */}
     </>
   );
 };
