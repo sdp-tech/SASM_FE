@@ -8,11 +8,7 @@ export default async function FindId(id) {
       email: id.email,
     })
     .then(function (res) {
-      if (res.data === "존재하는 이메일입니다") {
-        console.log("exist");
-      }
       return [res.data, id];
-      // window.location.href = "/map";
     })
     .catch(function (error) {
       console.log(error);

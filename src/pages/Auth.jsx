@@ -15,9 +15,8 @@ export default function Auth() {
       <AuthWrapper>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/*" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/find" element={<FindIDnPW />} />
+          <Route path="/find/*" element={<FindIDnPW />} />
         </Routes>
       </AuthWrapper>
     </Sections>

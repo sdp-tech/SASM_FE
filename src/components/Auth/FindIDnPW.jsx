@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -9,6 +11,8 @@ import FindPW from "./FindIDnPW/FindPW";
 import EmailExist from "./FindIDnPW/EmailExist";
 import EmailNotExist from "./FindIDnPW/EmailNotExist";
 import FindId from "../../functions/Auth/FindId";
+import FindPw from "../../functions/Auth/FindPw";
+import SetNewPassword from "./FindIDnPW/SetNewPassword";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,12 +49,15 @@ function a11yProps(index) {
 
 const FindIDnPW = () => {
   const [id, setId] = React.useState({});
-  const [page, setPage] = React.useState(0);
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(window.location.href.includes('SetNewPassword') ? 1 : 0);
+
+  const navigate = useNavigate() 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    // navigate('./')
   };
+
   const handleId = (event) => {
     setId({
       ...id,
@@ -58,19 +65,31 @@ const FindIDnPW = () => {
     });
   };
 
-  const Try = async () => {
+  const TryFindEmail = async () => {
     const res = await FindId(id);
-    console.log(res);
+
     if (res[0] === "존재하는 이메일입니다") {
-      setPage(1);
+      navigate('./IdExist')
     } else if (res[0] === "존재하지 않는 이메일입니다") {
-      setPage(2);
+      navigate('./IdNotExist')
     }
   };
 
+
+  const TryFindPassword = async () => {
+    const res = await FindId(id)
+    console.log(res)
+
+    if(res[0] === '존재하지 않는 이메일입니다')
+      navigate('./IdNotExistonPw')
+    else{
+      FindPw(id)
+      navigate('./SetNewPassword')
+    }
+  }
+
   return (
     <>
-      {/* <AuthContent title="아이디/비밀번호 찾기"> */}
       <Box sx={{ width: "100%" }}>
         <Box>
           <Tabs
@@ -93,23 +112,23 @@ const FindIDnPW = () => {
             }}
           >
             <TabPanel value={value} index={0}>
-              {page === 0 ? (
-                <FindID Try={Try} handleId={handleId} />
-              ) : page === 1 ? (
-                //이메일 존재할 경우
-                <EmailExist id={id} />
-              ) : (
-                //이메일 존재하지 않을 경우
-                <EmailNotExist id={id} handleAnotherEmail={()=>setPage(0)}/>
-              )}
+              <Routes>
+                <Route path="/" element={<FindID TryFindEmail={TryFindEmail} handleId={handleId} />}/>
+                <Route path="/IdExist" element={<EmailExist id={id} />}/>
+                <Route path="/IdNotExist" element={<EmailNotExist id={id} />}/>
+              </Routes>
             </TabPanel>
+
             <TabPanel value={value} index={1}>
-              <FindPW />
+              <Routes>
+                <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId}/>}/>
+                <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />}/>
+                <Route path="/SetNewPassword" element={<SetNewPassword setValue={setValue}/>}/>
+              </Routes>
             </TabPanel>
           </Box>
         </>
       </Box>
-      {/* </AuthContent> */}
     </>
   );
 };
