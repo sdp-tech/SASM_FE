@@ -11,6 +11,7 @@ import FindPW from "./FindIDnPW/FindPW";
 import EmailExist from "./FindIDnPW/EmailExist";
 import EmailNotExist from "./FindIDnPW/EmailNotExist";
 import FindId from "../../functions/Auth/FindId";
+import FindPw from "../../functions/Auth/FindPw";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,7 +54,9 @@ const FindIDnPW = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    navigate('/auth/find')
   };
+
   const handleId = (event) => {
     setId({
       ...id,
@@ -61,7 +64,7 @@ const FindIDnPW = () => {
     });
   };
 
-  const Try = async () => {
+  const TryFindEmail = async () => {
     const res = await FindId(id);
 
     if (res[0] === "존재하는 이메일입니다") {
@@ -70,6 +73,17 @@ const FindIDnPW = () => {
       navigate('./IdNotExist')
     }
   };
+
+
+  const TryFindPassword = async () => {
+    const res = await FindId(id)
+    console.log(res)
+
+    if(res[0] === '존재하지 않는 이메일입니다')
+      navigate('./IdNotExistonPw')
+    else
+      FindPw(id)
+  }
 
   return (
     <>
@@ -97,7 +111,7 @@ const FindIDnPW = () => {
           >
             <TabPanel value={value} index={0}>
               <Routes>
-                <Route path="/" element={<FindID Try={Try} handleId={handleId} />}/>
+                <Route path="/" element={<FindID TryFindEmail={TryFindEmail} handleId={handleId} />}/>
                 <Route path="/IdExist" element={<EmailExist id={id} />}/>
                 <Route path="/IdNotExist" element={<EmailNotExist id={id} />}/>
               </Routes>
@@ -105,7 +119,9 @@ const FindIDnPW = () => {
 
             <TabPanel value={value} index={1}>
               <Routes>
-                <Route path="/" element={<FindPW />}/>
+                <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId}/>}/>
+                <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />}/>
+
               </Routes>
             </TabPanel>
           </Box>

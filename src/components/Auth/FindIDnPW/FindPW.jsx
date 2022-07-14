@@ -1,5 +1,6 @@
 import { color } from "@mui/system";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FindPw from "../../../functions/Auth/FindPw";
 import {
   AuthContent,
@@ -9,6 +10,8 @@ import {
 } from "../module";
 
 import styled from "styled-components";
+import FindId from "../../../functions/Auth/FindId";
+import { Navigate } from "react-router-dom";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -30,9 +33,12 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const FindPW = () => {
+const FindPW = ({TryFindPassword, handleId}) => {
   const [pw, setPw] = useState({});
   const [pressed, setPressed] = useState(false)
+
+  const navigate = useNavigate()
+
   return (
     <>
       <Wrapper>
@@ -41,16 +47,7 @@ const FindPW = () => {
         <div>이메일로 발송해드립니다.</div>
       </Wrapper>
 
-      <InputWithLabel
-        onChange={(event) => {
-          setPw({
-            ...pw,
-            email: event.target.value,
-          });
-        }}
-        name="email"
-        placeholder="Email"
-      />
+      <InputWithLabel onChange={handleId} name="email" placeholder="Email"/>
 
       <AuthButton
         style={{
@@ -70,8 +67,8 @@ const FindPW = () => {
           transform: "translate(-1.5%, 50%)",
         }}
         onClick={() => {
-          FindPw(pw)
           setPressed(true)
+          TryFindPassword()
         }}
       >
         {pressed? '링크 재발송하기': '링크 발송하기'}

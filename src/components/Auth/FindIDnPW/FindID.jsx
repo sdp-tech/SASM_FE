@@ -22,7 +22,7 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const FindID = ({ Try, handleId }) => {
+const FindID = ({ TryFindEmail, handleId }) => {
   return (
     <>
       <Wrapper>
@@ -50,7 +50,7 @@ const FindID = ({ Try, handleId }) => {
           borderRadius: "4px",
           transform: "translate(-1.5%, 50%)",
         }}
-        onClick={Try}
+        onClick={TryFindEmail}
       >
         확인
       </AuthButton>
