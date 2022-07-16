@@ -115,7 +115,7 @@ export default function Navibar() {
               </>
             :
               <>
-                <PageTitle navigate={navigate} title="SDP님"></PageTitle>
+                <PageTitle navigate={navigate} title={`${login.nickname}님`}></PageTitle>
                 <div style={{padding: '5%'}}>|</div>
                 <LoggingOut login={login} setLogin={setLogin}/>
               </>
