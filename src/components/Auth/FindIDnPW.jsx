@@ -55,7 +55,7 @@ const FindIDnPW = () => {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    // navigate('./')
+    navigate('./')
   };
 
   const handleId = (event) => {
