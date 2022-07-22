@@ -77,13 +77,16 @@ const PageTitle = ({ navigate, title }) => {
 
 const LoggingOut = ({ login, setLogin }) => {
   return (
-    <div
-      style={{ fontSize: "150%" }}
-      onClick={() =>
-        setLogin({
-          loggedIn: false,
-        })
-      }
+
+
+
+    <div style={{fontSize: '150%'}}
+      onClick={()=> {
+        setLogin({loggedIn: false})
+        alert('로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요')
+      }  
+    }
+
     >
       LOG OUT
     </div>
@@ -114,19 +117,22 @@ export default function Navibar() {
 
         {/* 로그인 및 회원가입 */}
         <AuthBox>
-          {!login.loggedIn ? (
-            <>
-              <PageTitle navigate={navigate} title="LOG IN"></PageTitle>
-              <div style={{ padding: "5%" }}>|</div>
-              <PageTitle navigate={navigate} title="JOIN"></PageTitle>
-            </>
-          ) : (
-            <>
-              <PageTitle navigate={navigate} title="SDP님"></PageTitle>
-              <div style={{ padding: "5%" }}>|</div>
-              <LoggingOut login={login} setLogin={setLogin} />
-            </>
-          )}
+
+          {
+            !login.loggedIn ? 
+              <>
+                <PageTitle navigate={navigate} title='LOG IN'></PageTitle>
+                <div style={{padding: '5%'}}>|</div>
+                <PageTitle navigate={navigate} title='JOIN'></PageTitle>
+              </>
+            :
+              <>
+                <PageTitle navigate={navigate} title={`${login.nickname}님`}></PageTitle>
+                <div style={{padding: '5%'}}>|</div>
+                <LoggingOut login={login} setLogin={setLogin}/>
+              </>
+          }
+
         </AuthBox>
       </Bar>
     </NavibarSection>

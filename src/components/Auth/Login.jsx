@@ -79,7 +79,7 @@ const Login = () => {
           console.log("외부", res)
           
           if("success" in res){
-            setLogin({...login, loggedIn: true, token: res.token})
+            setLogin({...login, loggedIn: true, token: res.token, nickname: res.nickname})
             console.log("외부", login)
              
             navigate('/map')
