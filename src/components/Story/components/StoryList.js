@@ -20,11 +20,11 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4];
+const cards = [1];
 
 const theme = createTheme();
 
-const StoryList = () => {
+const StoryList = (props) => {
   const viewPage = () => {
     window.location.href = "/detail"; //replace는 뒤로가기 불가능, href는 가능
   };
@@ -36,13 +36,15 @@ const StoryList = () => {
         {/* <Container sx={{ py: 10, backgroundColor: "red" }} maxWidth="lg"> */}
         <Container
           sx={{
+            backgroundColor: "red",
             display: "flex",
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
+            //             row-gap(grid-row-gap)	행과 행 사이의 간격(Line)을 정의
+            // column-gap(grid-column-gap)
           }}
           maxWidth="800px"
-          fixed="true"
         >
           <Grid container spacing={4}>
             {cards.map((card) => (
@@ -59,6 +61,8 @@ const StoryList = () => {
                     flexDirection: "row",
                     // justifyContent: "center",
                     alignItems: "center",
+                    // p: 1,
+                    // m: 1,
                   }}
                 >
                   <CardMedia
@@ -94,7 +98,7 @@ const StoryList = () => {
                   >
                     {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
                     <Typography gutterBottom variant="h5" component="h2">
-                      제목
+                      {props.mainTitle}
                     </Typography>
                     <Typography gutterBottom variant="h5" component="h2">
                       식당이름
@@ -106,7 +110,7 @@ const StoryList = () => {
                     <Typography>내용</Typography>
                   </CardContent>
                   <CardActions>
-                    <Button
+                    {/* <Button
                       onClick={() => {
                         // 서버에서 쿼리처리!!
                         navigate("/detail");
@@ -114,10 +118,10 @@ const StoryList = () => {
                       size="small"
                     >
                       View
-                    </Button>
-                    <Button size="small">
-                      {/* <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /> */}
-                    </Button>
+                    </Button> */}
+                    {/* <Button size="small"> */}
+                    {/* <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /> */}
+                    {/* </Button> */}
                   </CardActions>
                 </Card>
               </Grid>
