@@ -19,7 +19,6 @@ const Sections = styled.div`
   position: relative;
   height: 100vh;
   grid-template-rows: 0.15fr 0.85fr;
-
   grid-template-areas:
     "navibar"
     "story";

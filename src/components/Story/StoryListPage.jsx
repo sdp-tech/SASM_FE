@@ -10,39 +10,57 @@ const StoryListPage = () => {
   };
   const navigate = useNavigate();
 
+  const infos = require("./data.json");
+  console.log("info", infos.Story);
+  const info = infos.Story;
+
   return (
-    <>
+    <Section>
       <SearchBarSection>
         <SearchFilterBar>
           <SearchBar />
         </SearchFilterBar>
       </SearchBarSection>
       <StoryListSection>
-        <StoryList />
+        {info &&
+          info.map((data, index) => (
+            <StoryList
+              key={index}
+              id={data.id}
+              mainTitle={data.mainTitle}
+              storeName={data.storeName}
+              content={data.content}
+            />
+          ))}
+        {/* <StoryList /> */}
       </StoryListSection>
-    </>
+    </Section>
   );
 };
-
-const SearchBarSection = styled.div`
+const Section = styled.div`
   position: relative;
   // margin: 15px 0px 15px 15px;
-  // margin: 20px;
-  height: 105px;
+  height: 750px;
+  grid-area: story;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+`;
+const SearchBarSection = styled.div`
+  position: relative;
+  height: 105px;
+  display: flex;
+  margin-top: 40px;
+  flex-direction: column;
   grid-area: story;
   align-items: center;
   justify-content: center;
 `;
 const StoryListSection = styled.div`
   position: relative;
-  // margin: 15px 0px 15px 15px;
-  margin-top: 105px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
-  // overflow: hidden;
   grid-area: story;
   // border: 1px solid green;
 `;
