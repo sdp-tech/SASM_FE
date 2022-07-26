@@ -6,15 +6,39 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   /*박스*/
   background: white;
-  width: 800px;
+  width: 80%;
   // height: 800px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* 그림자 */
   margin: 0 auto; /* 페이지 중앙 정렬 */
   margin-top: 4rem;
+  border: 1px solid red;
 `;
 
+const CategoryBox = styled.div`
+  // width: 800px;
+  height: 100px;
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: 100;
+  color: white;
+  // margin: 0 auto; /* 페이지 중앙 정렬 */
+  border: 1px solid yellow;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px 0 0;
+  margin: 30px;
+`;
+const Category = styled.div`
+  padding-top: 1rem;
+  // width: 800px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 22px;
+  color: #000000;
+  border: 1px solid green;
+`;
 const Image = styled.div`
-  width: 800px;
+  // width: 800px;
   height: 200px;
   font-size: 2.5rem;
   text-align: center;
@@ -109,14 +133,17 @@ const StoryDetailBox = (props) => {
   return (
     <>
       <Wrapper>
-        <Image>
-          <h3> image </h3>
-        </Image>
-        <MainTitleBox>
-          <MainTitle>{res[0].mainTitle}</MainTitle>
+        <CategoryBox>
+          <Category>{res[0].category}</Category>
           <ButtonDiv>
             <MapButton onClick={handlePageGoToMap}>Go To Map</MapButton>
           </ButtonDiv>
+        </CategoryBox>
+        {/* <Image>
+          <h3> image </h3>
+        </Image> */}
+        <MainTitleBox>
+          <MainTitle>{res[0].mainTitle}</MainTitle>
         </MainTitleBox>
 
         <SubTitle>{res[0].storeName}</SubTitle>
