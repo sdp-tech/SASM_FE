@@ -8,7 +8,7 @@ import MyPage from "./pages/MyPage";
 import Auth from "./pages/Auth";
 
 import StoryList from "./pages/Story";
-import StoryDetail from "./components/Story/components/StoryDetail";
+import StoryDetail from "./pages/StoryDetail";
 import { LoginProvider } from "./contexts/LoginContexts";
 
 const App = () => {
