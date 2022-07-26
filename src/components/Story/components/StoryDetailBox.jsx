@@ -95,11 +95,16 @@ const MapButton = styled(Button)({
   padding: "0 30px",
 });
 
-const StoryContentBox = (props) => {
+const StoryDetailBox = (props) => {
   const handlePageGoToMap = (id) => {
     //추후 키값으로 찾고, 뒤에 붙여서 이동 예정
     window.location.href = "/map" + id;
   };
+  const infos = require("../data.json");
+  // console.log("info", infos.Story);
+  const info = infos.Story;
+  const res = info.filter((i) => i.id == props.id);
+  // console.log("res", res);
 
   return (
     <>
@@ -108,18 +113,18 @@ const StoryContentBox = (props) => {
           <h3> image </h3>
         </Image>
         <MainTitleBox>
-          <MainTitle>{props.mainTitle}</MainTitle>
+          <MainTitle>{res[0].mainTitle}</MainTitle>
           <ButtonDiv>
             <MapButton onClick={handlePageGoToMap}>Go To Map</MapButton>
           </ButtonDiv>
         </MainTitleBox>
 
-        <SubTitle>{props.storeName}</SubTitle>
+        <SubTitle>{res[0].storeName}</SubTitle>
 
-        <Content>{props.content}</Content>
+        <Content>{res[0].content}</Content>
       </Wrapper>
     </>
   );
 };
 
-export default StoryContentBox;
+export default StoryDetailBox;
