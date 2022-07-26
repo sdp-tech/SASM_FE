@@ -10,10 +10,6 @@ const StoryListPage = () => {
   };
   const navigate = useNavigate();
 
-  const infos = require("./data.json");
-  console.log("info", infos.Story);
-  const info = infos.Story;
-
   return (
     <Section>
       <SearchBarSection>
@@ -22,17 +18,7 @@ const StoryListPage = () => {
         </SearchFilterBar>
       </SearchBarSection>
       <StoryListSection>
-        {info &&
-          info.map((data, index) => (
-            <StoryList
-              key={index}
-              id={data.id}
-              mainTitle={data.mainTitle}
-              storeName={data.storeName}
-              content={data.content}
-            />
-          ))}
-        {/* <StoryList /> */}
+        <StoryList />
       </StoryListSection>
     </Section>
   );

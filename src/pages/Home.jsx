@@ -83,8 +83,8 @@ export default function Home() {
         <Tittle>SASM</Tittle>
 
         <Content>
-          SASM은 지속가능한 공간을 큐레이팅하여, 한국 도시의 지속가능한 발전을
-          돕습니다.
+          SASM은 지속가능한 공간을 큐레이팅하여, <br /> 한국 도시의 지속가능한
+          발전을 돕습니다.
         </Content>
       </SASM>
 
