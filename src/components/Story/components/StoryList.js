@@ -1,5 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 // import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import Card from "@mui/material/Card";
@@ -20,8 +19,6 @@ function Copyright() {
   );
 }
 
-const cards = [1];
-
 const theme = createTheme();
 
 const StoryList = (props) => {
@@ -30,10 +27,12 @@ const StoryList = (props) => {
   };
   const navigate = useNavigate();
 
+  const infos = require("../data.json");
+  console.log("info", infos.Story);
+  const info = infos.Story;
   return (
     <StorySection>
       <main>
-        {/* <Container sx={{ py: 10, backgroundColor: "red" }} maxWidth="lg"> */}
         <Container
           sx={{
             backgroundColor: "red",
@@ -46,10 +45,9 @@ const StoryList = (props) => {
           }}
           maxWidth="800px"
         >
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              //   <Grid item key={card} xs={12} sm={6} md={4} lg={3}>
-              <Grid item key={card} xs={12} sm={12} md={12} lg={6}>
+          <Grid container spacing={2}>
+            {info.map((info) => (
+              <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
                 <Card
                   sx={{
                     minHeight: "300px",
@@ -98,16 +96,16 @@ const StoryList = (props) => {
                   >
                     {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
                     <Typography gutterBottom variant="h5" component="h2">
-                      {props.mainTitle}
+                      {info.mainTitle}
                     </Typography>
                     <Typography gutterBottom variant="h5" component="h2">
-                      식당이름
+                      {info.storeName}
                     </Typography>
                     <Typography>장소 카테고리</Typography>
                     <Typography>장소 옵션들</Typography>
                     <br />
                     <br />
-                    <Typography>내용</Typography>
+                    <Typography>{info.content}</Typography>
                   </CardContent>
                   <CardActions>
                     {/* <Button
