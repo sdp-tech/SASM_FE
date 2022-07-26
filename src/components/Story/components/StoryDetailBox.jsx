@@ -95,16 +95,16 @@ const MapButton = styled(Button)({
   padding: "0 30px",
 });
 
-const StoryContentBox = (props) => {
+const StoryDetailBox = (props) => {
   const handlePageGoToMap = (id) => {
     //추후 키값으로 찾고, 뒤에 붙여서 이동 예정
     window.location.href = "/map" + id;
   };
-  const infos = require("./data.json");
-  console.log("info", infos.Story);
+  const infos = require("../data.json");
+  // console.log("info", infos.Story);
   const info = infos.Story;
   const res = info.filter((i) => i.id == props.id);
-  console.log("res", res);
+  // console.log("res", res);
 
   return (
     <>
@@ -127,4 +127,4 @@ const StoryContentBox = (props) => {
   );
 };
 
-export default StoryContentBox;
+export default StoryDetailBox;

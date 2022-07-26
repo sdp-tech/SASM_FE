@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import StoryContentBox from "../StoryContentBox";
+import StoryContentBox from "./StoryDetailBox";
 
 import { Link, useParams } from "react-router-dom";
 
