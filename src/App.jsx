@@ -11,6 +11,7 @@ import StoryListContainer from "./components/Story/StoryListContainer";
 import StoryContainer from "./components/Story/StoryContainer";
 // import StoryList from "./components/Story/StoryList";
 import StoryList from "./pages/Story";
+import StoryDetail from "./components/Story/components/StoryDetail";
 import { LoginProvider } from "./contexts/LoginContexts";
 
 const App = () => {
@@ -31,8 +32,8 @@ const App = () => {
 
           {/* Stroy Content 삭제해야 함 */}
           <Route path="/detail" element={<StoryContent />} />
-          {/* <Route path="/story" component={StoryListContainer} /> */}
           <Route path="/story" element={<StoryList />} />
+          <Route path="/story/:id" element={<StoryDetail />} />
           {/* <Route path="/story/:id/:slug" element={<StoryContainer />} /> */}
         </Routes>
       </BrowserRouter>
