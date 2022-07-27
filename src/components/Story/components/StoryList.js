@@ -119,8 +119,8 @@ const StoryList = (props) => {
                             marginBottom: 1.5,
                           }}
                         />
-                        <Typography>장소 카테고리</Typography>
-                        <Typography>장소 옵션들</Typography>
+                        <Typography>{info.category}</Typography>
+                        <Typography>{info.options}</Typography>
                         <br />
                         <br />
                         <Typography>{info.content}</Typography>
