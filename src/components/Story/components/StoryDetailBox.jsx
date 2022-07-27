@@ -3,120 +3,207 @@
 //
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import GoToMapImg from "../../../assets/img/GoToMapImg.png";
+import LikeImg from "../../../assets/img/LikeImg.png";
 const Wrapper = styled.div`
   /*박스*/
   background: white;
   width: 80%;
   // height: 800px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* 그림자 */
+  // box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* 그림자 */
   margin: 0 auto; /* 페이지 중앙 정렬 */
   margin-top: 4rem;
-  border: 1px solid red;
+  // border: 1px solid red;
 `;
 
-const CategoryBox = styled.div`
-  // width: 800px;
-  height: 100px;
+const TopBox = styled.div`
+  box-sizing: border-box;
+  height: 60px;
   font-size: 2.5rem;
   text-align: center;
   font-weight: 100;
   color: white;
   // margin: 0 auto; /* 페이지 중앙 정렬 */
-  border: 1px solid yellow;
+  // border: 1px solid yellow;
   display: flex;
   justify-content: space-between;
   padding: 0 30px 0 0;
-  margin: 30px;
+  margin: 0 30px 0 30px;
+`;
+const CategoryOptionBox = styled.div`
+  display: flex;
+  float: left;
 `;
 const Category = styled.div`
-  padding-top: 1rem;
-  // width: 800px;
-  font-weight: 600;
+  height: 21px; //line-height와 맞춰서 중앙정렬
+  font-weight: 700;
   font-size: 20px;
-  line-height: 22px;
+  line-height: 21px;
   color: #000000;
-  border: 1px solid green;
+  // border: 1px solid #000000;
+  padding: 10px;
+  display: inline-block; //텍스트 크기에 자동 맞춤
+`;
+const Options = styled.div`
+  height: 21px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 21px;
+  color: #999999;
+  border-left: 1px solid #000000;
+  border-width: 3px;
+  padding: 10px;
+  display: inline-block;
+`;
+
+const MainTitleNStoreNameBox = styled.div`
+  box-sizing: border-box;
+  height: 150px;
+  font-size: 2.5rem;
+  font-weight: 100;
+  color: white;
+  // border: 1px solid yellow;
+  display: flex;
+  margin: 0 30px 0 30px;
+  flex-direction: column;
+`;
+
+const MainTitleBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+`;
+const MainTitle = styled.div`
+  // border: 1px solid RED;
+  height: 50px;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 44px;
+  color: #000000;
+  padding: 10px;
+  display: inline-block; //텍스트 크기에 자동 맞춤
+`;
+const StoreNameBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #000000;
+  // border: 1px solid red;
+`;
+
+const StoreName = styled.div`
+  width: 800px;
+  height: 50px;
+  color: #000000;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 50px;
+  padding: 10px;
+`;
+const LikeIconBox = styled.div`
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  cursor: pointer;
+`;
+const ImageNContentBox = styled.div`
+  box-sizing: border-box;
+  height: 400px;
+  font-size: 2.5rem;
+  font-weight: 100;
+  color: white;
+  // border: 1px solid yellow;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 30px 0 30px;
+  padding-top: 8px;
+  // flex-direction: row;
+`;
+
+const ImageBox = styled.div`
+  box-sizing: border-box;
+  width: 400px;
+  height: 400px;
+  display: flex;
 `;
 const Image = styled.div`
-  // width: 800px;
-  height: 200px;
+  box-sizing: border-box;
+  width: 400px;
+  height: 400px;
   font-size: 2.5rem;
   text-align: center;
   font-weight: 100;
   background: #d3d3d3;
   color: white;
-  margin: 0 auto; /* 페이지 중앙 정렬 */
 `;
-
-const MainTitleBox = styled.div`
-  // border: 1px solid RED;
-  width: 800px;
-  height: 50px;
-  font-size: 2.5rem;
-  font-weight: 900;
-  color: #000000;
-  margin: 0 auto; /* 페이지 중앙 정렬 */
+const ContentBox = styled.div`
+  box-sizing: border-box;
+  width: calc(100% - 420px);
+  // border: 1px solid green;
   display: flex;
 `;
-
-const MainTitle = styled.div`
-  // border: 1px solid RED;
-  width: 800px;
-  height: 50px;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #000000;
-  display: flex;
-`;
-
-const SubTitle = styled.div`
-  padding-top: 1rem;
-  width: 800px;
-  height: 50px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #000000;
-  margin: 0 auto; /* 페이지 중앙 정렬 */
-`;
-
 const Content = styled.div`
-  padding-top: 1rem;
-  width: 800px;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #000000;
-  margin: 0 auto; /* 페이지 중앙 정렬 */
+  box-sizing: border-box;
+  // border: 1px solid yellow;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 22px;
+  color: #797979;
+  // display: flex;
+  // display: inline-block; //텍스트 크기에 자동 맞춤
 `;
 
 const ButtonDiv = styled.div`
-  // border: 1px solid RED;
-  height: 30px;
-  width: 300px;
+  box-sizing: border-box;
+  height: 60px;
+  width: 250px;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  margin: 7px;
+  // margin: 7px;
 `;
 
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
-  background-color: #fcf16e;
-  padding: 0px 13px;
-  font-size: 1rem;
-  font-weight: 800;
-  color: #000000;
-  border-radius: 5px;
-  border-color: #fcf16e;
-  justify-content: flex-end;
+  background-color: #ffffff;
+  height: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const MapButton = styled(Button)({
-  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
   border: 0,
-  borderRadius: 3,
-  boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-  color: "#000000",
-  padding: "0 30px",
+  borderRadius: "15px",
+  // boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  boxShadow:
+    "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)" /* 그림자 */,
+  color: "#5480E5",
+  display: "flex",
+  // justifyContent: "flex-end",
+});
+
+const ButtonImg = styled.div`
+  box-sizing: border-box;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  margin: 2px 4px 2px 2px;
+`;
+const ButtonText = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  margin: 2px 4px 2px 3px;
+`;
+const LikeButton = styled(Button)({
+  boxSizing: "border-box",
+  border: "none",
+  display: "flex",
 });
 
 const StoryDetailBox = (props) => {
@@ -133,22 +220,44 @@ const StoryDetailBox = (props) => {
   return (
     <>
       <Wrapper>
-        <CategoryBox>
-          <Category>{res[0].category}</Category>
+        <TopBox>
+          <CategoryOptionBox>
+            <Category>{res[0].category}</Category>
+            <Options>{res[0].options}</Options>
+          </CategoryOptionBox>
           <ButtonDiv>
-            <MapButton onClick={handlePageGoToMap}>Go To Map</MapButton>
+            <MapButton onClick={handlePageGoToMap}>
+              <ButtonImg>
+                <img src={GoToMapImg} />
+              </ButtonImg>
+              <ButtonText>Go To Map</ButtonText>
+            </MapButton>
           </ButtonDiv>
-        </CategoryBox>
-        {/* <Image>
-          <h3> image </h3>
-        </Image> */}
-        <MainTitleBox>
-          <MainTitle>{res[0].mainTitle}</MainTitle>
-        </MainTitleBox>
+        </TopBox>
+        <MainTitleNStoreNameBox>
+          <MainTitleBox>
+            <MainTitle>{res[0].mainTitle}</MainTitle>
+          </MainTitleBox>
+          <StoreNameBox>
+            <StoreName>{res[0].storeName}</StoreName>
+            <LikeIconBox>
+              <LikeButton>
+                <img src={LikeImg} />
+              </LikeButton>
+            </LikeIconBox>
+          </StoreNameBox>
+        </MainTitleNStoreNameBox>
 
-        <SubTitle>{res[0].storeName}</SubTitle>
-
-        <Content>{res[0].content}</Content>
+        <ImageNContentBox>
+          <ImageBox>
+            <Image>
+              <h3> image </h3>
+            </Image>
+          </ImageBox>
+          <ContentBox>
+            <Content>{res[0].content}</Content>
+          </ContentBox>
+        </ImageNContentBox>
       </Wrapper>
     </>
   );
