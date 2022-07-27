@@ -9,6 +9,8 @@ import PageRedirection from "../../functions/common/PageRedirection";
 const NavibarSection = styled.div`
   position: relative;
   grid-area: navibar;
+  min-height: 120px;
+  max-height: 120px;
 `;
 const Bar = styled.div`
   position: absolute;
