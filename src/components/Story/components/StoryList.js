@@ -147,8 +147,7 @@ const StoryList = (props) => {
                             {info.options}
                           </Typography>
                         </OptionBox>
-                        <br />
-                        <br />
+
                         <ContentBox>
                           <Typography
                             fontSize="14px"
