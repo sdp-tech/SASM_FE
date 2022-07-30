@@ -10,8 +10,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import Divider from "@mui/material/Divider";
 import { Link } from "react-router-dom";
+import LikeImg from "../../../assets/img/LikeImg.png";
 
 function Copyright() {
   return (
@@ -104,23 +104,49 @@ const StoryList = (props) => {
                         }}
                       >
                         {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {info.mainTitle}
-                        </Typography>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          {info.storeName}
-                        </Typography>
-                        <Divider
-                          sx={{
-                            borderBottomWidth: 1,
-                            width: "90%",
-                            backgroundColor: "#000000",
-                            marginTop: 1.5,
-                            marginBottom: 1.5,
-                          }}
-                        />
-                        <Typography>{info.category}</Typography>
-                        <Typography>{info.options}</Typography>
+                        <TitleBox>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            fontSize="21px"
+                            fontFamily={"kopub"}
+                            fontWeight="400"
+                          >
+                            {info.mainTitle}
+                          </Typography>
+                        </TitleBox>
+
+                        <StoreNameBox>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            fontSize="21px"
+                            fontFamily={"kopub"}
+                            fontWeight="600"
+                          >
+                            {info.storeName}
+                          </Typography>
+                        </StoreNameBox>
+
+                        <CategoryBox>
+                          <Typography
+                            fontSize="14px"
+                            fontFamily={"kopub"}
+                            fontWeight="600"
+                          >
+                            {info.category}
+                          </Typography>
+                        </CategoryBox>
+
+                        <OptionBox>
+                          <Typography
+                            fontSize="14px"
+                            fontFamily={"kopub"}
+                            fontWeight="600"
+                          >
+                            {info.options}
+                          </Typography>
+                        </OptionBox>
                         <br />
                         <br />
                         <Typography>{info.content}</Typography>
@@ -170,5 +196,64 @@ const CardSection = styled.div`
   justify-content: center;
   align-items: center;
   // border: 1px solid green;
+`;
+
+const TitleBox = styled.div`
+  // position: relative;
+  // flex-direction: column;
+  // overflow: hidden;
+  // grid-area: story;
+
+  box-sizing: border-box;
+  display: flex;
+  width: 90%;
+  color: #6c6c6c;
+  margin-top: 4%;
+`;
+
+const StoreNameBox = styled.div`
+  // position: relative;
+  // flex-direction: column;
+  // overflow: hidden;
+  // grid-area: story;
+
+  box-sizing: border-box;
+  display: flex;
+
+  // border: 1px solid green;
+  width: 90%;
+  color: #000000;
+  border-bottom: 0.7px solid #000000;
+`;
+
+const CategoryBox = styled.div`
+  // position: relative;
+  // flex-direction: column;
+  // overflow: hidden;
+  // grid-area: story;
+
+  box-sizing: border-box;
+  display: flex;
+
+  // border: 1px solid green;
+  width: 90%;
+  color: #000000;
+  margin-top: 4%;
+  // border-bottom: 0.7px solid #000000;
+`;
+const OptionBox = styled.div`
+  // position: relative;
+  // flex-direction: column;
+  // overflow: hidden;
+  // grid-area: story;
+
+  box-sizing: border-box;
+  display: flex;
+
+  // border: 1px solid green;
+  width: 90%;
+  color: #999999;
+  padding-left: 2%;
+  border-left: 2px solid #000000;
 `;
 export default StoryList;
