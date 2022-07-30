@@ -149,7 +149,15 @@ const StoryList = (props) => {
                         </OptionBox>
                         <br />
                         <br />
-                        <Typography>{info.content}</Typography>
+                        <ContentBox>
+                          <Typography
+                            fontSize="14px"
+                            fontFamily={"kopub"}
+                            fontWeight="600"
+                          >
+                            {info.content}
+                          </Typography>
+                        </ContentBox>
                       </CardContent>
                       <CardActions>
                         {/* <Button
@@ -199,11 +207,6 @@ const CardSection = styled.div`
 `;
 
 const TitleBox = styled.div`
-  // position: relative;
-  // flex-direction: column;
-  // overflow: hidden;
-  // grid-area: story;
-
   box-sizing: border-box;
   display: flex;
   width: 90%;
@@ -212,48 +215,38 @@ const TitleBox = styled.div`
 `;
 
 const StoreNameBox = styled.div`
-  // position: relative;
-  // flex-direction: column;
-  // overflow: hidden;
-  // grid-area: story;
-
   box-sizing: border-box;
   display: flex;
-
-  // border: 1px solid green;
   width: 90%;
   color: #000000;
   border-bottom: 0.7px solid #000000;
 `;
 
 const CategoryBox = styled.div`
-  // position: relative;
-  // flex-direction: column;
-  // overflow: hidden;
-  // grid-area: story;
-
   box-sizing: border-box;
   display: flex;
-
-  // border: 1px solid green;
   width: 90%;
   color: #000000;
   margin-top: 4%;
-  // border-bottom: 0.7px solid #000000;
 `;
 const OptionBox = styled.div`
-  // position: relative;
-  // flex-direction: column;
-  // overflow: hidden;
-  // grid-area: story;
-
   box-sizing: border-box;
   display: flex;
-
-  // border: 1px solid green;
   width: 90%;
   color: #999999;
   padding-left: 2%;
   border-left: 2px solid #000000;
+`;
+
+const ContentBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  margin-top: 22px;
+  width: 90%;
+  overflow: hidden;
+  min-height: 86px;
+  max-height: 86px;
+  color: #797979;
+  // border: 2px solid #000000;
 `;
 export default StoryList;
