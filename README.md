@@ -1,10 +1,14 @@
-# UI
+# Design Prototype
 
-
+### 대문 페이지
 ![대문 페이지 (스크롤 1 - Log in)](https://user-images.githubusercontent.com/80390638/183284149-3f667fed-e85c-47b1-a101-29551c7b1af3.png)
+### 상점 목록 & 지도 페이지 
 ![MAP1](https://user-images.githubusercontent.com/80390638/183284167-12b5b11a-3d26-4477-a1a3-48e0cbc57b07.png)
+### 상점 상세 페이지
 ![MAP_상점 클릭](https://user-images.githubusercontent.com/80390638/183284178-fdecabd4-0ff4-4e73-a815-a961f65ba06d.png)
+### 스토리 목록 페이지
 ![스토리 페이지 3](https://user-images.githubusercontent.com/80390638/183284202-e27a9aa6-67c6-41a2-bec3-10d860bf2940.png)
+### 스토리 상세 페이지
 ![스토리 페이지 2_top](https://user-images.githubusercontent.com/80390638/183284207-fb80cfb7-c845-4991-92e8-4f497089e5f0.png)
 
 
