@@ -1,5 +1,5 @@
 # SASM [Sustainable Act Space Map]
-SDGs 17개 목표 실현에 기여하는 공간을 지속가능한 공간으로 정의하고, 해당 공간을 모아 <b>지도화 및 큐레이팅을 제공하는 웹서비스</b>입니다.
+SDGs 17개 목표 실현에 기여하는 공간을 지속가능한 공간으로 정의하고, <br>해당 공간을 모아 <b>지도화 및 큐레이팅을 제공하는 웹서비스</b>입니다.
 
 --------------------
 
@@ -14,6 +14,7 @@ SDGs 17개 목표 실현에 기여하는 공간을 지속가능한 공간으로 
 ![스토리 페이지 3](https://user-images.githubusercontent.com/80390638/183284202-e27a9aa6-67c6-41a2-bec3-10d860bf2940.png)
 ![스토리 페이지 2_top](https://user-images.githubusercontent.com/80390638/183284207-fb80cfb7-c845-4991-92e8-4f497089e5f0.png)
 
+--------------------
 
 # Settings
 ## Getting Started with Create React App
