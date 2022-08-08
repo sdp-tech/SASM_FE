@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
 import LikeImg from "../../../assets/img/LikeImg.png";
+// import htmlex from "../../../assets/html/SASM_word2html.html";
+
 const Wrapper = styled.div`
   /*박스*/
   background: white;
@@ -249,14 +251,19 @@ const StoryDetailBox = (props) => {
         </MainTitleNStoreNameBox>
 
         <ImageNContentBox>
-          <ImageBox>
+          {/* <ImageBox>
             <Image>
               <h3> image </h3>
             </Image>
           </ImageBox>
           <ContentBox>
             <Content>{res[0].content}</Content>
-          </ContentBox>
+          </ContentBox> */}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: "<div>Hello!???GF??D?D??</div>",
+            }}
+          ></div>
         </ImageNContentBox>
       </Wrapper>
     </>

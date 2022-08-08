@@ -57,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "html-loader": "^4.1.0",
     "json-loader": "^0.5.7"
   },
   "proxy": "https://accounts.google.com"
