@@ -48,7 +48,7 @@ const PagesBox = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
+  // cursor: pointer;
 `;
 const AuthBox = styled.div`
   position: absolute;
@@ -60,14 +60,14 @@ const AuthBox = styled.div`
   flex-direction: row;
   align-items: center;
   // justify-content: space-between;
-  cursor: pointer;
+  // cursor: pointer;
 `;
 
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({ navigate, title }) => {
   return (
     <div
-      style={{ fontSize: "150%" }}
+      style={{ fontSize: "150%", cursor: "pointer" }}
       onClick={() =>
         PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
       }
