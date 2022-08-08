@@ -5,7 +5,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
 import LikeImg from "../../../assets/img/LikeImg.png";
-// import htmlex from "../../../assets/html/SASM_word2html.html";
+import htmlex from "../../../assets/html/SASM_word2html3.html";
+// import htmlex2 from "../../../assets/html/htmlex.html";
 
 const Wrapper = styled.div`
   /*박스*/
@@ -110,13 +111,13 @@ const LikeIconBox = styled.div`
 `;
 const ImageNContentBox = styled.div`
   box-sizing: border-box;
-  height: 400px;
-  font-size: 2.5rem;
-  font-weight: 100;
-  color: white;
+  // height: 400px;
+  // font-size: 2.5rem;
+  // font-weight: 100;
+  // color: white;
   // border: 1px solid yellow;
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
   margin: 0 30px 0 30px;
   padding-top: 8px;
   // flex-direction: row;
@@ -259,9 +260,14 @@ const StoryDetailBox = (props) => {
           <ContentBox>
             <Content>{res[0].content}</Content>
           </ContentBox> */}
+          {/* <div
+          dangerouslySetInnerHTML={{
+            __html: "<div>Hello!</div>",
+          }}
+        ></div> */}
           <div
             dangerouslySetInnerHTML={{
-              __html: "<div>Hello!???GF??D?D??</div>",
+              __html: htmlex,
             }}
           ></div>
         </ImageNContentBox>
