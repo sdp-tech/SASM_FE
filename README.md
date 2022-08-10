@@ -1,7 +1,7 @@
 # SASM [Sustainable Act Space Map]
 SDGs 17개 목표 실현에 기여하는 공간을 지속가능한 공간으로 정의하고, <br>해당 공간을 모아 <b>지도화 및 큐레이팅을 제공하는 웹서비스</b>입니다.
-<br>
-<br>
+
+
 URL 
 ------
 https://main.d2hps9gsgzjxq.amplifyapp.com/
