@@ -24,38 +24,44 @@ const StoryListPage = () => {
   );
 };
 const Section = styled.div`
+  box-sizing: border-box;
   position: relative;
-  // margin: 15px 0px 15px 15px;
-  height: 750px;
+  height: 100%;
+  width: 100%;
   grid-area: story;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 `;
 const SearchBarSection = styled.div`
+  box-sizing: border-box;
   position: relative;
-  height: 105px;
+  height: 8%;
+  width: 100%;
   display: flex;
-  margin-top: 40px;
+  margin-top: 0.1%;
   flex-direction: column;
   grid-area: story;
   align-items: center;
   justify-content: center;
+  // border: 1px solid red;
 `;
 const StoryListSection = styled.div`
+  box-sizing: border-box;
   position: relative;
-  margin-top: 40px;
+  height: 90%;
+  width: 100%;
+  margin-top: 1%;
   display: flex;
   flex-direction: column;
   grid-area: story;
-  // border: 1px solid green;
+  scrollbar-height: thin;
+  // border: 1px solid yellow;
 `;
 
 const SearchFilterBar = styled.div`
-  width: 600px;
-  height: 50px;
-  // min-height: 5%;
-  border: 1px solid #99a0b0;
   box-sizing: border-box;
+  width: 35%;
+  height: 70%;
+  border: 3px solid #99a0b0;
 `;
 export default StoryListPage;

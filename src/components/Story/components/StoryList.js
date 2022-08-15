@@ -199,24 +199,19 @@ const StoryList = (props) => {
 
 const StorySection = styled.div`
   position: relative;
-  //   margin: 15px 0px 15px 15px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   grid-area: story;
   height: 90%;
-  border: 1px solid green;
 `;
 const FooterSection = styled.div`
   position: relative;
-  //   margin: 15px 0px 15px 15px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   grid-area: story;
-  height: 20%;
-  border: 1px solid red;
-  position: sticky;
+  height: 12%;
 `;
 const CardSection = styled.div`
   position: relative;
