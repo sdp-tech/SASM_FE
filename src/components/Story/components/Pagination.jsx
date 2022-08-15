@@ -37,30 +37,34 @@ const Nav = styled.nav`
 `;
 
 const Button = styled.button`
-  border: none;
+  border: white;
   border-radius: 8px;
   padding: 8px;
   margin: 0;
-  background: black;
-  color: white;
-  font-size: 1rem;
+  background: white;
+  color: #999999;
+  // color: black;
+  font-size: 1.3rem;
 
   &:hover {
-    background: tomato;
+    background: white;
     cursor: pointer;
     transform: translateY(-2px);
   }
 
-  &[disabled] {
-    background: grey;
+  &[disabled] { 불가능한 경우 가리기
+    background: white;
+    // color: #999999;
+    color: white;
     cursor: revert;
     transform: revert;
   }
 
   &[aria-current] {
-    background: deeppink;
+    background: white;
     font-weight: bold;
     cursor: revert;
+    color: black;
     transform: revert;
   }
 `;
