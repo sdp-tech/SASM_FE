@@ -5,8 +5,10 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
 import LikeImg from "../../../assets/img/LikeImg.png";
-import htmlex from "../../../assets/html/SASM_word2html3.html";
+// import htmlex from "../../../assets/html/SASM_word2html.html";
 // import htmlex2 from "../../../assets/html/htmlex.html";
+// import htmlex3 from "../../../assets/html/123.html";
+import htmlex from "../../../assets/html/practice.html";
 
 const Wrapper = styled.div`
   /*박스*/
