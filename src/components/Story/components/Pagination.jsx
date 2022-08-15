@@ -37,7 +37,7 @@ const Nav = styled.nav`
 `;
 
 const Button = styled.button`
-  border: white;
+  border: none;
   border-radius: 8px;
   padding: 8px;
   margin: 0;
@@ -47,12 +47,14 @@ const Button = styled.button`
   font-size: 1.3rem;
 
   &:hover {
+    border: none;
     background: white;
     cursor: pointer;
     transform: translateY(-2px);
   }
 
   &[disabled] { 불가능한 경우 가리기
+    border: none;
     background: white;
     // color: #999999;
     color: white;
@@ -61,6 +63,7 @@ const Button = styled.button`
   }
 
   &[aria-current] {
+    border: none;
     background: white;
     font-weight: bold;
     cursor: revert;
