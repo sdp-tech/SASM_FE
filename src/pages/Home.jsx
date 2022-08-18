@@ -3,63 +3,72 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import img from "../assets/img/img.jpg";
+import logo from "../assets/img/sasm_logo.svg";
 
 const IntroImg = styled.img`
-  width: 100%;
-  height: auto;
-  display: block;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  height: 100vh;
+  width: 100vw;
 `;
 
 const SASM = styled.div`
+  box-sizing: border-box;
   position: absolute;
-  margin-left: 250px;
-  margin-top: 350px;
-  width: 600px;
-  height: 300px;
-  // border:1px solid RED;
+  margin-left: 10%;
+  margin-top: 20%;
+  width: 60%;
+  height: 40%;
+  margin: 0 auto;
+  top: 50%;
+  left: 45%;
+  transform: translate(-50%, -50%);
 `;
 
 const Tittle = styled.div`
-  // font-family: 'Crimson Text';
+  box-sizing: border-box;
   color: white;
-  font-size: 120px;
+  // font-size: 10em;
+  font-size: 8vw;
   // border:1px solid RED;
 `;
 
 const Content = styled.div`
+  box-sizing: border-box;
   position: absolute;
   // font-family: 'Crimson Text';
   color: white;
-  font-size: 30px;
+  // font-size: 1.5em;
+  font-size: 2vw;
 `;
 
 const Wrapper = styled.div`
   position: absolute;
   margin: 0 auto;
-  top: 25%;
+  top: 28%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1000px;
+  width: 100%;
   height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  // border:1px solid RED;
+  margin-left: 2%;
+  // border: 1px solid RED;
 `;
 
 const NavBtn = styled.button`
   background: none;
-  padding: 20px;
+  padding: 2vw;
   margin-right: 50px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   border: none;
+  align-items: center;
 `;
 
 const StyledLink = styled(Link)`
@@ -68,17 +77,51 @@ const StyledLink = styled(Link)`
   margin: 0 auto;
   text-align: center;
   font-style: normal;
-  font-weight: 400;
-  font-size: 35px;
+  font-weight: 40%;
+  font-size: 2.5vw;
   line-height: 35px;
   color: black;
   text-decoration: none;
 `;
 
+// logo
+const LogoBox = styled.div`
+  box-sizing: border-box;
+  position: absolute;
+  height: 15%;
+  width: 100%;
+  margin-top: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  // border: 1px solid RED;
+`;
+const Logo = styled.img`
+  display: block;
+  width: auto;
+  height: 100%;
+  // position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 5%;
+  left: 5%;
+  // border: 1px solid yellow;
+`;
+//
 export default function Home() {
   return (
     <>
       <IntroImg src={img}></IntroImg>
+
+      <LogoBox>
+        <Logo
+          src={logo}
+          // onClick={() => PageRedirection(navigate, "SASM")}
+        ></Logo>
+      </LogoBox>
+
       <SASM>
         <Tittle>SASM</Tittle>
 
@@ -90,6 +133,7 @@ export default function Home() {
 
       <Wrapper>
         {/* hover 추가하기 */}
+
         <NavBtn>
           <StyledLink to="/map">MAP</StyledLink>
         </NavBtn>
@@ -98,9 +142,9 @@ export default function Home() {
           <StyledLink to="/story">STORY</StyledLink>
         </NavBtn>
 
-        <NavBtn>
+        {/* <NavBtn>
           <StyledLink to="/">ABOUT</StyledLink>
-        </NavBtn>
+        </NavBtn> */}
 
         <NavBtn>
           <StyledLink to="/">MY PICK</StyledLink>
