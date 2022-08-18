@@ -7,10 +7,14 @@ import { LoginContext } from "../../contexts/LoginContexts";
 import PageRedirection from "../../functions/common/PageRedirection";
 
 const NavibarSection = styled.div`
-  position: relative;
+  // position: relative;
+  position: sticky;
+  top: 0px;
   grid-area: navibar;
   min-height: 120px;
   max-height: 120px;
+  width: 100%;
+  z-index: 10;
 `;
 const Bar = styled.div`
   position: absolute;
@@ -19,14 +23,14 @@ const Bar = styled.div`
   background-color: white;
   display: flex;
   flex-direction: row;
+  // justify-content: space-between;
   justify-content: space-between;
   box-shadow: 0 4px 4px -4px black;
   z-index: 4;
 `;
 const LogoBox = styled.div`
   height: 100%;
-  width: 20%;
-  // background-color: red;
+  width: 15%;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -36,26 +40,25 @@ const Logo = styled.img`
   width: auto;
   height: 80%;
   position: absolute;
-  left: 5%;
+  left: 4%;
 `;
 const PagesBox = styled.div`
   position: absolute;
   height: 100%;
-  width: 40%;
-  // background-color: yellow;
-  left: 30%;
+  width: 45%;
+  left: 27%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  // cursor: pointer;
+  // background-color: yellow;
 `;
 const AuthBox = styled.div`
-  position: absolute;
+  // position: absolute;
   height: 100%;
-  width: 10%;
+  width: 20%;
   // background-color: green;
-  right: 5%;
+  // right: 5%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,7 +70,7 @@ const AuthBox = styled.div`
 const PageTitle = ({ navigate, title }) => {
   return (
     <div
-      style={{ fontSize: "150%", cursor: "pointer" }}
+      style={{ fontSize: "2vw", cursor: "pointer" }}
       onClick={() =>
         PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
       }
