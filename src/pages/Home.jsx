@@ -17,12 +17,10 @@ const IntroImg = styled.img`
 const SASM = styled.div`
   box-sizing: border-box;
   position: absolute;
-  margin-left: 10%;
-  margin-top: 20%;
   width: 60%;
   height: 40%;
   margin: 0 auto;
-  top: 50%;
+  top: 55%;
   left: 45%;
   transform: translate(-50%, -50%);
 `;
@@ -30,9 +28,8 @@ const SASM = styled.div`
 const Tittle = styled.div`
   box-sizing: border-box;
   color: white;
-  // font-size: 10em;
-  font-size: 8vw;
-  // border:1px solid RED;
+  font-size: 7.5vw;
+  // font-size: 80px;
 `;
 
 const Content = styled.div`
@@ -40,35 +37,34 @@ const Content = styled.div`
   position: absolute;
   // font-family: 'Crimson Text';
   color: white;
-  // font-size: 1.5em;
-  font-size: 2vw;
+  font-size: 2.8vw;
+  // font-size: 20px;
 `;
 
 const Wrapper = styled.div`
   position: absolute;
   margin: 0 auto;
-  top: 28%;
+  top: 26%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
-  height: 50px;
+  height: 10%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-left: 2%;
   // border: 1px solid RED;
 `;
 
 const NavBtn = styled.button`
   background: none;
-  padding: 2vw;
-  margin-right: 50px;
+  padding: 3vw;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   border: none;
   align-items: center;
+  // border: 1px solid yellow;
 `;
 
 const StyledLink = styled(Link)`
@@ -78,10 +74,15 @@ const StyledLink = styled(Link)`
   text-align: center;
   font-style: normal;
   font-weight: 40%;
-  font-size: 2.5vw;
+  // font-size: 3.5vw;
+  // font-size: 30px;
+  // font-size: 5vw;
+  // font-size: 2.8em;
+  font-size: 2rem;
   line-height: 35px;
   color: black;
   text-decoration: none;
+  // border: 1px solid RED;
 `;
 
 // logo
@@ -133,26 +134,22 @@ export default function Home() {
 
       <Wrapper>
         {/* hover 추가하기 */}
-
         <NavBtn>
           <StyledLink to="/map">MAP</StyledLink>
         </NavBtn>
-
         <NavBtn>
           <StyledLink to="/story">STORY</StyledLink>
         </NavBtn>
-
         {/* <NavBtn>
           <StyledLink to="/">ABOUT</StyledLink>
         </NavBtn> */}
-
         <NavBtn>
           <StyledLink to="/">MY PICK</StyledLink>
         </NavBtn>
 
-        {/* <NavBtn> 
-        <StyledLink to="/auth">Sign in</StyledLink> 
-      </NavBtn>  */}
+        {/* <NavBtn>
+          <StyledLink to="/auth">Sign in</StyledLink>
+        </NavBtn> */}
       </Wrapper>
     </>
   );
