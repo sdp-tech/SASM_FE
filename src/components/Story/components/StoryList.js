@@ -70,7 +70,6 @@ const StoryList = (props) => {
                           display: "flex",
                           flexDirection: "row",
                           alignItems: "center",
-                          // border: "1px solid black",
 
                           // p: 1,
                           // m: 1,
@@ -86,10 +85,10 @@ const StoryList = (props) => {
                             maxWidth: "300px",
                             //   pt: "56.25%",
                             display: "flex",
-                            //   flexDirection: "column",
                           }}
-                          image="https://source.unsplash.com/random"
-                          alt="random"
+                          // image="https://source.unsplash.com/random"
+                          image={info.imgUrl}
+                          alt="placeImage"
                         />
 
                         <CardContent
@@ -162,20 +161,7 @@ const StoryList = (props) => {
                             </Typography>
                           </ContentBox>
                         </CardContent>
-                        <CardActions>
-                          {/* <Button
-                      onClick={() => {
-                        // 서버에서 쿼리처리!!
-                        navigate("/detail");
-                      }}
-                      size="small"
-                    >
-                      View
-                    </Button> */}
-                          {/* <Button size="small"> */}
-                          {/* <FavoriteBorderRoundedIcon sx={{ mr: 2 }} /> */}
-                          {/* </Button> */}
-                        </CardActions>
+                        {/* <CardActions></CardActions> */}
                       </Card>
                     </Link>
                   </CardSection>
@@ -200,20 +186,25 @@ const StoryList = (props) => {
 const StorySection = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  overflow: hidden;
+  // overflow: hidden;
   grid-area: story;
-  height: 90%;
+  // height: 100%;
+  height: auto;
+  // border: 1px solid red;
 `;
 const FooterSection = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  // overflow: hidden;
   grid-area: story;
   height: 12%;
 `;
 const CardSection = styled.div`
+  box-sizing: border-box;
   position: relative;
   //   margin: 15px 0px 15px 15px;
   display: flex;
