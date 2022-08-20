@@ -8,7 +8,8 @@ import LikeImg from "../../../assets/img/LikeImg.png";
 // import htmlex from "../../../assets/html/SASM_word2html.html";
 // import htmlex2 from "../../../assets/html/htmlex.html";
 // import htmlex3 from "../../../assets/html/123.html";
-import htmlex from "../../../assets/html/practice.html";
+// import htmlex from "../../../assets/html/practice2.html";
+import htmlex from "../../../assets/html/practice3/practice3.html";
 
 const Wrapper = styled.div`
   /*박스*/
@@ -119,10 +120,12 @@ const ImageNContentBox = styled.div`
   // color: white;
   // border: 1px solid yellow;
   display: flex;
-  // justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   margin: 0 30px 0 30px;
   padding-top: 8px;
-  // flex-direction: row;
+  width: auto;
+  // overflow: hidden;
 `;
 
 const ImageBox = styled.div`
