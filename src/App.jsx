@@ -10,7 +10,7 @@ import Auth from "./pages/Auth";
 import StoryList from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
 import { LoginProvider } from "./contexts/LoginContexts";
-
+import { CookiesProvider } from "react-cookie";
 const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
@@ -18,19 +18,21 @@ const App = () => {
 
   return (
     <LoginProvider value={[login, setLogin]}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/users/*" element={<Auth />} />
-          <Route path="/map" element={<SpotMap />} />
+      <CookiesProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/users/*" element={<Auth />} />
+            <Route path="/map" element={<SpotMap />} />
 
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/auth/*" element={<Auth />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/auth/*" element={<Auth />} />
 
-          <Route path="/story" element={<StoryList />} />
-          <Route path="/story/:id" element={<StoryDetail />} />
-        </Routes>
-      </BrowserRouter>
+            <Route path="/story" element={<StoryList />} />
+            <Route path="/story/:id" element={<StoryDetail />} />
+          </Routes>
+        </BrowserRouter>
+      </CookiesProvider>
     </LoginProvider>
   );
 };
