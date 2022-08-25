@@ -4,7 +4,7 @@ import styled from "styled-components";
 import ItemCard from "./SpotList/ItemCard.js";
 import SearchBar from "./SpotList/SearchBar.js";
 import nothingIcon from "../../assets/img/nothing.svg";
-
+import Pagination from "../common/Pagination";
 const SpotListSection = styled.div`
   // background-color: blue;
   position: relative;
@@ -56,6 +56,7 @@ const SpotsWrapper = styled.div`
   // background-color: yellow;
   width: 100%;
   min-height: 30%;
+  // height: 90%;
   overflow: auto;
   border-left: 1px solid #99a0b0;
   border-right: 1px solid #99a0b0;
@@ -79,6 +80,9 @@ const SpotList = (props) => {
 
   const [filterToggle, setFilterToggle] = useState(false);
   const [searchToggle, setSearchToggle] = useState(false);
+  const [limit, setLimit] = useState(20);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   const handleFilterToggle = () => {
     setFilterToggle(!filterToggle);
@@ -126,7 +130,7 @@ const SpotList = (props) => {
       <RecommendTitle>이런 장소는 어떠세요?</RecommendTitle>
       <SpotsWrapper>
         {Item &&
-          Item.map((itemdata, index) => {
+          Item.slice(offset, offset + limit).map((itemdata, index) => {
             // 필요 정보 : 이미지,?, 카테고리, ?, 위치, 영업시간
             console.log("gg", itemdata);
 
@@ -145,6 +149,12 @@ const SpotList = (props) => {
               />
             );
           })}
+        <Pagination
+          total={Item.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
       </SpotsWrapper>
     </SpotListSection>
   );
