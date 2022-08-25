@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 
 import logo from "../../assets/img/sasm_logo.svg";
 import { LoginContext } from "../../contexts/LoginContexts";
 import PageRedirection from "../../functions/common/PageRedirection";
+import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const NavibarSection = styled.div`
   // position: relative;
@@ -72,9 +74,11 @@ const PageTitle = ({ navigate, title }) => {
     <div
       style={{ fontSize: "2vw", cursor: "pointer" }}
       onClick={() =>
+        // PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
         PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
       }
     >
+      {/* {userID} */}
       {title}
     </div>
   );
@@ -83,7 +87,7 @@ const PageTitle = ({ navigate, title }) => {
 const LoggingOut = ({ login, setLogin }) => {
   return (
     <div
-      style={{ fontSize: "150%" }}
+      style={{ fontSize: "2vw", cursor: "pointer" }}
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
@@ -128,6 +132,7 @@ export default function Navibar() {
             <>
               <PageTitle
                 navigate={navigate}
+                // title={`${login.nickname}님`}
                 title={`${login.nickname}님`}
               ></PageTitle>
               <div style={{ padding: "5%" }}>|</div>

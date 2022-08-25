@@ -10,7 +10,10 @@ import { LoginContext } from "../contexts/LoginContexts";
 
 export default function SpotMap() {
   const [login, setLogin] = useContext(LoginContext);
-  console.log(login);
+  console.log("login!!", login);
+  // useEffect(() => {
+  //   setLogin();
+  // }, []);
 
   const [state, setState] = useState({
     loading: false,
@@ -19,13 +22,13 @@ export default function SpotMap() {
 
   const loadItem = async () => {
     await axios
-      // .get("./SearchJson.json")
-      .get("http://127.0.0.1:8000/places/place_detail/1")
+      .get("./SearchJson.json")
+      // .get("http://127.0.0.1:8000/places/place_detail/1")
       .then(({ data }) => {
         console.log("data", data);
         setState({
           loading: true,
-          ItemList: data,
+          ItemList: data.Item,
         });
       })
       .catch((e) => {

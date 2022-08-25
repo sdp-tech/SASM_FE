@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 
@@ -7,8 +7,16 @@ import Login from "../components/Auth/Login";
 import Register from "../components/Auth/Register";
 import Navibar from "../components/common/Navibar";
 import FindIDnPW from "../components/Auth/FindIDnPW";
+import { useCookies } from "react-cookie";
+import { LoginContext } from "../contexts/LoginContexts";
 
 export default function Auth() {
+  // const [cookies, setCookie, removeCookie] = useCookies(["id"]);
+  // const [login, setLogin] = useContext(LoginContext);
+  // console.log("LLL", login.nickname);
+
+  // const token = cookies.id;
+  // console.log("token@", token);
   return (
     <Sections>
       <Navibar />

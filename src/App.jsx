@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -11,14 +11,29 @@ import StoryList from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
 import { LoginProvider } from "./contexts/LoginContexts";
 import { CookiesProvider } from "react-cookie";
+import { useCookies } from "react-cookie";
 const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
   });
+  // const [cookies, setCookie, removeCookie] = useCookies(["id"]);
+  // const token = cookies.id;
+  // console.log("token@!", token);
+  // // 백 검사하기
 
+  // useEffect(() => {
+  //   if (token) {
+  //     setLogin({
+  //       ...login,
+  //       loggedIn: true,
+  //       // token: res.token,
+  //       // nickname: res.nickname,
+  //     });
+  //   }
+  // }, []);
   return (
-    <LoginProvider value={[login, setLogin]}>
-      <CookiesProvider>
+    <CookiesProvider>
+      <LoginProvider value={[login, setLogin]}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -32,8 +47,8 @@ const App = () => {
             <Route path="/story/:id" element={<StoryDetail />} />
           </Routes>
         </BrowserRouter>
-      </CookiesProvider>
-    </LoginProvider>
+      </LoginProvider>
+    </CookiesProvider>
   );
 };
 
