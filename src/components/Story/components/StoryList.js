@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import LikeImg from "../../../assets/img/LikeImg.png";
-import Pagination from "./Pagination";
+import Pagination from "../../common/Pagination";
 
 function Copyright() {
   return (
