@@ -146,6 +146,7 @@ const SpotList = (props) => {
                 wed_hours={itemdata.tues_hours}
                 // OpeningHours={itemdata.mon_hours + itemdata.tues_hours}
                 Address={itemdata.address}
+                place_review={itemdata.place_review}
               />
             );
           })}
