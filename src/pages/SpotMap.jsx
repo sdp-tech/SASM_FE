@@ -21,22 +21,34 @@ export default function SpotMap() {
   });
 
   const loadItem = async () => {
-    await axios
-      .get("./SearchJson.json")
-      // .get("http://127.0.0.1:8000/places/place_detail/1")
-      .then(({ data }) => {
-        console.log("data", data);
-        setState({
-          loading: true,
-          ItemList: data.Item,
-        });
-      })
-      .catch((e) => {
-        console.error(e);
-        setState({
-          loading: false,
-        });
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/places/place_list"
+      );
+
+      setState({
+        loading: true,
+        ItemList: response.data.results,
       });
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+    // await axios
+    //   // .get("./SearchJson.json")
+    //   .get("http://127.0.0.1:8000/places/place_list")
+    //   .then(({ data }) => {
+    //     console.log("data", data.results);
+    //     setState({
+    //       loading: true,
+    //       ItemList: data.results,
+    //     });
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //     setState({
+    //       loading: false,
+    //     });
+    //   });
   };
 
   useEffect(() => {

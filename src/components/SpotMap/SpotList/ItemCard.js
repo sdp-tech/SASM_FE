@@ -6,8 +6,8 @@ import archiveIcon from "../../../assets/img/Like.png";
 const StyledCard = styled.div`
   position: relative;
   padding: 1em;
-  border-bottom: 1px solid #99A0B0;
-  border-right: 1px solid #99A0B0;
+  border-bottom: 1px solid #99a0b0;
+  border-right: 1px solid #99a0b0;
   &:last-child {
     border-bottom: none;
   }
@@ -18,16 +18,15 @@ const Content = styled.p`
   color: black;
 `;
 
-
 export default function ItemCard(props) {
   const [state, setState] = useState({
-    isToggleOn: true
+    isToggleOn: true,
   });
 
   const handleClick = () => {
     const prevState = state;
     setState({
-      isToggleOn: !prevState.isToggleOn
+      isToggleOn: !prevState.isToggleOn,
     });
   };
 
@@ -70,7 +69,11 @@ export default function ItemCard(props) {
       />
       <Content>{props.StoreName}</Content>
       <Content>{props.StoreType}</Content>
-      <Content>영업시간 : {props.OpeningHours}</Content>
+      {/* <Content>영업시간 : {props.OpeningHours}</Content> */}
+      <Content>영업시간 :</Content>
+      <Content>월 : {props.mon_hours}</Content>
+      <Content>화 : {props.tues_hours}</Content>
+      <Content>수 : {props.wed_hours}</Content>
       <Content>주소 : {props.Address}</Content>
     </StyledCard>
   );
