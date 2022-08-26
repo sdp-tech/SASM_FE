@@ -3,6 +3,10 @@ import styled from "styled-components";
 
 import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
+import HeartButton from "../../common/Heart";
+import LikeImg from "../../../assets/img/LikeImg.png";
+import { getCookie } from "../../common/Cookie";
+
 import axios from "axios";
 const StyledCard = styled.div`
   position: relative;
@@ -35,6 +39,10 @@ const TitleBox = styled.div`
   color: black;
   padding: 0 0 2px 5px;
   border-bottom: 1px solid #000000;
+  display: flex;
+  flexdirection: column;
+  width: 100%;
+  justify-content: space-between;
 `;
 const ContentBox = styled.div`
   font-size: 1em;
@@ -62,13 +70,58 @@ const Content = styled.p`
   // margin: -4px;
   // border: 1px solid green;
 `;
-
+// 기존에 존재하는 버튼에 재스타일
+const Button = styled.button`
+  background-color: #ffffff;
+  height: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+`;
+const LikeButton = styled(Button)({
+  boxSizing: "border-box",
+  border: "none",
+  display: "flex",
+  height: "30px",
+  width: "30px",
+});
 export default function ItemCard(props) {
   const [state, setState] = useState({
     isToggleOn: true,
   });
   const [content, setContent] = useState();
+  const [like, setLike] = useState(false);
   const [on, setOn] = useState(false);
+
+  const toggleLike = async () => {
+    // alert(`${props.id}`);
+    // alert(getCookie("myToken"));
+    // alert(`Bearer ${getCookie("myToken")}`);
+    // 백에 전달
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/places/place_like/",
+        { id: props.id },
+        { headers: { Authorization: `Bearer ${getCookie("myToken")}` } }
+      );
+
+      console.log("response", response);
+
+      setState({
+        loading: true,
+        ItemList: response.data.results,
+      });
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+
+    //색상 채우기
+    setLike(!like);
+  };
 
   const handleClick = () => {
     alert(`${props.id}`);
@@ -105,7 +158,7 @@ export default function ItemCard(props) {
 
   return (
     <div>
-      <StyledCard onClick={handleClick} key={Date.now()}>
+      <StyledCard key={Date.now()}>
         {/* {state.isToggleOn ? "ON" : "OFF"} */}
         {/* <button
         style={{
@@ -130,7 +183,7 @@ export default function ItemCard(props) {
           onClick={myfunction}
         />
       </button> */}
-        <ImgBox>
+        <ImgBox onClick={handleClick}>
           <img
             src={props.ImageURL}
             className="image--itemcard"
@@ -140,7 +193,15 @@ export default function ItemCard(props) {
           />
         </ImgBox>
         <TextBox>
-          <TitleBox>{props.StoreName}</TitleBox>
+          <TitleBox>
+            <div onClick={handleClick}>{props.StoreName}</div>
+            <LikeButton>
+              <HeartButton like={like} onClick={toggleLike} />
+            </LikeButton>
+
+            {/* <img like={like} onClick={likeClick} src={LikeImg} /> */}
+          </TitleBox>
+
           <ContentBox>
             <FirstBox>
               <p

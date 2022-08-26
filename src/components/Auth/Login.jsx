@@ -10,7 +10,8 @@ import {
   RightAlignedLink,
   SocialLogin,
 } from "./module";
-import { useCookies } from "react-cookie"; // useCookies import
+import { setCookie } from "../common/Cookie";
+// import { useCookies } from "react-cookie"; // useCookies import
 
 const emailFormat = [
   "@naver.com",
@@ -30,7 +31,7 @@ const Login = () => {
   const [info, setInfo] = useState({ email: "" });
   const [fail, setFail] = useState(false);
   const [login, setLogin] = useContext(LoginContext);
-  const [cookies, setCookie] = useCookies(["id"]); // 쿠키 훅
+  // const [cookies, setCookie] = useCookies(["name"]); // 쿠키 훅
 
   const navigate = useNavigate();
 
@@ -85,14 +86,25 @@ const Login = () => {
           console.log("외부", res);
 
           if ("success" in res) {
+            const access = res.access;
+            // alert(access);
             setLogin({
               ...login,
               loggedIn: true,
-              token: res.token,
+              // token :res.token
+              refresh: res.refresh,
+              access: res.access,
               nickname: res.nickname,
             });
-            setCookie("id", res.token); // 쿠키에 토큰 저장
-            console.log("외부", login);
+            setCookie("myToken", access, {
+              // 쿠키에 토큰 저장
+              path: "/*",
+              // secrue: true,
+              // sameSite: "none",
+            });
+            // setCookie("name", newName, { path: "/" });
+            // setCookie("id", res.refresh); // 쿠키에 토큰 저장
+            // console.log("외부", login);
 
             navigate("/map");
             // window.location.href = "/map";
