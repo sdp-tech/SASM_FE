@@ -60,9 +60,9 @@ export default function SpotMap() {
       <Navibar />
       <SpotList Itemcard={state.ItemList} />
       <Map />
+      <SpotDetail />
 
       {/* <SpotList Itemcard={state.ItemList} /> */}
-      {/* <SpotDetail /> */}
     </Sections>
   );
 }

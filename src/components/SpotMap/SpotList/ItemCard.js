@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import archiveIcon from "../../../assets/img/Like.png";
-
+import SpotDetail from "../SpotDetail";
+import axios from "axios";
 const StyledCard = styled.div`
   position: relative;
   padding: 1em;
@@ -66,8 +67,32 @@ export default function ItemCard(props) {
   const [state, setState] = useState({
     isToggleOn: true,
   });
+  const [content, setContent] = useState();
+  const [on, setOn] = useState(false);
 
   const handleClick = () => {
+    alert(`${props.id}`);
+    setContent(props.id);
+    const id = props.id;
+    setOn(true);
+    axios
+      .get(`http://127.0.0.1:8000/places/place_detail/${id}/`, {
+        params: {
+          id: id,
+        },
+      })
+      .then(function (response) {
+        console.log("response", response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // always executed (try catch finally에서 finally부분)
+      });
+
+    // detail카드 띄우기 + 이를 위한 axios요청 필요
+
     const prevState = state;
     setState({
       isToggleOn: !prevState.isToggleOn,
@@ -79,9 +104,10 @@ export default function ItemCard(props) {
   };
 
   return (
-    <StyledCard onClick={handleClick} key={Date.now()}>
-      {/* {state.isToggleOn ? "ON" : "OFF"} */}
-      {/* <button
+    <div>
+      <StyledCard onClick={handleClick} key={Date.now()}>
+        {/* {state.isToggleOn ? "ON" : "OFF"} */}
+        {/* <button
         style={{
           position: "absolute",
           top: "0px",
@@ -104,66 +130,77 @@ export default function ItemCard(props) {
           onClick={myfunction}
         />
       </button> */}
-      <ImgBox>
-        <img
-          src={props.ImageURL}
-          className="image--itemcard"
-          alt="placeImage"
-          width="180px"
-          height="200px"
-        />
-      </ImgBox>
-      <TextBox>
-        <TitleBox>{props.StoreName}</TitleBox>
-        <ContentBox>
-          <FirstBox>
-            <p
-              style={{
-                fontSize: "0.9em",
-                fontWeight: "500",
-                color: "black",
-              }}
-            >
-              {props.StoreType}
-            </p>
-            <p
-              style={{
-                fontSize: "0.9em",
-                fontWeight: "500",
-                color: "black",
-                marginTop: "-1em",
-              }}
-            >
-              {props.place_review}
-            </p>
-          </FirstBox>
-          <SecondBox>
-            <p
-              style={{
-                fontSize: "0.9em",
-                fontWeight: "500",
-                color: "black",
-                marginTop: "-0.2em",
-              }}
-            >
-              주소 : {props.Address}
-            </p>
-            <p
-              style={{
-                fontSize: "0.9em",
-                fontWeight: "500",
-                color: "black",
-                marginTop: "-1em",
-              }}
-            >
-              영업시간 : 월 {props.mon_hours}
-            </p>
-          </SecondBox>
-          {/* <Content>영업시간 : {props.OpeningHours}</Content> */}
-          {/* <Content>화 : {props.tues_hours}</Content>
+        <ImgBox>
+          <img
+            src={props.ImageURL}
+            className="image--itemcard"
+            alt="placeImage"
+            width="180px"
+            height="200px"
+          />
+        </ImgBox>
+        <TextBox>
+          <TitleBox>{props.StoreName}</TitleBox>
+          <ContentBox>
+            <FirstBox>
+              <p
+                style={{
+                  fontSize: "0.9em",
+                  fontWeight: "500",
+                  color: "black",
+                }}
+              >
+                {props.StoreType}
+              </p>
+              <p
+                style={{
+                  fontSize: "0.9em",
+                  fontWeight: "500",
+                  color: "black",
+                  marginTop: "-1em",
+                }}
+              >
+                {props.place_review}
+              </p>
+            </FirstBox>
+            <SecondBox>
+              <p
+                style={{
+                  fontSize: "0.9em",
+                  fontWeight: "500",
+                  color: "black",
+                  marginTop: "-0.2em",
+                }}
+              >
+                주소 : {props.Address}
+              </p>
+              <p
+                style={{
+                  fontSize: "0.9em",
+                  fontWeight: "500",
+                  color: "black",
+                  marginTop: "-1em",
+                }}
+              >
+                영업시간 : 월 {props.mon_hours}
+              </p>
+            </SecondBox>
+            {/* <Content>영업시간 : {props.OpeningHours}</Content> */}
+            {/* <Content>화 : {props.tues_hours}</Content>
         <Content>수 : {props.wed_hours}</Content> */}
-        </ContentBox>
-      </TextBox>
-    </StyledCard>
+          </ContentBox>
+        </TextBox>
+      </StyledCard>
+      {content && (
+        <SpotDetail>
+          {props.id}
+          {on}
+          {/* content={props.id}
+          toggle={on} */}
+          {/* {{ content: props.id }} {{ toggle: on }} */}/
+          {/* content={props.id} toggle={on} */}
+        </SpotDetail>
+      )}
+    </div>
   );
 }
