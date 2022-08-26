@@ -182,7 +182,7 @@ export default function ItemCard(props) {
                   marginTop: "-1em",
                 }}
               >
-                영업시간 : 월 {props.mon_hours}
+                오늘 영업시간 : {props.open_hours}
               </p>
             </SecondBox>
             {/* <Content>영업시간 : {props.OpeningHours}</Content> */}

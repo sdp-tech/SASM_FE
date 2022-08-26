@@ -140,9 +140,7 @@ const SpotList = (props) => {
                 ImageURL={itemdata.rep_pic}
                 StoreName={itemdata.place_name}
                 StoreType={itemdata.category}
-                mon_hours={itemdata.mon_hours}
-                tues_hours={itemdata.tues_hours}
-                wed_hours={itemdata.tues_hours}
+                open_hours={itemdata.open_hours}
                 Address={itemdata.address}
                 place_review={itemdata.place_review}
               />
