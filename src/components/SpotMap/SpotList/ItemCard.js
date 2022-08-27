@@ -4,10 +4,11 @@ import styled from "styled-components";
 import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
-import LikeImg from "../../../assets/img/LikeImg.png";
+
 // import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import Loading from "../../common/Loading";
 
 const StyledCard = styled.div`
   position: relative;
@@ -95,6 +96,7 @@ const DetailBox = styled.div`
   // boxsizing: border-box;
   position: absolute;
   z-index: 6;
+  height: 100vh;
 `;
 
 export default function ItemCard(props) {
@@ -103,9 +105,9 @@ export default function ItemCard(props) {
   });
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [data, setData] = useState();
+  const [detailInfo, setDetailInfo] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
@@ -127,7 +129,7 @@ export default function ItemCard(props) {
 
       setState({
         loading: true,
-        ItemList: response.data.results,
+        ItemList: response.detailInfo.results,
       });
     } catch (err) {
       console.log("Error >>", err);
@@ -138,29 +140,23 @@ export default function ItemCard(props) {
   };
 
   // 상세보기 클릭 이벤트
-  const handleClick = () => {
+  const handleClick = async () => {
     // alert(`${props.id}`);
-    setModalOpen(true);
+    setLoading(true);
     const id = props.id;
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/places/place_detail/${id}/`
+      );
 
-    axios
-      .get(`http://127.0.0.1:8000/places/place_detail/${id}/`, {
-        params: {
-          id: id,
-        },
-      })
-      .then(function (response) {
-        console.log("response", response.data);
-        setData(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        // always executed (try catch finally에서 finally부분)
-      });
+      console.log("response", response.data);
+      setDetailInfo(response.data);
+      setModalOpen(true);
 
-    // detail카드 띄우기 + 이를 위한 axios요청 필요
+      setLoading(false);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
   };
 
   const myfunction = () => {
@@ -194,7 +190,7 @@ export default function ItemCard(props) {
           onClick={myfunction}
         />
       </button> */}
-        <ImgBox>
+        <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
           <img
             src={props.ImageURL}
             className="image--itemcard"
@@ -205,7 +201,9 @@ export default function ItemCard(props) {
         </ImgBox>
         <TextBox>
           <TitleBox>
-            <div onClick={handleClick}>{props.StoreName}</div>
+            <div style={{ cursor: "pointer" }} onClick={handleClick}>
+              {props.StoreName}
+            </div>
             <LikeButton>
               <HeartButton like={like} onClick={toggleLike} />
             </LikeButton>
@@ -266,7 +264,7 @@ export default function ItemCard(props) {
           <SpotDetail
             modalClose={modalClose}
             id={props.id}
-            data={data}
+            detailInfo={detailInfo}
           ></SpotDetail>
         )}
       </DetailBox>

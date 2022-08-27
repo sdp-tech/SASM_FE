@@ -93,7 +93,7 @@ const PageTitle = ({ navigate, title }) => {
 
   return (
     <PageTitleCss
-      style={{ fontSize: "2vw" }}
+      style={{ fontSize: "1.6vw" }}
       onClick={() => {
         console.log("@@@", title);
         // color === "yellow" ? setColor("red") : setColor("yellow");
