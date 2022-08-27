@@ -7,10 +7,12 @@ import SpotList from "../components/SpotMap/SpotList";
 import Map from "../components/SpotMap/Map";
 import SpotDetail from "../components/SpotMap/SpotDetail";
 import { LoginContext } from "../contexts/LoginContexts";
-
+import Loading from "../components/common/Loading";
 export default function SpotMap() {
   const [login, setLogin] = useContext(LoginContext);
   console.log("login!!", login);
+  const [loading, setLoading] = useState(true);
+
   // useEffect(() => {
   //   setLogin();
   // }, []);
@@ -21,6 +23,7 @@ export default function SpotMap() {
   });
 
   const loadItem = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         "http://127.0.0.1:8000/places/place_list"
@@ -30,6 +33,7 @@ export default function SpotMap() {
         loading: true,
         ItemList: response.data.results,
       });
+      setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -58,7 +62,7 @@ export default function SpotMap() {
   return (
     <Sections>
       <Navibar />
-      <SpotList Itemcard={state.ItemList} />
+      {loading ? <Loading /> : <SpotList Itemcard={state.ItemList} />}
       <Map mapList={state.ItemList} />
       {/* <SpotDetail /> */}
 

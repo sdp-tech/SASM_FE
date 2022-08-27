@@ -183,7 +183,7 @@ export default function ItemCard(props) {
           onClick={myfunction}
         />
       </button> */}
-        <ImgBox onClick={handleClick}>
+        <ImgBox>
           <img
             src={props.ImageURL}
             className="image--itemcard"
