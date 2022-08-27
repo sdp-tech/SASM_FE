@@ -24,7 +24,11 @@ const SearchAgainButton = styled.button`
   cursor: pointer;
 `;
 
-const NaverMapAPI = () => {
+const NaverMapAPI = (props) => {
+  // // const Item = props.mapList;
+  // // console.log("MAP!!", Item);
+  // console.log("mapamapampa", props.abc);
+  // const abc = props.abc;
   const navermaps = window.naver.maps;
 
   // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
@@ -123,12 +127,52 @@ const NaverMapAPI = () => {
             alert("여기는 현재위치입니다.");
           }}
         />
+        {/* {abc &&
+          abc.map((itemdata, index) => {
+            // 필요 정보 : 이미지,?, 카테고리, ?, 위치, 영업시간
+            const left = itemdata[0];
+            const right = itemdata[1];
+            console.log("final", left, right, typeof left);
+            return (
+              <Marker
+                key={index}
+                position={new navermaps.LatLng(left, right)}
+                // animation={2}
+                icon={{
+                  url: "./img/red_dot.png",
+                  size: new navermaps.Size(20, 20),
+                  // origin: new navermaps.Point(190, 190),
+                  // anchor: new navermaps.Point(10, 10),
+                }}
+                // onClick={() => {
+                //   alert("여기는 서강대입니다.");
+                // }}
+              />
+            );
+          })} */}
       </NaverMap>
     </>
   );
 };
 
-export default function Map() {
+export default function Map(props) {
+  const Item = props.mapList;
+  console.log("MAP!!", Item);
+  const abc = Item.map((itemdata, index, source) => {
+    // number: 요소값
+    // index: source에서 요소의 index
+    // source: 순회하는 대상
+
+    // console.log(itemdata);
+    // // 1
+
+    // console.log(index);
+    // // 0
+
+    return [itemdata.left_coordinate, itemdata.right_coordinate];
+  });
+  // const abc = (Item.left_coordinate, Item.right_coordinate);
+  console.log("ab", abc);
   return (
     <MapSection>
       <RenderAfterNavermapsLoaded
@@ -136,7 +180,7 @@ export default function Map() {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading...</p>}
       >
-        <NaverMapAPI />
+        <NaverMapAPI abc={abc} />
       </RenderAfterNavermapsLoaded>
 
       <SearchAgainButton

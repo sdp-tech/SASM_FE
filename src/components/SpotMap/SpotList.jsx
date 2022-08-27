@@ -132,19 +132,15 @@ const SpotList = (props) => {
         {Item &&
           Item.slice(offset, offset + limit).map((itemdata, index) => {
             // 필요 정보 : 이미지,?, 카테고리, ?, 위치, 영업시간
-            console.log("gg", itemdata);
 
             return (
               <ItemCard
                 key={index}
+                id={itemdata.id}
                 ImageURL={itemdata.rep_pic}
                 StoreName={itemdata.place_name}
                 StoreType={itemdata.category}
-                // OpeningHours={itemdata.OpeningHours}
-                mon_hours={itemdata.mon_hours}
-                tues_hours={itemdata.tues_hours}
-                wed_hours={itemdata.tues_hours}
-                // OpeningHours={itemdata.mon_hours + itemdata.tues_hours}
+                open_hours={itemdata.open_hours}
                 Address={itemdata.address}
                 place_review={itemdata.place_review}
               />
