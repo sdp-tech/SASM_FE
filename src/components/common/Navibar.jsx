@@ -67,20 +67,43 @@ const AuthBox = styled.div`
   // justify-content: space-between;
   // cursor: pointer;
 `;
+const PageTitleCss = styled.div`
+  fontsize: 2vw;
+  cursor: pointer;
+  &:active {
+    // border: none;
+    // background: white;
+    font-weight: bold;
+    cursor: revert;
+    border-bottom: 2px solid #5480e5;
+    color: #5480e5;
+    transform: revert;
+  }
+  &:hover {
+    border-bottom: 2px solid #5480e5;
+    cursor: pointer;
+    color: #5480e5;
+    transform: translateY(-2px);
+  }
+`;
 
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({ navigate, title }) => {
+  const [color, setColor] = useState("yellow");
   return (
-    <div
-      style={{ fontSize: "2vw", cursor: "pointer" }}
-      onClick={() =>
-        // PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
-        PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
-      }
+    <PageTitleCss
+      style={{ fontSize: "2vw" }}
+      onClick={() => {
+        console.log("@@@", title);
+        // color === "yellow" ? setColor("red") : setColor("yellow");
+        // // PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
+        // // aria-current={ ? "title" : null}
+        PageRedirection(navigate, title.includes("님") ? "MY PICK" : title);
+      }}
     >
       {/* {userID} */}
       {title}
-    </div>
+    </PageTitleCss>
   );
 };
 
@@ -100,6 +123,7 @@ const LoggingOut = ({ login, setLogin }) => {
 
 export default function Navibar() {
   const [login, setLogin] = useContext(LoginContext);
+
   const navigate = useNavigate();
 
   return (
