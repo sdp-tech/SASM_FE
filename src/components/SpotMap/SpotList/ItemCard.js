@@ -5,8 +5,8 @@ import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 import LikeImg from "../../../assets/img/LikeImg.png";
-import { getCookie } from "../../common/Cookie";
-
+// import { getCookie } from "../../common/Cookie";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 const StyledCard = styled.div`
   position: relative;
@@ -89,6 +89,7 @@ const LikeButton = styled(Button)({
   height: "30px",
   width: "30px",
 });
+
 export default function ItemCard(props) {
   const [state, setState] = useState({
     isToggleOn: true,
@@ -96,17 +97,20 @@ export default function ItemCard(props) {
   const [content, setContent] = useState();
   const [like, setLike] = useState(false);
   const [on, setOn] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
 
   const toggleLike = async () => {
     // alert(`${props.id}`);
-    // alert(getCookie("myToken"));
+    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    // alert(token);
+
     // alert(`Bearer ${getCookie("myToken")}`);
     // 백에 전달
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/places/place_like/",
         { id: props.id },
-        { headers: { Authorization: `Bearer ${getCookie("myToken")}` } }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       console.log("response", response);
