@@ -90,6 +90,7 @@ const PageTitleCss = styled.div`
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({ navigate, title }) => {
   const [color, setColor] = useState("yellow");
+
   return (
     <PageTitleCss
       style={{ fontSize: "2vw" }}
@@ -108,12 +109,17 @@ const PageTitle = ({ navigate, title }) => {
 };
 
 const LoggingOut = ({ login, setLogin }) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+
   return (
     <div
       style={{ fontSize: "2vw", cursor: "pointer" }}
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
+        // 서버에 토큰 블랙리스트화하기 위해 전달
+        removeCookie("name"); // 쿠키 삭제
+        // navigate('/'); // 메인 페이지로 이동
       }}
     >
       LOG OUT

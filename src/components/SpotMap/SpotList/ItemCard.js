@@ -8,6 +8,7 @@ import LikeImg from "../../../assets/img/LikeImg.png";
 // import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+
 const StyledCard = styled.div`
   position: relative;
   padding: 1em;
@@ -90,22 +91,31 @@ const LikeButton = styled(Button)({
   width: "30px",
 });
 
+const DetailBox = styled.div`
+  // boxsizing: border-box;
+  position: absolute;
+  z-index: 6;
+`;
+
 export default function ItemCard(props) {
   const [state, setState] = useState({
     isToggleOn: true,
   });
-  const [content, setContent] = useState();
   const [like, setLike] = useState(false);
-  const [on, setOn] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [data, setData] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
 
+  // 상세보기 모달 닫기 이벤트
+  const modalClose = () => {
+    setModalOpen(!modalOpen);
+  };
+
+  // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     // alert(`${props.id}`);
     const token = cookies.name; // 쿠키에서 id 를 꺼내기
-    // alert(token);
 
-    // alert(`Bearer ${getCookie("myToken")}`);
-    // 백에 전달
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/places/place_like/",
@@ -127,11 +137,12 @@ export default function ItemCard(props) {
     setLike(!like);
   };
 
+  // 상세보기 클릭 이벤트
   const handleClick = () => {
-    alert(`${props.id}`);
-    setContent(props.id);
+    // alert(`${props.id}`);
+    setModalOpen(true);
     const id = props.id;
-    setOn(true);
+
     axios
       .get(`http://127.0.0.1:8000/places/place_detail/${id}/`, {
         params: {
@@ -140,6 +151,7 @@ export default function ItemCard(props) {
       })
       .then(function (response) {
         console.log("response", response.data);
+        setData(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -149,11 +161,6 @@ export default function ItemCard(props) {
       });
 
     // detail카드 띄우기 + 이를 위한 axios요청 필요
-
-    const prevState = state;
-    setState({
-      isToggleOn: !prevState.isToggleOn,
-    });
   };
 
   const myfunction = () => {
@@ -202,8 +209,6 @@ export default function ItemCard(props) {
             <LikeButton>
               <HeartButton like={like} onClick={toggleLike} />
             </LikeButton>
-
-            {/* <img like={like} onClick={likeClick} src={LikeImg} /> */}
           </TitleBox>
 
           <ContentBox>
@@ -256,16 +261,15 @@ export default function ItemCard(props) {
           </ContentBox>
         </TextBox>
       </StyledCard>
-      {content && (
-        <SpotDetail>
-          {props.id}
-          {on}
-          {/* content={props.id}
-          toggle={on} */}
-          {/* {{ content: props.id }} {{ toggle: on }} */}/
-          {/* content={props.id} toggle={on} */}
-        </SpotDetail>
-      )}
+      <DetailBox>
+        {modalOpen && (
+          <SpotDetail
+            modalClose={modalClose}
+            id={props.id}
+            data={data}
+          ></SpotDetail>
+        )}
+      </DetailBox>
     </div>
   );
 }

@@ -2,7 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledCard = styled.section`
-  padding: 1em;
+  // padding: 1em;
+`;
+const ImgBox = styled.div`
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid red;
 `;
 
 const Content = styled.p`
@@ -12,21 +20,19 @@ const Content = styled.p`
 
 function DetailCard({
   key,
+  ID,
   ImageURL,
   StoreName,
   StoreType,
   OpeningHours,
-  Address
+  Address,
 }) {
   return (
     <StyledCard className="component component--item_card" key={key}>
-      <img
-        src={ImageURL}
-        className="image--itemcard"
-        alt=""
-        width="300"
-        height="250"
-      />
+      <ImgBox>
+        <img src={ImageURL} className="image--itemcard" alt="main image" />
+      </ImgBox>
+      <Content>{ID}</Content>
       <Content>{StoreName}</Content>
       <Content>칙피스</Content>
       <Content>{StoreType}</Content>
