@@ -4,7 +4,7 @@ import styled from "styled-components";
 import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
-import LikeImg from "../../../assets/img/LikeImg.png";
+
 // import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
 import axios from "axios";

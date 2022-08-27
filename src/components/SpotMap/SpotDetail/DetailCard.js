@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
+import HeartButton from "../../common/Heart";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 const StyledCard = styled.section`
   width: 100%;
 `;
@@ -21,16 +23,25 @@ const TextBox = styled.div`
   margin: 0.7em 1.4em 0.7em 1.4em;
   // margin: 5em;
 `;
+const LikeBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  margin-top: -45px;
+`;
 const CategoryBox = styled.div`
+  box-sizing: border-box;
   font-size: 1.3em;
   font-weight: 400;
   color: black;
-  margin-top: -50px;
   border-bottom: 1.3px solid #000000;
+  // border: 1px solid red;
   display: flex;
-  flexdirection: column;
-  width: 85%;
-  height: 60px;
+  width: 90%;
+  height: auto;
   justify-content: space-between;
 `;
 
@@ -51,7 +62,6 @@ const PhotoBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
   // height: 00px;
 `;
 
@@ -64,7 +74,27 @@ const Title = styled.p`
   font-size: 2em;
   margin-top: -2px;
 `;
-
+// 기존에 존재하는 버튼에 재스타일
+const Button = styled.button`
+  height: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  background: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+`;
+const LikeButton = styled(Button)({
+  boxSizing: "border-box",
+  border: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "30px",
+  width: "30px",
+  marginTop: "30px",
+});
 function DetailCard({
   key,
   MainImage,
@@ -84,6 +114,34 @@ function DetailCard({
   Photo1,
   Photo2,
 }) {
+  const [like, setLike] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+
+  // 좋아요 클릭 이벤트
+  const toggleLike = async () => {
+    // alert(`${props.id}`);
+    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+
+    // try {
+    //   const response = await axios.post(
+    //     "http://127.0.0.1:8000/places/place_like/",
+    //     { id: props.id },
+    //     { headers: { Authorization: `Bearer ${token}` } }
+    //   );
+
+    //   console.log("response", response);
+
+    //   // setState({
+    //   //   loading: true,
+    //   //   ItemList: response.detailInfo.results,
+    //   // });
+    // } catch (err) {
+    //   console.log("Error >>", err);
+    // }
+
+    //색상 채우기
+    setLike(!like);
+  };
   return (
     <StyledCard className="component component--item_card" key={key}>
       <ImgBox>
@@ -97,9 +155,14 @@ function DetailCard({
       </ImgBox>
       <TextBox>
         <Title>{StoreName}</Title>
-        <CategoryBox>
-          <p>{Category}</p>
-        </CategoryBox>
+        <LikeBox>
+          <CategoryBox>
+            <p>{Category}</p>
+          </CategoryBox>
+          <LikeButton>
+            <HeartButton like={like} onClick={toggleLike} />
+          </LikeButton>
+        </LikeBox>
         <ReviewBox>
           {/* PlaceReview */}
           <p>{PlaceReview}</p>
