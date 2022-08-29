@@ -38,7 +38,7 @@ export default function SpotDetail(props) {
         }}
       >
         <DetailCard
-          // id={props.id}
+          id={data.id}
           MainImage={data.rep_pic}
           StoreName={data.place_name}
           Category={data.category}

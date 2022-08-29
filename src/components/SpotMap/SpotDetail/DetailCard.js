@@ -97,6 +97,7 @@ const LikeButton = styled(Button)({
 });
 function DetailCard({
   key,
+  id,
   MainImage,
   StoreName,
   Category,
@@ -122,22 +123,22 @@ function DetailCard({
     // alert(`${props.id}`);
     const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
-    // try {
-    //   const response = await axios.post(
-    //     "http://127.0.0.1:8000/places/place_like/",
-    //     { id: props.id },
-    //     { headers: { Authorization: `Bearer ${token}` } }
-    //   );
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/places/place_like/",
+        { id: id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    //   console.log("response", response);
+      console.log("response", response);
 
-    //   // setState({
-    //   //   loading: true,
-    //   //   ItemList: response.detailInfo.results,
-    //   // });
-    // } catch (err) {
-    //   console.log("Error >>", err);
-    // }
+      // setState({
+      //   loading: true,
+      //   ItemList: response.detailInfo.results,
+      // });
+    } catch (err) {
+      console.log("Error >>", err);
+    }
 
     //색상 채우기
     setLike(!like);
