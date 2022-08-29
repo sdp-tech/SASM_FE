@@ -174,8 +174,7 @@ export default function Mypage() {
             </TabPanel>
 
             <TabPanel value={value} index={2}>
-              place grid
-              {/* <Myplace /> */}
+              <Myplace />
             </TabPanel>
 
             <TabPanel value={value} index={3}>
