@@ -83,7 +83,6 @@ const Login = () => {
       <AuthButton
         onClick={async () => {
           const res = await TryLogin(info);
-          console.log("외부", res);
 
           if ("success" in res) {
             const access = res.access;
@@ -99,17 +98,9 @@ const Login = () => {
               access: res.access,
               nickname: res.nickname,
             });
+            localStorage.setItem("nickname", res.nickname); //닉네임 따로 저장
 
             setCookie("name", access);
-            // setCookie("myToken", access, {
-            //   // 쿠키에 토큰 저장
-            //   path: "/",
-            //   secrue: true,
-            //   sameSite: "none",
-            // });
-            // setCookie("name", newName, { path: "/" });
-            // setCookie("id", res.refresh); // 쿠키에 토큰 저장
-            // console.log("외부", login);
 
             navigate("/map");
             // window.location.href = "/map";

@@ -121,7 +121,7 @@ export default function Mypage() {
                     onChange={handleChange}
                     aria-label="Vertical tabs example"
                     // textColor="#5480E5"
-                    indicatorColor="none"
+                    // indicatorColor="none"
                   >
                     <Tab
                       label={<span style={{ fontSize: "1.5em" }}>MY INFO</span>}
