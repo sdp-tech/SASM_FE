@@ -8,10 +8,14 @@ import Map from "../components/SpotMap/Map";
 import SpotDetail from "../components/SpotMap/SpotDetail";
 import { LoginContext } from "../contexts/LoginContexts";
 import Loading from "../components/common/Loading";
+import { useCookies } from "react-cookie";
+
 export default function SpotMap() {
   const [login, setLogin] = useContext(LoginContext);
-  console.log("login!!", login);
+  // console.log("login!!", login);
   const [loading, setLoading] = useState(true);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   // useEffect(() => {
   //   setLogin();
@@ -23,11 +27,18 @@ export default function SpotMap() {
   });
 
   const loadItem = async () => {
+    console.log(token);
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/places/place_list"
+        "http://127.0.0.1:8000/places/place_list",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      // console.log("data", response.data.results);
 
       setState({
         loading: true,
@@ -37,22 +48,6 @@ export default function SpotMap() {
     } catch (err) {
       console.log("Error >>", err);
     }
-    // await axios
-    //   // .get("./SearchJson.json")
-    //   .get("http://127.0.0.1:8000/places/place_list")
-    //   .then(({ data }) => {
-    //     console.log("data", data.results);
-    //     setState({
-    //       loading: true,
-    //       ItemList: data.results,
-    //     });
-    //   })
-    //   .catch((e) => {
-    //     console.error(e);
-    //     setState({
-    //       loading: false,
-    //     });
-    //   });
   };
 
   useEffect(() => {

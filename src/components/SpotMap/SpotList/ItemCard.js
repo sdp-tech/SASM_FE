@@ -113,30 +113,33 @@ export default function ItemCard(props) {
     setModalOpen(!modalOpen);
   };
 
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     // alert(`${props.id}`);
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    if (!token) {
+      alert("로그인이 필요합니다.");
+    } else {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/places/place_like/",
+          { id: props.id },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/places/place_like/",
-        { id: props.id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+        console.log("response", response);
 
-      console.log("response", response);
+        setState({
+          loading: true,
+          ItemList: response.detailInfo.results,
+        });
+      } catch (err) {
+        console.log("Error >>", err);
+      }
 
-      setState({
-        loading: true,
-        ItemList: response.detailInfo.results,
-      });
-    } catch (err) {
-      console.log("Error >>", err);
+      //색상 채우기
+      setLike(!like);
     }
-
-    //색상 채우기
-    setLike(!like);
   };
 
   // 상세보기 클릭 이벤트
@@ -205,7 +208,11 @@ export default function ItemCard(props) {
               {props.StoreName}
             </div>
             <LikeButton>
-              <HeartButton like={like} onClick={toggleLike} />
+              {props.place_like === "ok" ? (
+                <HeartButton like={!like} onClick={toggleLike} />
+              ) : (
+                <HeartButton like={like} onClick={toggleLike} />
+              )}
             </LikeButton>
           </TitleBox>
 

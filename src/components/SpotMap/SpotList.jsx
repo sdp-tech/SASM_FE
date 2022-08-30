@@ -143,6 +143,7 @@ const SpotList = (props) => {
                 open_hours={itemdata.open_hours}
                 Address={itemdata.address}
                 place_review={itemdata.place_review}
+                place_like={itemdata.place_like}
               />
             );
           })}
