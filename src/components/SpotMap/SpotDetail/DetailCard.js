@@ -117,11 +117,11 @@ function DetailCard({
 }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     // alert(`${props.id}`);
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
     try {
       const response = await axios.post(
