@@ -113,7 +113,7 @@ const LoggingOut = ({ login, setLogin }) => {
 
   return (
     <div
-      style={{ fontSize: "2vw", cursor: "pointer" }}
+      style={{ fontSize: "1.6vw", cursor: "pointer" }}
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
@@ -130,6 +130,9 @@ const LoggingOut = ({ login, setLogin }) => {
 export default function Navibar() {
   const [login, setLogin] = useContext(LoginContext);
 
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name;
+  const setNickname = localStorage.getItem("nickname"); //닉네임 가져오기
   const navigate = useNavigate();
 
   return (
@@ -152,7 +155,7 @@ export default function Navibar() {
 
         {/* 로그인 및 회원가입 */}
         <AuthBox>
-          {!login.loggedIn ? (
+          {!token ? (
             <>
               <PageTitle navigate={navigate} title="LOG IN"></PageTitle>
               <div style={{ padding: "5%" }}>|</div>
@@ -163,7 +166,7 @@ export default function Navibar() {
               <PageTitle
                 navigate={navigate}
                 // title={`${login.nickname}님`}
-                title={`${login.nickname}님`}
+                title={`${setNickname}님`}
               ></PageTitle>
               <div style={{ padding: "5%" }}>|</div>
               <LoggingOut login={login} setLogin={setLogin} />

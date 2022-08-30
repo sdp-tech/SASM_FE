@@ -37,7 +37,7 @@ const Content = styled.div`
   position: absolute;
   // font-family: 'Crimson Text';
   color: white;
-  font-size: 2.8vw;
+  font-size: 2vw;
   // font-size: 20px;
 `;
 
@@ -140,11 +140,8 @@ export default function Home() {
         <NavBtn>
           <StyledLink to="/story">STORY</StyledLink>
         </NavBtn>
-        {/* <NavBtn>
-          <StyledLink to="/">ABOUT</StyledLink>
-        </NavBtn> */}
         <NavBtn>
-          <StyledLink to="/">MY PICK</StyledLink>
+          <StyledLink to="/mypage">MY PICK</StyledLink>
         </NavBtn>
 
         {/* <NavBtn>

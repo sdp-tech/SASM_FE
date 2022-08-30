@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navibar from "../components/common/Navibar";
 import styled from "styled-components";
 import Mypage from "../components/mypage/Mypage";
-
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router";
 export default function MyPage() {
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name;
+  console.log("token@!", token);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/auth");
+    } else {
+      navigate("/mypage");
+    }
+  }, []);
+
   return (
     <Sections>
       <Navibar />
-      {/* <div>MyPage</div> */}
-      <Mypage />
+      {token ? <Mypage /> : alert("로그인이 필요합니다.")}
     </Sections>
   );
 }
