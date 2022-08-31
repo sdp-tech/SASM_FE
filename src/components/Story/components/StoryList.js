@@ -109,6 +109,7 @@ const StoryList = (props) => {
                           {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
                           <TitleBox>
                             <Typography
+                              component={"span"}
                               gutterBottom
                               variant="h5"
                               fontSize="21px"
@@ -121,6 +122,7 @@ const StoryList = (props) => {
 
                           <StoreNameBox>
                             <Typography
+                              component={"span"}
                               gutterBottom
                               variant="h5"
                               fontSize="21px"
@@ -133,6 +135,7 @@ const StoryList = (props) => {
 
                           <CategoryBox>
                             <Typography
+                              component={"span"}
                               fontSize="14px"
                               fontFamily={"kopub"}
                               fontWeight="600"
@@ -143,6 +146,7 @@ const StoryList = (props) => {
 
                           <OptionBox>
                             <Typography
+                              component={"span"}
                               fontSize="14px"
                               fontFamily={"kopub"}
                               fontWeight="600"
@@ -153,6 +157,7 @@ const StoryList = (props) => {
 
                           <ContentBox>
                             <Typography
+                              component={"span"}
                               fontSize="14px"
                               fontFamily={"kopub"}
                               fontWeight="600"

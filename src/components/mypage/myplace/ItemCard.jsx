@@ -102,6 +102,7 @@ export default function ItemCard(props) {
         >
           <StoreNameBox>
             <Typography
+              component={"span"}
               gutterBottom
               variant="h5"
               fontSize="21px"
