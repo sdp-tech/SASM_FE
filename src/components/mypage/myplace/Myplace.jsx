@@ -1,21 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { CardMedia } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
-import HeartButton from "../../common/Heart";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Loading from "../../common/Loading";
+import ItemCard from "./ItemCard";
 
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
-  const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
@@ -23,35 +17,9 @@ const Myplace = (props) => {
 
   const offset = (page - 1) * limit;
 
-  // 좋아요 클릭 이벤트
-  const toggleLike = async () => {
-    // alert(`${props.id}`);
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/places/place_like/",
-        // { id: id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      console.log("response", response);
-
-      // setState({
-      //   loading: true,
-      //   ItemList: response.detailInfo.results,
-      // });
-    } catch (err) {
-      console.log("Error >>", err);
-    }
-
-    //색상 채우기
-    setLike(!like);
-  };
-
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
   // 초기에 좋아요 목록 불러오기
-  async function updateMyplace() {
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const updateMyplace = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axios.post(
@@ -60,21 +28,17 @@ const Myplace = (props) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // console.log("response", response);
-      setInfo(response.data);
+      setInfo(response.data.results);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
     }
-
-    //색상 채우기
-    setLike(!like);
-  }
+  }, [token]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     updateMyplace();
-  }, []);
+  }, [updateMyplace]);
 
   return (
     <>
@@ -97,65 +61,22 @@ const Myplace = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "100vw",
                 }}
                 maxWidth="xl"
+                minWidth="xl"
               >
-                <Grid container spacing={5}>
-                  {info.slice(offset, offset + limit).map((info) => (
+                <Grid container spacing={3}>
+                  {info.slice(offset, offset + limit).map((info, index) => (
                     <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
                       <CardSection>
-                        <Card
-                          sx={{
-                            minHeight: "250px",
-                            minWidth: "350px",
-                            maxHeight: "250px",
-                            maxWidth: "350px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
-                          <CardMedia
-                            component="img"
-                            sx={{
-                              16: 9,
-                              minHeight: "200px",
-                              minWidth: "350px",
-                              maxHeight: "200px",
-                              maxWidth: "350px",
-                              display: "flex",
-                            }}
-                            image={info.rep_pic}
-                            alt="placeImage"
-                          />
-
-                          <CardContent
-                            sx={{
-                              minHeight: "100px",
-                              minWidth: "310px",
-                              maxHeight: "100px",
-                              maxWidth: "310px",
-                              display: "flex",
-                              flexFlow: "column",
-                              position: "relative",
-                            }}
-                          >
-                            <StoreNameBox>
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                fontSize="21px"
-                                fontFamily={"kopub"}
-                                fontWeight="500"
-                              >
-                                {info.place_name}
-                              </Typography>
-                              <LikeButton>
-                                <HeartButton like={like} onClick={toggleLike} />
-                              </LikeButton>
-                            </StoreNameBox>
-                          </CardContent>
-                        </Card>
+                        <ItemCard
+                          key={index}
+                          id={info.id}
+                          rep_pic={info.rep_pic}
+                          place_name={info.place_name}
+                          place_like={info.place_like}
+                        />
                       </CardSection>
                     </Grid>
                   ))}
@@ -206,34 +127,5 @@ const CardSection = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const StoreNameBox = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  width: 100%;
-  color: #000000;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-// 기존에 존재하는 버튼에 재스타일
-const Button = styled.button`
-  height: 50px;
-  font-size: 20px;
-  font-weight: 700;
-  background: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-`;
-const LikeButton = styled(Button)({
-  boxSizing: "border-box",
-  border: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "30px",
-  width: "30px",
-});
 
 export default Myplace;
