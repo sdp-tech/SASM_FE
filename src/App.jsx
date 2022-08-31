@@ -40,7 +40,7 @@ const App = () => {
             <Route path="/users/*" element={<Auth />} />
             <Route path="/map" element={<SpotMap />} />
 
-            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage/*" element={<MyPage />} />
             <Route path="/auth/*" element={<Auth />} />
 
             <Route path="/story" element={<StoryList />} />

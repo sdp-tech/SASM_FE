@@ -7,7 +7,9 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 import Myplace from "./myplace/Myplace";
-
+import { Routes, Route, useNavigate } from "react-router-dom";
+import MyInfo from "./myInfo/InfoForm";
+import MyinfoChange from "./myInfo/ChangeForm";
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -80,7 +82,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component={"span"}>{children}</Typography>
         </Box>
       )}
     </div>
@@ -166,11 +168,17 @@ export default function Mypage() {
           </Grid>
           <Grid item xs={9}>
             <TabPanel value={value} index={0}>
-              Item One
+              <Routes>
+                <Route path="/" element={<MyInfo />} />
+                <Route path="/change" element={<MyinfoChange />} />
+                {/* <Route path="/IdNotExist" element={<EmailNotExist id={id} />} /> */}
+                <Route path="/*" element={<div>Nothing</div>} />
+              </Routes>
+              {/* <MyInfo /> */}
             </TabPanel>
 
             <TabPanel value={value} index={1}>
-              Item Two
+              <Myplace />
             </TabPanel>
 
             <TabPanel value={value} index={2}>
