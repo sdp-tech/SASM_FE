@@ -16,6 +16,7 @@ import Loading from "../../common/Loading";
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
   const [like, setLike] = useState(false);
+
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
@@ -24,14 +25,13 @@ const Myplace = (props) => {
   const offset = (page - 1) * limit;
 
   // 좋아요 클릭 이벤트
-  const toggleLike = async () => {
-    // alert(`${props.id}`);
+  const toggleLike = async (id) => {
     const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
     try {
       const response = await axios.post(
         "http://127.0.0.1:8000/places/place_like/",
-        // { id: id },
+        { id: id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -46,7 +46,7 @@ const Myplace = (props) => {
     }
 
     //색상 채우기
-    setLike(!like);
+    // setLike(!like);
   };
 
   // 초기에 좋아요 목록 불러오기
@@ -60,17 +60,16 @@ const Myplace = (props) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // console.log("response", response);
-      setInfo(response.data);
+      setInfo(response.data.results);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
     }
 
-    //색상 채우기
-    setLike(!like);
+    // //색상 채우기
+    // setLike(!like);
   }
-
+  console.log("info", info);
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     updateMyplace();
@@ -97,10 +96,12 @@ const Myplace = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
+                  width: "100vw",
                 }}
                 maxWidth="xl"
+                minWidth="xl"
               >
-                <Grid container spacing={5}>
+                <Grid container spacing={3}>
                   {info.slice(offset, offset + limit).map((info) => (
                     <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
                       <CardSection>
@@ -118,7 +119,7 @@ const Myplace = (props) => {
                           <CardMedia
                             component="img"
                             sx={{
-                              16: 9,
+                              // 16: 9,
                               minHeight: "200px",
                               minWidth: "350px",
                               maxHeight: "200px",
@@ -151,7 +152,26 @@ const Myplace = (props) => {
                                 {info.place_name}
                               </Typography>
                               <LikeButton>
-                                <HeartButton like={like} onClick={toggleLike} />
+                                {/* {info.place_like === "ok" ? (
+                                  <HeartButton
+                                    like={!like}
+                                    onClick={() => toggleLike(info.id)}
+                                  />
+                                ) : (
+                                  <HeartButton
+                                    like={like}
+                                    onClick={() => toggleLike(info.id)}
+                                  />
+                                )} */}
+                                {/* <HeartButton
+                                  like={!like}
+                                  onClick={() => toggleLike(info.id)}
+                                /> */}
+                                <HeartButton
+                                  like={!like}
+                                  onClick={() => toggleLike(info.id)} //이렇게 해야 id파라미터 해당 값만 전달됨
+                                  // onClick={setLike(!like)} 이렇게 해야 해당 값만 변경됨
+                                />
                               </LikeButton>
                             </StoreNameBox>
                           </CardContent>
