@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from "react-naver-maps";
 import styled from "styled-components";
+import axios from "axios";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -41,15 +42,34 @@ const NaverMapAPI = (props) => {
   });
 
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
-  async function updateCurLocation() {
-    await navigator.geolocation.getCurrentPosition(
-      (position) => {
+  const updateCurLocation = async () => {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
         setState({
           center: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
         });
+
+        // 현재 위치 서버에 전달하기
+        try {
+          const response = await axios.post(
+            "http://127.0.0.1:8000/places/place_list",
+            {
+              left: position.coords.latitude,
+              right: position.coords.longitude,
+            }
+          );
+          console.log("response", response);
+        } catch (err) {
+          console.log("Error >>", err);
+        }
+
+        // console.log("현재 위치", {
+        //   left: position.coords.latitude,
+        //   right: position.coords.longitude,
+        // });
       },
       (error) => {
         console.log(error);
@@ -60,7 +80,7 @@ const NaverMapAPI = (props) => {
         timeout: Infinity,
       }
     );
-  }
+  };
 
   // 초기에 한번 현재 위치 정보 받아서 해당 현재 위치로 이동시켜주기
   useEffect(() => {
