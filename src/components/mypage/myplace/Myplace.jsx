@@ -11,41 +11,71 @@ import ItemCard from "./ItemCard";
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [pageCount, setPageCount] = useState([]);
   const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   const offset = (page - 1) * limit;
-
+  console.log("pageInfo", page, offset); //현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
   // 초기에 좋아요 목록 불러오기
-  const updateMyplace = useCallback(async () => {
+  // const updateMyplace = useCallback(async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.get(
+  //       "http://127.0.0.1:8000/users/like_place/",
+  //       {},
+  //       { headers: { Authorization: `Bearer ${token}` } }
+  //     );
+  //     console.log(response.data);
+  //     setPageCount(response.data.count);
+  //     setInfo(response.data.results);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log("Error >>", err);
+  //   }
+  // }, [token]);
+
+  // // 페이지가 바뀔 때마다 api 요청 + setInfo 처리
+
+  // // 초기에 좋아요 목록 불러오기
+  // useEffect(() => {
+  //   updateMyplace();
+  // }, [updateMyplace]);
+
+  const pageMyplace = useCallback(async () => {
+    console.log("page", page);
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/users/like_place/",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
+      const response = await axios.get(
+        `http://127.0.0.1:8000/users/like_place/${page}/`,
+        {
+          headers: {
+            Authorization: { Authorization: `Bearer ${token}` },
+          },
+        }
       );
 
+      console.log(response.data);
+      setPageCount(response.data.count);
       setInfo(response.data.results);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
     }
-  }, [token]);
+  }, [page]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
-    updateMyplace();
-  }, [updateMyplace]);
-
+    pageMyplace();
+  }, [pageMyplace]);
   return (
     <>
       {loading ? (
         <Loading />
       ) : (
-        <div>
+        <>
           <MyplaceSection>
             <span
               style={{ fontWeight: "500", fontSize: "1.6em", color: "#000000" }}
@@ -86,13 +116,13 @@ const Myplace = (props) => {
           </MyplaceSection>
           <FooterSection>
             <Pagination
-              total={info.length}
+              total={pageCount}
               limit={limit}
               page={page}
               setPage={setPage}
             />
           </FooterSection>
-        </div>
+        </>
       )}
     </>
   );
