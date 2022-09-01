@@ -39,7 +39,7 @@ const MyInfo = (props) => {
     }
   }, [token]);
 
-  const { nickname, birthdate, email } = info;
+  const { profile_img_url, nickname, birthdate, email } = info;
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
@@ -59,7 +59,7 @@ const MyInfo = (props) => {
           <Section>
             <MyplaceSection>
               <ImageBox>
-                <p>image</p>
+                <img src={profile_img_url} />
               </ImageBox>
               <InfoBox>
                 <Name>
@@ -111,8 +111,9 @@ const ImageBox = styled.div`
   justify-content: center;
   align-items: center;
   border: 1px solid black;
-  width: 150px;
-  height: 150px;
+  border-radius: 100px;
+  width: 180px;
+  height: 180px;
 `;
 const InfoBox = styled.div`
   display: flex;

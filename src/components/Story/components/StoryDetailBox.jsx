@@ -10,7 +10,8 @@ import LikeImg from "../../../assets/img/LikeImg.png";
 // import htmlex3 from "../../../assets/html/123.html";
 // import htmlex from "../../../assets/html/practice2.html";
 import htmlex from "../../../assets/html/practice3/practice3.html";
-
+import axios from "axios";
+import { useCookies } from "react-cookie";
 const Wrapper = styled.div`
   /*박스*/
   background: white;
@@ -215,6 +216,10 @@ const LikeButton = styled(Button)({
 });
 
 const StoryDetailBox = (props) => {
+  const [storyHtml, setStoryHtml] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+
   const handlePageGoToMap = (id) => {
     //추후 키값으로 찾고, 뒤에 붙여서 이동 예정
     window.location.href = "/map" + id;
@@ -224,7 +229,33 @@ const StoryDetailBox = (props) => {
   const info = infos.Story;
   const res = info.filter((i) => i.id == props.id);
   // console.log("res", res);
+  const termsTitle = `${storyHtml}`;
 
+  const markup = () => {
+    return { __html: termsTitle };
+  };
+
+  const loadItem = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/stories/story_detail/${res[0].id}`,
+        { id: res[0].id }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${token}`,
+        //   },
+        // }
+      );
+      console.log("data", response.data);
+      setStoryHtml(response.data.story_url);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  useEffect(() => {
+    loadItem();
+  }, []);
   return (
     <>
       <Wrapper>
@@ -270,11 +301,10 @@ const StoryDetailBox = (props) => {
             __html: "<div>Hello!</div>",
           }}
         ></div> */}
-          <div
-            dangerouslySetInnerHTML={{
-              __html: htmlex,
-            }}
-          ></div>
+
+          <div dangerouslySetInnerHTML={markup()}></div>
+
+          {/* <div>{storyHtml}</div> */}
         </ImageNContentBox>
       </Wrapper>
     </>
