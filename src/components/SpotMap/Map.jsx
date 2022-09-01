@@ -25,11 +25,52 @@ const SearchAgainButton = styled.button`
   cursor: pointer;
 `;
 
+const Markers = (props) => {
+  const navermaps = props.navermaps;
+  const left = props.left;
+  const right = props.right;
+  const title = props.title;
+  const key = props.index;
+  // HTML 마커
+  const contentString = [
+    '<div class="iw_inner">',
+    `   <h5>${title} </h5>`,
+    "   <p> ",
+    '       <img src="./img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
+    // "       02-120 | 공공,사회기관 > 특별,광역시청<br>",
+    // '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
+    "   </p>",
+    "</div>",
+  ].join("");
+
+  return (
+    <>
+      <Marker
+        key={key}
+        position={new navermaps.LatLng(left, right)}
+        title={title}
+        icon={{
+          content: contentString,
+          size: new navermaps.Size(80, 800),
+          anchor: new navermaps.Point(11, 30),
+          // anchor: new navermaps.Point(11, 33),
+
+          // url: "./img/red_dot.png",
+          // size: new navermaps.Size(20, 20),
+          // origin: new navermaps.Point(190, 190),
+          // anchor: new navermaps.Point(10, 10),
+        }}
+        // animation={2}
+        onClick={() => {
+          alert(`여기는 ${title}입니다`);
+        }}
+      />
+    </>
+  );
+};
+
 const NaverMapAPI = (props) => {
-  // // const Item = props.mapList;
-  // // console.log("MAP!!", Item);
-  // console.log("mapamapampa", props.abc);
-  // const abc = props.abc;
+  const Item = props.abc;
   const navermaps = window.naver.maps;
 
   // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
@@ -38,7 +79,7 @@ const NaverMapAPI = (props) => {
       lat: 37.551229,
       lng: 126.988205,
     },
-    zoom: 16,
+    zoom: 13,
   });
 
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
@@ -107,23 +148,44 @@ const NaverMapAPI = (props) => {
           console.log(zoom);
         }}
       >
-        <Marker
+        {/* markers */}
+        {Item.map((itemdata, index) => {
+          const left = itemdata[0];
+          const right = itemdata[1];
+          const title = itemdata[2];
+
+          return (
+            <Markers
+              left={left}
+              right={right}
+              title={title}
+              navermaps={navermaps}
+              key={index}
+            />
+          );
+        })}
+        {/* <Marker
           key={1}
-          position={new navermaps.LatLng(37.551229, 126.988205)}
+          position={new navermaps.LatLng(37.577235833483, 126.896210076434)}
           // animation={2}
           onClick={() => {
-            alert("여기는 서울타워입니다.");
+            alert("여기는 서울타워입니다?");
           }}
-        />
-        <Marker
+          icon={{
+            url: "./img/red_dot.png",
+            size: new navermaps.Size(20, 20),
+            origin: new navermaps.Point(190, 190),
+            anchor: new navermaps.Point(10, 10),
+          }}
+        /> */}
+        {/* <Marker
           key={2}
           position={new navermaps.LatLng(37.5520579, 126.9394652)}
           // animation={2}
           onClick={() => {
-            alert("여기는 서강대입니다.");
+            alert("여기는 서강대입니다?");
           }}
-        />
-
+        /> */}
         <Marker
           key={3}
           position={state.center}
@@ -139,37 +201,6 @@ const NaverMapAPI = (props) => {
             alert("여기는 현재 위치입니다.");
           }}
         />
-        <Marker
-          key={4}
-          position={state.center}
-          // animation={2}
-          onClick={() => {
-            alert("여기는 현재위치입니다.");
-          }}
-        />
-        {/* {abc &&
-          abc.map((itemdata, index) => {
-            // 필요 정보 : 이미지,?, 카테고리, ?, 위치, 영업시간
-            const left = itemdata[0];
-            const right = itemdata[1];
-            console.log("final", left, right, typeof left);
-            return (
-              <Marker
-                key={index}
-                position={new navermaps.LatLng(left, right)}
-                // animation={2}
-                icon={{
-                  url: "./img/red_dot.png",
-                  size: new navermaps.Size(20, 20),
-                  // origin: new navermaps.Point(190, 190),
-                  // anchor: new navermaps.Point(10, 10),
-                }}
-                // onClick={() => {
-                //   alert("여기는 서강대입니다.");
-                // }}
-              />
-            );
-          })} */}
       </NaverMap>
     </>
   );
@@ -177,22 +208,15 @@ const NaverMapAPI = (props) => {
 
 export default function Map(props) {
   const Item = props.mapList;
-  console.log("MAP!!", Item);
+
   const abc = Item.map((itemdata, index, source) => {
-    // number: 요소값
-    // index: source에서 요소의 index
-    // source: 순회하는 대상
-
-    // console.log(itemdata);
-    // // 1
-
-    // console.log(index);
-    // // 0
-
-    return [itemdata.left_coordinate, itemdata.right_coordinate];
+    return [
+      itemdata.left_coordinate,
+      itemdata.right_coordinate,
+      itemdata.place_name,
+    ];
   });
-  // const abc = (Item.left_coordinate, Item.right_coordinate);
-  console.log("ab", abc);
+
   return (
     <MapSection>
       <RenderAfterNavermapsLoaded
