@@ -20,6 +20,7 @@ export default function SpotMap() {
   const [state, setState] = useState({
     loading: false,
     ItemList: [],
+    MapList: [],
   });
 
   const [location, setLocation] = useState();
@@ -34,8 +35,8 @@ export default function SpotMap() {
       latitude,
       longitude,
     });
-
-    loadItem(latitude, longitude);
+    sendCurrentLocation(latitude, longitude);
+    getItem();
   };
 
   // Geolocation의 `getCurrentPosition` 메소드에 대한 실패 callback 핸들러
@@ -56,15 +57,14 @@ export default function SpotMap() {
     geolocation.getCurrentPosition(handleSuccess, handleError);
   }, []);
 
-  const loadItem = async (latitude, longitude) => {
+  //서버에 현재 위치 전달
+  const sendCurrentLocation = async (latitude, longitude) => {
     let headerValue;
     if (token === undefined) {
       headerValue = `No Auth`;
     } else {
       headerValue = `Bearer ${token}`;
     }
-
-    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -82,11 +82,39 @@ export default function SpotMap() {
           },
         }
       );
-      // console.log("data", response.data.results);
+      // console.log("data", response);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  //초기 데이터 가져오기
+  const getItem = async () => {
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/places/place_list/",
+        {},
+        {
+          headers: {
+            Authorization: headerValue,
+          },
+        }
+      );
+      // console.log("data?", response);
 
       setState({
         loading: true,
-        ItemList: response.data.results,
+        ItemList: response.data,
+        MapList: response.data.results,
       });
       setLoading(false);
     } catch (err) {
@@ -95,14 +123,14 @@ export default function SpotMap() {
   };
 
   // useEffect(() => {
-  //   loadItem();
+  //   getItem();
   // }, []);
 
   return (
     <Sections>
       <Navibar />
       {loading ? <Loading /> : <SpotList Itemcard={state.ItemList} />}
-      <Map mapList={state.ItemList} />
+      <Map mapList={state.MapList} />
       {/* <SpotDetail /> */}
 
       {/* <SpotList Itemcard={state.ItemList} /> */}

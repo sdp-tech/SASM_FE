@@ -52,7 +52,7 @@ const Myplace = (props) => {
         `http://127.0.0.1:8000/users/like_place/${page}/`,
         {
           headers: {
-            Authorization: { Authorization: `Bearer ${token}` },
+            Authorization: `Bearer ${token}`,
           },
         }
       );
