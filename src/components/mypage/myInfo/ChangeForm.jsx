@@ -59,7 +59,7 @@ const MyInfo = (props) => {
         <Section>
           <MyplaceSection>
             <ImageBox>
-              <p>image</p>
+              <img src={state.profile_img_url} />
             </ImageBox>
             <InfoBox>
               <form>
@@ -148,8 +148,9 @@ const ImageBox = styled.div`
   justify-content: center;
   align-items: center;
   border: 1px solid black;
-  width: 150px;
-  height: 150px;
+  border-radius: 100px;
+  width: 180px;
+  height: 180px;
 `;
 const InfoBox = styled.div`
   display: flex;
