@@ -190,6 +190,7 @@ const NaverMapAPI = (props) => {
           key={3}
           position={state.center}
           clickable={false}
+          title={"현재 위치"}
           icon={{
             url: "./img/red_dot.png",
             size: new navermaps.Size(20, 20),
