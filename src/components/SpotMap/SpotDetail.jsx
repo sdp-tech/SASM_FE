@@ -38,23 +38,23 @@ export default function SpotDetail(props) {
         }}
       >
         <DetailCard
-          id={data.id}
-          MainImage={data.rep_pic}
-          StoreName={data.place_name}
-          Category={data.category}
-          PlaceReview={data.place_review}
-          ShortCur={data.short_cur}
-          Address={data.address}
-          Mon={data.mon_hours}
-          Tues={data.tues_hours}
-          Wed={data.wed_hours}
-          Thurs={data.thurs_hours}
-          Fri={data.fri_hours}
-          Sat={data.sat_hours}
-          Sun={data.sun_hours}
-          Photo0={data.photos[0].image}
-          Photo1={data.photos[1].image}
-          Photo2={data.photos[2].image}
+          id={data?.id}
+          MainImage={data?.rep_pic}
+          StoreName={data?.place_name}
+          Category={data?.category}
+          PlaceReview={data?.place_review}
+          ShortCur={data?.short_cur}
+          Address={data?.address}
+          Mon={data?.mon_hours}
+          Tues={data?.tues_hours}
+          Wed={data?.wed_hours}
+          Thurs={data?.thurs_hours}
+          Fri={data?.fri_hours}
+          Sat={data?.sat_hours}
+          Sun={data?.sun_hours}
+          Photo0={data?.photos?.[0].image}
+          Photo1={data?.photos?.[1].image}
+          Photo2={data?.photos?.[2].image}
         />
       </List>
 
