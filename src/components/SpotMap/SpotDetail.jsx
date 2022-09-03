@@ -52,6 +52,7 @@ export default function SpotDetail(props) {
           Fri={data?.fri_hours}
           Sat={data?.sat_hours}
           Sun={data?.sun_hours}
+          open_hours={data?.open_hours}
           Photo0={data?.photos?.[0].image}
           Photo1={data?.photos?.[1].image}
           Photo2={data?.photos?.[2].image}
