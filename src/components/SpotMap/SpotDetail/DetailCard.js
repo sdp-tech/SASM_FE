@@ -3,6 +3,9 @@ import styled from "styled-components";
 import HeartButton from "../../common/Heart";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import List from "@mui/material/List";
+import Collapse from "@mui/material/Collapse";
+
 const StyledCard = styled.section`
   width: 100%;
 `;
@@ -77,9 +80,8 @@ const Title = styled.p`
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
   height: 50px;
-  font-size: 20px;
-  font-weight: 700;
   background: none;
+  border: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,6 +96,15 @@ const LikeButton = styled(Button)({
   height: "30px",
   width: "30px",
   marginTop: "30px",
+});
+const ListButton = styled(Button)({
+  boxSizing: "border-box",
+  border: "none",
+  display: "flex",
+  fontSize: "1em",
+  width: "100%",
+  marginLeft: "-1.5%",
+  marginTop: "-3%",
 });
 function DetailCard({
   key,
@@ -111,12 +122,19 @@ function DetailCard({
   Fri,
   Sat,
   Sun,
+  open_hours,
   Photo0,
   Photo1,
   Photo2,
 }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
+
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   // 좋아요 클릭 이벤트
@@ -181,24 +199,32 @@ function DetailCard({
             {Address}
           </p>
           {/* openingHours */}
-          <div
-            style={{
-              fontSize: "1em",
-              fontWeight: "500",
-              color: "black",
-              height: "100%",
-              // marginTop: "-1em",
-            }}
-          >
-            <p>영업시간 : </p>
-            <p>월 : {Mon}</p>
-            <p>화 : {Tues}</p>
-            <p>수 : {Wed}</p>
-            <p>목 : {Thurs}</p>
-            <p>금 : {Fri}</p>
-            <p>토 : {Sat}</p>
-            <p>일 : {Sun}</p>
-          </div>
+
+          <ListButton onClick={handleClick}>
+            <p>영업시간 : {open_hours}</p>
+            {open ? "∧" : "∨"}
+          </ListButton>
+
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <div
+                style={{
+                  fontSize: "1em",
+                  fontWeight: "500",
+                  color: "black",
+                  height: "100%",
+                }}
+              >
+                <p>월 : {Mon}</p>
+                <p>화 : {Tues}</p>
+                <p>수 : {Wed}</p>
+                <p>목 : {Thurs}</p>
+                <p>금 : {Fri}</p>
+                <p>토 : {Sat}</p>
+                <p>일 : {Sun}</p>
+              </div>
+            </List>
+          </Collapse>
         </AddressBox>
         <PhotoBox>
           <img

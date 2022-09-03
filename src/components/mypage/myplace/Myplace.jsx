@@ -44,12 +44,26 @@ const Myplace = (props) => {
   //   updateMyplace();
   // }, [updateMyplace]);
 
-  const pageMyplace = useCallback(async () => {
+  const pageMyplace = async () => {
     console.log("page", page);
+    let newPage;
+    if (page == 1) {
+      newPage = null;
+    } else {
+      newPage = page;
+    }
+    alert(token);
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/users/like_place/${page}/`,
+        "http://127.0.0.1:8000/users/like_place/",
+
+        {
+          params: {
+            page: newPage,
+          },
+        },
+
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -64,12 +78,12 @@ const Myplace = (props) => {
     } catch (err) {
       console.log("Error >>", err);
     }
-  }, [page]);
+  };
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
-  }, [pageMyplace]);
+  }, [page]);
   return (
     <>
       {loading ? (
