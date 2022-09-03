@@ -8,12 +8,14 @@ import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 import Myplace from "./myplace/Myplace";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import MyInfo from "./myInfo/InfoForm";
-import MyinfoChange from "./myInfo/ChangeForm";
+import InfoForm from "./myInfo/InfoForm";
+import ChangeForm from "./myInfo/ChangeForm";
+import SendFeedback from "./myInfo/SendFeedback";
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 100%;
+  max-height: 87vh;
+  min-height: 87vh;
   width: 100%;
   grid-area: mypage;
   display: flex;
@@ -169,12 +171,11 @@ export default function Mypage() {
           <Grid item xs={9}>
             <TabPanel value={value} index={0}>
               <Routes>
-                <Route path="/" element={<MyInfo />} />
-                <Route path="/change" element={<MyinfoChange />} />
-                {/* <Route path="/IdNotExist" element={<EmailNotExist id={id} />} /> */}
+                <Route path="/" element={<InfoForm />} />
+                <Route path="/change" element={<ChangeForm />} />
+                <Route path="/feedback" element={<SendFeedback />} />
                 <Route path="/*" element={<div>Nothing</div>} />
               </Routes>
-              {/* <MyInfo /> */}
             </TabPanel>
 
             <TabPanel value={value} index={1}>
@@ -194,104 +195,3 @@ export default function Mypage() {
     </Section>
   );
 }
-
-// import * as React from "react";
-// import PropTypes from "prop-types";
-// import Tabs from "@mui/material/Tabs";
-// import Tab from "@mui/material/Tab";
-// import Typography from "@mui/material/Typography";
-// import Box from "@mui/material/Box";
-// import styled from "styled-components";
-
-// const MypageSection = styled.div`
-//   box-sizing: border-box;
-//   position: relative;
-//   height: 100%;
-//   width: 100%;
-//   display: flex;
-//   background-color: yellow;
-//   margin-top: -1%;
-//   grid-area: mypage;
-//   //   outline: none;
-// `;
-
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
-
-//   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`vertical-tabpanel-${index}`}
-//       aria-labelledby={`vertical-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && (
-//         <Box sx={{ p: 3 }}>
-//           <Typography>{children}</Typography>
-//         </Box>
-//       )}
-//     </div>
-//   );
-// }
-
-// TabPanel.propTypes = {
-//   children: PropTypes.node,
-//   index: PropTypes.number.isRequired,
-//   value: PropTypes.number.isRequired,
-// };
-
-// function a11yProps(index) {
-//   return {
-//     id: `vertical-tab-${index}`,
-//     "aria-controls": `vertical-tabpanel-${index}`,
-//   };
-// }
-
-// export default function Mypage() {
-//   const [value, setValue] = React.useState(0);
-
-//   const handleChange = (event, newValue) => {
-//     setValue(newValue);
-//   };
-
-//   return (
-//     <MypageSection>
-//       <Box
-//         sx={{
-//           flexGrow: 1,
-//           //   bgcolor: "background.paper",
-//           display: "flex",
-//           height: "100%",
-//           border: "1px solid red",
-//         }}
-//       >
-//         <Tabs
-//           orientation="vertical"
-//           //   variant="scrollable"
-//           value={value}
-//           onChange={handleChange}
-//           aria-label="Vertical tabs example"
-//           sx={{ width: "20%", borderRight: 1, borderColor: "divider" }}
-//         >
-//           <Tab label="MY INFO" {...a11yProps(0)} />
-//           <Tab label="MY PICK" {...a11yProps(1)} />
-//           <Tab label=" * MY PLACE" {...a11yProps(2)} />
-//           <Tab label=" * MY STORY" {...a11yProps(3)} />
-//         </Tabs>
-//         <TabPanel value={value} index={0}>
-//           Item One
-//         </TabPanel>
-//         <TabPanel value={value} index={1}>
-//           Item Two
-//         </TabPanel>
-//         <TabPanel value={value} index={2}>
-//           Item Three
-//         </TabPanel>
-//         <TabPanel value={value} index={3}>
-//           Item Four
-//         </TabPanel>
-//       </Box>
-//     </MypageSection>
-//   );
-// }
