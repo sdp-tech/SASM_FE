@@ -107,6 +107,13 @@ const SpotList = (props) => {
     } else {
       newPage = page;
     }
+    //토큰 만료 or 없을 경우
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
     setLoading(true);
     try {
       const response = await axios.get(
@@ -116,11 +123,9 @@ const SpotList = (props) => {
           params: {
             page: newPage,
           },
-        },
 
-        {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: headerValue,
           },
         }
       );

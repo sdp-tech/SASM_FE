@@ -52,7 +52,7 @@ const Myplace = (props) => {
     } else {
       newPage = page;
     }
-    alert(token);
+
     setLoading(true);
     try {
       const response = await axios.get(
@@ -62,9 +62,7 @@ const Myplace = (props) => {
           params: {
             page: newPage,
           },
-        },
 
-        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -111,7 +109,7 @@ const Myplace = (props) => {
                 minWidth="xl"
               >
                 <Grid container spacing={3}>
-                  {info.slice(offset, offset + limit).map((info, index) => (
+                  {info.map((info, index) => (
                     <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
                       <CardSection>
                         <ItemCard
