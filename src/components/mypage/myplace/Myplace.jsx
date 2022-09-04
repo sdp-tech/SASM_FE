@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
+import nothingIcon from "../../../assets/img/nothing.svg";
 
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
@@ -82,21 +83,33 @@ const Myplace = (props) => {
                   width: "80vw",
                 }}
               >
-                <Grid container spacing={3}>
-                  {info.map((info, index) => (
-                    <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
-                      <CardSection>
-                        <ItemCard
-                          key={index}
-                          id={info.id}
-                          rep_pic={info.rep_pic}
-                          place_name={info.place_name}
-                          place_like={info.place_like}
-                        />
-                      </CardSection>
+                <>
+                  {info.length === 0 ? (
+                    <NothingSearched>
+                      <img
+                        src={nothingIcon}
+                        style={{ marginTop: "50%", paddingTop: "50%" }}
+                      />
+                      해당하는 장소가 없습니다
+                    </NothingSearched>
+                  ) : (
+                    <Grid container spacing={3}>
+                      {info.map((info, index) => (
+                        <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
+                          <CardSection>
+                            <ItemCard
+                              key={index}
+                              id={info.id}
+                              rep_pic={info.rep_pic}
+                              place_name={info.place_name}
+                              place_like={info.place_like}
+                            />
+                          </CardSection>
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </Grid>
+                  )}
+                </>
               </Container>
             </main>
           </MyplaceSection>
@@ -140,6 +153,13 @@ const CardSection = styled.div`
   flex-direction: column;
   overflow: hidden;
   grid-area: story;
+  justify-content: center;
+  align-items: center;
+`;
+const NothingSearched = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
