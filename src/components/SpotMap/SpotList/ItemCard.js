@@ -25,8 +25,10 @@ const StyledCard = styled.div`
 `;
 
 const ImgBox = styled.div`
-  width: 200px;
-  height: 200px;
+  min-width: 180px;
+  min-height: 180px;
+  max-width: 180px;
+  max-height: 180px;
 `;
 const TextBox = styled.div`
   font-size: 1em;
