@@ -24,7 +24,7 @@ const Mystory = (props) => {
   const pageMystory = async () => {
     console.log("page", page);
     let newPage;
-    if (page == 1) {
+    if (page === 1) {
       newPage = null;
     } else {
       newPage = page;
@@ -89,6 +89,7 @@ const Mystory = (props) => {
                       <img
                         src={nothingIcon}
                         style={{ marginTop: "50%", paddingTop: "50%" }}
+                        alt="no data"
                       />
                       해당하는 스토리가 없습니다
                     </NothingSearched>

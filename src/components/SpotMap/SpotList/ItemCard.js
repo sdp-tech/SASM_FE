@@ -102,9 +102,6 @@ const DetailBox = styled.div`
 `;
 
 export default function ItemCard(props) {
-  const [state, setState] = useState({
-    isToggleOn: true,
-  });
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [detailInfo, setDetailInfo] = useState([]);
@@ -129,12 +126,7 @@ export default function ItemCard(props) {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        console.log("response", response);
-
-        setState({
-          loading: true,
-          ItemList: response.detailInfo.results,
-        });
+        // console.log("response", response);
       } catch (err) {
         console.log("Error >>", err);
       }
