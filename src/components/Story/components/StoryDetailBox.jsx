@@ -5,13 +5,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
 import LikeImg from "../../../assets/img/LikeImg.png";
-// import htmlex from "../../../assets/html/SASM_word2html.html";
-// import htmlex2 from "../../../assets/html/htmlex.html";
-// import htmlex3 from "../../../assets/html/123.html";
-// import htmlex from "../../../assets/html/practice2.html";
 import htmlex from "../../../assets/html/practice3/practice3.html";
 import axios from "axios";
 import { useCookies } from "react-cookie";
+import HeartButton from "../../common/Heart";
+
 const Wrapper = styled.div`
   /*박스*/
   background: white;
@@ -20,7 +18,6 @@ const Wrapper = styled.div`
   // box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* 그림자 */
   margin: 0 auto; /* 페이지 중앙 정렬 */
   margin-top: 4rem;
-  // border: 1px solid red;
 `;
 
 const TopBox = styled.div`
@@ -31,11 +28,11 @@ const TopBox = styled.div`
   font-weight: 100;
   color: white;
   // margin: 0 auto; /* 페이지 중앙 정렬 */
-  // border: 1px solid yellow;
   display: flex;
   justify-content: space-between;
   padding: 0 30px 0 0;
   margin: 0 30px 0 30px;
+  // border: 1px solid yellow;
 `;
 const CategoryOptionBox = styled.div`
   display: flex;
@@ -69,10 +66,10 @@ const MainTitleNStoreNameBox = styled.div`
   font-size: 2.5rem;
   font-weight: 100;
   color: white;
-  // border: 1px solid yellow;
   display: flex;
   margin: 0 30px 0 30px;
   flex-direction: column;
+  width: auto;
 `;
 
 const MainTitleBox = styled.div`
@@ -98,7 +95,7 @@ const StoreNameBox = styled.div`
 `;
 
 const StoreName = styled.div`
-  width: 800px;
+  width: 1000px;
   height: 50px;
   color: #000000;
   font-style: normal;
@@ -106,7 +103,24 @@ const StoreName = styled.div`
   font-size: 40px;
   line-height: 50px;
   padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  // border: 1px solid red;
 `;
+const Tag = styled.div`
+  width: auto;
+  height: 50px;
+  color: #000000;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 50px;
+  padding: 10px;
+  margin-left: 2%;
+  // border: 1px solid red;
+`;
+
 const LikeIconBox = styled.div`
   width: 30px;
   height: 30px;
@@ -119,48 +133,15 @@ const ImageNContentBox = styled.div`
   // font-size: 2.5rem;
   // font-weight: 100;
   // color: white;
-  // border: 1px solid yellow;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0 30px 0 30px;
   padding-top: 8px;
   width: auto;
+  flex-direction: column;
   // overflow: hidden;
-`;
-
-const ImageBox = styled.div`
-  box-sizing: border-box;
-  width: 400px;
-  height: 400px;
-  display: flex;
-`;
-const Image = styled.div`
-  box-sizing: border-box;
-  width: 400px;
-  height: 400px;
-  font-size: 2.5rem;
-  text-align: center;
-  font-weight: 100;
-  background: #d3d3d3;
-  color: white;
-`;
-const ContentBox = styled.div`
-  box-sizing: border-box;
-  width: calc(100% - 420px);
-  // border: 1px solid green;
-  display: flex;
-`;
-const Content = styled.div`
-  box-sizing: border-box;
-  // border: 1px solid yellow;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 22px;
-  color: #797979;
-  // display: flex;
-  // display: inline-block; //텍스트 크기에 자동 맞춤
+  // border: 1px solid red;
 `;
 
 const ButtonDiv = styled.div`
@@ -216,7 +197,9 @@ const LikeButton = styled(Button)({
 });
 
 const StoryDetailBox = (props) => {
-  const [storyHtml, setStoryHtml] = useState([]);
+  const id = props.id;
+  const [data, setData] = useState([]);
+  const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
@@ -224,30 +207,57 @@ const StoryDetailBox = (props) => {
     //추후 키값으로 찾고, 뒤에 붙여서 이동 예정
     window.location.href = "/map" + id;
   };
-  const infos = require("../data.json");
-  // console.log("info", infos.Story);
-  const info = infos.Story;
-  const res = info.filter((i) => i.id == props.id);
-  // console.log("res", res);
-  const termsTitle = `${storyHtml}`;
+
+  // 좋아요 클릭 이벤트
+  const toggleLike = async () => {
+    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    if (!token) {
+      alert("로그인이 필요합니다.");
+    } else {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/stories/story_like/",
+          { id: data.id },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        console.log("response", response);
+      } catch (err) {
+        console.log("Error >>", err);
+      }
+
+      //색상 채우기
+      setLike(!like);
+    }
+  };
 
   const markup = () => {
-    return { __html: termsTitle };
+    return { __html: `${data.story_url}` };
   };
 
   const loadItem = async () => {
+    //토큰 만료 or 없을 경우
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/stories/story_detail/${res[0].id}`,
-        { id: res[0].id }
-        // {
-        //   headers: {
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // }
+        `http://127.0.0.1:8000/stories/story_detail/`,
+        {
+          params: {
+            id: id,
+          },
+
+          headers: {
+            Authorization: headerValue,
+          },
+        }
       );
       console.log("data", response.data);
-      setStoryHtml(response.data.story_url);
+      setData(response.data[0]);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -256,13 +266,14 @@ const StoryDetailBox = (props) => {
   useEffect(() => {
     loadItem();
   }, []);
+
   return (
     <>
       <Wrapper>
         <TopBox>
           <CategoryOptionBox>
-            <Category>{res[0].category}</Category>
-            <Options>{res[0].options}</Options>
+            <Category>{data.category}</Category>
+            <Options>{data.semi_category}</Options>
           </CategoryOptionBox>
           <ButtonDiv>
             <MapButton onClick={handlePageGoToMap}>
@@ -275,36 +286,32 @@ const StoryDetailBox = (props) => {
         </TopBox>
         <MainTitleNStoreNameBox>
           <MainTitleBox>
-            <MainTitle>{res[0].mainTitle}</MainTitle>
+            <MainTitle>{data.title}</MainTitle>
           </MainTitleBox>
+
           <StoreNameBox>
-            <StoreName>{res[0].storeName}</StoreName>
+            <StoreName>
+              {data.place_name}
+              <Tag>{data.tag}</Tag>
+            </StoreName>
             <LikeIconBox>
               <LikeButton>
-                <img src={LikeImg} />
+                {data.story_like === "ok" ? (
+                  <HeartButton like={!like} onClick={toggleLike} />
+                ) : (
+                  <HeartButton like={like} onClick={toggleLike} />
+                )}
               </LikeButton>
             </LikeIconBox>
           </StoreNameBox>
         </MainTitleNStoreNameBox>
 
         <ImageNContentBox>
-          {/* <ImageBox>
-            <Image>
-              <h3> image </h3>
-            </Image>
-          </ImageBox>
-          <ContentBox>
-            <Content>{res[0].content}</Content>
-          </ContentBox> */}
-          {/* <div
-          dangerouslySetInnerHTML={{
-            __html: "<div>Hello!</div>",
-          }}
-        ></div> */}
+          <div>{data.story_review}</div>
+          <iframe src={data.story_url} width="100%" height="500px"></iframe>
+          {/* <object data={data.story_url} width="1500vw" height="1000px" /> */}
 
-          <div dangerouslySetInnerHTML={markup()}></div>
-
-          {/* <div>{storyHtml}</div> */}
+          {/* <div dangerouslySetInnerHTML={markup()}></div> */}
         </ImageNContentBox>
       </Wrapper>
     </>

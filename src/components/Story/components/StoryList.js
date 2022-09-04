@@ -8,10 +8,10 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
 import Pagination from "../../common/Pagination";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import ItemCard from "./ItemCard";
 
 const StoryList = (props) => {
   const viewPage = () => {
@@ -78,128 +78,24 @@ const StoryList = (props) => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              //             row-gap(grid-row-gap)	행과 행 사이의 간격(Line)을 정의
-              // column-gap(grid-column-gap)
             }}
-            // maxWidth="800px"
             maxWidth="xl"
           >
             <Grid container spacing={2}>
-              {info.map((info) => (
+              {info.map((info, index) => (
                 <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
                   <CardSection>
-                    {/* <p className='cat'><Link to={`/category/${post.category}`}>{post.category}</Link></p> */}
-                    <Link
-                      to={`/story/${info.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Card
-                        sx={{
-                          minHeight: "300px",
-                          minWidth: "600px",
-                          maxHeight: "300px",
-                          maxWidth: "600px",
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-
-                          // p: 1,
-                          // m: 1,
-                        }}
-                      >
-                        <CardMedia
-                          component="img"
-                          sx={{
-                            16: 9,
-                            minHeight: "300px",
-                            minWidth: "300px",
-                            maxHeight: "300px",
-                            maxWidth: "300px",
-                            //   pt: "56.25%",
-                            display: "flex",
-                          }}
-                          // image="https://source.unsplash.com/random"
-                          image={info.imgUrl}
-                          alt="placeImage"
-                        />
-
-                        <CardContent
-                          sx={{
-                            // flexGrow: 1,
-                            minHeight: "300px",
-                            minWidth: "300px",
-                            maxHeight: "300px",
-                            maxWidth: "300px",
-                            display: "flex",
-                            flexFlow: "column",
-                            // flexFlow: "row nowrap",
-                            // justifyContent: "flex-end",
-                            // alignItems: "center" /* 하위 요소들 수직 가운데정렬 */,
-                            position: "relative",
-                          }}
-                        >
-                          {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
-                          <TitleBox>
-                            <Typography
-                              component={"span"}
-                              gutterBottom
-                              variant="h5"
-                              fontSize="21px"
-                              fontFamily={"kopub"}
-                              fontWeight="400"
-                            >
-                              {info.title}
-                            </Typography>
-                          </TitleBox>
-
-                          <StoreNameBox>
-                            <Typography
-                              component={"span"}
-                              gutterBottom
-                              variant="h5"
-                              fontSize="21px"
-                              fontFamily={"kopub"}
-                              fontWeight="600"
-                            >
-                              {info.storeName}
-                            </Typography>
-                          </StoreNameBox>
-
-                          <CategoryBox>
-                            <Typography
-                              component={"span"}
-                              fontSize="14px"
-                              fontFamily={"kopub"}
-                              fontWeight="600"
-                            >
-                              {info.category}
-                            </Typography>
-                          </CategoryBox>
-
-                          <OptionBox>
-                            <Typography
-                              component={"span"}
-                              fontSize="14px"
-                              fontFamily={"kopub"}
-                              fontWeight="600"
-                            >
-                              {info.options}
-                            </Typography>
-                          </OptionBox>
-
-                          <ContentBox>
-                            <Typography
-                              component={"span"}
-                              fontSize="14px"
-                              fontFamily={"kopub"}
-                              fontWeight="600"
-                            >
-                              {info.content}
-                            </Typography>
-                          </ContentBox>
-                        </CardContent>
-                      </Card>
-                    </Link>
+                    <ItemCard
+                      key={index}
+                      id={info.id}
+                      rep_pic={info.rep_pic}
+                      title={info.title}
+                      place_name={info.place_name}
+                      category={info.category}
+                      semi_category={info.semi_category}
+                      preview={info.preview}
+                      story_like={info.story_like}
+                    />
                   </CardSection>
                 </Grid>
               ))}
@@ -252,47 +148,4 @@ const CardSection = styled.div`
   // border: 1px solid green;
 `;
 
-const TitleBox = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  width: 90%;
-  color: #6c6c6c;
-  margin-top: 4%;
-`;
-
-const StoreNameBox = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  width: 90%;
-  color: #000000;
-  border-bottom: 0.7px solid #000000;
-`;
-
-const CategoryBox = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  width: 90%;
-  color: #000000;
-  margin-top: 4%;
-`;
-const OptionBox = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  width: 90%;
-  color: #999999;
-  padding-left: 2%;
-  border-left: 2px solid #000000;
-`;
-
-const ContentBox = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  margin-top: 22px;
-  width: 90%;
-  overflow: hidden;
-  min-height: 86px;
-  max-height: 86px;
-  color: #797979;
-  // border: 2px solid #000000;
-`;
 export default StoryList;

@@ -9,11 +9,11 @@ import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
 
-const Myplace = (props) => {
+const Mystory = (props) => {
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
-  const [limit, setLimit] = useState(6);
+  const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
@@ -21,10 +21,10 @@ const Myplace = (props) => {
   console.log("pageInfo", page, offset); //현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
-  const pageMyplace = async () => {
+  const pageMystory = async () => {
     console.log("page", page);
     let newPage;
-    if (page == 1) {
+    if (page === 1) {
       newPage = null;
     } else {
       newPage = page;
@@ -33,7 +33,7 @@ const Myplace = (props) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/users/like_place/",
+        "http://127.0.0.1:8000/users/like_story/",
 
         {
           params: {
@@ -57,7 +57,7 @@ const Myplace = (props) => {
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
-    pageMyplace();
+    pageMystory();
   }, [page]);
   return (
     <>
@@ -69,7 +69,7 @@ const Myplace = (props) => {
             <span
               style={{ fontWeight: "500", fontSize: "1.6em", color: "#000000" }}
             >
-              MY PLACE
+              MY STORY
             </span>
 
             <main>
@@ -89,13 +89,14 @@ const Myplace = (props) => {
                       <img
                         src={nothingIcon}
                         style={{ marginTop: "50%", paddingTop: "50%" }}
+                        alt="no data"
                       />
-                      해당하는 장소가 없습니다
+                      해당하는 스토리가 없습니다
                     </NothingSearched>
                   ) : (
                     <Grid container spacing={3}>
                       {info.map((info, index) => (
-                        <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
+                        <Grid item key={info.id} xs={12} sm={12} md={6} lg={6}>
                           <CardSection>
                             <ItemCard
                               key={index}
@@ -164,4 +165,4 @@ const NothingSearched = styled.div`
   align-items: center;
 `;
 
-export default Myplace;
+export default Mystory;
