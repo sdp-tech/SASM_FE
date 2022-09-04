@@ -7,6 +7,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 import Myplace from "./myplace/Myplace";
+import Mystory from "./mystory/Mystory";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import InfoForm from "./myInfo/InfoForm";
 import ChangeForm from "./myInfo/ChangeForm";
@@ -187,7 +188,7 @@ export default function Mypage() {
             </TabPanel>
 
             <TabPanel value={value} index={3}>
-              story grid
+              <Mystory />
             </TabPanel>
           </Grid>
         </Grid>
