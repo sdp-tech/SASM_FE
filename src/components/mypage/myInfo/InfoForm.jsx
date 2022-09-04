@@ -11,7 +11,7 @@ import {
 } from "../../Auth/module";
 import { useNavigate } from "react-router-dom";
 
-const MyInfo = (props) => {
+const InfoForm = (props) => {
   const navigate = useNavigate();
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -76,7 +76,7 @@ const MyInfo = (props) => {
                 <ProfileButton onClick={EditProfile}>
                   프로필 편집하기
                 </ProfileButton>
-                <LeftAlignedLink to="/auth/find">의견 보내기</LeftAlignedLink>
+                <LeftAlignedLink to="./feedback">의견 보내기</LeftAlignedLink>
               </ButtonBox>
             </MyplaceSection>
           </Section>
@@ -93,17 +93,16 @@ const Section = styled.div`
   align-items: center;
   flex-direction: column;
   // overflow: hidden;
-  //   height: 800px;
+  height: 100%;
   width: 100%;
   margin-top: 5%;
 `;
 
 const MyplaceSection = styled.div`
   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
+
   flex-direction: column;
-  width: 700px;
+  width: 60%;
   height: 80%;
 `;
 const ImageBox = styled.div`
@@ -131,7 +130,7 @@ const Name = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 700px;
+  width: 100%;
   //   border: 1px solid red;
   font-size: 1.3em;
   font-weight: 600;
@@ -141,7 +140,7 @@ const Bday = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 700px;
+  width: 100%;
   //   border: 1px solid red;
   font-size: 1.3em;
   font-weight: 600;
@@ -150,7 +149,7 @@ const Email = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 700px;
+  width: 100%;
   //   border: 1px solid red;
   font-size: 1.3em;
   font-weight: 600;
@@ -160,8 +159,8 @@ const ButtonBox = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: stretch;
-  width: 700px;
+  width: 100%;
   margin-top: 10%;
 `;
 
-export default MyInfo;
+export default InfoForm;

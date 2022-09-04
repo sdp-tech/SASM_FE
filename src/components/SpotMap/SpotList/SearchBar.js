@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import searchIcon from '../../../assets/img/search.svg'
-import filteringIcon from '../../../assets/img/filtering.svg'
+import searchIcon from "../../../assets/img/search.svg";
+import filteringIcon from "../../../assets/img/filtering.svg";
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
-`
+`;
 
 const SearchForm = styled.input`
   height: 100%;
@@ -18,7 +18,7 @@ const SearchForm = styled.input`
   flex-grow: 1;
   padding: 0 0 0 2%;
   border: none;
-`
+`;
 
 const IconWrapper = styled.div`
   // background-color: pink;
@@ -29,24 +29,29 @@ const IconWrapper = styled.div`
   align-items: center;
   padding: 0 2%;
   cursor: pointer;
-  border-left: 1px solid #99A0B0;
-`
-const FilterIcon = styled.div`
-
-`
-export default function SearchBar({handleFilterToggle, handleSearchToggle}) {
-
+  border-left: 1px solid #99a0b0;
+`;
+const FilterIcon = styled.div``;
+export default function SearchBar({
+  handleFilterToggle,
+  handleSearchToggle,
+  onSearch,
+  search,
+  onChangeSearch,
+}) {
   return (
-    <Wrapper>
+    <Wrapper onSubmit={handleSearchToggle}>
       <SearchForm
-        placeholder='지속가능한 공간을 검색해보세요'
+        placeholder="지속가능한 공간을 검색해보세요"
+        value={search}
+        onChange={onChangeSearch}
       />
-      <IconWrapper onClick={handleSearchToggle}>
+      <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
       </IconWrapper>
-      <IconWrapper onClick={handleFilterToggle}>
+      <IconWrapper type="submit" onClick={handleFilterToggle}>
         <img src={filteringIcon}></img>
       </IconWrapper>
     </Wrapper>
-  ) 
-};
+  );
+}

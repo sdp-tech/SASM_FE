@@ -1,27 +1,17 @@
 import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import { CardMedia } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import LikeImg from "../../../assets/img/LikeImg.png";
 import Pagination from "../../common/Pagination";
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      1 2 3 4 5 6 7 8 9 10
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import { useCookies } from "react-cookie";
+import axios from "axios";
 
 const StoryList = (props) => {
   const viewPage = () => {
@@ -29,19 +19,61 @@ const StoryList = (props) => {
   };
   const navigate = useNavigate();
 
-  const infos = require("../data.json");
-  console.log("info", infos.Story);
-  const info = infos.Story;
+  // const infos = require("../data.json");
+  // console.log("info", infos.Story);
+  // const info = infos.Story;
+  const [info, setInfo] = useState([]);
   const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
+  const [pageCount, setPageCount] = useState(1);
   const offset = (page - 1) * limit;
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const loadItem = async () => {
+    let newPage;
+    if (page == 1) {
+      newPage = null;
+    } else {
+      newPage = page;
+    }
+    //토큰 만료 or 없을 경우
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/stories/story_list/",
+        {
+          params: {
+            page: newPage,
+          },
+
+          headers: {
+            Authorization: headerValue,
+          },
+        }
+      );
+      console.log("data??", response.data);
+      setPageCount(response.data.count);
+      setInfo(response.data.results);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  useEffect(() => {
+    loadItem();
+  }, [page]);
+
   return (
     <>
       <StorySection>
         <main>
           <Container
             sx={{
-              // backgroundColor: "red",
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
@@ -53,7 +85,7 @@ const StoryList = (props) => {
             maxWidth="xl"
           >
             <Grid container spacing={2}>
-              {info.slice(offset, offset + limit).map((info) => (
+              {info.map((info) => (
                 <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
                   <CardSection>
                     {/* <p className='cat'><Link to={`/category/${post.category}`}>{post.category}</Link></p> */}
@@ -116,7 +148,7 @@ const StoryList = (props) => {
                               fontFamily={"kopub"}
                               fontWeight="400"
                             >
-                              {info.mainTitle}
+                              {info.title}
                             </Typography>
                           </TitleBox>
 
@@ -166,7 +198,6 @@ const StoryList = (props) => {
                             </Typography>
                           </ContentBox>
                         </CardContent>
-                        {/* <CardActions></CardActions> */}
                       </Card>
                     </Link>
                   </CardSection>
@@ -178,7 +209,7 @@ const StoryList = (props) => {
       </StorySection>
       <FooterSection>
         <Pagination
-          total={info.length}
+          total={pageCount}
           limit={limit}
           page={page}
           setPage={setPage}

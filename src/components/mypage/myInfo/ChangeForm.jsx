@@ -14,7 +14,7 @@ import {
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 
-const MyInfo = (props) => {
+const ChangeForm = (props) => {
   const navigate = useNavigate();
 
   const { state } = useLocation(); //placeholer 값 가져오기
@@ -61,8 +61,8 @@ const MyInfo = (props) => {
             <ImageBox>
               <img src={state.profile_img_url} />
             </ImageBox>
-            <InfoBox>
-              <form>
+            <form>
+              <InfoBox>
                 <Name>
                   <p>닉네임</p>
 
@@ -109,11 +109,11 @@ const MyInfo = (props) => {
                     />
                   </ValueBox>
                 </Email>
-              </form>
-            </InfoBox>
+              </InfoBox>
+            </form>
             <ButtonBox>
               <ProfileButton onClick={SaveInfo}>저장하기</ProfileButton>
-              <LeftAlignedLink to="/auth/find">의견 보내기</LeftAlignedLink>
+              <LeftAlignedLink to="./feedback">의견 보내기</LeftAlignedLink>
             </ButtonBox>
           </MyplaceSection>
         </Section>
@@ -140,7 +140,7 @@ const MyplaceSection = styled.div`
   //   justify-content: center;
   //   align-items: center;
   flex-direction: column;
-  width: 700px;
+  width: 60%;
   height: 80%;
 `;
 const ImageBox = styled.div`
@@ -162,14 +162,14 @@ const InfoBox = styled.div`
   margin-top: 5%;
 `;
 const ValueBox = styled.div`
+  display: flex;
   width: 400px;
 `;
 const Name = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 700px;
-  //   border: 1px solid red;
+  width: 100%;
   font-size: 1.3em;
   font-weight: 600;
 `;
@@ -178,8 +178,7 @@ const Bday = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 700px;
-  //   border: 1px solid red;
+  width: 100%;
   font-size: 1.3em;
   font-weight: 600;
 `;
@@ -187,8 +186,7 @@ const Email = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 700px;
-  //   border: 1px solid red;
+  width: 100%;
   font-size: 1.3em;
   font-weight: 600;
 `;
@@ -197,8 +195,8 @@ const ButtonBox = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: stretch;
-  width: 700px;
+  width: 100%;
   margin-top: 10%;
 `;
 
-export default MyInfo;
+export default ChangeForm;
