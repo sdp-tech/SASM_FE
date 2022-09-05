@@ -162,6 +162,7 @@ const SpotList = (props) => {
     } //초기화 방지
     setSearchToggle(true);
     console.log(search, checkedList);
+    setLoading(true);
     let newPage;
     if (page == 1) {
       newPage = null;

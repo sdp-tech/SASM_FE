@@ -4,11 +4,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
-import LikeImg from "../../../assets/img/LikeImg.png";
 import htmlex from "../../../assets/html/practice3/practice3.html";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import HeartButton from "../../common/Heart";
+import Loading from "../../common/Loading";
 
 const Wrapper = styled.div`
   /*박스*/
@@ -200,6 +200,7 @@ const StoryDetailBox = (props) => {
   const id = props.id;
   const [data, setData] = useState([]);
   const [like, setLike] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
@@ -243,6 +244,7 @@ const StoryDetailBox = (props) => {
     } else {
       headerValue = `Bearer ${token}`;
     }
+    setLoading(true);
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/stories/story_detail/`,
@@ -258,6 +260,7 @@ const StoryDetailBox = (props) => {
       );
       console.log("data", response.data);
       setData(response.data[0]);
+      setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -269,51 +272,55 @@ const StoryDetailBox = (props) => {
 
   return (
     <>
-      <Wrapper>
-        <TopBox>
-          <CategoryOptionBox>
-            <Category>{data.category}</Category>
-            <Options>{data.semi_category}</Options>
-          </CategoryOptionBox>
-          <ButtonDiv>
-            <MapButton onClick={handlePageGoToMap}>
-              <ButtonImg>
-                <img src={GoToMapImg} />
-              </ButtonImg>
-              <ButtonText>Go To Map</ButtonText>
-            </MapButton>
-          </ButtonDiv>
-        </TopBox>
-        <MainTitleNStoreNameBox>
-          <MainTitleBox>
-            <MainTitle>{data.title}</MainTitle>
-          </MainTitleBox>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          <TopBox>
+            <CategoryOptionBox>
+              <Category>{data.category}</Category>
+              <Options>{data.semi_category}</Options>
+            </CategoryOptionBox>
+            <ButtonDiv>
+              <MapButton onClick={handlePageGoToMap}>
+                <ButtonImg>
+                  <img src={GoToMapImg} />
+                </ButtonImg>
+                <ButtonText>Go To Map</ButtonText>
+              </MapButton>
+            </ButtonDiv>
+          </TopBox>
+          <MainTitleNStoreNameBox>
+            <MainTitleBox>
+              <MainTitle>{data.title}</MainTitle>
+            </MainTitleBox>
 
-          <StoreNameBox>
-            <StoreName>
-              {data.place_name}
-              <Tag>{data.tag}</Tag>
-            </StoreName>
-            <LikeIconBox>
-              <LikeButton>
-                {data.story_like === "ok" ? (
-                  <HeartButton like={!like} onClick={toggleLike} />
-                ) : (
-                  <HeartButton like={like} onClick={toggleLike} />
-                )}
-              </LikeButton>
-            </LikeIconBox>
-          </StoreNameBox>
-        </MainTitleNStoreNameBox>
+            <StoreNameBox>
+              <StoreName>
+                {data.place_name}
+                <Tag>{data.tag}</Tag>
+              </StoreName>
+              <LikeIconBox>
+                <LikeButton>
+                  {data.story_like === "ok" ? (
+                    <HeartButton like={!like} onClick={toggleLike} />
+                  ) : (
+                    <HeartButton like={like} onClick={toggleLike} />
+                  )}
+                </LikeButton>
+              </LikeIconBox>
+            </StoreNameBox>
+          </MainTitleNStoreNameBox>
 
-        <ImageNContentBox>
-          <div>{data.story_review}</div>
-          <iframe src={data.story_url} width="100%" height="500px"></iframe>
-          {/* <object data={data.story_url} width="1500vw" height="1000px" /> */}
+          <ImageNContentBox>
+            <div>{data.story_review}</div>
+            <iframe src={data.story_url} width="100%" height="500px"></iframe>
+            {/* <object data={data.story_url} width="1500vw" height="1000px" /> */}
 
-          {/* <div dangerouslySetInnerHTML={markup()}></div> */}
-        </ImageNContentBox>
-      </Wrapper>
+            {/* <div dangerouslySetInnerHTML={markup()}></div> */}
+          </ImageNContentBox>
+        </Wrapper>
+      )}
     </>
   );
 };

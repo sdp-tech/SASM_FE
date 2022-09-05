@@ -30,12 +30,13 @@ const Markers = (props) => {
   const left = props.left;
   const right = props.right;
   const title = props.title;
+  const id = props.id;
   const key = props.index;
   // HTML 마커
   const contentString = [
-    '<div class="iw_inner">',
-    `   <h5>${title} </h5>`,
-    "   <p> ",
+    '<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column;" class="iw_inner">',
+    `   <h4>${title}</h4>`,
+    '   <p style="margin-top: -20px;"> ',
     '       <img src="./img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
     // "       02-120 | 공공,사회기관 > 특별,광역시청<br>",
     // '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
@@ -62,7 +63,7 @@ const Markers = (props) => {
         }}
         // animation={2}
         onClick={() => {
-          alert(`여기는 ${title}입니다`);
+          alert(`여기는 ${id}입니다`);
         }}
       />
     </>
@@ -153,12 +154,14 @@ const NaverMapAPI = (props) => {
           const left = itemdata[0];
           const right = itemdata[1];
           const title = itemdata[2];
+          const id = itemdata[3];
 
           return (
             <Markers
               left={left}
               right={right}
               title={title}
+              id={id}
               navermaps={navermaps}
               key={index}
             />
@@ -215,6 +218,7 @@ export default function Map(props) {
       itemdata.left_coordinate,
       itemdata.right_coordinate,
       itemdata.place_name,
+      itemdata.id,
     ];
   });
 
