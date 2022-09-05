@@ -102,6 +102,7 @@ const Mystory = (props) => {
                               key={index}
                               id={info.id}
                               rep_pic={info.rep_pic}
+                              title={info.title}
                               place_name={info.place_name}
                               place_like={info.place_like}
                             />

@@ -9,13 +9,24 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import Typography from "@mui/material/Typography";
 
-const StoreNameBox = styled.div`
+const PlacenameBox = styled.div`
   box-sizing: border-box;
   display: flex;
   width: 100%;
-  color: #000000;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.5em;
+  justify-content: flex-end;
+  align-items: center;
+`;
+const TitleNButtonBox = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  color: #ffffff;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
@@ -35,6 +46,7 @@ const LikeButton = styled(Button)({
   display: "flex",
   height: "30px",
   width: "30px",
+  alignItems: "center",
 });
 
 export default function ItemCard(props) {
@@ -48,7 +60,7 @@ export default function ItemCard(props) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/places/place_like/",
+        "http://127.0.0.1:8000/stories/story_like/",
         { id: id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -66,10 +78,10 @@ export default function ItemCard(props) {
     <div>
       <Card
         sx={{
-          minHeight: "250px",
-          minWidth: "350px",
-          maxHeight: "250px",
-          maxWidth: "350px",
+          minHeight: "300px",
+          minWidth: "480px",
+          maxHeight: "300px",
+          maxWidth: "480px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -79,10 +91,10 @@ export default function ItemCard(props) {
           component="img"
           sx={{
             // 16: 9,
-            minHeight: "200px",
-            minWidth: "350px",
-            maxHeight: "200px",
-            maxWidth: "350px",
+            minHeight: "300px",
+            minWidth: "480px",
+            maxHeight: "300px",
+            maxWidth: "480px",
             display: "flex",
           }}
           image={props.rep_pic}
@@ -92,29 +104,33 @@ export default function ItemCard(props) {
         <CardContent
           sx={{
             minHeight: "100px",
-            minWidth: "310px",
-            maxHeight: "100px",
-            maxWidth: "310px",
+            minWidth: "450px",
+            // maxHeight: "100px",
+            maxWidth: "450px",
             display: "flex",
             flexFlow: "column",
-            position: "relative",
+            position: "absolute",
+            zIndex: "5",
+            marginTop: "200px",
+            alignItems: "center",
           }}
         >
-          <StoreNameBox>
+          <PlacenameBox>{props.place_name}</PlacenameBox>
+          <TitleNButtonBox>
+            <LikeButton>
+              <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
+            </LikeButton>
             <Typography
               component={"span"}
               gutterBottom
               variant="h5"
-              fontSize="21px"
+              fontSize="1.1em"
               fontFamily={"kopub"}
-              fontWeight="500"
+              fontWeight="600"
             >
-              {props.place_name}
+              {props.title}
             </Typography>
-            <LikeButton>
-              <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
-            </LikeButton>
-          </StoreNameBox>
+          </TitleNButtonBox>
         </CardContent>
       </Card>
     </div>
