@@ -114,7 +114,6 @@ const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
   border-radius: 100px;
   width: 180px;
   height: 180px;
