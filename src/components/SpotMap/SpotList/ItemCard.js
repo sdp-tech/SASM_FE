@@ -156,37 +156,9 @@ export default function ItemCard(props) {
     }
   };
 
-  const myfunction = () => {
-    console.log("CLICKED");
-  };
-
   return (
     <div>
       <StyledCard key={Date.now()}>
-        {/* {state.isToggleOn ? "ON" : "OFF"} */}
-        {/* <button
-        style={{
-          position: "absolute",
-          top: "0px",
-          left: "120px",
-          padding: "0px",
-          margin: "0px",
-          width: "100%",
-          height: "100%",
-          overflow: "hidden",
-          maxWidth: 50,
-          maxHeight: 40,
-          bgcolor: "#F0F8FF"
-        }}
-      >
-        <img
-          src={archiveIcon}
-          width="50"
-          height="30"
-          alt=""
-          onClick={myfunction}
-        />
-      </button> */}
         <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
           <img
             src={props.ImageURL}

@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { CardMedia } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { createTheme } from "@mui/material/styles";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import Pagination from "../../common/Pagination";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import ItemCard from "./ItemCard";
+import Loading from "../../common/Loading";
 
 const StoryList = (props) => {
   const viewPage = () => {
@@ -23,10 +19,10 @@ const StoryList = (props) => {
   // console.log("info", infos.Story);
   // const info = infos.Story;
   const [info, setInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(1);
-  const offset = (page - 1) * limit;
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const loadItem = async () => {
@@ -43,6 +39,7 @@ const StoryList = (props) => {
     } else {
       headerValue = `Bearer ${token}`;
     }
+    setLoading(true);
     try {
       const response = await axios.get(
         "http://127.0.0.1:8000/stories/story_list/",
@@ -59,6 +56,7 @@ const StoryList = (props) => {
       console.log("data??", response.data);
       setPageCount(response.data.count);
       setInfo(response.data.results);
+      setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
     }
@@ -70,47 +68,53 @@ const StoryList = (props) => {
 
   return (
     <>
-      <StorySection>
-        <main>
-          <Container
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-            maxWidth="xl"
-          >
-            <Grid container spacing={2}>
-              {info.map((info, index) => (
-                <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
-                  <CardSection>
-                    <ItemCard
-                      key={index}
-                      id={info.id}
-                      rep_pic={info.rep_pic}
-                      title={info.title}
-                      place_name={info.place_name}
-                      category={info.category}
-                      semi_category={info.semi_category}
-                      preview={info.preview}
-                      story_like={info.story_like}
-                    />
-                  </CardSection>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <StorySection>
+            <main>
+              <Container
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                maxWidth="xl"
+              >
+                <Grid container spacing={2}>
+                  {info.map((info, index) => (
+                    <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
+                      <CardSection>
+                        <ItemCard
+                          key={index}
+                          id={info.id}
+                          rep_pic={info.rep_pic}
+                          title={info.title}
+                          place_name={info.place_name}
+                          category={info.category}
+                          semi_category={info.semi_category}
+                          preview={info.preview}
+                          story_like={info.story_like}
+                        />
+                      </CardSection>
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
-          </Container>
-        </main>
-      </StorySection>
-      <FooterSection>
-        <Pagination
-          total={pageCount}
-          limit={limit}
-          page={page}
-          setPage={setPage}
-        />
-      </FooterSection>
+              </Container>
+            </main>
+          </StorySection>
+          <FooterSection>
+            <Pagination
+              total={pageCount}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </FooterSection>
+        </>
+      )}
     </>
   );
 };
