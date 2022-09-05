@@ -13,6 +13,7 @@ import {
 } from "../../Auth/module";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
+import Edit_profileimage from "../../../assets/img/Edit_profileimage.png";
 
 const ChangeForm = (props) => {
   const navigate = useNavigate();
@@ -24,13 +25,16 @@ const ChangeForm = (props) => {
 
   const [loading, setLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState(null);
+
+  // useRef를 이용해 input태그에 접근.
   const imgRef = useRef();
 
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const onChangeImage = () => {
+
+  const onChangeImage = async (e) => {
     const reader = new FileReader();
-    const file = imgRef.current.files[0];
-    console.log(file);
+    const file = e.target.files[0];
+    // console.log(file);
 
     setInfo({
       ...info,
@@ -39,22 +43,42 @@ const ChangeForm = (props) => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImageUrl(reader.result);
-      console.log("이미지주소", reader.result);
+      // console.log("이미지주소", reader.result);
     };
   };
 
   // 저장하기 버튼 클릭 -> 서버에 변경 요청
   const SaveInfo = async () => {
-    // console.log(info.nickname);
-    // console.log(info.birthdate);
-    // console.log(info.email);
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(info)) {
+      if (key === "profile_image") {
+        //파일의 경우 value 자체
+        formData.append(`${key}`, value);
+      } else {
+        //문자열의 경우 변환
+        formData.append(`${key}`, `${value}`);
+      }
+    }
+
+    //fordata 확인용!!
+    for (let key of formData.keys()) {
+      console.log(key, "::", formData.get(key));
+    }
 
     try {
-      const response = await axios.put(
+      const response = await axios.post(
         "http://127.0.0.1:8000/users/me/",
-
-        { info: info },
-        { headers: { Authorization: `Bearer ${token}` } }
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+          transformRequest: (data, headers) => {
+            return data;
+          },
+        }
       );
 
       if (response.data.nickname) {
@@ -82,7 +106,31 @@ const ChangeForm = (props) => {
                 width="180px"
               ></img>
             </ImageBox>
-            <input type="file" ref={imgRef} onChange={onChangeImage}></input>
+            <AppStyle>
+              <label htmlFor="ex_file">
+                <div>
+                  <img
+                    src={Edit_profileimage}
+                    alt="edit"
+                    height="30px"
+                    width="30px"
+                  />
+                </div>
+              </label>
+              <input
+                type="file"
+                id="ex_file"
+                accept="image/*"
+                onChange={onChangeImage}
+              />
+            </AppStyle>
+
+            {/* <input
+              type="file"
+              accept="image/*"
+              ref={imgRef}
+              onChange={onChangeImage}
+            ></input> */}
             <form>
               <InfoBox>
                 <Name>
@@ -169,10 +217,10 @@ const ImageBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
   border-radius: 100px;
   width: 180px;
   height: 180px;
+  flex-direction: column;
   overflow: hidden;
 `;
 const InfoBox = styled.div`
@@ -220,6 +268,33 @@ const ButtonBox = styled.div`
   align-items: stretch;
   width: 100%;
   margin-top: 10%;
+`;
+const AppStyle = styled.div`
+  position: absolute;
+  width: 30px;
+  margin-top: 140px;
+  margin-left: 140px;
+  z-index: 4;
+  img {
+    max-width: 30px;
+  }
+  label {
+    display: inline-block;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 `;
 
 export default ChangeForm;
