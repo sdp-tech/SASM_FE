@@ -136,9 +136,9 @@ const SpotList = (props) => {
     { id: 0, data: "식당 및 카페" },
     { id: 1, data: "전시 및 체험공간" },
     { id: 2, data: "제로웨이스트 샵" },
-    { id: 3, data: "도시재생 및 친환경 건축물" },
+    { id: 3, data: "도시 재생 및 친환경 건축물" },
     { id: 4, data: "복합 문화 공간" },
-    { id: 5, data: "녹색공간" },
+    { id: 5, data: "녹색 공간" },
   ];
 
   const handleFilterToggle = () => {
