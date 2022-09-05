@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
 import ItemCard from "./SpotList/ItemCard.js";
-import SearchBar from "./SpotList/SearchBar.js";
+import SearchBar from "../common/SearchBar.js";
 import nothingIcon from "../../assets/img/nothing.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
@@ -221,6 +221,7 @@ const SpotList = (props) => {
               onChangeSearch={onChangeSearch}
               handleFilterToggle={handleFilterToggle}
               handleSearchToggle={handleSearchToggle}
+              placeholder="지속가능한 장소를 검색해보세요!"
             />
           </SearchFilterBar>
 

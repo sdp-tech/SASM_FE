@@ -1,26 +1,118 @@
-import * as React from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router";
 import StoryList from "./components/StoryList";
-import SearchBar from "./components/SearchBar";
+import SearchBar from "../common/SearchBar";
+import nothingIcon from "../../assets/img/nothing.svg";
+import Pagination from "../common/Pagination";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import Loading from "../common/Loading";
 
 const StoryListPage = () => {
-  const viewPage = () => {
-    window.location.href = "/detail"; //replace는 뒤로가기 불가능, href는 가능
+  const [item, setItem] = useState([]);
+  const [pageCount, setPageCount] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [searchToggle, setSearchToggle] = useState(false);
+  const [limit, setLimit] = useState(20);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+
+  const onChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
   };
-  const navigate = useNavigate();
+  // page가 변경될 때마다 page를 붙여서 api 요청하기
+  useEffect(() => {
+    handleSearchToggle();
+  }, [page]);
+
+  //검색 요청 api url
+  const handleSearchToggle = async (e) => {
+    if (e) {
+      e.preventDefault();
+    } //초기화 방지
+    setSearchToggle(true);
+    console.log(search);
+    setLoading(true);
+    let newPage;
+    if (page == 1) {
+      newPage = null;
+    } else {
+      newPage = page;
+    }
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
+    let searched;
+    if (search === null || search === "") {
+      //검색어 없을 경우 전체 리스트 반환
+      searched = null;
+    } else {
+      //검색어 있는 경우
+      searched = search;
+    }
+
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/stories/story_search/",
+        {
+          params: {
+            page: newPage,
+            search: searched,
+          },
+
+          headers: {
+            Authorization: headerValue,
+          },
+        }
+      );
+
+      console.log("response??", response);
+      setItem(response.data.results);
+      setPageCount(response.data.count);
+      setLoading(false);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
 
   return (
-    <Section>
-      <SearchBarSection>
-        <SearchFilterBar>
-          <SearchBar />
-        </SearchFilterBar>
-      </SearchBarSection>
-      <StoryListSection>
-        <StoryList />
-      </StoryListSection>
-    </Section>
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          <Section>
+            <SearchBarSection>
+              <SearchFilterBar>
+                <SearchBar
+                  search={search}
+                  onChangeSearch={onChangeSearch}
+                  handleSearchToggle={handleSearchToggle}
+                  placeholder="어떤 장소의 이야기가 궁금하신가요?"
+                />
+              </SearchFilterBar>
+            </SearchBarSection>
+            <StoryListSection>
+              <StoryList info={item} />
+            </StoryListSection>
+          </Section>
+          <FooterSection>
+            <Pagination
+              total={pageCount}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </FooterSection>
+        </>
+      )}
+    </>
   );
 };
 const Section = styled.div`
@@ -31,6 +123,7 @@ const Section = styled.div`
   grid-area: story;
   display: flex;
   flex-direction: column;
+  // border: 1px solid red;
 `;
 const SearchBarSection = styled.div`
   box-sizing: border-box;
@@ -55,9 +148,15 @@ const StoryListSection = styled.div`
   flex-direction: column;
   grid-area: story;
   scrollbar-height: thin;
-  // border: 1px solid yellow;
 `;
-
+const FooterSection = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  // overflow: hidden;
+  // grid-area: story;
+  height: 12%;
+`;
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 35%;

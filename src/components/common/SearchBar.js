@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import searchIcon from "../../../assets/img/search.svg";
-import filteringIcon from "../../../assets/img/filtering.svg";
+import searchIcon from "../../assets/img/search.svg";
+import filteringIcon from "../../assets/img/filtering.svg";
 
 const Wrapper = styled.form`
   position: relative;
@@ -38,20 +38,25 @@ export default function SearchBar({
   onSearch,
   search,
   onChangeSearch,
+  placeholder,
 }) {
   return (
     <Wrapper onSubmit={handleSearchToggle}>
       <SearchForm
-        placeholder="지속가능한 공간을 검색해보세요"
+        placeholder={placeholder}
         value={search}
         onChange={onChangeSearch}
       />
       <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
       </IconWrapper>
-      <IconWrapper type="submit" onClick={handleFilterToggle}>
-        <img src={filteringIcon}></img>
-      </IconWrapper>
+      {handleFilterToggle ? (
+        <IconWrapper type="submit" onClick={handleFilterToggle}>
+          <img src={filteringIcon}></img>
+        </IconWrapper>
+      ) : (
+        ""
+      )}
     </Wrapper>
   );
 }
