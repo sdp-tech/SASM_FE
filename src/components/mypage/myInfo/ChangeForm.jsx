@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
@@ -17,21 +17,37 @@ import { useNavigate } from "react-router-dom";
 const ChangeForm = (props) => {
   const navigate = useNavigate();
 
-  const { state } = useLocation(); //placeholer 값 가져오기
+  const { state } = useLocation(); //placeholder 값 가져오기
 
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
 
   const [loading, setLoading] = useState(true);
+  const [imageUrl, setImageUrl] = useState(null);
+  const imgRef = useRef();
 
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const onChangeImage = () => {
+    const reader = new FileReader();
+    const file = imgRef.current.files[0];
+    console.log(file);
+
+    setInfo({
+      ...info,
+      profile_image: file,
+    });
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageUrl(reader.result);
+      console.log("이미지주소", reader.result);
+    };
+  };
 
   // 저장하기 버튼 클릭 -> 서버에 변경 요청
   const SaveInfo = async () => {
     // console.log(info.nickname);
     // console.log(info.birthdate);
     // console.log(info.email);
-    console.log(info);
 
     try {
       const response = await axios.put(
@@ -59,8 +75,14 @@ const ChangeForm = (props) => {
         <Section>
           <MyplaceSection>
             <ImageBox>
-              <img src={state.profile_img_url} />
+              <img
+                src={imageUrl ? imageUrl : state.profile_image}
+                alt="profile"
+                height="180px"
+                width="180px"
+              ></img>
             </ImageBox>
+            <input type="file" ref={imgRef} onChange={onChangeImage}></input>
             <form>
               <InfoBox>
                 <Name>
@@ -129,7 +151,7 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // overflow: hidden;
+  overflow: hidden;
   //   height: 800px;
   width: 100%;
   margin-top: 5%;
@@ -151,6 +173,7 @@ const ImageBox = styled.div`
   border-radius: 100px;
   width: 180px;
   height: 180px;
+  overflow: hidden;
 `;
 const InfoBox = styled.div`
   display: flex;
