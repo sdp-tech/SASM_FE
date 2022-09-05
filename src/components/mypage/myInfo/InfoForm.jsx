@@ -39,7 +39,7 @@ const InfoForm = (props) => {
     }
   }, [token]);
 
-  const { profile_img_url, nickname, birthdate, email } = info;
+  const { profile_image, nickname, birthdate, email } = info;
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
@@ -59,7 +59,12 @@ const InfoForm = (props) => {
           <Section>
             <MyplaceSection>
               <ImageBox>
-                <img src={profile_img_url} />
+                <img
+                  src={profile_image}
+                  alt="profile"
+                  height="180px"
+                  width="180px"
+                />
               </ImageBox>
               <InfoBox>
                 <Name>
@@ -92,7 +97,7 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // overflow: hidden;
+  overflow: hidden;
   height: 100%;
   width: 100%;
   margin-top: 5%;
@@ -113,6 +118,7 @@ const ImageBox = styled.div`
   border-radius: 100px;
   width: 180px;
   height: 180px;
+  overflow: hidden;
 `;
 const InfoBox = styled.div`
   display: flex;
