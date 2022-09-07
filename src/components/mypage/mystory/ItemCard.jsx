@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import Loading from "../../common/Loading";
 import Typography from "@mui/material/Typography";
-
+import { Link } from "react-router-dom";
 const PlacenameBox = styled.div`
   box-sizing: border-box;
   display: flex;
@@ -112,10 +112,11 @@ export default function ItemCard(props) {
             position: "absolute",
             zIndex: "5",
             marginTop: "180px",
-            alignItems: "center",
           }}
         >
-          <PlacenameBox>{props.place_name}</PlacenameBox>
+          <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
+            <PlacenameBox>{props.place_name}</PlacenameBox>
+          </Link>
           <TitleNButtonBox>
             <LikeButton>
               <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
