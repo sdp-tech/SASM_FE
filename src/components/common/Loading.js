@@ -6,7 +6,7 @@ const Background = styled.div`
   width: 50vw;
   height: 50vh;
   top: 30%;
-  left: 30%;
+  left: 25%;
   // background: #ffffffb7;
   background: none;
   z-index: 999;

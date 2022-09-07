@@ -88,8 +88,8 @@ const Markers = (props) => {
 
   // HTML 마커
   const contentString = [
-    '<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column;" class="iw_inner">',
-    `   <h4>${title}</h4>`,
+    '<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner">',
+    `   <h4 style="background: white; border-radius: 10px; padding: 3px;">${title}</h4>`,
     '   <p style="margin-top: -20px;"> ',
     '       <img src="./img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
     // "       02-120 | 공공,사회기관 > 특별,광역시청<br>",

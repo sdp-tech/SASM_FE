@@ -1,8 +1,12 @@
 @font-face {
-  font-family: 'kopub';
-  src: url(./assets/font/KoPubWorld\ Batang\ Medium.ttf);
+  font-family: "kopub";
+  src: url(./assets/font/KoPubWorld\ Batang\ Medium.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "Dotum";
+  src: url(./assets/font/KoPubWorld\ Dotum\ Medium.ttf) format("truetype");
+}
 * {
-  font-family: 'kopub';
+  font-family: "kopub", "Dotum";
 }

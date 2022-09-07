@@ -12,6 +12,26 @@ import StoryDetail from "./pages/StoryDetail";
 import { LoginProvider } from "./contexts/LoginContexts";
 import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
+import { createGlobalStyle } from "styled-components";
+import "./index.css";
+const GlobalStyle = createGlobalStyle`
+
+
+// div{
+//   font-family: 'kopub';
+// };
+*{/* 프로젝트 내 모든 엘리먼트에 공통적으로 적용 */
+  font-family: 'kopub', 'Dotum';
+};
+body{/* 프로젝트 내 body 태그 안에 공통적으로 적용 */
+  font-family: 'kopub', 'Dotum';
+};
+// p{
+//   font-family: 'Dotum';
+// };
+ 
+`;
+
 const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
@@ -32,23 +52,26 @@ const App = () => {
   //   }
   // }, []);
   return (
-    <CookiesProvider>
-      <LoginProvider value={[login, setLogin]}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/users/*" element={<Auth />} />
-            <Route path="/map" element={<SpotMap />} />
+    <>
+      {/* <GlobalStyle /> */}
+      <CookiesProvider>
+        <LoginProvider value={[login, setLogin]}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/users/*" element={<Auth />} />
+              <Route path="/map" element={<SpotMap />} />
 
-            <Route path="/mypage/*" element={<MyPage />} />
-            <Route path="/auth/*" element={<Auth />} />
+              <Route path="/mypage/*" element={<MyPage />} />
+              <Route path="/auth/*" element={<Auth />} />
 
-            <Route path="/story" element={<StoryList />} />
-            <Route path="/story/:id" element={<StoryDetail />} />
-          </Routes>
-        </BrowserRouter>
-      </LoginProvider>
-    </CookiesProvider>
+              <Route path="/story" element={<StoryList />} />
+              <Route path="/story/:id" element={<StoryDetail />} />
+            </Routes>
+          </BrowserRouter>
+        </LoginProvider>
+      </CookiesProvider>
+    </>
   );
 };
 
