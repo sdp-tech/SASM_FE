@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
-import htmlex from "../../../assets/html/practice3/practice3.html";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import HeartButton from "../../common/Heart";
@@ -13,11 +12,13 @@ import Loading from "../../common/Loading";
 const Wrapper = styled.div`
   /*박스*/
   background: white;
-  width: 80%;
+  // width: 60%;
+  width: 1200px;
   // height: 800px;
   // box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); /* 그림자 */
   margin: 0 auto; /* 페이지 중앙 정렬 */
   margin-top: 4rem;
+  // border: 1px solid red;
 `;
 
 const TopBox = styled.div`
@@ -131,7 +132,7 @@ const ImageNContentBox = styled.div`
   box-sizing: border-box;
   // height: 400px;
   // font-size: 2.5rem;
-  // font-weight: 100;
+  font-weight: 200;
   // color: white;
   display: flex;
   justify-content: center;
@@ -142,6 +143,10 @@ const ImageNContentBox = styled.div`
   flex-direction: column;
   // overflow: hidden;
   // border: 1px solid red;
+  zoom: 1.6;
+  p {
+    font-family: "Dotum";
+  }
 `;
 
 const ButtonDiv = styled.div`
