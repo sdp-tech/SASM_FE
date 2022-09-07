@@ -26,6 +26,7 @@ export default function SpotMap() {
   const [location, setLocation] = useState();
   // 에러 메세지 저장
   const [error, setError] = useState();
+  console.log("ggg", location);
 
   // Geolocation의 `getCurrentPosition` 메소드에 대한 성공 callback 핸들러
   const handleSuccess = (pos) => {
@@ -35,7 +36,7 @@ export default function SpotMap() {
       latitude,
       longitude,
     });
-    sendCurrentLocation(latitude, longitude);
+    // sendCurrentLocation(latitude, longitude);
     getItem();
   };
 
@@ -58,35 +59,35 @@ export default function SpotMap() {
   }, []);
 
   //서버에 현재 위치 전달
-  const sendCurrentLocation = async (latitude, longitude) => {
-    let headerValue;
-    if (token === undefined) {
-      headerValue = `No Auth`;
-    } else {
-      headerValue = `Bearer ${token}`;
-    }
+  // const sendCurrentLocation = async (latitude, longitude) => {
+  //   let headerValue;
+  //   if (token === undefined) {
+  //     headerValue = `No Auth`;
+  //   } else {
+  //     headerValue = `Bearer ${token}`;
+  //   }
 
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/places/place_list/",
+  //   try {
+  //     const response = await axios.post(
+  //       "http://127.0.0.1:8000/places/place_list/",
 
-        {
-          //현재 위치 정보 전달
-          left: latitude,
-          right: longitude,
-        },
+  //       {
+  //         //현재 위치 정보 전달
+  //         left: latitude,
+  //         right: longitude,
+  //       },
 
-        {
-          headers: {
-            Authorization: headerValue,
-          },
-        }
-      );
-      // console.log("data", response);
-    } catch (err) {
-      console.log("Error >>", err);
-    }
-  };
+  //       {
+  //         headers: {
+  //           Authorization: headerValue,
+  //         },
+  //       }
+  //     );
+  //     // console.log("data", response);
+  //   } catch (err) {
+  //     console.log("Error >>", err);
+  //   }
+  // };
 
   //초기 데이터 가져오기
   const getItem = async () => {
@@ -129,7 +130,11 @@ export default function SpotMap() {
   return (
     <Sections>
       <Navibar />
-      {loading ? <Loading /> : <SpotList Itemcard={state.ItemList} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <SpotList Itemcard={state.ItemList} location={location} />
+      )}
       <Map mapList={state.MapList} />
       {/* <SpotDetail /> */}
 

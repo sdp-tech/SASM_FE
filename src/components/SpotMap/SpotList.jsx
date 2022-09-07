@@ -108,8 +108,9 @@ const SpotsWrapper = styled.div`
 `;
 
 const SpotList = (props) => {
-  const totalCount = props.Itemcard.count;
-  const Item = props.Itemcard.results;
+  const { latitude, longitude } = props.location; //현재 위치
+  console.log("lalala", latitude, longitude);
+
   // console.log("Item", Item);
   const [item, setItem] = useState([]);
   const [pagecount, setPagecount] = useState([]);
@@ -192,6 +193,8 @@ const SpotList = (props) => {
             page: newPage,
             search: searched,
             filter: checkedList,
+            left: latitude, //현재 위치
+            right: longitude, //현재 위치
           },
 
           headers: {
