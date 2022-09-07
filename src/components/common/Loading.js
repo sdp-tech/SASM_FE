@@ -3,11 +3,12 @@ import styled from "styled-components";
 import Spinner from "../../assets/img/Spinner.gif";
 const Background = styled.div`
   position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background: #ffffffb7;
+  width: 50vw;
+  height: 50vh;
+  top: 30%;
+  left: 30%;
+  // background: #ffffffb7;
+  background: none;
   z-index: 999;
   display: flex;
   flex-direction: column;

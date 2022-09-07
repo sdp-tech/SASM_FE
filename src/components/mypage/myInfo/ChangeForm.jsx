@@ -92,9 +92,6 @@ const ChangeForm = (props) => {
   };
   return (
     <>
-      {/* {loading ? (
-        <Loading />
-      ) : ( */}
       <>
         <Section>
           <MyplaceSection>
@@ -188,7 +185,6 @@ const ChangeForm = (props) => {
           </MyplaceSection>
         </Section>
       </>
-      {/* )} */}
     </>
   );
 };
