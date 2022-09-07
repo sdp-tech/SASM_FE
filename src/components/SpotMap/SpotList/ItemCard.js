@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 
 import archiveIcon from "../../../assets/img/Like.png";
@@ -107,6 +107,8 @@ export default function ItemCard(props) {
   const [detailInfo, setDetailInfo] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const node = useRef();
+
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
@@ -156,8 +158,24 @@ export default function ItemCard(props) {
     }
   };
 
+  useEffect(() => {
+    const clickOutside = (e) => {
+      // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
+      if (modalOpen && node.current && !node.current.contains(e.target)) {
+        setModalOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [modalOpen]);
+
   return (
-    <div>
+    <div ref={node}>
       <StyledCard key={Date.now()}>
         <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
           <img
