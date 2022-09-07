@@ -108,10 +108,7 @@ const SpotsWrapper = styled.div`
 `;
 
 const SpotList = (props) => {
-  const { latitude, longitude } = props.location; //현재 위치
-  console.log("lalala", latitude, longitude);
-
-  // console.log("Item", Item);
+  const { latitude, longitude } = props.Location; //현재 위치
   const [item, setItem] = useState([]);
   const [pagecount, setPagecount] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -190,11 +187,11 @@ const SpotList = (props) => {
         "http://127.0.0.1:8000/places/place_search/",
         {
           params: {
+            left: latitude, //현재 위치
+            right: longitude, //현재 위치
             page: newPage,
             search: searched,
             filter: checkedList,
-            left: latitude, //현재 위치
-            right: longitude, //현재 위치
           },
 
           headers: {
@@ -203,7 +200,7 @@ const SpotList = (props) => {
         }
       );
 
-      console.log("response??", response);
+      // console.log("response??", response);
       setItem(response.data.results);
       setPagecount(response.data.count);
       setLoading(false);

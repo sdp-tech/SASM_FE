@@ -23,20 +23,15 @@ export default function SpotMap() {
     MapList: [],
   });
 
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState([]);
   // 에러 메세지 저장
   const [error, setError] = useState();
-  console.log("ggg", location);
-
   // Geolocation의 `getCurrentPosition` 메소드에 대한 성공 callback 핸들러
   const handleSuccess = (pos) => {
     const { latitude, longitude } = pos.coords;
-
-    setLocation({
-      latitude,
-      longitude,
-    });
-    // sendCurrentLocation(latitude, longitude);
+    // 현재위치 저장
+    setLocation({ latitude, longitude });
+    // map 데이터 불러오기
     getItem();
   };
 
@@ -58,38 +53,7 @@ export default function SpotMap() {
     geolocation.getCurrentPosition(handleSuccess, handleError);
   }, []);
 
-  //서버에 현재 위치 전달
-  // const sendCurrentLocation = async (latitude, longitude) => {
-  //   let headerValue;
-  //   if (token === undefined) {
-  //     headerValue = `No Auth`;
-  //   } else {
-  //     headerValue = `Bearer ${token}`;
-  //   }
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://127.0.0.1:8000/places/place_list/",
-
-  //       {
-  //         //현재 위치 정보 전달
-  //         left: latitude,
-  //         right: longitude,
-  //       },
-
-  //       {
-  //         headers: {
-  //           Authorization: headerValue,
-  //         },
-  //       }
-  //     );
-  //     // console.log("data", response);
-  //   } catch (err) {
-  //     console.log("Error >>", err);
-  //   }
-  // };
-
-  //초기 데이터 가져오기
+  //초기 map 데이터 가져오기
   const getItem = async () => {
     let headerValue;
     if (token === undefined) {
@@ -102,20 +66,19 @@ export default function SpotMap() {
 
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/places/place_search/",
-        {},
+        "http://127.0.0.1:8000/places/map_info/",
         {
+          params: {},
+
           headers: {
             Authorization: headerValue,
           },
         }
       );
-      // console.log("data?", response);
-
+      // console.log("data?", response.data);
       setState({
         loading: true,
-        ItemList: response.data,
-        MapList: response.data.results,
+        MapList: response.data,
       });
       setLoading(false);
     } catch (err) {
@@ -123,22 +86,18 @@ export default function SpotMap() {
     }
   };
 
-  // useEffect(() => {
-  //   getItem();
-  // }, []);
-
   return (
     <Sections>
       <Navibar />
+
       {loading ? (
         <Loading />
       ) : (
-        <SpotList Itemcard={state.ItemList} location={location} />
+        <>
+          <SpotList Location={location} />
+          <Map mapList={state.MapList} />
+        </>
       )}
-      <Map mapList={state.MapList} />
-      {/* <SpotDetail /> */}
-
-      {/* <SpotList Itemcard={state.ItemList} /> */}
     </Sections>
   );
 }
