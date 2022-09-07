@@ -13,7 +13,7 @@ const StoryListPage = () => {
   const [pageCount, setPageCount] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [searchToggle, setSearchToggle] = useState(false);
-  const [limit, setLimit] = useState(20);
+  const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
