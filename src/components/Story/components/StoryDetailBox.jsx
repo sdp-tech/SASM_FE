@@ -233,7 +233,7 @@ const StoryDetailBox = (props) => {
   };
 
   const markup = () => {
-    return { __html: `${data.story_url}` };
+    return { __html: `${data.html_content}` };
   };
 
   const loadItem = async () => {
@@ -314,10 +314,10 @@ const StoryDetailBox = (props) => {
 
           <ImageNContentBox>
             <div>{data.story_review}</div>
-            <iframe src={data.story_url} width="100%" height="500px"></iframe>
+            {/* <iframe src={data.story_url} width="100%" height="500px"></iframe> */}
             {/* <object data={data.story_url} width="1500vw" height="1000px" /> */}
 
-            {/* <div dangerouslySetInnerHTML={markup()}></div> */}
+            <div dangerouslySetInnerHTML={markup()}></div>
           </ImageNContentBox>
         </Wrapper>
       )}

@@ -52,7 +52,7 @@ const ContentBox = styled.div`
   min-height: 86px;
   max-height: 86px;
   color: #797979;
-  border: 2px solid #000000;
+  // border: 2px solid #000000;
 `;
 
 // 기존에 존재하는 버튼에 재스타일
