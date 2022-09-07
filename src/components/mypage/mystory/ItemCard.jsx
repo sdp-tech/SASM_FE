@@ -14,8 +14,8 @@ const PlacenameBox = styled.div`
   display: flex;
   width: 100%;
   color: #ffffff;
-  font-weight: 700;
-  font-size: 1.5em;
+  font-weight: 550;
+  font-size: 1.6em;
   justify-content: flex-end;
   align-items: center;
 `;
@@ -30,7 +30,6 @@ const TitleNButtonBox = styled.div`
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
-  background-color: #ffffff;
   height: 50px;
   font-size: 20px;
   font-weight: 700;
@@ -43,6 +42,7 @@ const Button = styled.button`
 const LikeButton = styled(Button)({
   boxSizing: "border-box",
   border: "none",
+  background: "none",
   display: "flex",
   height: "30px",
   width: "30px",
@@ -111,7 +111,7 @@ export default function ItemCard(props) {
             flexFlow: "column",
             position: "absolute",
             zIndex: "5",
-            marginTop: "200px",
+            marginTop: "180px",
             alignItems: "center",
           }}
         >
@@ -126,7 +126,7 @@ export default function ItemCard(props) {
               variant="h5"
               fontSize="1.1em"
               fontFamily={"kopub"}
-              fontWeight="600"
+              fontWeight="550"
             >
               {props.title}
             </Typography>
