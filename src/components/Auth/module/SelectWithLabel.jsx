@@ -25,7 +25,7 @@ const SelectWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-`
+`;
 
 const Select = styled.select`
   border: 1px solid ${oc.gray[3]};
@@ -38,32 +38,35 @@ const Select = styled.select`
   & + & {
     margin-left: 1em;
   }
-  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04),
+    0px 4px 16px rgba(51, 51, 51, 0.08);
 `;
 
-const SelectWithLabel = ({label, item1, item2, item3, onChange}) => (
+const SelectWithLabel = ({ label, item1, item2, item3, onChange }) => (
   <Wrapper>
     <Label>{label}</Label>
     <SelectWrapper>
-      <Select className="DOB" onChange={onChange}>
-        {item1.map(item => (
+      <Select className="birthdate" onChange={onChange}>
+        {item1.map((item) => (
           <option value={item} key={item}>
             {item}
           </option>
         ))}
       </Select>
 
-      <Select className="DOB" onChange={onChange}>
-        <option value="default" disabled>년도</option>
-        {item2.map(item => (
+      <Select className="birthdate" onChange={onChange}>
+        <option value="default" disabled>
+          년도
+        </option>
+        {item2.map((item) => (
           <option value={item} key={item}>
             {item}
           </option>
         ))}
       </Select>
 
-      <Select className="DOB" onChange={onChange}>
-        {item3.map(item => (
+      <Select className="birthdate" onChange={onChange}>
+        {item3.map((item) => (
           <option value={item} key={item}>
             {item}
           </option>
