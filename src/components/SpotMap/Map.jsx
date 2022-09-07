@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from "react-naver-maps";
 import styled from "styled-components";
 import axios from "axios";
-
+import { useCookies } from "react-cookie";
+import Loading from "../common/Loading";
+import SpotDetail from "./SpotDetail";
 const MapSection = styled.div`
   box-sizing: border-box;
   margin: 1%;
@@ -24,14 +26,66 @@ const SearchAgainButton = styled.button`
   z-index: 4;
   cursor: pointer;
 `;
+const DetailBox = styled.div`
+  // boxsizing: border-box;
+  position: absolute;
+  z-index: 6;
+  height: 100vh;
+`;
 
 const Markers = (props) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [detailInfo, setDetailInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const node = useRef();
   const navermaps = props.navermaps;
   const left = props.left;
   const right = props.right;
   const title = props.title;
   const id = props.id;
   const key = props.index;
+
+  useEffect(() => {
+    const clickOutside = (e) => {
+      // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
+      if (modalOpen && node.current && !node.current.contains(e.target)) {
+        setModalOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [modalOpen]);
+
+  // 상세보기 클릭 이벤트
+  const handleClick = async () => {
+    // alert(`${props.id}`);
+    setLoading(true);
+    const id = props.id;
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:8000/places/place_detail/${id}/`
+      );
+
+      console.log("response!!!", response.data);
+      setDetailInfo(response.data);
+      setModalOpen(true);
+
+      setLoading(false);
+    } catch (err) {
+      console.log("Error >>", err);
+    }
+  };
+
+  // 상세보기 모달 닫기 이벤트
+  const modalClose = () => {
+    setModalOpen(!modalOpen);
+  };
+
   // HTML 마커
   const contentString = [
     '<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column;" class="iw_inner">',
@@ -45,7 +99,7 @@ const Markers = (props) => {
   ].join("");
 
   return (
-    <>
+    <div ref={node}>
       <Marker
         key={key}
         position={new navermaps.LatLng(left, right)}
@@ -62,11 +116,21 @@ const Markers = (props) => {
           // anchor: new navermaps.Point(10, 10),
         }}
         // animation={2}
-        onClick={() => {
-          alert(`여기는 ${id}입니다`);
-        }}
+        // onClick={() => {
+        //   alert(`여기는 ${id}입니다`);
+        // }}
+        onClick={handleClick}
       />
-    </>
+      <DetailBox>
+        {modalOpen && (
+          <SpotDetail
+            modalClose={modalClose}
+            id={props.id}
+            detailInfo={detailInfo}
+          ></SpotDetail>
+        )}
+      </DetailBox>
+    </div>
   );
 };
 

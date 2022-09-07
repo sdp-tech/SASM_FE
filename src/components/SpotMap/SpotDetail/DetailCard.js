@@ -140,26 +140,29 @@ function DetailCard({
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     // alert(`${props.id}`);
+    if (!token) {
+      alert("로그인이 필요합니다.");
+    } else {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/places/place_like/",
+          { id: id },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/places/place_like/",
-        { id: id },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+        console.log("response", response);
 
-      console.log("response", response);
+        // setState({
+        //   loading: true,
+        //   ItemList: response.detailInfo.results,
+        // });
+      } catch (err) {
+        console.log("Error >>", err);
+      }
 
-      // setState({
-      //   loading: true,
-      //   ItemList: response.detailInfo.results,
-      // });
-    } catch (err) {
-      console.log("Error >>", err);
+      //색상 채우기
+      setLike(!like);
     }
-
-    //색상 채우기
-    setLike(!like);
   };
   return (
     <StyledCard className="component component--item_card" key={key}>
