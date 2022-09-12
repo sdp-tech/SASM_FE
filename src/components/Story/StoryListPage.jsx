@@ -17,7 +17,31 @@ const StoryListPage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [filterToggle, setFilterToggle] = useState(false);
+  const [checkedList, setCheckedList] = useState([]);
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
+
+  // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
+  const onCheckedElement = (checked, item) => {
+    if (checked) {
+      setCheckedList([...checkedList, item]);
+    } else if (!checked) {
+      setCheckedList(checkedList.filter((el) => el !== item));
+    }
+  };
+
+  const CATEGORY_LIST = [
+    { id: 0, data: "식당 및 카페" },
+    { id: 1, data: "전시 및 체험공간" },
+    { id: 2, data: "제로웨이스트 샵" },
+    { id: 3, data: "도시 재생 및 친환경 건축물" },
+    { id: 4, data: "복합 문화 공간" },
+    { id: 5, data: "녹색 공간" },
+  ];
+
+  const handleFilterToggle = () => {
+    setFilterToggle(!filterToggle);
+  };
 
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -34,7 +58,7 @@ const StoryListPage = () => {
       e.preventDefault();
     } //초기화 방지
     setSearchToggle(true);
-    console.log(search);
+    console.log(search, checkedList);
     setLoading(true);
     let newPage;
     if (page == 1) {
@@ -64,6 +88,7 @@ const StoryListPage = () => {
           params: {
             page: newPage,
             search: searched,
+            filter: checkedList,
           },
 
           headers: {
@@ -72,7 +97,7 @@ const StoryListPage = () => {
         }
       );
 
-      console.log("response??", response);
+      // console.log("response??", response);
       setItem(response.data.results);
       setPageCount(response.data.count);
       setLoading(false);
@@ -94,9 +119,42 @@ const StoryListPage = () => {
                   search={search}
                   onChangeSearch={onChangeSearch}
                   handleSearchToggle={handleSearchToggle}
+                  handleFilterToggle={handleFilterToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
                 />
               </SearchFilterBar>
+              <div style={{ marginTop: "-2%" }}>
+                {filterToggle ? (
+                  <FilterOptions>
+                    <CategoryTitle>카테고리</CategoryTitle>
+                    <CategoryCheckBox>
+                      {CATEGORY_LIST.map((item) => {
+                        return (
+                          <CategoryLabel key={item.id}>
+                            <input
+                              type="checkbox"
+                              // 이때 value값으로 data를 지정해준다.
+                              value={item.data}
+                              // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
+                              onChange={(e) => {
+                                onCheckedElement(
+                                  e.target.checked,
+                                  e.target.value
+                                );
+                              }}
+                              // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
+                              checked={
+                                checkedList.includes(item.data) ? true : false
+                              }
+                            />
+                            <div>{item.data}</div>
+                          </CategoryLabel>
+                        );
+                      })}
+                    </CategoryCheckBox>
+                  </FilterOptions>
+                ) : null}
+              </div>
             </SearchBarSection>
             <StoryListSection>
               <StoryList info={item} />
@@ -132,7 +190,7 @@ const SearchBarSection = styled.div`
   width: 100%;
   display: flex;
   margin-top: 0.1%;
-  flex-direction: column;
+  flex-direction: row;
   grid-area: story;
   align-items: center;
   justify-content: center;
@@ -162,5 +220,46 @@ const SearchFilterBar = styled.div`
   width: 35%;
   height: 70%;
   border: 3px solid #99a0b0;
+`;
+const FilterOptions = styled.div`
+  width: 20%;
+  min-height: 30%;
+  border-left: 1px solid #99a0b0;
+  border-right: 1px solid #99a0b0;
+  border-bottom: 1px solid #99a0b0;
+  box-sizing: border-box;
+  display: flex;
+  position: absolute;
+  background: white;
+  z-index: 4;
+`;
+const CategoryTitle = styled.div`
+  width: 30%;
+  min-height: 30%;
+  margin: 4.3% 3% 0 3%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+`;
+const CategoryCheckBox = styled.div`
+  width: 100%;
+  min-height: 30%;
+  // margin: 7% 3% 0 3%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const CategoryLabel = styled.div`
+  width: 100%;
+  min-width: 100%;
+  min-height: 5%;
+  height: 14%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2%;
 `;
 export default StoryListPage;
