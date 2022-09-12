@@ -5,7 +5,9 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
-
+import openButton from "../../../assets/img/openButton.png";
+import GoToMapImg from "../../../assets/img/GoToMapImg.png";
+import { Link } from "react-router-dom";
 const StyledCard = styled.section`
   width: 100%;
 `;
@@ -106,6 +108,37 @@ const ListButton = styled(Button)({
   marginLeft: "-1.5%",
   marginTop: "-3%",
 });
+const ButtonDiv = styled.div`
+  box-sizing: border-box;
+  height: 50px;
+  width: 200px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  // margin: 7px;
+`;
+const MapButton = styled(Button)({
+  border: 0,
+  borderRadius: "15px",
+  // boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  boxShadow:
+    "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)" /* 그림자 */,
+  color: "#5480E5",
+  display: "flex",
+  // justifyContent: "flex-end",
+});
+const ButtonImg = styled.div`
+  box-sizing: border-box;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  margin: 2px 4px 2px 2px;
+`;
+const ButtonText = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  margin: 2px 4px 2px 3px;
+`;
 function DetailCard({
   key,
   id,
@@ -126,6 +159,7 @@ function DetailCard({
   Photo0,
   Photo1,
   Photo2,
+  story_id,
 }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -164,6 +198,7 @@ function DetailCard({
       setLike(!like);
     }
   };
+
   return (
     <StyledCard className="component component--item_card" key={key}>
       <ImgBox>
@@ -176,7 +211,34 @@ function DetailCard({
         />
       </ImgBox>
       <TextBox>
-        <Title>{StoreName}</Title>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            minWidth: "240px",
+            justifyContent: "space-between",
+          }}
+        >
+          <Title>{StoreName}</Title>
+          <ButtonDiv>
+            {/* 스토리가 있는 경우에만 버튼 띄우기 */}
+            {story_id ? (
+              <Link
+                to={`/story/${story_id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <MapButton>
+                  <ButtonImg>
+                    <img src={GoToMapImg} />
+                  </ButtonImg>
+                  <ButtonText>Go To Story</ButtonText>
+                </MapButton>
+              </Link>
+            ) : (
+              ""
+            )}
+          </ButtonDiv>
+        </div>
         <LikeBox>
           <CategoryBox>
             <p>{Category}</p>
@@ -205,7 +267,16 @@ function DetailCard({
 
           <ListButton onClick={handleClick}>
             <p>영업시간 : {open_hours}</p>
-            {open ? "∧" : "∨"}
+            {/* {open ? "∧" : "∨"} */}
+            {open ? (
+              <>
+                <img src={openButton} style={{ transform: "rotate(180deg)" }} />
+              </>
+            ) : (
+              <>
+                <img src={openButton} />
+              </>
+            )}
           </ListButton>
 
           <Collapse in={open} timeout="auto" unmountOnExit>
