@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
+import openButton from "../../../assets/img/openButton.png";
 
 const StyledCard = styled.section`
   width: 100%;
@@ -205,7 +206,16 @@ function DetailCard({
 
           <ListButton onClick={handleClick}>
             <p>영업시간 : {open_hours}</p>
-            {open ? "∧" : "∨"}
+            {/* {open ? "∧" : "∨"} */}
+            {open ? (
+              <>
+                <img src={openButton} style={{ transform: "rotate(180deg)" }} />
+              </>
+            ) : (
+              <>
+                <img src={openButton} />
+              </>
+            )}
           </ListButton>
 
           <Collapse in={open} timeout="auto" unmountOnExit>
