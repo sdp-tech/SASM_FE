@@ -141,7 +141,7 @@ export default function Home() {
           <StyledLink to="/story">STORY</StyledLink>
         </NavBtn>
         <NavBtn>
-          <StyledLink to="/mypage">MY PICK</StyledLink>
+          <StyledLink to="/mypage">MY PAGE</StyledLink>
         </NavBtn>
 
         {/* <NavBtn>
