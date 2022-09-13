@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { AuthButton, InputWithLabel } from "../module";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageRedirection from "../../../functions/common/PageRedirection";
-
+import ChangePw from "../../../functions/Auth/ChangePw";
+import { AltRoute } from "@mui/icons-material";
 const Wrapper = styled.div`
   width: 100%;
 
@@ -24,29 +25,31 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 const InputAndButton = styled.div`
-    position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: end;
-    width: 100%;
-    margin-top: 0.8em;
-    margin-bottom: 0.8em;
-`
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: end;
+  width: 100%;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+`;
 const Message = styled.div`
   font-size: 0.2em;
-//   margin-top: 1.1em;
-  color: #DB524E;
-`
+  //   margin-top: 1.1em;
+  color: #db524e;
+`;
 
 const SetNewPassword = () => {
-  const [password, setPassword] = useState('')
-  const [passwordConfirm, setPasswordConfirm] = useState('')
-  const navigate = useNavigate() 
+  const [info, setInfo] = useState("");
+  const [code, setCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const navigate = useNavigate();
 
   // 비밀번호 확인 체크
-  var passwordCheck = false
-  if(password === passwordConfirm || passwordConfirm === '')
-      passwordCheck = true
+  var passwordCheck = false;
+  if (password === passwordConfirm || passwordConfirm === "")
+    passwordCheck = true;
 
   return (
     <>
@@ -63,49 +66,90 @@ const SetNewPassword = () => {
         <br />
         <div>새로 사용하기를 원하는 비밀번호를 입력해 주세요.</div>
       </Wrapper>
-      
-      <InputAndButton>
-                <InputWithLabel 
-                  onChange={(event)=>{setPassword(event.target.value)}}
-                  label="새로운 비밀번호" name="password" type="password"
-                />
-      </InputAndButton>
+      <>
+        <form>
+          <InputAndButton>
+            <InputWithLabel
+              onChange={(event) => {
+                // setCode(event.target.value);
+                setInfo({
+                  ...info,
+                  code: event.target.value,
+                });
+              }}
+              label="인증번호"
+              name="code"
+              type="code"
+            />
+          </InputAndButton>
+          <InputAndButton>
+            <InputWithLabel
+              onChange={(event) => {
+                setPassword(event.target.value);
+                setInfo({
+                  ...info,
+                  password: event.target.value,
+                });
+              }}
+              label="새로운 비밀번호"
+              name="password"
+              type="password"
+            />
+          </InputAndButton>
 
-      <InputAndButton>
-                <InputWithLabel 
-                  onChange={(event)=>{setPasswordConfirm(event.target.value)}}
-                  label="새로운 비밀번호 확인" name="passwordConfirm" type="password"
-                  style={passwordCheck?{} : {backgroundColor: '#F9E3E3'}}
-                />
-      </InputAndButton>
-      <Message>
-          {passwordCheck ? '' : '입력한 비밀번호와 일치하지 않습니다.'}
-      </Message>
+          <InputAndButton>
+            <InputWithLabel
+              onChange={(event) => {
+                setPasswordConfirm(event.target.value);
+              }}
+              label="새로운 비밀번호 확인"
+              name="passwordConfirm"
+              type="password"
+              style={passwordCheck ? {} : { backgroundColor: "#F9E3E3" }}
+            />
+          </InputAndButton>
+          <Message>
+            {passwordCheck ? "" : "입력한 비밀번호와 일치하지 않습니다."}
+          </Message>
 
-      <AuthButton
-        style={{
-          color: "#FFFFFF",
-          backgroundColor: "#5480E5",
-          boxShadow:
-            "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-          border: "none",
-          fontSize: "16px",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          borderRadius: "4px",
-          transform: "translate(-1.5%, 50%)",
-        }}
-        onClick={() => {
-          alert('비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요')
-          PageRedirection(navigate, "LOG IN")
-        }}
-      >
-        완료
-      </AuthButton>
+          <AuthButton
+            style={{
+              color: "#FFFFFF",
+              backgroundColor: "#5480E5",
+              boxShadow:
+                "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
+              border: "none",
+              fontSize: "16px",
+              padding: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              borderRadius: "4px",
+              transform: "translate(-1.5%, 50%)",
+            }}
+            onClick={async () => {
+              const res = await ChangePw(info);
+              // console.log("res!!!!!", res);
+              if (res.data.status === "success") {
+                alert(
+                  "비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요"
+                );
+                PageRedirection(navigate, "LOG IN");
+              } else if (res.data === "코드가 일치하지 않습니다") {
+                alert("인증번호가 일치하지 않습니다.");
+              } else if (res.data === "기존 비밀번호와 일치합니다") {
+                alert("기존 비밀번호와 일치합니다.");
+              } else if (res.data === "비밀번호를 다시 입력해주세요") {
+                alert("비밀번호를 다시 입력해주세요.");
+              }
+            }}
+          >
+            완료
+          </AuthButton>
+        </form>
+      </>
     </>
   );
 };
