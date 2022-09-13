@@ -135,7 +135,7 @@ const Markers = (props) => {
 };
 
 const NaverMapAPI = (props) => {
-  const Item = props.abc;
+  const Item = props.markerInfo;
   const navermaps = window.naver.maps;
 
   // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
@@ -277,7 +277,7 @@ const NaverMapAPI = (props) => {
 export default function Map(props) {
   const Item = props.mapList;
 
-  const abc = Item.map((itemdata, index, source) => {
+  const markerInfo = Item.map((itemdata, index, source) => {
     return [
       itemdata.left_coordinate,
       itemdata.right_coordinate,
@@ -293,14 +293,14 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading...</p>}
       >
-        <NaverMapAPI abc={abc} />
+        <NaverMapAPI markerInfo={markerInfo} />
       </RenderAfterNavermapsLoaded>
 
-      <SearchAgainButton
+      {/* <SearchAgainButton
       // onClick={handleBackToCenter}
       >
         지금 지도에서 검색
-      </SearchAgainButton>
+      </SearchAgainButton> */}
     </MapSection>
   );
 }
