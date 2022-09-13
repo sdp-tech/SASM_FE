@@ -287,12 +287,12 @@ const StoryDetailBox = (props) => {
               <Options>{data.semi_category}</Options>
             </CategoryOptionBox>
             <ButtonDiv>
-              <MapButton onClick={handlePageGoToMap}>
+              {/* <MapButton onClick={handlePageGoToMap}>
                 <ButtonImg>
                   <img src={GoToMapImg} />
                 </ButtonImg>
                 <ButtonText>Go To Map</ButtonText>
-              </MapButton>
+              </MapButton> */}
             </ButtonDiv>
           </TopBox>
           <MainTitleNStoreNameBox>
