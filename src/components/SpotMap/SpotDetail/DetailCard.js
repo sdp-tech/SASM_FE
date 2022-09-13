@@ -126,19 +126,23 @@ const MapButton = styled(Button)({
     "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)" /* 그림자 */,
   color: "#5480E5",
   display: "flex",
+  width: "110px",
+
   // justifyContent: "flex-end",
 });
 const ButtonImg = styled.div`
   box-sizing: border-box;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   display: flex;
-  margin: 2px 4px 2px 2px;
+  // margin: 2px 3px 2px 3px;
 `;
 const ButtonText = styled.div`
   box-sizing: border-box;
   display: flex;
   margin: 2px 4px 2px 3px;
+  min-width: 80px;
+  font-weight: 600;
 `;
 function DetailCard({
   key,
