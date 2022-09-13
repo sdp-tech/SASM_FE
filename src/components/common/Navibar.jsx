@@ -97,9 +97,9 @@ const PageTitle = ({ navigate, title }) => {
       onClick={() => {
         console.log("@@@", title);
         // color === "yellow" ? setColor("red") : setColor("yellow");
-        // // PageRedirection(navigate, title.includes("님") ? "MY PICK" : title)
+        // // PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title)
         // // aria-current={ ? "title" : null}
-        PageRedirection(navigate, title.includes("님") ? "MY PICK" : title);
+        PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
       }}
     >
       {/* {userID} */}
@@ -150,7 +150,7 @@ export default function Navibar() {
         <PagesBox>
           <PageTitle navigate={navigate} title="MAP"></PageTitle>
           <PageTitle navigate={navigate} title="STORY"></PageTitle>
-          <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
+          <PageTitle navigate={navigate} title="MY PAGE"></PageTitle>
         </PagesBox>
 
         {/* 로그인 및 회원가입 */}
