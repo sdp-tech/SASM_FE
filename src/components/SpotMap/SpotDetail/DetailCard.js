@@ -78,6 +78,7 @@ const Title = styled.p`
   color: #7c1d30;
   font-size: 2em;
   margin-top: -2px;
+  min-width: 300px;
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
