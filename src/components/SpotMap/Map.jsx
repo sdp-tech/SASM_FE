@@ -5,6 +5,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loading from "../common/Loading";
 import SpotDetail from "./SpotDetail";
+
 const MapSection = styled.div`
   box-sizing: border-box;
   margin: 1%;
@@ -37,6 +38,7 @@ const Markers = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [detailInfo, setDetailInfo] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const node = useRef();
   const navermaps = props.navermaps;
   const left = props.left;
@@ -44,7 +46,7 @@ const Markers = (props) => {
   const title = props.title;
   const id = props.id;
   const key = props.index;
-
+  const token = cookies.name; // 쿠키에서 id 를 꺼내기
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
@@ -66,11 +68,25 @@ const Markers = (props) => {
     // alert(`${props.id}`);
     setLoading(true);
     const id = props.id;
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/places/place_detail/${id}/`
-      );
+        "http://127.0.0.1:8000/places/place_detail/",
+        {
+          params: {
+            id: id,
+          },
 
+          headers: {
+            Authorization: headerValue,
+          },
+        }
+      );
       console.log("response!!!", response.data);
       setDetailInfo(response.data);
       setModalOpen(true);
