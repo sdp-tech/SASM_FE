@@ -6,7 +6,8 @@ import axios from "axios";
 import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
 import openButton from "../../../assets/img/openButton.png";
-import GoToMapImg from "../../../assets/img/GoToMapImg.png";
+// import GoToMapImg from "../../../assets/img/GoToMapImg.png";
+import GoToStoryImg from "../../../assets/img/GoToStoryImg.png";
 import { Link } from "react-router-dom";
 const StyledCard = styled.section`
   width: 100%;
@@ -132,10 +133,10 @@ const MapButton = styled(Button)({
 });
 const ButtonImg = styled.div`
   box-sizing: border-box;
-  height: 20px;
-  width: 20px;
+  height: 15px;
+  width: 15px;
   display: flex;
-  // margin: 2px 3px 2px 3px;
+  margin: 2px 2px 2px 2px;
 `;
 const ButtonText = styled.div`
   box-sizing: border-box;
@@ -165,6 +166,7 @@ function DetailCard({
   Photo1,
   Photo2,
   story_id,
+  place_like,
 }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -234,7 +236,7 @@ function DetailCard({
               >
                 <MapButton>
                   <ButtonImg>
-                    <img src={GoToMapImg} />
+                    <img src={GoToStoryImg} />
                   </ButtonImg>
                   <ButtonText>Go To Story</ButtonText>
                 </MapButton>
@@ -249,7 +251,11 @@ function DetailCard({
             <p>{Category}</p>
           </CategoryBox>
           <LikeButton>
-            <HeartButton like={like} onClick={toggleLike} />
+            {place_like === "ok" ? (
+              <HeartButton like={!like} onClick={toggleLike} />
+            ) : (
+              <HeartButton like={like} onClick={toggleLike} />
+            )}
           </LikeButton>
         </LikeBox>
         <ReviewBox>
