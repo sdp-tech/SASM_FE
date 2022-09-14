@@ -57,6 +57,7 @@ export default function SpotDetail(props) {
           Photo1={data?.photos?.[1].image}
           Photo2={data?.photos?.[2].image}
           story_id={data?.story_id}
+          place_like={data?.place_like}
         />
       </List>
 

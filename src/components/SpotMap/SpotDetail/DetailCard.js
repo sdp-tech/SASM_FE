@@ -166,6 +166,7 @@ function DetailCard({
   Photo1,
   Photo2,
   story_id,
+  place_like,
 }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -250,7 +251,11 @@ function DetailCard({
             <p>{Category}</p>
           </CategoryBox>
           <LikeButton>
-            <HeartButton like={like} onClick={toggleLike} />
+            {place_like === "ok" ? (
+              <HeartButton like={!like} onClick={toggleLike} />
+            ) : (
+              <HeartButton like={like} onClick={toggleLike} />
+            )}
           </LikeButton>
         </LikeBox>
         <ReviewBox>

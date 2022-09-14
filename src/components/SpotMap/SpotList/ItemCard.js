@@ -143,12 +143,31 @@ export default function ItemCard(props) {
     // alert(`${props.id}`);
     setLoading(true);
     const id = props.id;
+    let headerValue;
+    if (token === undefined) {
+      headerValue = `No Auth`;
+    } else {
+      headerValue = `Bearer ${token}`;
+    }
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/places/place_detail/${id}/`
+        "http://127.0.0.1:8000/places/place_detail/",
+        {
+          params: {
+            id: id,
+          },
+
+          headers: {
+            Authorization: headerValue,
+          },
+        }
       );
 
-      console.log("response", response.data);
+      // (
+      //   `http://127.0.0.1:8000/places/place_detail/${id}/`
+      // );
+
+      console.log("response??", response.data);
       setDetailInfo(response.data);
       setModalOpen(true);
 
