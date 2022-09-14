@@ -85,6 +85,7 @@ const ChangeForm = (props) => {
         //nickname이 변경된 경우, localStorage에 저장
         localStorage.setItem("nickname", response.data.nickname);
       }
+      alert("변경되었습니다.");
     } catch (err) {
       console.log("Error >>", err);
     }
