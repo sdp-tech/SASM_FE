@@ -6,8 +6,11 @@ import SearchBar from "../common/SearchBar.js";
 import nothingIcon from "../../assets/img/nothing.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../common/Loading";
+import checkSasmAdmin from "../Admin/Common";
+import AdminButton from "../Admin/components/AdminButton"
 
 const SpotListSection = styled.div`
   // background-color: blue;
@@ -120,6 +123,8 @@ const SpotList = (props) => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [checkedList, setCheckedList] = useState([]);
+  const navigate = useNavigate();
+  const [isSasmAdmin, setIsSasmAdmin] = useState(false);
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
@@ -151,6 +156,7 @@ const SpotList = (props) => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
+    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
   }, [page]);
 
   //검색 요청 api url
@@ -283,9 +289,16 @@ const SpotList = (props) => {
               page={page}
               setPage={setPage}
             />
+            {isSasmAdmin ?
+              <AdminButton style={{ margin: "auto", width: "20%" }}
+                onClick={() => {
+                  navigate('/admin/place')
+                }}>장소 생성</AdminButton>
+              : <></>}
           </SpotsWrapper>
         </SpotListSection>
-      )}
+      )
+      }
     </>
   );
 };
