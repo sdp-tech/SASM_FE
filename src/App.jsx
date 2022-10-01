@@ -9,6 +9,7 @@ import Auth from "./pages/Auth";
 
 import StoryList from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
+import PlaceAdmin from "./pages/PlaceAdmin";
 import { LoginProvider } from "./contexts/LoginContexts";
 import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
@@ -67,6 +68,7 @@ const App = () => {
 
               <Route path="/story" element={<StoryList />} />
               <Route path="/story/:id" element={<StoryDetail />} />
+              <Route path="/placeadmin" element={<PlaceAdmin />} />
             </Routes>
           </BrowserRouter>
         </LoginProvider>
