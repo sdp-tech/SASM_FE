@@ -6,6 +6,7 @@ import SpotMap from "./pages/SpotMap";
 
 import MyPage from "./pages/MyPage";
 import Auth from "./pages/Auth";
+import StoryAdmin from "./pages/StoryAdmin";
 
 import StoryList from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
@@ -68,7 +69,9 @@ const App = () => {
 
               <Route path="/story" element={<StoryList />} />
               <Route path="/story/:id" element={<StoryDetail />} />
-              <Route path="/placeadmin" element={<PlaceAdmin />} />
+              <Route path="/admin/place" element={<PlaceAdmin />} />
+              <Route path="/admin/story" element={<StoryAdmin />} />
+              <Route path="/admin/story/:id" element={<StoryAdmin />} />
             </Routes>
           </BrowserRouter>
         </LoginProvider>

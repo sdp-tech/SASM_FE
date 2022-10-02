@@ -5,8 +5,11 @@ import SearchBar from "../common/SearchBar";
 import nothingIcon from "../../assets/img/nothing.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../common/Loading";
+import checkSasmAdmin from "../Admin/Common";
+import AdminButton from "../Admin/components/AdminButton"
 
 const StoryListPage = () => {
   const [item, setItem] = useState([]);
@@ -19,6 +22,8 @@ const StoryListPage = () => {
   const [search, setSearch] = useState("");
   const [filterToggle, setFilterToggle] = useState(false);
   const [checkedList, setCheckedList] = useState([]);
+  const [isSasmAdmin, setIsSasmAdmin] = useState(false);
+  const navigate = useNavigate();
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
@@ -50,6 +55,7 @@ const StoryListPage = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
+    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
   }, [page]);
 
   //검색 요청 api url
@@ -167,6 +173,10 @@ const StoryListPage = () => {
               page={page}
               setPage={setPage}
             />
+            {isSasmAdmin ?
+              <AdminButton onClick={() => {
+                navigate('/admin/story')
+              }}>스토리 생성</AdminButton> : <></>}
           </FooterSection>
         </>
       )}
@@ -210,11 +220,13 @@ const StoryListSection = styled.div`
 const FooterSection = styled.div`
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   // overflow: hidden;
   // grid-area: story;
   height: 12%;
-`;
+  justify-content: center;
+  align-items: center;
+  `;
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 35%;
