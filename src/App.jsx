@@ -10,6 +10,7 @@ import StoryAdmin from "./pages/StoryAdmin";
 
 import StoryList from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
+import PlaceAdmin from "./pages/PlaceAdmin";
 import { LoginProvider } from "./contexts/LoginContexts";
 import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
@@ -30,7 +31,6 @@ body{/* 프로젝트 내 body 태그 안에 공통적으로 적용 */
 // p{
 //   font-family: 'Dotum';
 // };
- 
 `;
 
 const App = () => {
@@ -68,7 +68,7 @@ const App = () => {
 
               <Route path="/story" element={<StoryList />} />
               <Route path="/story/:id" element={<StoryDetail />} />
-
+              <Route path="/admin/place" element={<PlaceAdmin />} />
               <Route path="/admin/story" element={<StoryAdmin />} />
               <Route path="/admin/story/:id" element={<StoryAdmin />} />
             </Routes>
