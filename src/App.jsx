@@ -31,7 +31,6 @@ body{/* 프로젝트 내 body 태그 안에 공통적으로 적용 */
 // p{
 //   font-family: 'Dotum';
 // };
- 
 `;
 
 const App = () => {
