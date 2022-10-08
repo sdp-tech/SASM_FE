@@ -5,7 +5,6 @@ import { Editor } from '@tinymce/tinymce-react';
 import axios from "axios";
 import Loading from "../common/Loading";
 
-import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import oc from "open-color";
@@ -17,14 +16,22 @@ const StoryFormPage = (props) => {
     const [places, setPlaces] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const [loading, setLoading] = useState(true);
+    const [imageUrl, setImageUrl] = useState(null);
     const navigate = useNavigate();
     const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
     const uploadImage = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('place_name', '굿바이마켓');
-        formData.append('caption', '굿바이마켓');
+        for (const place of places) {
+            console.log(place);
+            if (place.id == story.address) {
+                formData.append('place_name', place.place_name);
+                formData.append('caption', place.place_name);
+                break;
+            }
+        }
+
 
         try {
             const response = await axios.post(
@@ -77,41 +84,47 @@ const StoryFormPage = (props) => {
 
 
     const loadPlaces = async () => {
-        //토큰 만료 or 없을 경우
-        let headerValue;
-        if (token === undefined) {
-            headerValue = `No Auth`;
-        } else {
-            headerValue = `Bearer ${token}`;
-        }
         setLoading(true);
         try {
             const response = await axios.get(
                 `http://127.0.0.1:8000/sdp_admin/places/`,
                 {
+                    // params: {
+                    //     page: 1,
+                    // },
                     headers: {
-                        Authorization: headerValue,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
-            setPlaces(response);
+            setPlaces(response.data.results);
             setLoading(false);
         } catch (err) {
             console.log("Error >>", err);
         }
     };
 
-    useEffect(() => {
+    useEffect(async () => {
         setLoading(false);
-        loadStory();
-        // loadPlaces(); // place admin api 미구현
+        await loadStory();
+        await loadPlaces();
     }, []);
 
     const saveStory = async () => {
+        console.log("story => ", story);
         const formData = new FormData();
 
         for (let [key, value] of Object.entries(story)) {
-            formData.append(`${key}`, `${value}`);
+            if (key === "rep_pic") {
+                // PUT: 새로 업로드된 rep_pic이 없으면 rep_pic는 업데이트 대상이 아니므로 제외
+                if (imageUrl == null)
+                    continue;
+                //파일의 경우 value 자체
+                formData.append(`${key}`, value);
+            } else {
+                //문자열의 경우 변환
+                formData.append(`${key}`, `${value}`);
+            }
         }
 
         // fordata 확인용!!
@@ -159,14 +172,17 @@ const StoryFormPage = (props) => {
         }
     };
 
-    const onChangeImage = async (e) => {
+    const onChangeImage = (e) => {
         const file = e.target.files[0];
         if (file != undefined) {
-            const location = await uploadImage(file);
-
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                setImageUrl(reader.result);
+            });
+            reader.readAsDataURL(file);
             setStory({
                 ...story,
-                rep_pic: location,
+                rep_pic: file,
             });
         }
     };
@@ -189,16 +205,30 @@ const StoryFormPage = (props) => {
                             }}
                             label="제목"
                         />
-                        <InputWithLabel
-                            value={story.address}
-                            onChange={(event) => {
-                                setStory({
-                                    ...story,
-                                    address: event.target.value,
-                                });
-                            }}
-                            label="장소"
-                        />
+
+                        <Wrapper>
+                            <Label>장소</Label>
+                            <Select
+                                onChange={(event) => {
+                                    setStory({
+                                        ...story,
+                                        address: event.target.value,
+                                    });
+                                }}
+                                disabled={id}
+                            >
+                                <option value="0" selected>Select Place</option>
+                                {places.map((place) => {
+                                    return <option
+                                        value={place.id}
+                                        selected={place.id == story.address}
+                                    >
+                                        {place.place_name}
+                                    </option>
+                                })}
+                            </Select>
+                        </Wrapper>
+
                         <InputWithLabel
                             value={story.story_review}
                             onChange={(event) => {
@@ -229,65 +259,76 @@ const StoryFormPage = (props) => {
                             }}
                             label="프리뷰"
                         />
-                        <label>
-                            대표사진:
-                            {story.rep_pic ? <img
-                                src={story.rep_pic}
+                        <Wrapper>
+                            <Label>
+                                대표사진
+                            </Label>
+                            {imageUrl ? <img
+                                src={imageUrl}
                                 alt="rep_pic"
                                 height="400px"
                                 width="400px"
-                            ></img> : <></>}
+                            ></img> : <>
+                                {story.rep_pic ?
+                                    <img src={story.rep_pic}
+                                        alt="rep_pic"
+                                        height="400px"
+                                        width="400px"></img>
+                                    : <></>}
+                            </>}
                             <input
                                 type="file"
                                 id="ex_file"
                                 accept="image/*"
                                 onChange={onChangeImage}
                             />
-                        </label>
+                        </Wrapper>
+
                         <Wrapper>
                             <Label>본문</Label>
-                            <Editor
-                                value={story.html_content}
-                                onInit={(event, editor) => {
-                                    setStory({
-                                        ...story,
-                                        html_content: editor.getContent({ format: 'html' }),
-                                    });
-                                }}
-                                onEditorChange={(html_content, editor) => {
-                                    setStory({
-                                        ...story,
-                                        html_content: editor.getContent({ format: 'html' }),
-                                    });
-                                }}
-                                tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
-                                init={{
-                                    height: 500,
-                                    menubar: true,
-                                    promotion: false,
-                                    plugins: [
-                                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                                        'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
-                                    ],
-                                    toolbar: 'undo redo | blocks | ' +
-                                        'bold italic forecolor | alignleft aligncenter ' +
-                                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                                        'removeformat | help',
-                                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-                                    images_upload_handler: async (blobInfo) => {
-                                        return new Promise((resolve, reject) => {
-                                            uploadImage(blobInfo.blob(),
-                                            ).then(location => {
-                                                console.log(location)
-                                                resolve(location);
-                                            }).catch(error => {
-                                                reject('HTTP Error: ' + error.message);
-                                            });
-                                        })
-                                    },
-                                }}
-                            />
+                            {story.address == 0 ? "장소를 선택하세요." :
+                                <Editor
+                                    value={story.html_content}
+                                    onInit={(event, editor) => {
+                                        setStory({
+                                            ...story,
+                                            html_content: editor.getContent({ format: 'html' }),
+                                        });
+                                    }}
+                                    onEditorChange={(html_content, editor) => {
+                                        setStory({
+                                            ...story,
+                                            html_content: editor.getContent({ format: 'html' }),
+                                        });
+                                    }}
+                                    tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
+                                    init={{
+                                        height: 500,
+                                        menubar: true,
+                                        promotion: false,
+                                        plugins: [
+                                            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
+                                            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                                            'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount'
+                                        ],
+                                        toolbar: 'undo redo | blocks | ' +
+                                            'bold italic forecolor | alignleft aligncenter ' +
+                                            'alignright alignjustify | bullist numlist outdent indent | ' +
+                                            'removeformat | help',
+                                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+                                        images_upload_handler: async (blobInfo) => {
+                                            return new Promise((resolve, reject) => {
+                                                uploadImage(blobInfo.blob(),
+                                                ).then(location => {
+                                                    console.log(location)
+                                                    resolve(location);
+                                                }).catch(error => {
+                                                    reject('HTTP Error: ' + error.message);
+                                                });
+                                            })
+                                        },
+                                    }}
+                                />}
                         </Wrapper>
                         <FooterSection>
                             <AdminButton onClick={saveStory}>스토리 저장</AdminButton>
@@ -356,6 +397,17 @@ const FooterSection = styled.div`
   align-items: center;
   // background: black;
   `;
+const Select = styled.select`
+  width: 100%;
+  border: 1px solid ${oc.gray[3]};
+  outline: none;
+  border-radius: 4px;
+//   line-height: 2.5rem;
+  font-size: 1rem;
+  padding-left: 10px;
+  padding: 0.2em;
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
+`;
 const InputWithLabel = ({ label, message, ...rest }) => (
     <Wrapper>
         <Label>{label}</Label>
