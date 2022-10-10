@@ -97,7 +97,7 @@ const StoryFormPage = (props) => {
                     },
                 }
             );
-            setPlaces(response.data.results);
+            setPlaces(response.data);
             setLoading(false);
         } catch (err) {
             console.log("Error >>", err);
@@ -218,8 +218,9 @@ const StoryFormPage = (props) => {
                                 disabled={id}
                             >
                                 <option value="0" selected>Select Place</option>
-                                {places.map((place) => {
+                                {places.map((place, index) => {
                                     return <option
+                                        key={index}
                                         value={place.id}
                                         selected={place.id == story.address}
                                     >
