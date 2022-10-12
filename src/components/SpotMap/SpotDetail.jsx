@@ -1,13 +1,16 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { List } from "@mui/material";
 import DetailCard from "./SpotDetail/DetailCard.js";
 import styled from "styled-components";
-
+import AdminButton from "../../components/Admin/components/AdminButton";
+import checkSasmAdmin from "../../components/Admin/Common";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 const CloseButton = styled.div`
   // border-radius: 4px;
-
   // color: white;
-
   cursor: pointer;
   position: fixed;
   top: 16.3%;
@@ -17,7 +20,16 @@ const CloseButton = styled.div`
 export default function SpotDetail(props) {
   const { modalClose } = props;
   const data = props.detailInfo;
-
+  const id = props.id;
+  const [isSasmAdmin, setIsSasmAdmin] = useState(false);
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const token = cookies.name;
+  useEffect(() => {
+    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
+  }, [page]);
   return (
     <>
       <List
@@ -59,6 +71,12 @@ export default function SpotDetail(props) {
           story_id={data?.story_id}
           place_like={data?.place_like}
         />
+        {isSasmAdmin ?
+          <AdminButton
+            style={{ margin: "auto", width: "20%" }}
+            onClick={() => {
+              navigate(`/admin/place/${id}`)
+            }}>장소 수정</AdminButton> : <></>}
       </List>
 
       <CloseButton>

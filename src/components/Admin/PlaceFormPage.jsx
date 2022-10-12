@@ -1,28 +1,43 @@
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import DaumPostcode from 'react-daum-postcode';
 import {
-    AuthContent,
     InputWithLabel,
-    ProfileButton,
-    LeftAlignedLink,
 } from "../Auth/module";
-import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
-import AdminButton from "../Admin/components/AdminButton"
-
+import AdminButton from "../Admin/components/AdminButton";
+import DetailList from "../Admin/components/DetailList";
+import CheckRepetition from "../../functions/Auth/CheckRepetition";
 const PlaceFormPage = (props) => {
+    //장소 id 가져오기
+    const id = props.id;
+    //장소 이미지 가져오기
+    const [imageUrl, setImageUrl] = useState([]);
+    //저장 끝나면 map페이지로 이동
     const navigate = useNavigate();
-    const { state } = useLocation(); //placeholder 값 가져오기
+    //정보 담기
     const [info, setInfo] = useState([]);
+    //주소
     const [openPostcode, setOpenPostcode] = useState([]);
     const [address, setAddess] = useState([]);
-    const [imageUrl, setImageUrl] = useState(null);
+    //쿠키
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-    const imgRef = useRef();
     const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    //글자수 count를 위한 변수값
+    const [countText, setCountText] = useState([0]);
+    const [countEtcHours, setCountEtcHours] = useState([0]);
+    const [countPlaceReview, setCountPlaceReview] = useState([0]);
+    //유효성 검사를 위한 변수값
+    const [message, setMessage] = useState([]);
+    //snstype, snsurl을 위한 변수값
+    const [countList, setCountList] = useState([0]);
+    //sns수정을 위한 변수값
+    const [snsData, setSnsData] = useState([0]);
+    const [snsselect, setSnsselect] = useState([]);
+
+    //장소 카테고리
     const PlaceCategory = [
         { value: "식당 및 카페", name: "식당 및 카페" },
         { value: "전시 및 체험공간", name: "전시 및 체험공간" },
@@ -32,6 +47,7 @@ const PlaceFormPage = (props) => {
         { value: "녹색 공간", name: "녹색 공간" },
         { value: "그 외", name: "그 외" },
     ];
+    //비건 카테고리
     const VeganCategory = [
         { value: "", name: "없음" },
         { value: "비건", name: "비건" },
@@ -41,94 +57,161 @@ const PlaceFormPage = (props) => {
         { value: "폴로", name: "폴로" },
         { value: "그 외", name: "그 외" },
     ];
+    //나머지 카테고리
     const BooleanChoice = [
-        { value: null, name: "없음" },
-        { value: "TRUE", name: "가능" },
-        { value: "FALSE", name: "불가능" },
+        { value: "", name: "없음" },
+        { value: true, name: "가능" },
+        { value: false, name: "불가능" },
     ];
+    //글자수 체크
+    const checkLength = (num, length) => {
+        if (length > num) {
+            alert(num + "자 이상 작성할 수 없습니다")
+        }
+    }
+    //text문자열에 check가 포함되는지 확인
+    const checkInclude = (type, text, check) => {
+        console.log(text);
+        if (text)
+            if (!text.includes(check)) {
+                alert(type + " 표시는 " + check + " 로 해주세요");
+                return 1;
+            }
+    }
+    //장소 중복 체크
+    const CheckPlaceRepetition = async () => {
+        try {
+            const response = await axios.get(
+                'http://127.0.0.1:8000/sdp_admin/places/check_name_overlap/',
+                {
+                    params: {
+                        'place_name': info['place_name'],
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            if (response.data['data']['overlap'] === true) {
+                alert('이미 존재하는 장소입니다')
+            }
+            else {
+                alert('존재하지 않는 장소입니다')
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+    //DetailList에서 snstype이 변경되었을 때
+    const getSnstype = (a, b) => {
+        //직접 입력을 선택한 경우
+        if (b == "0") {
+            setSnsData({
+                ...snsData,
+                [a]: {
+                    ...snsData[a],
+                    ['snstype']: b,
+                    ['snstype_name']: "직접 입력",
+                },
+            })
+        }
+        //선택했을 때
+        else if (Number.isInteger(Number(b)) && Number(b) != 0) {
+            console.log('int이군')
+            console.log(Number(b))
+            setSnsData({
+                ...snsData,
+                [a]: {
+                    ...snsData[a],
+                    ['snstype']: b,
+                    ['snstype_name']: snsselect[b - 1]['name'],
+                },
+            })
+            //입력하는 경우
+        } else {
+            setSnsData({
+                ...snsData,
+                [a]: {
+                    ...snsData[a],
+                    ['snstype_name']: b,
+                },
+            })
+        }
+    }
+    //DetailList에서 snsurl이 변경되었을 때
+    const getSnsurl = (a, b) => {
+        console.log(a, b);
+        setSnsData({
+            ...snsData,
+            [a]: {
+                ...snsData[a],
+                ['url']: b
+            },
+        })
+    }
+    //snsurl&type 추가
+    const onAddDetailDiv = () => {
+        let countArr = [...countList]
+        let counter = countArr.slice(-1)[0]
+        counter += 1
+        countArr.push(counter)	// index 사용 X
+        // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용	
+        setCountList(countArr)
+        setSnsData({
+            ...snsData,
+            [counter]: {
+                ...snsData[counter],
+                ['url']: "",
+                ['snstype']: 0,
+            },
+        })
+    }
+    //snsurl&type 삭제
+    const onDeleteDetailDiv = () => {
+        let countArr = [...countList]
+        countArr.pop()
+        setCountList(countArr)
+        snsData.pop()
+    }
+    //이미지 변경 시
     const onChangeImage = async (e, image_type) => {
         const reader = new FileReader();
         const file = e.target.files[0];
-        // console.log(file);
-
+        let result = 0;
+        //info 배열에 파일 자체 담기
         setInfo({
             ...info,
             [image_type]: file,
         });
         reader.readAsDataURL(file);
+        //읽어서 url 따로 저장하기
         reader.onloadend = () => {
-            setImageUrl(reader.result);
-            // console.log("이미지주소", reader.result);
+            setImageUrl({
+                ...imageUrl,
+                [image_type]: reader.result,
+            })
         };
+        return result;
     };
-    // const selectAddress = async (data) => {
-
-    //     console.log("data!!!", info, data)
-
-    //     // setInfo({
-    //     //     // ...info,
-    //     //     address: data.address,
-    //     // });
-    //     setAddess(data.address);
-    //     setOpenPostcode(false);
-    // // }
+    //주소 관련 함수
     const handle = {
         // 버튼 클릭 이벤트
         clickButton: () => {
-            // setOpenPostcode(current => !current);
-            setOpenPostcode(true);
+            setOpenPostcode(current => !current);
         },
 
-        // // 주소 선택 이벤트
-        // selectAddress: async (data) => {
-
-        //     setInfo({
-        //         ...info,
-        //         address: data.address,
-        //     });
-        //     setAddess(data.address);
-        //     setOpenPostcode(false);
-
-        // },
+        // 주소 선택 이벤트
+        selectAddress: async (data) => {
+            setAddess(data.address);
+            setOpenPostcode(false);
+        },
     };
-    const SaveInfo = async () => {
-        console.log(info)
-        const formData = new FormData();
-
-        for (let [key, value] of Object.entries(info)) {
-            if (key === "rep_pic" || key === "placephoto1") {
-                //파일의 경우 value 자체
-                formData.append(`${key}`, value);
-            } else {
-                //문자열의 경우 변환
-                formData.append(`${key}`, `${value}`);
-            }
-        }
-        for (let key of formData.keys()) {
-            console.log(key, "::", formData.get(key));
-        }
-        try {
-            const response = await axios.post(
-                "http://127.0.0.1:8000/sdp_admin/places/",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                    transformRequest: (data, headers) => {
-                        return data;
-                    },
-                }
-            );
-        } catch (err) {
-            console.log("Error >>", err);
-        }
-    };
+    //select 함수
     const handleChange = (e, type) => {
         console.log(type);
         console.log(e.target.value);
-        if (e.target.value == '') {
+        //없음 선택 시 null 값 입력 - 나중에 백에서 처리
+        if (e.target.value === '') {
             setInfo({
                 ...info,
                 [type]: null,
@@ -141,33 +224,225 @@ const PlaceFormPage = (props) => {
             });
         }
     };
+    //place update 기능을 위해 장소 load
+    const loadPlace = async () => {
+        if (!id) {
+            return;
+        }
+        try {
+            const response = await axios.get(
+                `http://127.0.0.1:8000/sdp_admin/places/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setInfo(response.data);
+            setAddess(response.data['address']);
+            imageUrl['rep_pic'] = response.data['rep_pic'];
+        } catch (err) {
+            console.log("Error >>", err);
+        }
+    };
+    //place update 기능을 위해 장소 이미지 load
+    const loadPlacePhoto = async () => {
+        if (!id) {
+            return;
+        }
+        try {
+            const resphoto = await axios.get(
+                `http://127.0.0.1:8000/sdp_admin/placephoto/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setImageUrl({
+                ...imageUrl,
+                'placephoto1': resphoto.data[0]['image'],
+                'placephoto2': resphoto.data[1]['image'],
+                'placephoto3': resphoto.data[2]['image'],
+            });
+        } catch (err) {
+            console.log("Error >>", err);
+        }
+    };
+    //snsurl load 하기
+    const loadSnsUrl = async () => {
+        if (!id) {
+            return;
+        }
+        try {
+            const ressnsurl = await axios.get(
+                `http://127.0.0.1:8000/sdp_admin/snsurl/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setSnsData(ressnsurl.data);
+            //몇개를 생성할 지 정해주기 위해
+            let newCountArr = [];
+            for (var i = 0; i < ressnsurl.data.length; i++) {
+                newCountArr.push(i);
+            }
+            setCountList(newCountArr);
+        } catch (err) {
+            console.log("Error >>", err);
+        }
+    };
+    //select box를 위해 snstype 불러오기
+    const loadSns = async () => {
+        try {
+            const response = await axios.get(
+                `http://127.0.0.1:8000/sdp_admin/snstypes/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setSnsselect(response.data);
+        } catch (err) {
+            console.log("Error >>", err);
+        }
+    };
+    const SaveInfo = async () => {
+        let cnt = 0;
+        if (checkInclude('장소한줄평', info['place_review'], '"')
+            || checkInclude('연락처', info['phone_num'], '-')) {
+            return;
+        }
+        info['longitude'] = 0;
+        info['latitude'] = 0;
+        info['address'] = address;
+        info['snscount'] = countList.length;
+        if (id) {
+            info['id'] = id;
+        }
+        const formData = new FormData();
+        if (address.length > 0) {
+            cnt++;
+        }
+        //snsdata 
+        for (var i = 0; i < countList.length; i++) {
+            formData.append(i, [snsData[i]['snstype'], snsData[i]['url']]);
+            console.log([snsData[i]['snstype'], snsData[i]['url']]);
+        }
+        //info
+        console.log(info);
+        for (let [key, value] of Object.entries(info)) {
+            if (key === "rep_pic" || key === "placephoto1"
+                || key === "placephoto2" || key === "placephoto3") {
+                //파일의 경우 value 자체
+                formData.append(`${key}`, value);
+                cnt++;
+            }
+            else if (key === 'etc_hours' || key === 'address'
+                || key === 'longitude' || key === 'latitude' || key === 'snscount') {
+                formData.append(`${key}`, `${value}`);
+            } else {
+                //문자열의 경우 변환
+                formData.append(`${key}`, `${value}`);
+                cnt++;
+            }
+        }
+        if (cnt < 21) {
+            alert('입력하지 않은 값이 있습니다');
+            return;
+        }
+        //formdata 최종 확인
+        for (let key of formData.keys()) {
+            console.log(key, "::", formData.get(key));
+        }
+        try {
+            if (!id) {
+                const response = await axios.post(
+                    "http://127.0.0.1:8000/sdp_admin/places/save_place/",
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                        transformRequest: (data, headers) => {
+                            return data;
+                        },
+                    }
+                );
+                console.log(response);
+            }
+            else {
+                console.log(formData);
+                const response = await axios.put(
+                    `http://127.0.0.1:8000/sdp_admin/places/update_place/`,
+                    formData,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "multipart/form-data",
+                        },
+                        transformRequest: (data, headers) => {
+                            return data;
+                        },
+                    }
+                );
+                console.log(response);
+            }
+            navigate("/map");
+        } catch (err) {
+            console.log("Error >>", err);
+        }
+    };
+    useEffect(async () => {
+        setInfo({
+            ...info,
+            category: "식당 및 카페",
+            reusable_con_category: "null",
+            pet_category: "null",
+            vegan_category: "null",
+            tumblur_category: "null",
+        })
+        await loadPlace();
+        await loadPlacePhoto();
+        await loadSnsUrl();
+        await loadSns();
+    }, []);
     return (
         <form>
             <InfoBox>
                 <ValueBox>
                     <InputWithLabel
+                        style={{ width: "95%" }}
                         placeholder="장소 이름"
                         onChange={(event) => {
                             setInfo({
                                 ...info,
-                                place_category: "식당 및 카페",
-                                vegan_category: null,
-                                tumblur_category: null,
-                                reusable_con_category: null,
-                                pet_category: null,
                                 place_name: event.target.value,
                             });
-                            console.log(info.place_name);
                         }}
                         label="장소이름"
                         name="place_name"
+                        value={info['place_name']}
                     />
+                    <AdminButton
+                        style={{ height: "70%", marginTop: "auto", marginBotton: "auto" }}
+                        onClick={CheckPlaceRepetition}
+                    >
+                        중복확인
+                    </AdminButton>
                 </ValueBox>
                 <ValueBox>
                     <p>장소 카테고리</p>
-                    <select onChange={(event) => handleChange(event, 'place_category')}>
+                    <select onChange={(event) => handleChange(event, 'category')}>
                         {PlaceCategory.map((option) => (
-                            <option value={option.value}>{option.name}</option>
+                            <option
+                                value={option.value}
+                                selected={option.value === info['category']}
+                            >{option.name}</option>
                         ))}
                     </select>
                 </ValueBox>
@@ -175,7 +450,10 @@ const PlaceFormPage = (props) => {
                     <p>비건 카테고리</p>
                     <select defaultValue='없음' onChange={(event) => handleChange(event, 'vegan_category')}>
                         {VeganCategory.map((option) => (
-                            <option value={option.value}>{option.name}</option>
+                            <option
+                                value={option.value}
+                                selected={option.value === info['vegan_category']}
+                            >{option.name}</option>
                         ))}
                     </select>
                 </ValueBox>
@@ -183,7 +461,10 @@ const PlaceFormPage = (props) => {
                     <p>텀블러 할인(가능/불가능)</p>
                     <select defaultValue='없음' onChange={(event) => handleChange(event, 'tumblur_category')}>
                         {BooleanChoice.map((option) => (
-                            <option value={option.value}>{option.name}</option>
+                            <option
+                                value={option.value}
+                                selected={option.value === info['tumblur_category']}
+                            >{option.name}</option>
                         ))}
                     </select>
                 </ValueBox>
@@ -191,7 +472,10 @@ const PlaceFormPage = (props) => {
                     <p>용기내(가능/불가능)</p>
                     <select defaultValue='없음' onChange={(event) => handleChange(event, 'reusable_con_category')}>
                         {BooleanChoice.map((option) => (
-                            <option value={option.value}>{option.name}</option>
+                            <option
+                                value={option.value}
+                                selected={option.value === info['reusable_con_category']}
+                            >{option.name}</option>
                         ))}
                     </select>
                 </ValueBox>
@@ -199,12 +483,18 @@ const PlaceFormPage = (props) => {
                     <p>반려동물 출입(가능/불가능)</p>
                     <select defaultValue="없음" onChange={(event) => handleChange(event, 'pet_category')}>
                         {BooleanChoice.map((option) => (
-                            <option value={option.value}>{option.name}</option>
+                            <option
+                                value={option.value}
+                                selected={option.value === info['pet_category']}
+                            >{option.name}</option>
                         ))}
                     </select>
                 </ValueBox>
+                <p>영업시간 사이의 간격은 '~'로 표시해주세요</p>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="월요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -214,10 +504,13 @@ const PlaceFormPage = (props) => {
                         }}
                         label="월요일 영업시간"
                         name="mon_hours"
+                        value={info['mon_hours']}
                     />
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="화요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -227,10 +520,13 @@ const PlaceFormPage = (props) => {
                         }}
                         label="화요일 영업시간"
                         name="tues_hours"
+                        value={info['tues_hours']}
                     />
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="수요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -240,10 +536,13 @@ const PlaceFormPage = (props) => {
                         }}
                         label="수요일 영업시간"
                         name="wed_hours"
+                        value={info['wed_hours']}
                     />
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="목요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -253,10 +552,13 @@ const PlaceFormPage = (props) => {
                         }}
                         label="목요일 영업시간"
                         name="thurs_hours"
+                        value={info['thurs_hours']}
                     />
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="금요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -266,10 +568,13 @@ const PlaceFormPage = (props) => {
                         }}
                         label="금요일 영업시간"
                         name="fri_hours"
+                        value={info['fri_hours']}
                     />
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="토요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -279,10 +584,13 @@ const PlaceFormPage = (props) => {
                         }}
                         label="토요일 영업시간"
                         name="sat_hours"
+                        value={info['sat_hours']}
                     />
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        maxLength={100}
+                        style={{ width: "100%" }}
                         placeholder="일요일 영업시간"
                         onChange={(event) => {
                             setInfo({
@@ -292,76 +600,91 @@ const PlaceFormPage = (props) => {
                         }}
                         label="일요일 영업시간"
                         name="sun_hours"
+                        value={info['sun_hours']}
                     />
                 </ValueBox>
+                <p>영업시간 기타 {countEtcHours} / 500 (빈칸 가능)</p>
                 <ValueBox>
-                    <InputWithLabel
+                    <textarea
+                        style={{ width: "100%", height: "200px" }}
+                        maxLength={500}
                         placeholder="영업시간 기타 정보를 적어주세요"
                         onChange={(event) => {
                             setInfo({
                                 ...info,
                                 etc_hours: event.target.value,
                             });
+                            setCountEtcHours(event.target.value.length);
+                            checkLength(500, event.target.value.length);
                         }}
                         label="영업시간 기타"
                         name="etc_hours"
+                        value={info['etc_hours']}
                     />
                 </ValueBox>
+                <p>장소 한줄평 {countPlaceReview} / 200 (쌍따옴표 " 포함 필수)</p>
                 <ValueBox>
-                    <InputWithLabel
-                        placeholder="예 : 맛 좋은 비건 샌드위치"
+                    <textarea
+                        style={{ width: "100%", height: "100px" }}
+                        maxLength={200}
+                        placeholder='예 : "맛 좋은 비건 샌드위치"'
                         onChange={(event) => {
                             setInfo({
                                 ...info,
                                 place_review: event.target.value,
                             });
+                            setCountPlaceReview(event.target.value.length);
+                            checkLength(200, event.target.value.length);
                         }}
                         label="장소한줄평"
                         name="place_review"
+                        value={info['place_review']}
                     />
                 </ValueBox>
                 <ValueBox>
                     <InputWithLabel
-                        placeholder="주소"
+                        placeholder={"아래 창에서 주소를 선택하세요"}
+                        label="주소"
+                        name="address"
+                        disabled={true}
                         onChange={(event) => {
                             setInfo({
                                 ...info,
                                 address: event.target.value,
                             });
                         }}
-                        label="주소"
-                        name="address"
+                        value={address}
                     />
-
-
-                    {/* <InputWithLabel
-                        placeholder="주소(도로명)"
-                        onChange={(event) => {
-                            setInfo({
-                                ...info,
-                                address: event.target.value,
-                            });
-                        }}
-                        label="주소"
-                        name="address"
-                    /> */}
                 </ValueBox>
                 <ValueBox>
-                    <InputWithLabel
+                    <DaumPostcode
+                        onComplete={handle.selectAddress}  // 값을 선택할 경우 실행되는 이벤트
+                        autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                        defaultQuery='판교역로 235' // 팝업을 열때 기본적으로 입력되는 검색어 
+                    />
+                </ValueBox>
+                <p>짧큐 {countText} / 500</p>
+                <ValueBox>
+                    <textarea
+                        maxLength={500}
+                        style={{ width: "100%", height: "200px" }}
                         placeholder="짧큐"
                         onChange={(event) => {
                             setInfo({
                                 ...info,
                                 short_cur: event.target.value,
                             });
+                            setCountText(event.target.value.length);
+                            checkLength(500, event.target.value.length);
                         }}
                         label="짧큐"
                         name="short_cur"
+                        value={info['short_cur']}
                     />
                 </ValueBox>
                 <ValueBox>
                     <InputWithLabel
-                        placeholder="연락처"
+                        placeholder="ex)02-0000-0000"
                         onChange={(event) => {
                             setInfo({
                                 ...info,
@@ -370,12 +693,30 @@ const PlaceFormPage = (props) => {
                         }}
                         label="연락처"
                         name="phone_num"
+                        value={info['phone_num']}
                     />
                 </ValueBox>
+                <hr></hr>
+                <div>
+                    <button type="button" onClick={onAddDetailDiv}>
+                        추가
+                    </button>
+                    <button type="button" onClick={onDeleteDetailDiv}>
+                        삭제
+                    </button>
+                </div>
+                <DetailList
+                    countList={countList}
+                    snsselect={snsselect}
+                    snsData={snsData}
+                    getSnstype={getSnstype}
+                    getSnsurl={getSnsurl}
+                />
+                <br></br>
                 <ValueBox>
                     <ImageBox>
                         <img
-                            src={imageUrl}
+                            src={imageUrl['rep_pic']}
                             alt="장소 대표 사진"
                             height="180px"
                             width="180px"
@@ -384,56 +725,34 @@ const PlaceFormPage = (props) => {
                     <input
                         type="file"
                         id="ex_file"
-                        accept="image/*"
-                        onChange={(event) => onChangeImage(event, 'rep_pic')}
-                    />
-                </ValueBox>
-                <ValueBox>
-                    <InputWithLabel
-                        placeholder="경도"
+                        accept=".jpeg, .jpg, .png"
                         onChange={(event) => {
-                            setInfo({
-                                ...info,
-                                left_coordinate: event.target.value,
-                            });
+                            onChangeImage(event, 'rep_pic');
                         }}
-                        label="짧큐"
-                        name="short_cur"
-                    />
-                </ValueBox>
-                <ValueBox>
-                    <InputWithLabel
-                        placeholder="위도"
-                        onChange={(event) => {
-                            setInfo({
-                                ...info,
-                                right_coordinate: event.target.value,
-                            });
-                        }}
-                        label="짧큐"
-                        name="short_cur"
                     />
                 </ValueBox>
                 <ValueBox>
                     <ImageBox>
                         <img
-                            src={imageUrl}
+                            src={imageUrl['placephoto1']}
                             alt="장소 사진 1"
                             height="180px"
                             width="180px"
                         ></img>
+
+
                     </ImageBox>
                     <input
                         type="file"
                         id="ex_file"
-                        accept="image/*"
+                        accept=".jpeg, .jpg, .png"
                         onChange={(event) => onChangeImage(event, 'placephoto1')}
                     />
                 </ValueBox>
                 <ValueBox>
                     <ImageBox>
                         <img
-                            src={imageUrl}
+                            src={imageUrl['placephoto2']}
                             alt="장소 사진 2"
                             height="180px"
                             width="180px"
@@ -442,14 +761,14 @@ const PlaceFormPage = (props) => {
                     <input
                         type="file"
                         id="ex_file"
-                        accept="image/*"
+                        accept=".jpeg, .jpg, .png"
                         onChange={(event) => onChangeImage(event, 'placephoto2')}
                     />
                 </ValueBox>
                 <ValueBox>
                     <ImageBox>
                         <img
-                            src={imageUrl}
+                            src={imageUrl['placephoto3']}
                             alt="장소 사진 3"
                             height="180px"
                             width="180px"
@@ -458,7 +777,7 @@ const PlaceFormPage = (props) => {
                     <input
                         type="file"
                         id="ex_file"
-                        accept="image/*"
+                        accept=".jpeg, .jpg, .png"
                         onChange={(event) => onChangeImage(event, 'placephoto3')}
                     />
                 </ValueBox>
@@ -481,14 +800,6 @@ const FooterSection = styled.div`
   align-items: center;
   // background: black;
   `;
-// const ButtonBox = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: start;
-//   align-items: stretch;
-//   width: 100%;
-//   margin-top: 10%;
-// `;
 const ImageBox = styled.div`
   display: flex;
   justify-content: center;
@@ -508,31 +819,22 @@ const ValueBox = styled.div`
   display: flex;
   width: 400px;
 `;
-const AppStyle = styled.div`
-  position: absolute;
-  width: 30px;
-  margin-top: 140px;
-  margin-left: 140px;
-  z-index: 4;
-  img {
-    max-width: 30px;
-  }
-  label {
-    display: inline-block;
-    font-size: inherit;
-    line-height: normal;
-    vertical-align: middle;
-    cursor: pointer;
-  }
-  input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
+const Button = styled.div`
+  background-color: rgba(84, 128, 229, 1);
+  height: 100%;
+  text-align: center;
+  line-height: 3;
+  border-radius: 4px;
+  font-size: 16px;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.1em;
+  cursor: pointer;
+  flex-grow: 0.5;
+  margin-left: 1em;
 `;
+
 export default PlaceFormPage;
