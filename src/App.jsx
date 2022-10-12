@@ -69,6 +69,7 @@ const App = () => {
               <Route path="/story" element={<StoryList />} />
               <Route path="/story/:id" element={<StoryDetail />} />
               <Route path="/admin/place" element={<PlaceAdmin />} />
+              <Route path="/admin/place/:id" element={<PlaceAdmin />} />
               <Route path="/admin/story" element={<StoryAdmin />} />
               <Route path="/admin/story/:id" element={<StoryAdmin />} />
             </Routes>
