@@ -25,10 +25,8 @@ const ChangeForm = (props) => {
 
   const [loading, setLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState(null);
-
-  // useRef를 이용해 input태그에 접근.
+  const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
-
   const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   const onChangeImage = async (e) => {
