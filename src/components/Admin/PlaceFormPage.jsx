@@ -350,7 +350,10 @@ const PlaceFormPage = (props) => {
                 cnt++;
             }
         }
-        if (cnt < 21) {
+        if (!id && cnt < 21) {
+            alert('dd입력하지 않은 값이 있습니다');
+            return;
+        } else if (id && cnt < 18) {
             alert('입력하지 않은 값이 있습니다');
             return;
         }
@@ -739,8 +742,6 @@ const PlaceFormPage = (props) => {
                             height="180px"
                             width="180px"
                         ></img>
-
-
                     </ImageBox>
                     <input
                         type="file"
