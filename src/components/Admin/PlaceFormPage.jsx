@@ -104,6 +104,7 @@ const PlaceFormPage = (props) => {
     };
     //DetailList에서 snstype이 변경되었을 때
     const getSnstype = (a, b) => {
+        console.log(a, b);
         //직접 입력을 선택한 경우
         if (b == "0") {
             setSnsData({
@@ -117,8 +118,6 @@ const PlaceFormPage = (props) => {
         }
         //선택했을 때
         else if (Number.isInteger(Number(b)) && Number(b) != 0) {
-            console.log('int이군')
-            console.log(Number(b))
             setSnsData({
                 ...snsData,
                 [a]: {
@@ -329,8 +328,11 @@ const PlaceFormPage = (props) => {
         }
         //snsdata 
         for (var i = 0; i < countList.length; i++) {
-            formData.append(i, [snsData[i]['snstype'], snsData[i]['url']]);
-            console.log([snsData[i]['snstype'], snsData[i]['url']]);
+            if (snsData[i]['snstype'] === '0') {
+                formData.append(i, [snsData[i]['snstype'], snsData[i]['snstype_name'], snsData[i]['url']]);
+            } else {
+                formData.append(i, [snsData[i]['snstype'], snsData[i]['url']]);
+            }
         }
         //info
         console.log(info);
@@ -351,7 +353,7 @@ const PlaceFormPage = (props) => {
             }
         }
         if (!id && cnt < 21) {
-            alert('dd입력하지 않은 값이 있습니다');
+            alert('입력하지 않은 값이 있습니다');
             return;
         } else if (id && cnt < 18) {
             alert('입력하지 않은 값이 있습니다');
