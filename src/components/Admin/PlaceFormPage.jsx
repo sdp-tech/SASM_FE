@@ -328,11 +328,7 @@ const PlaceFormPage = (props) => {
         }
         //snsdata 
         for (var i = 0; i < countList.length; i++) {
-            if (snsData[i]['snstype'] === '0') {
-                formData.append(i, [snsData[i]['snstype'], snsData[i]['snstype_name'], snsData[i]['url']]);
-            } else {
-                formData.append(i, [snsData[i]['snstype'], snsData[i]['url']]);
-            }
+            formData.append(i, [snsData[i]['snstype'], snsData[i]['snstype_name'], snsData[i]['url']]);
         }
         //info
         console.log(info);
