@@ -295,8 +295,8 @@ export default function Map(props) {
 
   const markerInfo = Item.map((itemdata, index, source) => {
     return [
-      itemdata.left_coordinate,
-      itemdata.right_coordinate,
+      itemdata.latitude,
+      itemdata.longitude,
       itemdata.place_name,
       itemdata.id,
     ];
