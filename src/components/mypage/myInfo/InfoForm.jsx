@@ -29,10 +29,10 @@ const InfoForm = (props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
+      // console.log(response.data);
 
       //   setPageCount(response.data.count);
-      setInfo(response.data);
+      setInfo(response.data.data);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);

@@ -46,9 +46,9 @@ const Mystory = (props) => {
         }
       );
 
-      console.log(response.data);
-      setPageCount(response.data.count);
-      setInfo(response.data.results);
+      // console.log(response.data);
+      setPageCount(response.data.data.count);
+      setInfo(response.data.data.results);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);

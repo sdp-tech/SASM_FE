@@ -75,10 +75,10 @@ export default function SpotMap() {
           },
         }
       );
-      // console.log("data?", response.data);
+      // console.log("data?", response.data.data);
       setState({
         loading: true,
-        MapList: response.data,
+        MapList: response.data.data,
       });
       setLoading(false);
     } catch (err) {

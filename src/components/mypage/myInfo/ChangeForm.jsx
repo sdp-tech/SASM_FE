@@ -79,9 +79,9 @@ const ChangeForm = (props) => {
         }
       );
 
-      if (response.data.nickname) {
+      if (response.data.data.nickname) {
         //nickname이 변경된 경우, localStorage에 저장
-        localStorage.setItem("nickname", response.data.nickname);
+        localStorage.setItem("nickname", response.data.data.nickname);
       }
       alert("변경되었습니다.");
     } catch (err) {
