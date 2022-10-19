@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
-import AdminButton from "../Admin/components/AdminButton"
+import AdminButton from "../Admin/components/AdminButton";
 
 const StoryListPage = () => {
   const [item, setItem] = useState([]);
@@ -55,7 +55,7 @@ const StoryListPage = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
-    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading).then((result) => setIsSasmAdmin(result));
   }, [page]);
 
   //검색 요청 api url
@@ -104,8 +104,8 @@ const StoryListPage = () => {
       );
 
       // console.log("response??", response);
-      setItem(response.data.results);
-      setPageCount(response.data.count);
+      setItem(response.data.data.results);
+      setPageCount(response.data.data.count);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
@@ -173,10 +173,17 @@ const StoryListPage = () => {
               page={page}
               setPage={setPage}
             />
-            {isSasmAdmin ?
-              <AdminButton onClick={() => {
-                navigate('/admin/story')
-              }}>스토리 생성</AdminButton> : <></>}
+            {isSasmAdmin ? (
+              <AdminButton
+                onClick={() => {
+                  navigate("/admin/story");
+                }}
+              >
+                스토리 생성
+              </AdminButton>
+            ) : (
+              <></>
+            )}
           </FooterSection>
         </>
       )}
@@ -226,7 +233,7 @@ const FooterSection = styled.div`
   height: 12%;
   justify-content: center;
   align-items: center;
-  `;
+`;
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 35%;

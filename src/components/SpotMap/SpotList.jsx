@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
-import AdminButton from "../Admin/components/AdminButton"
+import AdminButton from "../Admin/components/AdminButton";
 
 const SpotListSection = styled.div`
   // background-color: blue;
@@ -156,7 +156,7 @@ const SpotList = (props) => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
-    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading).then((result) => setIsSasmAdmin(result));
   }, [page]);
 
   //검색 요청 api url
@@ -207,8 +207,8 @@ const SpotList = (props) => {
       );
 
       // console.log("response??", response);
-      setItem(response.data.results);
-      setPagecount(response.data.count);
+      setItem(response.data.data.results);
+      setPagecount(response.data.data.count);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);
@@ -289,16 +289,21 @@ const SpotList = (props) => {
               page={page}
               setPage={setPage}
             />
-            {isSasmAdmin ?
-              <AdminButton style={{ margin: "auto", width: "20%" }}
+            {isSasmAdmin ? (
+              <AdminButton
+                style={{ margin: "auto", width: "20%" }}
                 onClick={() => {
-                  navigate('/admin/place')
-                }}>장소 생성</AdminButton>
-              : <></>}
+                  navigate("/admin/place");
+                }}
+              >
+                장소 생성
+              </AdminButton>
+            ) : (
+              <></>
+            )}
           </SpotsWrapper>
         </SpotListSection>
-      )
-      }
+      )}
     </>
   );
 };

@@ -263,8 +263,8 @@ const StoryDetailBox = (props) => {
           },
         }
       );
-      console.log("data", response.data);
-      setData(response.data[0]);
+      // console.log("data", response.data);
+      setData(response.data.data[0]);
       setLoading(false);
     } catch (err) {
       console.log("Error >>", err);

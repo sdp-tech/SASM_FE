@@ -167,8 +167,8 @@ export default function ItemCard(props) {
       //   `http://127.0.0.1:8000/places/place_detail/${id}/`
       // );
 
-      console.log("response??", response.data);
-      setDetailInfo(response.data);
+      // console.log("response??", response.data);
+      setDetailInfo(response.data.data);
       setModalOpen(true);
 
       setLoading(false);

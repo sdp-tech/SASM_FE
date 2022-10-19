@@ -87,8 +87,8 @@ const Markers = (props) => {
           },
         }
       );
-      console.log("response!!!", response.data);
-      setDetailInfo(response.data);
+      // console.log("response!!!", response.data);
+      setDetailInfo(response.data.data);
       setModalOpen(true);
 
       setLoading(false);
