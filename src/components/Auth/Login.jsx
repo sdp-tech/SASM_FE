@@ -99,8 +99,10 @@ const Login = () => {
               nickname: res.data.nickname,
             });
             localStorage.setItem("nickname", res.data.nickname); //닉네임 따로 저장
+            localStorage.setItem("accessTK", res.data.access); //access token 따로 저장
 
-            setCookie("name", access);
+            // setCookie("name", access);
+            setCookie("name", refresh);
 
             navigate("/map");
             // window.location.href = "/map";

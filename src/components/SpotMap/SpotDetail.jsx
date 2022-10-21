@@ -26,9 +26,11 @@ export default function SpotDetail(props) {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const token = cookies.name;
+  // const token = cookies.name;
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+
   useEffect(() => {
-    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading).then((result) => setIsSasmAdmin(result));
   }, [page]);
   return (
     <>
@@ -71,12 +73,18 @@ export default function SpotDetail(props) {
           story_id={data?.story_id}
           place_like={data?.place_like}
         />
-        {isSasmAdmin ?
+        {isSasmAdmin ? (
           <AdminButton
             style={{ margin: "auto", width: "20%" }}
             onClick={() => {
-              navigate(`/admin/place/${id}`)
-            }}>장소 수정</AdminButton> : <></>}
+              navigate(`/admin/place/${id}`);
+            }}
+          >
+            장소 수정
+          </AdminButton>
+        ) : (
+          <></>
+        )}
       </List>
 
       <CloseButton>

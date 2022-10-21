@@ -46,7 +46,9 @@ const Markers = (props) => {
   const title = props.title;
   const id = props.id;
   const key = props.index;
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기

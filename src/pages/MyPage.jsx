@@ -6,7 +6,9 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 export default function MyPage() {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const token = cookies.name;
+  // const token = cookies.name;
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+
   console.log("token@!", token);
   const navigate = useNavigate();
 

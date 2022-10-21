@@ -119,7 +119,9 @@ const SpotList = (props) => {
   const [searchToggle, setSearchToggle] = useState(false);
   const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(1);
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [checkedList, setCheckedList] = useState([]);
