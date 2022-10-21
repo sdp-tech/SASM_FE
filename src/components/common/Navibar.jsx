@@ -110,7 +110,7 @@ const PageTitle = ({ navigate, title }) => {
 
 const LoggingOut = ({ login, setLogin }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-
+  const navigate = useNavigate();
   return (
     <div
       style={{ fontSize: "1.6vw", cursor: "pointer" }}
@@ -118,10 +118,10 @@ const LoggingOut = ({ login, setLogin }) => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
         // 서버에 토큰 블랙리스트화하기 위해 전달
-        // removeCookie("name"); // 쿠키 삭제
+        removeCookie("name"); // 쿠키 삭제
         localStorage.removeItem("accessTK"); //access token 삭제
 
-        // navigate('/'); // 메인 페이지로 이동
+        navigate("/"); // 메인 페이지로 이동
       }}
     >
       LOG OUT

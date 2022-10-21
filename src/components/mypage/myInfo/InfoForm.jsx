@@ -30,29 +30,38 @@ const InfoForm = (props) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response.data);
 
       //   setPageCount(response.data.count);
       setInfo(response.data.data);
       setLoading(false);
     } catch (err) {
-      const rr = await axios.post(
-        "http://127.0.0.1:8000/users/token/refresh/",
-        "",
-        {
-          headers: {
-            Refresh: refreshtoken,
-          },
-        }
-      );
+      // 토큰이 만료된 경우
+      if (
+        err.response.data.message == "Given token not valid for any token type"
+      ) {
+        //만료된 토큰 : "Given token not valid for any token type"
+        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
 
-      // const response = await axios.post("http://127.0.0.1:8000/users/token/refresh/", {
-      //   headers: {
-      //     detail: `Bearer ${refreshtoken}`,
-      //   },
-      // });
-      console.log("!!", rr);
-      console.log("Error >>", err);
+        localStorage.removeItem("accessTK"); //기존 access token 삭제
+        //refresh 토큰을 통해 access 토큰 재발급
+        const response = await axios.post(
+          "http://127.0.0.1:8000/users/token/refresh/",
+          {
+            refresh: refreshtoken,
+          },
+          {
+            headers: {
+              Authorization: "No Auth",
+            },
+          }
+        );
+
+        console.log("!!", response);
+
+        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
+      } else {
+        console.log("Error >>", err);
+      }
     }
   }, [token]);
 
