@@ -47,13 +47,38 @@ const Myplace = (props) => {
         }
       );
 
-      console.log("h", response);
-      // console.log("g", response.data);
       setPageCount(response.data.data.count);
       setInfo(response.data.data.results);
       setLoading(false);
     } catch (err) {
-      console.log("Error >>", err);
+      const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
+      // 토큰이 만료된 경우
+      if (
+        err.response.data.message == "Given token not valid for any token type"
+      ) {
+        //만료된 토큰 : "Given token not valid for any token type"
+        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
+
+        localStorage.removeItem("accessTK"); //기존 access token 삭제
+        //refresh 토큰을 통해 access 토큰 재발급
+        const response = await axios.post(
+          "http://127.0.0.1:8000/users/token/refresh/",
+          {
+            refresh: refreshtoken,
+          },
+          {
+            headers: {
+              Authorization: "No Auth",
+            },
+          }
+        );
+
+        console.log("!!", response);
+
+        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
+      } else {
+        console.log("Error >>", err);
+      }
     }
   };
 
