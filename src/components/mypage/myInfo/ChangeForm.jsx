@@ -27,8 +27,8 @@ const ChangeForm = (props) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [imgFile, setImgFile] = useState("");
   const imgRef = useRef();
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
-
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const onChangeImage = async (e) => {
     const reader = new FileReader();
     const file = e.target.files[0];

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import StoryDetail from "../components/Story/StoryDetailPage";
 import checkSasmAdmin from "../components/Admin/Common";
-import AdminButton from "../components/Admin/components/AdminButton"
+import AdminButton from "../components/Admin/components/AdminButton";
 
 export default function StoryList() {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -15,10 +15,11 @@ export default function StoryList() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const params = useParams();
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   useEffect(() => {
-    checkSasmAdmin(token, setLoading).then(result => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading).then((result) => setIsSasmAdmin(result));
   }, [page]);
 
   return (
@@ -28,10 +29,17 @@ export default function StoryList() {
         <StoryDetail />
       </Sections>
       <FooterSection>
-        {isSasmAdmin ?
-          <AdminButton onClick={() => {
-            navigate(`/admin/story/${params.id}`)
-          }}>스토리 수정</AdminButton> : <></>}
+        {isSasmAdmin ? (
+          <AdminButton
+            onClick={() => {
+              navigate(`/admin/story/${params.id}`);
+            }}
+          >
+            스토리 수정
+          </AdminButton>
+        ) : (
+          <></>
+        )}
       </FooterSection>
     </>
   );
@@ -59,4 +67,4 @@ const FooterSection = styled.div`
   justify-content: center;
   align-items: center;
   // background: black;
-  `;
+`;

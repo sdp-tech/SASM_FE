@@ -24,7 +24,8 @@ const StoryListPage = () => {
   const [checkedList, setCheckedList] = useState([]);
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {

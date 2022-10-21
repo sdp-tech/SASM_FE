@@ -19,7 +19,8 @@ const Myplace = (props) => {
 
   const offset = (page - 1) * limit;
   console.log("pageInfo", page, offset); //현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   const pageMyplace = async () => {
     console.log("page", page);

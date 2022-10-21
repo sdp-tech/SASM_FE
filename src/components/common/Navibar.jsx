@@ -118,7 +118,9 @@ const LoggingOut = ({ login, setLogin }) => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
         // 서버에 토큰 블랙리스트화하기 위해 전달
-        removeCookie("name"); // 쿠키 삭제
+        // removeCookie("name"); // 쿠키 삭제
+        localStorage.removeItem("accessTK"); //access token 삭제
+
         // navigate('/'); // 메인 페이지로 이동
       }}
     >
@@ -131,7 +133,8 @@ export default function Navibar() {
   const [login, setLogin] = useContext(LoginContext);
 
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const token = cookies.name;
+  // const token = cookies.name;
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const setNickname = localStorage.getItem("nickname"); //닉네임 가져오기
   const navigate = useNavigate();
 

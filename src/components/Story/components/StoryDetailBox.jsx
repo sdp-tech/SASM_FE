@@ -207,7 +207,8 @@ const StoryDetailBox = (props) => {
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   const handlePageGoToMap = (id) => {
     //추후 키값으로 찾고, 뒤에 붙여서 이동 예정

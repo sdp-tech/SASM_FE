@@ -82,7 +82,9 @@ export default function ItemCard(props) {
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
