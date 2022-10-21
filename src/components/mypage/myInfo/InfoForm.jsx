@@ -18,7 +18,7 @@ const InfoForm = (props) => {
 
   const [loading, setLoading] = useState(true);
 
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   //   초기에 mypage data 불러오기
@@ -36,6 +36,22 @@ const InfoForm = (props) => {
       setInfo(response.data.data);
       setLoading(false);
     } catch (err) {
+      const rr = await axios.post(
+        "http://127.0.0.1:8000/users/token/refresh/",
+        "",
+        {
+          headers: {
+            Refresh: refreshtoken,
+          },
+        }
+      );
+
+      // const response = await axios.post("http://127.0.0.1:8000/users/token/refresh/", {
+      //   headers: {
+      //     detail: `Bearer ${refreshtoken}`,
+      //   },
+      // });
+      console.log("!!", rr);
       console.log("Error >>", err);
     }
   }, [token]);
