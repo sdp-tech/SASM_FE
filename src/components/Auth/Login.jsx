@@ -84,21 +84,21 @@ const Login = () => {
         onClick={async () => {
           const res = await TryLogin(info);
 
-          if ("success" in res) {
-            const access = res.access;
+          if ("success" === res.status) {
+            const access = res.data.access;
             // alert(access);
-            const refresh = res.refresh;
+            const refresh = res.data.refresh;
             // alert(refresh);
 
             setLogin({
               ...login,
               loggedIn: true,
               // token :res.token
-              refresh: res.refresh,
-              access: res.access,
-              nickname: res.nickname,
+              refresh: res.data.refresh,
+              access: res.data.access,
+              nickname: res.data.nickname,
             });
-            localStorage.setItem("nickname", res.nickname); //닉네임 따로 저장
+            localStorage.setItem("nickname", res.data.nickname); //닉네임 따로 저장
 
             setCookie("name", access);
 
