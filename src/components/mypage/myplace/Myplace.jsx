@@ -46,7 +46,8 @@ const Myplace = (props) => {
         }
       );
 
-      console.log("g", response.data);
+      console.log("h", response);
+      // console.log("g", response.data);
       setPageCount(response.data.data.count);
       setInfo(response.data.data.results);
       setLoading(false);
