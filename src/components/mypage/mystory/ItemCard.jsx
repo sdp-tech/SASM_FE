@@ -61,7 +61,7 @@ export default function ItemCard(props) {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/stories/story_like/",
+        process.env.SASM_API_URL + "/stories/story_like/",
         { id: id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -79,7 +79,7 @@ export default function ItemCard(props) {
         localStorage.removeItem("accessTK"); //기존 access token 삭제
         //refresh 토큰을 통해 access 토큰 재발급
         const response = await axios.post(
-          "http://127.0.0.1:8000/users/token/refresh/",
+          process.env.SASM_API_URL + "/users/token/refresh/",
           {
             refresh: refreshtoken,
           },

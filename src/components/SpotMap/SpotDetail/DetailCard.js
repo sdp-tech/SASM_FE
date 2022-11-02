@@ -187,7 +187,11 @@ function DetailCard({
     } else {
       try {
         const response = await axios.post(
+<<<<<<< Updated upstream
           process.env.SASM_API_URL + "/places/place_like/",
+=======
+          "http://3.38.89.18/places/place_like/",
+>>>>>>> Stashed changes
           { id: id },
           { headers: { Authorization: `Bearer ${token}` } }
         );

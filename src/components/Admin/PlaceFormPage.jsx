@@ -82,7 +82,7 @@ const PlaceFormPage = (props) => {
     const CheckPlaceRepetition = async () => {
         try {
             const response = await axios.get(
-                'http://127.0.0.1:8000/sdp_admin/places/check_name_overlap/',
+                process.env.SASM_API_URL + "/sdp_admin/places/check_name_overlap/",
                 {
                     params: {
                         'place_name': info['place_name'],
@@ -230,7 +230,7 @@ const PlaceFormPage = (props) => {
         }
         try {
             const response = await axios.get(
-                `http://127.0.0.1:8000/sdp_admin/places/${id}`,
+                process.env.SASM_API_URL + `/sdp_admin/places/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -251,7 +251,7 @@ const PlaceFormPage = (props) => {
         }
         try {
             const resphoto = await axios.get(
-                `http://127.0.0.1:8000/sdp_admin/placephoto/${id}`,
+                process.env.SASM_API_URL + `/sdp_admin/placephoto/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -275,7 +275,7 @@ const PlaceFormPage = (props) => {
         }
         try {
             const ressnsurl = await axios.get(
-                `http://127.0.0.1:8000/sdp_admin/snsurl/${id}`,
+                process.env.SASM_API_URL + `/sdp_admin/snsurl/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -297,7 +297,7 @@ const PlaceFormPage = (props) => {
     const loadSns = async () => {
         try {
             const response = await axios.get(
-                `http://127.0.0.1:8000/sdp_admin/snstypes/`,
+                process.env.SASM_API_URL + `/sdp_admin/snstypes/`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -362,7 +362,7 @@ const PlaceFormPage = (props) => {
         try {
             if (!id) {
                 const response = await axios.post(
-                    "http://127.0.0.1:8000/sdp_admin/places/save_place/",
+                    process.env.SASM_API_URL + "/sdp_admin/places/save_place/",
                     formData,
                     {
                         headers: {
@@ -379,7 +379,7 @@ const PlaceFormPage = (props) => {
             else {
                 console.log(formData);
                 const response = await axios.put(
-                    `http://127.0.0.1:8000/sdp_admin/places/update_place/`,
+                    process.env.SASM_API_URL + `/sdp_admin/places/update_place/`,
                     formData,
                     {
                         headers: {
