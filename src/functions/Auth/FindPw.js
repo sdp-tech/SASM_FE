@@ -2,7 +2,7 @@
 
 import axios from "axios";
 export default async function FindPw(pw) {
-  const url = "http://127.0.0.1:8000/users/find_pw/";
+  const url = process.env.SASM_API_URL + "/users/find_pw/";
 
   return await axios
     .post(url, {

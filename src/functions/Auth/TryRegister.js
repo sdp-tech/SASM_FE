@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export default async function TryRegister(info) {
-  const url = 'http://127.0.0.1:8000/users/signup/'
+  const url = process.env.SASM_API_URL + '/users/signup/'
 
   console.log(info)
   alert("회원가입 인증 메일을 확인해주세요 : )")

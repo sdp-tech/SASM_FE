@@ -2,7 +2,7 @@
 
 import axios from "axios";
 export default async function FindId(id) {
-  const url = "http://127.0.0.1:8000/users/findid/";
+  const url = process.env.SASM_API_URL + "/users/findid/";
   return await axios
     .post(url, {
       email: id.email,
