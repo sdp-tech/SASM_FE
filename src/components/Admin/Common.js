@@ -11,7 +11,7 @@ export default async function checkSasmAdmin(token, setLoading) {
                 Authorization: `Bearer ${token}`,
             },
         });
-        return response.data.is_sdp;
+        return response.data.data.is_sdp;
     } catch (err) {
         console.log("Error >>", err);
         return false;
