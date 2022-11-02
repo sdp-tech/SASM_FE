@@ -34,7 +34,7 @@ const Mystory = (props) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/users/like_story/",
+        process.env.SASM_API_URL + "/users/like_story/",
 
         {
           params: {
@@ -63,7 +63,7 @@ const Mystory = (props) => {
         localStorage.removeItem("accessTK"); //기존 access token 삭제
         //refresh 토큰을 통해 access 토큰 재발급
         const response = await axios.post(
-          "http://127.0.0.1:8000/users/token/refresh/",
+          process.env.SASM_API_URL + "/users/token/refresh/",
           {
             refresh: refreshtoken,
           },
