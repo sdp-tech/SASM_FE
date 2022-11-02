@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default async function TryLogin(info) {
-  const url = "http://3.38.89.18/users/login/";
+  const url = "https://api.sasmbe.com/users/login/";
 
   if (info.email && info.password) {
     console.log(info);
