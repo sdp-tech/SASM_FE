@@ -68,7 +68,7 @@ export default function SpotMap() {
 
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/places/map_info/",
+        "https://api.sasmbe.com/places/map_info/",
         {
           params: {},
 
