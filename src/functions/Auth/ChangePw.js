@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default async function ChangePw(info) {
-  const url = process.env.SASM_API_URL + "/users/pwchange/";
+  const url = process.env.REACT_APP_SASM_API_URL + "/users/pwchange/";
   if (info.code && info.password) {
     try {
       const response = await axios.post(url, {

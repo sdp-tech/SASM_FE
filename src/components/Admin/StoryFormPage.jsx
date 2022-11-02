@@ -35,7 +35,7 @@ const StoryFormPage = (props) => {
 
         try {
             const response = await axios.post(
-                process.env.SASM_API_URL + "/sdp_admin/stories/photos/",
+                process.env.REACT_APP_SASM_API_URL + "/sdp_admin/stories/photos/",
                 formData,
                 {
                     headers: {
@@ -62,7 +62,7 @@ const StoryFormPage = (props) => {
         setLoading(true);
         try {
             const response = await axios.get(
-                process.env.SASM_API_URL + `/sdp_admin/stories/${id}/`,
+                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/stories/${id}/`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ const StoryFormPage = (props) => {
         setLoading(true);
         try {
             const response = await axios.get(
-                process.env.SASM_API_URL + `/sdp_admin/places/`,
+                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/places/`,
                 {
                     // params: {
                     //     page: 1,
@@ -135,7 +135,7 @@ const StoryFormPage = (props) => {
         try {
             if (!id) {
                 const response = await axios.post(
-                    process.env.SASM_API_URL + "/sdp_admin/stories/",
+                    process.env.REACT_APP_SASM_API_URL + "/sdp_admin/stories/",
                     formData,
                     {
                         headers: {
@@ -151,7 +151,7 @@ const StoryFormPage = (props) => {
             }
             else {
                 const response = await axios.put(
-                    process.env.SASM_API_URL + `/sdp_admin/stories/${id}/`,
+                    process.env.REACT_APP_SASM_API_URL + `/sdp_admin/stories/${id}/`,
                     formData,
                     {
                         headers: {

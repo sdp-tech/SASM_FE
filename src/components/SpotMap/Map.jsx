@@ -78,7 +78,7 @@ const Markers = (props) => {
     }
     try {
       const response = await axios.get(
-        process.env.SASM_API_URL + "/places/place_detail/",
+        process.env.REACT_APP_SASM_API_URL + "/places/place_detail/",
         {
           params: {
             id: id,
@@ -106,7 +106,7 @@ const Markers = (props) => {
         localStorage.removeItem("accessTK"); //기존 access token 삭제
         //refresh 토큰을 통해 access 토큰 재발급
         const response = await axios.post(
-          process.env.SASM_API_URL + "/users/token/refresh/",
+          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
           {
             refresh: refreshtoken,
           },
