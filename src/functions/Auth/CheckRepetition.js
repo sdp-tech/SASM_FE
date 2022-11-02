@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default async function CheckRepetition(type, data) {
 
-  const url = 'http://127.0.0.1:8000/users/rep_check/'
+  const url = process.env.SASM_API_URL + '/users/rep_check/'
 
   var new_data = {}
 
