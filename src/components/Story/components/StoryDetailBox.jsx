@@ -223,11 +223,7 @@ const StoryDetailBox = (props) => {
     } else {
       try {
         const response = await axios.post(
-<<<<<<< Updated upstream
           process.env.SASM_API_URL + `/stories/story_like/`,
-=======
-          "http://3.38.89.18/stories/story_like/",
->>>>>>> Stashed changes
           { id: data.id },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -246,11 +242,7 @@ const StoryDetailBox = (props) => {
           localStorage.removeItem("accessTK"); //기존 access token 삭제
           //refresh 토큰을 통해 access 토큰 재발급
           const response = await axios.post(
-<<<<<<< Updated upstream
             process.env.SASM_API_URL + `/users/token/refresh/`,
-=======
-            "http://3.38.89.18/users/token/refresh/",
->>>>>>> Stashed changes
             {
               refresh: refreshtoken,
             },
@@ -289,11 +281,7 @@ const StoryDetailBox = (props) => {
     setLoading(true);
     try {
       const response = await axios.get(
-<<<<<<< Updated upstream
         process.env.SASM_API_URL + `/stories/story_detail/`,
-=======
-        `http://3.38.89.18/stories/story_detail/`,
->>>>>>> Stashed changes
         {
           params: {
             id: id,
