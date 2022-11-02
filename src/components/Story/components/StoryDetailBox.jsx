@@ -223,7 +223,7 @@ const StoryDetailBox = (props) => {
     } else {
       try {
         const response = await axios.post(
-          process.env.SASM_API_URL + `/stories/story_like/`,
+          process.env.REACT_APP_SASM_API_URL + `/stories/story_like/`,
           { id: data.id },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -242,7 +242,7 @@ const StoryDetailBox = (props) => {
           localStorage.removeItem("accessTK"); //기존 access token 삭제
           //refresh 토큰을 통해 access 토큰 재발급
           const response = await axios.post(
-            process.env.SASM_API_URL + `/users/token/refresh/`,
+            process.env.REACT_APP_SASM_API_URL + `/users/token/refresh/`,
             {
               refresh: refreshtoken,
             },
@@ -281,7 +281,7 @@ const StoryDetailBox = (props) => {
     setLoading(true);
     try {
       const response = await axios.get(
-        process.env.SASM_API_URL + `/stories/story_detail/`,
+        process.env.REACT_APP_SASM_API_URL + `/stories/story_detail/`,
         {
           params: {
             id: id,
@@ -307,7 +307,7 @@ const StoryDetailBox = (props) => {
         localStorage.removeItem("accessTK"); //기존 access token 삭제
         //refresh 토큰을 통해 access 토큰 재발급
         const response = await axios.post(
-          process.env.SASM_API_URL + `/users/token/refresh/`,
+          process.env.REACT_APP_SASM_API_URL + `/users/token/refresh/`,
           {
             refresh: refreshtoken,
           },

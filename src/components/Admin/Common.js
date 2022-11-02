@@ -6,7 +6,7 @@ export default async function checkSasmAdmin(token, setLoading) {
             return false;
         }
         setLoading(true);
-        const response = await axios.get(process.env.SASM_API_URL + "/users/me/", {
+        const response = await axios.get(process.env.REACT_APP_SASM_API_URL + "/users/me/", {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
