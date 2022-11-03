@@ -18,7 +18,7 @@ const StoryFormPage = (props) => {
     const [loading, setLoading] = useState(true);
     const [imageUrl, setImageUrl] = useState(null);
     const navigate = useNavigate();
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기 // 쿠키에서 id 를 꺼내기
 
     const uploadImage = async (file) => {
         const formData = new FormData();
@@ -69,7 +69,7 @@ const StoryFormPage = (props) => {
                     },
                 }
             );
-            console.log("data", response.data);
+            console.log("data", response.data.data);
             const { title, tag, preview, address, story_review, html_content, rep_pic } = response.data
             setStory({
                 ...story,
@@ -86,6 +86,7 @@ const StoryFormPage = (props) => {
     const loadPlaces = async () => {
         setLoading(true);
         try {
+            console.log(token);
             const response = await axios.get(
                 process.env.REACT_APP_SASM_API_URL + `/sdp_admin/places/`,
                 {
@@ -97,7 +98,7 @@ const StoryFormPage = (props) => {
                     },
                 }
             );
-            setPlaces(response.data);
+            setPlaces(response.data.data);
             setLoading(false);
         } catch (err) {
             console.log("Error >>", err);
@@ -167,8 +168,8 @@ const StoryFormPage = (props) => {
             }
             navigate("/story");
         } catch (err) {
-            console.log("Error >>", err.response.data);
-            alert("스토리 생성 실패", err.response.data);
+            console.log("Error >>", err.response.data.message);
+            alert("스토리 생성 실패", err.response.data.message);
         }
     };
 
