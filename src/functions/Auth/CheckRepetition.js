@@ -24,7 +24,7 @@ export default async function CheckRepetition(type, data) {
     .then(function (res) {
       console.log(res);
       // if(res.data === '존재하는 이메일입니다')
-      alert(res.data)
+      alert(res.data.data)
     })
     .catch(function (error) {
       console.log(error);

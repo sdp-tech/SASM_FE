@@ -24,7 +24,7 @@ const PlaceFormPage = (props) => {
     const [address, setAddess] = useState([]);
     //쿠키
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-    const token = cookies.name; // 쿠키에서 id 를 꺼내기
+    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기 // 쿠키에서 id 를 꺼내기
     //글자수 count를 위한 변수값
     const [countText, setCountText] = useState([0]);
     const [countEtcHours, setCountEtcHours] = useState([0]);
@@ -237,9 +237,9 @@ const PlaceFormPage = (props) => {
                     },
                 }
             );
-            setInfo(response.data);
-            setAddess(response.data['address']);
-            imageUrl['rep_pic'] = response.data['rep_pic'];
+            setInfo(response.data.data);
+            setAddess(response.data.data['address']);
+            imageUrl['rep_pic'] = response.data.data['rep_pic'];
         } catch (err) {
             console.log("Error >>", err);
         }
@@ -260,9 +260,9 @@ const PlaceFormPage = (props) => {
             );
             setImageUrl({
                 ...imageUrl,
-                'placephoto1': resphoto.data[0]['image'],
-                'placephoto2': resphoto.data[1]['image'],
-                'placephoto3': resphoto.data[2]['image'],
+                'placephoto1': resphoto.data.data[0]['image'],
+                'placephoto2': resphoto.data.data[1]['image'],
+                'placephoto3': resphoto.data.data[2]['image'],
             });
         } catch (err) {
             console.log("Error >>", err);
@@ -282,10 +282,10 @@ const PlaceFormPage = (props) => {
                     },
                 }
             );
-            setSnsData(ressnsurl.data);
+            setSnsData(ressnsurl.data.data);
             //몇개를 생성할 지 정해주기 위해
             let newCountArr = [];
-            for (var i = 0; i < ressnsurl.data.length; i++) {
+            for (var i = 0; i < ressnsurl.data.data.length; i++) {
                 newCountArr.push(i);
             }
             setCountList(newCountArr);
@@ -304,7 +304,7 @@ const PlaceFormPage = (props) => {
                     },
                 }
             );
-            setSnsselect(response.data);
+            setSnsselect(response.data.data);
         } catch (err) {
             console.log("Error >>", err);
         }
