@@ -8,6 +8,8 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
+import { useNavigate } from "react-router-dom";
+import Request from "../../../functions/common/Request";
 
 const Mystory = (props) => {
   const [info, setInfo] = useState([]);
@@ -21,6 +23,8 @@ const Mystory = (props) => {
   console.log("pageInfo", page, offset); //현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+  const navigate = useNavigate();
+  const request = new Request(cookies, localStorage, navigate);
 
   const pageMystory = async () => {
     console.log("page", page);
@@ -32,55 +36,12 @@ const Mystory = (props) => {
     }
 
     setLoading(true);
-    try {
-      const response = await axios.get(
-        process.env.REACT_APP_SASM_API_URL + "/users/like_story/",
-
-        {
-          params: {
-            page: newPage,
-          },
-
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // console.log(response.data);
-      setPageCount(response.data.data.count);
-      setInfo(response.data.data.results);
-      setLoading(false);
-    } catch (err) {
-      const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-      // 토큰이 만료된 경우
-      if (
-        err.response.data.message == "Given token not valid for any token type"
-      ) {
-        //만료된 토큰 : "Given token not valid for any token type"
-        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-
-        localStorage.removeItem("accessTK"); //기존 access token 삭제
-        //refresh 토큰을 통해 access 토큰 재발급
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-          {
-            refresh: refreshtoken,
-          },
-          {
-            headers: {
-              Authorization: "No Auth",
-            },
-          }
-        );
-
-        console.log("!!", response);
-
-        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-      } else {
-        console.log("Error >>", err);
-      }
-    }
+    const response = await request.get("/users/like_story/", {
+      page: newPage,
+    }, null);
+    setPageCount(response.data.data.count);
+    setInfo(response.data.data.results);
+    setLoading(false);
   };
 
   // 초기에 좋아요 목록 불러오기

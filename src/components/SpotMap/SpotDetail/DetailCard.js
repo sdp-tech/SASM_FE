@@ -9,6 +9,9 @@ import openButton from "../../../assets/img/openButton.png";
 // import GoToMapImg from "../../../assets/img/GoToMapImg.png";
 import GoToStoryImg from "../../../assets/img/GoToStoryImg.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Request from "../../../functions/common/Request";
+
 const StyledCard = styled.section`
   width: 100%;
 `;
@@ -171,6 +174,8 @@ function DetailCard({
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const request = new Request(cookies, localStorage, navigate);
 
   const handleClick = () => {
     setOpen(!open);
@@ -185,50 +190,8 @@ function DetailCard({
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      try {
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/places/place_like/",
-          { id: id },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        console.log("response", response);
-
-        // setState({
-        //   loading: true,
-        //   ItemList: response.detailInfo.results,
-        // });
-      } catch (err) {
-        const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-        // 토큰이 만료된 경우
-        if (
-          err.response.data.message ==
-          "Given token not valid for any token type"
-        ) {
-          //만료된 토큰 : "Given token not valid for any token type"
-          //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-
-          localStorage.removeItem("accessTK"); //기존 access token 삭제
-          //refresh 토큰을 통해 access 토큰 재발급
-          const response = await axios.post(
-            process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-            {
-              refresh: refreshtoken,
-            },
-            {
-              headers: {
-                Authorization: "No Auth",
-              },
-            }
-          );
-
-          console.log("!!", response);
-
-          localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-        } else {
-          console.log("Error >>", err);
-        }
-      }
+      const response = await request.post("/places/place_like/", { id: id }, null);
+      console.log("response", response);
 
       //색상 채우기
       setLike(!like);
