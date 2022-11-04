@@ -46,7 +46,7 @@ const StoryFormPage = (props) => {
         const response = await request.get(`/sdp_admin/stories/${id}/`, null, null);
 
         console.log("data", response.data.data);
-        const { title, tag, preview, address, story_review, html_content, rep_pic } = response.data
+        const { title, tag, preview, address, story_review, html_content, rep_pic } = response.data.data
         setStory({
             ...story,
             title: title, tag: tag, preview: preview, address: address, story_review: story_review,
