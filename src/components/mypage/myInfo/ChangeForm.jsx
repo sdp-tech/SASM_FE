@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Loading from "../../common/Loading";
+import Request from "../../../functions/common/Request";
 import {
   AuthContent,
   InputWithLabel,
@@ -29,6 +30,8 @@ const ChangeForm = (props) => {
   const imgRef = useRef();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+  const request = new Request(cookies, localStorage, navigate);
+
   const onChangeImage = async (e) => {
     const reader = new FileReader();
     const file = e.target.files[0];
@@ -64,56 +67,14 @@ const ChangeForm = (props) => {
       console.log(key, "::", formData.get(key));
     }
 
-    try {
-      const response = await axios.post(
-        process.env.REACT_APP_SASM_API_URL + "/users/me/",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-          transformRequest: (data, headers) => {
-            return data;
-          },
-        }
-      );
-
-      if (response.data.data.nickname) {
-        //nickname이 변경된 경우, localStorage에 저장
-        localStorage.setItem("nickname", response.data.data.nickname);
-      }
-      alert("변경되었습니다.");
-    } catch (err) {
-      const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-      // 토큰이 만료된 경우
-      if (
-        err.response.data.message == "Given token not valid for any token type"
-      ) {
-        //만료된 토큰 : "Given token not valid for any token type"
-        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-
-        localStorage.removeItem("accessTK"); //기존 access token 삭제
-        //refresh 토큰을 통해 access 토큰 재발급
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-          {
-            refresh: refreshtoken,
-          },
-          {
-            headers: {
-              Authorization: "No Auth",
-            },
-          }
-        );
-
-        console.log("!!", response);
-
-        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-      } else {
-        console.log("Error >>", err);
-      }
+    const response = await request.post("/users/me/", formData, {
+      "Content-Type": "multipart/form-data",
+    });
+    if ("data" in response.data && "nickname " in response.data.data) {
+      //nickname이 변경된 경우, localStorage에 저장
+      localStorage.setItem("nickname", response.data.data.nickname);
     }
+    alert("변경되었습니다.");
     navigate("/mypage");
   };
   return (

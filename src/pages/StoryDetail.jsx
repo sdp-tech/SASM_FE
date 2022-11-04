@@ -19,7 +19,7 @@ export default function StoryList() {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   useEffect(() => {
-    checkSasmAdmin(token, setLoading).then((result) => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
   }, [page]);
 
   return (

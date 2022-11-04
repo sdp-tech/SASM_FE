@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import AdminButton from "../Admin/components/AdminButton";
 import DetailList from "../Admin/components/DetailList";
 import CheckRepetition from "../../functions/Auth/CheckRepetition";
+import Request from "../../functions/common/Request";
+
 const PlaceFormPage = (props) => {
     //장소 id 가져오기
     const id = props.id;
@@ -36,6 +38,7 @@ const PlaceFormPage = (props) => {
     //sns수정을 위한 변수값
     const [snsData, setSnsData] = useState([0]);
     const [snsselect, setSnsselect] = useState([]);
+    const request = new Request(cookies, localStorage, navigate);
 
     //장소 카테고리
     const PlaceCategory = [
@@ -80,26 +83,14 @@ const PlaceFormPage = (props) => {
     }
     //장소 중복 체크
     const CheckPlaceRepetition = async () => {
-        try {
-            const response = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + "/sdp_admin/places/check_name_overlap/",
-                {
-                    params: {
-                        'place_name': info['place_name'],
-                    },
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            if (response.data['data']['overlap'] === true) {
-                alert('이미 존재하는 장소입니다')
-            }
-            else {
-                alert('존재하지 않는 장소입니다')
-            }
-        } catch (err) {
-            console.log(err);
+        const response = await request.get("/sdp_admin/places/check_name_overlap/", {
+            'place_name': info['place_name'],
+        }, null);
+        if (response.data['data']['overlap'] === true) {
+            alert('이미 존재하는 장소입니다');
+        }
+        else {
+            alert('존재하지 않는 장소입니다');
         }
     };
     //DetailList에서 snstype이 변경되었을 때
@@ -228,86 +219,42 @@ const PlaceFormPage = (props) => {
         if (!id) {
             return;
         }
-        try {
-            const response = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/places/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setInfo(response.data.data);
-            setAddess(response.data.data['address']);
-            imageUrl['rep_pic'] = response.data.data['rep_pic'];
-        } catch (err) {
-            console.log("Error >>", err);
-        }
+        const response = await request.get(`/sdp_admin/places/${id}`, null, null);
+        setInfo(response.data.data);
+        setAddess(response.data.data['address']);
+        imageUrl['rep_pic'] = response.data.data['rep_pic'];
     };
     //place update 기능을 위해 장소 이미지 load
     const loadPlacePhoto = async () => {
         if (!id) {
             return;
         }
-        try {
-            const resphoto = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/placephoto/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setImageUrl({
-                ...imageUrl,
-                'placephoto1': resphoto.data.data[0]['image'],
-                'placephoto2': resphoto.data.data[1]['image'],
-                'placephoto3': resphoto.data.data[2]['image'],
-            });
-        } catch (err) {
-            console.log("Error >>", err);
-        }
+        const resphoto = await request.get(`/sdp_admin/placephoto/${id}`, null, null);
+        setImageUrl({
+            ...imageUrl,
+            'placephoto1': resphoto.data.data[0]['image'],
+            'placephoto2': resphoto.data.data[1]['image'],
+            'placephoto3': resphoto.data.data[2]['image'],
+        });
     };
     //snsurl load 하기
     const loadSnsUrl = async () => {
         if (!id) {
             return;
         }
-        try {
-            const ressnsurl = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/snsurl/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setSnsData(ressnsurl.data.data);
-            //몇개를 생성할 지 정해주기 위해
-            let newCountArr = [];
-            for (var i = 0; i < ressnsurl.data.data.length; i++) {
-                newCountArr.push(i);
-            }
-            setCountList(newCountArr);
-        } catch (err) {
-            console.log("Error >>", err);
+        const ressnsurl = await request.get(`/sdp_admin/snsurl/${id}`, null, null);
+        setSnsData(ressnsurl.data.data);
+        //몇개를 생성할 지 정해주기 위해
+        let newCountArr = [];
+        for (var i = 0; i < ressnsurl.data.data.length; i++) {
+            newCountArr.push(i);
         }
+        setCountList(newCountArr);
     };
     //select box를 위해 snstype 불러오기
     const loadSns = async () => {
-        try {
-            const response = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/snstypes/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setSnsselect(response.data.data);
-        } catch (err) {
-            console.log("Error >>", err);
-        }
+        const response = await request.get(`/sdp_admin/snstypes/`, null, null);
+        setSnsselect(response.data.data);
     };
     const SaveInfo = async () => {
         let cnt = 0;
@@ -359,44 +306,16 @@ const PlaceFormPage = (props) => {
         for (let key of formData.keys()) {
             console.log(key, "::", formData.get(key));
         }
-        try {
-            if (!id) {
-                const response = await axios.post(
-                    process.env.REACT_APP_SASM_API_URL + "/sdp_admin/places/save_place/",
-                    formData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "multipart/form-data",
-                        },
-                        transformRequest: (data, headers) => {
-                            return data;
-                        },
-                    }
-                );
-                console.log(response);
-            }
-            else {
-                console.log(formData);
-                const response = await axios.put(
-                    process.env.REACT_APP_SASM_API_URL + `/sdp_admin/places/update_place/`,
-                    formData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "multipart/form-data",
-                        },
-                        transformRequest: (data, headers) => {
-                            return data;
-                        },
-                    }
-                );
-                console.log(response);
-            }
-            navigate("/map");
-        } catch (err) {
-            console.log("Error >>", err);
+        if (!id) {
+            const response = await request.post("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
+            console.log(response);
         }
+        else {
+            console.log(formData);
+            const response = await request.put("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
+            console.log(response);
+        }
+        navigate("/map");
     };
     useEffect(async () => {
         setInfo({

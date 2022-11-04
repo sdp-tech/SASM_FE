@@ -9,14 +9,18 @@ import SpotDetail from "../components/SpotMap/SpotDetail";
 import { LoginContext } from "../contexts/LoginContexts";
 import Loading from "../components/common/Loading";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router";
+import Request from "../functions/common/Request";
 
 export default function SpotMap() {
   const [login, setLogin] = useContext(LoginContext);
   // console.log("login!!", login);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const navigate = useNavigate();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+  const request = new Request(cookies, localStorage, navigate);
 
   const [state, setState] = useState({
     loading: false,
@@ -56,63 +60,17 @@ export default function SpotMap() {
 
   //초기 map 데이터 가져오기
   const getItem = async () => {
-    let headerValue;
-
-    if (token === null || undefined) {
-      headerValue = `No Auth`;
-    } else {
-      headerValue = `Bearer ${token}`;
-    }
-
     setLoading(true);
 
-    try {
-      const response = await axios.get(
-        process.env.REACT_APP_SASM_API_URL + "/places/map_info/",
-        {
-          params: {},
+    const response = await request.get("/places/map_info/", null, null);
 
-          headers: {
-            Authorization: headerValue,
-          },
-        }
-      );
-      // console.log("data?", response.data.data);
-      setState({
-        loading: true,
-        MapList: response.data.data,
-      });
-      setLoading(false);
-    } catch (err) {
-      const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-      // 토큰이 만료된 경우
-      if (
-        err.response.data.message == "Given token not valid for any token type"
-      ) {
-        //만료된 토큰 : "Given token not valid for any token type"
-        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
+    // console.log("data?", response.data.data);
+    setState({
+      loading: true,
+      MapList: response.data.data,
+    });
+    setLoading(false);
 
-        localStorage.removeItem("accessTK"); //기존 access token 삭제
-        //refresh 토큰을 통해 access 토큰 재발급
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-          {
-            refresh: refreshtoken,
-          },
-          {
-            headers: {
-              Authorization: "No Auth",
-            },
-          }
-        );
-
-        console.log("!!", response);
-
-        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-      } else {
-        console.log("Error >>", err);
-      }
-    }
   };
 
   return (

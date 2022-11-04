@@ -11,6 +11,7 @@ import axios from "axios";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
 import AdminButton from "../Admin/components/AdminButton";
+import Request from "../../functions/common/Request";
 
 const SpotListSection = styled.div`
   // background-color: blue;
@@ -128,6 +129,7 @@ const SpotList = (props) => {
   const [checkedList, setCheckedList] = useState([]);
   const navigate = useNavigate();
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
+  const request = new Request(cookies, localStorage, navigate);
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
@@ -159,7 +161,7 @@ const SpotList = (props) => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
-    checkSasmAdmin(token, setLoading).then((result) => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
   }, [page]);
 
   //검색 요청 api url
@@ -191,58 +193,18 @@ const SpotList = (props) => {
       searched = search;
     }
 
-    try {
-      const response = await axios.get(
-        process.env.REACT_APP_SASM_API_URL + "/places/place_search/",
-        {
-          params: {
-            left: latitude, //현재 위치
-            right: longitude, //현재 위치
-            page: newPage,
-            search: searched,
-            filter: checkedList,
-          },
+    const response = await request.get("/places/place_search/", {
+      left: latitude, //현재 위치
+      right: longitude, //현재 위치
+      page: newPage,
+      search: searched,
+      filter: checkedList,
+    }, null);
 
-          headers: {
-            Authorization: headerValue,
-          },
-        }
-      );
-
-      // console.log("response??", response);
-      setItem(response.data.data.results);
-      setPagecount(response.data.data.count);
-      setLoading(false);
-    } catch (err) {
-      const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-      // 토큰이 만료된 경우
-      if (
-        err.response.data.message == "Given token not valid for any token type"
-      ) {
-        //만료된 토큰 : "Given token not valid for any token type"
-        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-
-        localStorage.removeItem("accessTK"); //기존 access token 삭제
-        //refresh 토큰을 통해 access 토큰 재발급
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-          {
-            refresh: refreshtoken,
-          },
-          {
-            headers: {
-              Authorization: "No Auth",
-            },
-          }
-        );
-
-        console.log("!!", response);
-
-        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-      } else {
-        console.log("Error >>", err);
-      }
-    }
+    // console.log("response??", response);
+    setItem(response.data.data.results);
+    setPagecount(response.data.data.count);
+    setLoading(false);
   };
 
   return (
