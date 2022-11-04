@@ -3,6 +3,9 @@ import Request from "../../functions/common/Request";
 
 export default async function checkSasmAdmin(token, setLoading, cookies, localStorage, navigate) {
     try {
+        if (token == null || undefined) {
+            return false;
+        }
         const request = new Request(cookies, localStorage, navigate);
         setLoading(true);
         const response = await request.get("/users/me/", null, null);
