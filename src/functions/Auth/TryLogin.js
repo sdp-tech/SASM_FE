@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default async function TryLogin(info) {
-  const url = "https://api.sasmbe.com/users/login/";
+  const url = process.env.REACT_APP_SASM_API_URL + "/users/login/";
 
   if (info.email && info.password) {
     console.log(info);
