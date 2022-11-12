@@ -131,18 +131,16 @@ const SetNewPassword = () => {
             }}
             onClick={async () => {
               const res = await ChangePw(info);
-              // console.log("res!!!!!", res);
+              console.log("res!!!!!", res);
               if (res.data.status === "success") {
                 alert(
                   "비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요"
                 );
                 PageRedirection(navigate, "LOG IN");
-              } else if (res.data === "코드가 일치하지 않습니다") {
+              } else if (res.data.status === "error") {
                 alert("인증번호가 일치하지 않습니다.");
-              } else if (res.data === "기존 비밀번호와 일치합니다") {
+              } else if (res.data.status === "fail") {
                 alert("기존 비밀번호와 일치합니다.");
-              } else if (res.data === "비밀번호를 다시 입력해주세요") {
-                alert("비밀번호를 다시 입력해주세요.");
               }
             }}
           >

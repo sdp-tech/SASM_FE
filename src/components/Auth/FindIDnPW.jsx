@@ -51,7 +51,7 @@ const FindIDnPW = () => {
   const [id, setId] = React.useState({});
   const [value, setValue] = React.useState(window.location.href.includes('SetNewPassword') ? 1 : 0);
 
-  const navigate = useNavigate() 
+  const navigate = useNavigate()
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -67,10 +67,9 @@ const FindIDnPW = () => {
 
   const TryFindEmail = async () => {
     const res = await FindId(id);
-
-    if (res[0] === "존재하는 이메일입니다") {
+    if (res[0].data === "존재하는 이메일입니다") {
       navigate('./IdExist')
-    } else if (res[0] === "존재하지 않는 이메일입니다") {
+    } else if (res[0].data === "존재하지 않는 이메일입니다") {
       navigate('./IdNotExist')
     }
   };
@@ -78,11 +77,11 @@ const FindIDnPW = () => {
 
   const TryFindPassword = async () => {
     const res = await FindId(id)
-    console.log(res)
+    console.log(res[0].data)
 
-    if(res[0] === '존재하지 않는 이메일입니다')
+    if (res[0].data === '존재하지 않는 이메일입니다')
       navigate('./IdNotExistonPw')
-    else{
+    else {
       FindPw(id)
       navigate('./SetNewPassword')
     }
@@ -113,18 +112,18 @@ const FindIDnPW = () => {
           >
             <TabPanel value={value} index={0}>
               <Routes>
-                <Route path="/" element={<FindID TryFindEmail={TryFindEmail} handleId={handleId} />}/>
-                <Route path="/IdExist" element={<EmailExist id={id} />}/>
-                <Route path="/IdNotExist" element={<EmailNotExist id={id} />}/>
+                <Route path="/" element={<FindID TryFindEmail={TryFindEmail} handleId={handleId} />} />
+                <Route path="/IdExist" element={<EmailExist id={id} />} />
+                <Route path="/IdNotExist" element={<EmailNotExist id={id} />} />
                 <Route path='/*' element={<div>Nothing</div>} />
               </Routes>
             </TabPanel>
 
             <TabPanel value={value} index={1}>
               <Routes>
-                <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId}/>}/>
-                <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />}/>
-                <Route path="/SetNewPassword" element={<SetNewPassword setValue={setValue}/>}/>
+                <Route path="/" element={<FindPW TryFindPassword={TryFindPassword} handleId={handleId} />} />
+                <Route path="/IdNotExistonPw" element={<EmailNotExist id={id} />} />
+                <Route path="/SetNewPassword" element={<SetNewPassword setValue={setValue} />} />
                 <Route path='/*' element={<div>Nothing</div>} />
               </Routes>
             </TabPanel>
