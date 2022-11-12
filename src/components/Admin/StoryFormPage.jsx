@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 
 import { useCookies } from "react-cookie";
 import { Editor } from '@tinymce/tinymce-react';
-import axios from "axios";
 import Loading from "../common/Loading";
 
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import oc from "open-color";
 import AdminButton from "../Admin/components/AdminButton"
+import Request from "../../functions/common/Request";
 
 const StoryFormPage = (props) => {
     const id = props.id;
@@ -19,6 +19,7 @@ const StoryFormPage = (props) => {
     const [imageUrl, setImageUrl] = useState(null);
     const navigate = useNavigate();
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기 // 쿠키에서 id 를 꺼내기
+    const request = new Request(cookies, localStorage, navigate);
 
     const uploadImage = async (file) => {
         const formData = new FormData();
@@ -32,27 +33,9 @@ const StoryFormPage = (props) => {
             }
         }
 
-
-        try {
-            const response = await axios.post(
-                process.env.REACT_APP_SASM_API_URL + "/sdp_admin/stories/photos/",
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "multipart/form-data",
-                    },
-                    transformRequest: (data, headers) => {
-                        return data;
-                    },
-                }
-            );
-
-            let location = response.data.data.location;
-            return location;
-        } catch (err) {
-            console.log("Error >>", err);
-        }
+        const response = await request.post("/sdp_admin/stories/photos/", formData, { "Content-Type": "multipart/form-data" });
+        const location = response.data.data.location;
+        return location;
     };
 
     const loadStory = async () => {
@@ -60,49 +43,25 @@ const StoryFormPage = (props) => {
             return;
         }
         setLoading(true);
-        try {
-            const response = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/stories/${id}/`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            console.log("data", response.data.data);
-            const { title, tag, preview, address, story_review, html_content, rep_pic } = response.data
-            setStory({
-                ...story,
-                title: title, tag: tag, preview: preview, address: address, story_review: story_review,
-                html_content: html_content, rep_pic: rep_pic,
-            });
-            setLoading(false);
-        } catch (err) {
-            console.log("Error >>", err);
-        }
+        const response = await request.get(`/sdp_admin/stories/${id}/`, null, null);
+
+        console.log("data", response.data.data);
+        const { title, tag, preview, address, story_review, html_content, rep_pic } = response.data.data
+        setStory({
+            ...story,
+            title: title, tag: tag, preview: preview, address: address, story_review: story_review,
+            html_content: html_content, rep_pic: rep_pic,
+        });
+        setLoading(false);
     };
 
 
     const loadPlaces = async () => {
         setLoading(true);
-        try {
-            console.log(token);
-            const response = await axios.get(
-                process.env.REACT_APP_SASM_API_URL + `/sdp_admin/places/`,
-                {
-                    // params: {
-                    //     page: 1,
-                    // },
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setPlaces(response.data.data);
-            setLoading(false);
-        } catch (err) {
-            console.log("Error >>", err);
-        }
+        const response = await request.get(`/sdp_admin/places/`, null, null);
+
+        setPlaces(response.data.data);
+        setLoading(false);
     };
 
     useEffect(async () => {
@@ -135,35 +94,11 @@ const StoryFormPage = (props) => {
 
         try {
             if (!id) {
-                const response = await axios.post(
-                    process.env.REACT_APP_SASM_API_URL + "/sdp_admin/stories/",
-                    formData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "multipart/form-data",
-                        },
-                        transformRequest: (data, headers) => {
-                            return data;
-                        },
-                    }
-                );
-                console.log(response)
+                const response = await request.post("/sdp_admin/stories/", formData, { "Content-Type": "multipart/form-data" });
+                console.log(response);
             }
             else {
-                const response = await axios.put(
-                    process.env.REACT_APP_SASM_API_URL + `/sdp_admin/stories/${id}/`,
-                    formData,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": "multipart/form-data",
-                        },
-                        transformRequest: (data, headers) => {
-                            return data;
-                        },
-                    }
-                );
+                const response = await request.put("/sdp_admin/stories/", formData, { "Content-Type": "multipart/form-data" });
                 console.log(response)
             }
             navigate("/story");

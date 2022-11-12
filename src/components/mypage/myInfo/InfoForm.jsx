@@ -10,6 +10,7 @@ import {
   LeftAlignedLink,
 } from "../../Auth/module";
 import { useNavigate } from "react-router-dom";
+import Request from "../../../functions/common/Request";
 
 const InfoForm = (props) => {
   const navigate = useNavigate();
@@ -20,49 +21,15 @@ const InfoForm = (props) => {
 
   const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+  const request = new Request(cookies, localStorage, navigate);
 
   //   초기에 mypage data 불러오기
   const updateMypage = useCallback(async () => {
     setLoading(true);
-    try {
-      const response = await axios.get(process.env.REACT_APP_SASM_API_URL + "/users/me/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      //   setPageCount(response.data.count);
-      setInfo(response.data.data);
-      setLoading(false);
-    } catch (err) {
-      // 토큰이 만료된 경우
-      if (
-        err.response.data.message == "Given token not valid for any token type"
-      ) {
-        //만료된 토큰 : "Given token not valid for any token type"
-        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-
-        localStorage.removeItem("accessTK"); //기존 access token 삭제
-        //refresh 토큰을 통해 access 토큰 재발급
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-          {
-            refresh: refreshtoken,
-          },
-          {
-            headers: {
-              Authorization: "No Auth",
-            },
-          }
-        );
-
-        console.log("!!", response);
-
-        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-      } else {
-        console.log("Error >>", err);
-      }
-    }
+    const response = await request.get("/users/me/", null, null);
+    //   setPageCount(response.data.count);
+    setInfo(response.data.data);
+    setLoading(false);
   }, [token]);
 
   const { profile_image, nickname, birthdate, email } = info;
