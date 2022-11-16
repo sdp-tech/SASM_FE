@@ -59,20 +59,21 @@ export default function SpotMap() {
   }, []);
 
   //초기 map 데이터 가져오기
-  const getItem = async () => {
+  const getItem = async (location) => {
     setLoading(true);
-
-    const response = await request.get("/places/map_info/", null, null);
-
-    // console.log("data?", response.data.data);
+    const response = await request.get("/places/place_search/", {
+      left: "30", //현재 위치
+      right: "30", //현재 위치
+      page: "1",
+    }, null);
+    console.log("data?", response.data.data.results);
     setState({
       loading: true,
-      MapList: response.data.data,
+      MapList: response.data.data.results,
     });
     setLoading(false);
 
   };
-
   return (
     <Sections>
       <Navibar />
@@ -82,7 +83,7 @@ export default function SpotMap() {
       ) : (
         <>
           <SpotList Location={location} />
-          <Map mapList={state.MapList} />
+          <Map mapList={state.MapList} Location={location} />
         </>
       )}
     </Sections>
