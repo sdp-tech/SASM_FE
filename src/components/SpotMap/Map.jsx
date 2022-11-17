@@ -279,7 +279,6 @@ const NaverMapAPI = (props) => {
 
 export default function Map(props) {
   const Item = props.mapList;
-
   const markerInfo = Item.map((itemdata, index, source) => {
     return [
       itemdata.latitude,
