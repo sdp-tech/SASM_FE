@@ -17,7 +17,6 @@ export default function Map_Container({Location, page}) {
         MapList: [],
     });
     useEffect(() => {
-        console.log(Location, page);
         getItem(Location, page);
       }, [page]);
     //초기 map 데이터 가져오기
@@ -28,7 +27,7 @@ export default function Map_Container({Location, page}) {
             right: location.longitude, //현재 위치
             page: page
         }, null);
-        console.log("data?", response.data.data.results);
+    //console.log("data?", response.data.data.results);
         setState({
             loading: true,
             MapList: response.data.data.results,
