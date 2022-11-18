@@ -312,7 +312,7 @@ const PlaceFormPage = (props) => {
         }
         else {
             console.log(formData);
-            const response = await request.put("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
+            const response = await request.put("/sdp_admin/places/update_place/", formData, { "Content-Type": "multipart/form-data" });
             console.log(response);
         }
         navigate("/map");
