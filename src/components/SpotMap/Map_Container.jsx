@@ -27,7 +27,6 @@ export default function Map_Container({Location, page}) {
             right: location.longitude, //현재 위치
             page: page
         }, null);
-    //console.log("data?", response.data.data.results);
         setState({
             loading: true,
             MapList: response.data.data.results,

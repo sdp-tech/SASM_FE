@@ -16,7 +16,6 @@ import Map_Container from "../components/SpotMap/Map_Container";
 export default function SpotMap() {
   const [page, setPage] = useState(1);
   const [login, setLogin] = useContext(LoginContext);
-  // console.log("login!!", login);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
