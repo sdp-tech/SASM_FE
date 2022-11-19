@@ -152,7 +152,7 @@ const ChangeForm = (props) => {
                   <p>이메일</p>
                   <ValueBox>
                     <InputWithLabel
-                      placeholder={state.email}
+                      value={state.email}
                       onChange={(event) => {
                         setInfo({
                           ...info,
@@ -160,6 +160,7 @@ const ChangeForm = (props) => {
                         });
                       }}
                       name="email"
+                      readOnly
                     />
                   </ValueBox>
                 </Email>
