@@ -11,6 +11,7 @@ import {
 } from "../../Auth/module";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
+import Request from "../../../functions/common/Request";
 
 const SendFeedback = (props) => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const SendFeedback = (props) => {
 
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-
+  const request = new Request(cookies, localStorage, navigate);
   // 저장하기 버튼 클릭 -> 서버에 변경 요청
   const SaveInfo = async () => {
     // console.log(info.nickname);
@@ -30,50 +31,13 @@ const SendFeedback = (props) => {
     // console.log(info.email);
     console.log(info);
 
-    try {
-      const response = await axios.put(
-        process.env.REACT_APP_SASM_API_URL + "/users/me/",
-
-        { info: info },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      if (response.data.data.nickname) {
-        //nickname이 변경된 경우, localStorage에 저장
-        localStorage.setItem("nickname", response.data.data.nickname);
-      }
-    } catch (err) {
-      const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-      // 토큰이 만료된 경우
-      if (
-        err.response.data.message == "Given token not valid for any token type"
-      ) {
-        //만료된 토큰 : "Given token not valid for any token type"
-        //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-
-        localStorage.removeItem("accessTK"); //기존 access token 삭제
-        //refresh 토큰을 통해 access 토큰 재발급
-        const response = await axios.post(
-          process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
-          {
-            refresh: refreshtoken,
-          },
-          {
-            headers: {
-              Authorization: "No Auth",
-            },
-          }
-        );
-
-        console.log("!!", response);
-
-        localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
-      } else {
-        console.log("Error >>", err);
-      }
-    }
+    const response = await request.post("/sdp_admin/voc/",
+      info,
+    );
+    alert("의견을 성공적으로 발송하였습니다");
     navigate("/mypage");
-  };
+  }
+
   return (
     <>
       {/* {loading ? (
@@ -87,7 +51,14 @@ const SendFeedback = (props) => {
               * 문제를 설명하거나 아이디어를 공유해주세요.(필수)
             </p>
             <form>
-              <FeedbackBox placeholder="ex> oo식당이 폐업했는데 아직 지도에 남아있습니다. 삭제부탁드립니다." />
+              <FeedbackBox
+                placeholder="ex> oo식당이 폐업했는데 아직 지도에 남아있습니다. 삭제부탁드립니다."
+                onChange={(event) => {
+                  setInfo({
+                    ...info,
+                    content: event.target.value,
+                  });
+                }} />
             </form>
             <ButtonBox>
               <ProfileButton onClick={SaveInfo}>저장하기</ProfileButton>
@@ -99,7 +70,7 @@ const SendFeedback = (props) => {
       {/* )} */}
     </>
   );
-};
+}
 
 const Section = styled.div`
   position: relative;
