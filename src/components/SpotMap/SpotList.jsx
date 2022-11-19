@@ -119,8 +119,8 @@ const SpotList = (props) => {
   const [filterToggle, setFilterToggle] = useState(false);
   const [searchToggle, setSearchToggle] = useState(false);
   const [limit, setLimit] = useState(20);
-  const [page, setPage] = useState(1);
-
+  const page = props.page;
+  const setPage = props.setPage;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
