@@ -70,9 +70,12 @@ const ChangeForm = (props) => {
     const response = await request.post("/users/me/", formData, {
       "Content-Type": "multipart/form-data",
     });
-    if ("data" in response.data && "nickname " in response.data.data) {
-      //nickname이 변경된 경우, localStorage에 저장
-      localStorage.setItem("nickname", response.data.data.nickname);
+    if("data" in response.data) {
+      if("nickname" in response.data.data) {
+        //nickname이 변경된 경우, localStorage에 저장
+        console.log('changed');
+        localStorage.setItem("nickname", response.data.data.nickname);
+      }
     }
     alert("변경되었습니다.");
     navigate("/mypage");
@@ -152,7 +155,7 @@ const ChangeForm = (props) => {
                   <p>이메일</p>
                   <ValueBox>
                     <InputWithLabel
-                      placeholder={state.email}
+                      value={state.email}
                       onChange={(event) => {
                         setInfo({
                           ...info,
@@ -160,6 +163,7 @@ const ChangeForm = (props) => {
                         });
                       }}
                       name="email"
+                      readOnly
                     />
                   </ValueBox>
                 </Email>

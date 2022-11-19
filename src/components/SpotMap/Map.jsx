@@ -161,24 +161,7 @@ const NaverMapAPI = (props) => {
           },
         });
 
-        // // 현재 위치 서버에 전달하기
-        // try {
-        //   const response = await axios.post(
-        //     "http://127.0.0.1:8000/places/place_list/",
-        //     {
-        //       left: position.coords.latitude,
-        //       right: position.coords.longitude,
-        //     }
-        //   );
-        //   console.log("response", response);
-        // } catch (err) {
-        //   console.log("Error >>", err);
-        // }
-
-        // console.log("현재 위치", {
-        //   left: position.coords.latitude,
-        //   right: position.coords.longitude,
-        // });
+    
       },
       (error) => {
         console.log(error);
@@ -279,7 +262,6 @@ const NaverMapAPI = (props) => {
 
 export default function Map(props) {
   const Item = props.mapList;
-
   const markerInfo = Item.map((itemdata, index, source) => {
     return [
       itemdata.latitude,

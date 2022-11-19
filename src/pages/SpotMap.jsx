@@ -11,22 +11,17 @@ import Loading from "../components/common/Loading";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import Request from "../functions/common/Request";
+import Map_Container from "../components/SpotMap/Map_Container";
 
 export default function SpotMap() {
+  const [page, setPage] = useState(1);
   const [login, setLogin] = useContext(LoginContext);
-  // console.log("login!!", login);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = new Request(cookies, localStorage, navigate);
-
-  const [state, setState] = useState({
-    loading: false,
-    ItemList: [],
-    MapList: [],
-  });
 
   const [location, setLocation] = useState([]);
   // 에러 메세지 저장
@@ -36,43 +31,24 @@ export default function SpotMap() {
     const { latitude, longitude } = pos.coords;
     // 현재위치 저장
     setLocation({ latitude, longitude });
-    // map 데이터 불러오기
-    getItem();
+    setLoading(false);
   };
 
   // Geolocation의 `getCurrentPosition` 메소드에 대한 실패 callback 핸들러
   const handleError = (error) => {
     setError(error.message);
   };
-
   useEffect(() => {
     const { geolocation } = navigator;
-
+    setLoading(true);
     // 사용된 브라우저에서 지리적 위치(Geolocation)가 정의되지 않은 경우 오류로 처리합니다.
     if (!geolocation) {
       setError("Geolocation is not supported.");
       return;
     }
-
     // Geolocation API 호출
     geolocation.getCurrentPosition(handleSuccess, handleError);
   }, []);
-
-  //초기 map 데이터 가져오기
-  const getItem = async () => {
-    setLoading(true);
-
-    const response = await request.get("/places/map_info/", null, null);
-
-    // console.log("data?", response.data.data);
-    setState({
-      loading: true,
-      MapList: response.data.data,
-    });
-    setLoading(false);
-
-  };
-
   return (
     <Sections>
       <Navibar />
@@ -81,8 +57,8 @@ export default function SpotMap() {
         <Loading />
       ) : (
         <>
-          <SpotList Location={location} />
-          <Map mapList={state.MapList} />
+          <SpotList Location={location} setPage={setPage} page={page} />
+          <Map_Container Location={location} page={page} />
         </>
       )}
     </Sections>
