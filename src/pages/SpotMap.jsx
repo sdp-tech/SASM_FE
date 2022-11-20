@@ -1,17 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import styled from "styled-components";
 
 import Navibar from "../components/common/Navibar";
-import SpotList from "../components/SpotMap/SpotList";
-import Map from "../components/SpotMap/Map";
-import SpotDetail from "../components/SpotMap/SpotDetail";
 import { LoginContext } from "../contexts/LoginContexts";
 import Loading from "../components/common/Loading";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import Request from "../functions/common/Request";
-import Map_Container from "../components/SpotMap/Map_Container";
+import DataContainer from "../components/SpotMap/DataContainer";
 
 export default function SpotMap() {
   const [page, setPage] = useState(1);
@@ -20,8 +15,6 @@ export default function SpotMap() {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
 
   const [location, setLocation] = useState([]);
   // 에러 메세지 저장
@@ -57,8 +50,7 @@ export default function SpotMap() {
         <Loading />
       ) : (
         <>
-          <SpotList Location={location} setPage={setPage} page={page} />
-          <Map_Container Location={location} page={page} />
+          <DataContainer Location={location} page={page} />
         </>
       )}
     </Sections>
