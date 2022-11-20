@@ -11,10 +11,10 @@ import Loading from "../components/common/Loading";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import Request from "../functions/common/Request";
-import Map_Container from "../components/SpotMap/Map_Container";
+import Data_Container from "../components/SpotMap/Data_Container";
+import SearchBar from "../components/common/SearchBar";
 
 export default function SpotMap() {
-  const [page, setPage] = useState(1);
   const [login, setLogin] = useContext(LoginContext);
   // console.log("login!!", login);
   const [loading, setLoading] = useState(true);
@@ -23,8 +23,8 @@ export default function SpotMap() {
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = new Request(cookies, localStorage, navigate);
-
   const [location, setLocation] = useState([]);
+
   // 에러 메세지 저장
   const [error, setError] = useState();
   // Geolocation의 `getCurrentPosition` 메소드에 대한 성공 callback 핸들러
@@ -34,7 +34,7 @@ export default function SpotMap() {
     setLocation({ latitude, longitude });
     setLoading(false);
   };
-
+  
   // Geolocation의 `getCurrentPosition` 메소드에 대한 실패 callback 핸들러
   const handleError = (error) => {
     setError(error.message);
@@ -53,15 +53,7 @@ export default function SpotMap() {
   return (
     <Sections>
       <Navibar />
-
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <SpotList Location={location} setPage={setPage} page={page} />
-          <Map_Container Location={location} page={page} />
-        </>
-      )}
+      {loading?<Loading/>:<Data_Container Location={location}></Data_Container>}
     </Sections>
   );
 }
