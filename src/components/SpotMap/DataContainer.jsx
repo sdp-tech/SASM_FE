@@ -10,6 +10,13 @@ import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 
+const ListWrapper = styled.div`
+  display: flex;
+  flex-flow: column;
+  margin-left: 15px;
+  margin-top: 15px;
+  overflow: scroll;
+`
 const SearchFilterBar = styled.div`
   // background-color: red;
   width: 100%;
@@ -127,9 +134,11 @@ export default function DataContainer({ Location}) {
         setCheckedList(tempCheckedList);
         setLoading(false);
     };
+    //admin 여부 체크
     useEffect(()=>{
         checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
     },[])
+    //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         getItem(Location, page, search, checkedList);
     }, [page, search, checkedList]);
@@ -153,7 +162,7 @@ export default function DataContainer({ Location}) {
     };
     return (
         <>
-            <div style={{ display: 'flex', flexFlow: 'column', overflow: 'scroll' }}>
+            <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
                         search={tempSearch}
@@ -208,7 +217,7 @@ export default function DataContainer({ Location}) {
                 ) : (
                     <></>
                 )}
-            </div>
+            </ListWrapper>
             <Map mapList={state.MapList} /></>
     )
 }

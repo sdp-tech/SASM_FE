@@ -1,13 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import ItemCard from "./SpotList/ItemCard.js";
 import nothingIcon from "../../assets/img/nothing.svg";
 
 const SpotListSection = styled.div`
-  // background-color: blue;
   position: relative;
-  margin: 15px 0px 15px 15px;
   grid-area: spotlist;
   display: flex;
   flex-direction: column;

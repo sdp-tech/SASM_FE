@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-
 import Navibar from "../components/common/Navibar";
 import { LoginContext } from "../contexts/LoginContexts";
 import Loading from "../components/common/Loading";
