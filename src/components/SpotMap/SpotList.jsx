@@ -56,8 +56,10 @@ const SpotsWrapper = styled.div`
 `;
 
 export default function SpotList(props){
+  const setTemp = (data) => {
+    props.setTemp(data);
+  }
   const item = props.mapList;
-
   return (
         <SpotListSection>
           {/* 데이터 없을때 장소가 없습니다 띄우기 */}
@@ -72,6 +74,7 @@ export default function SpotList(props){
               item.map((itemdata, index) => {
                 return (
                   <ItemCard
+                    setTemp={setTemp}
                     key={index}
                     id={itemdata.id}
                     ImageURL={itemdata.rep_pic}
