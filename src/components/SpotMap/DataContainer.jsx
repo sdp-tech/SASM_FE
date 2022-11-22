@@ -131,6 +131,7 @@ export default function DataContainer({ Location}) {
             //검색어 있는 경우
             setSearch(tempSearch);
         }
+        setFilterToggle(false);
         setCheckedList(tempCheckedList);
         setLoading(false);
     };
@@ -140,6 +141,7 @@ export default function DataContainer({ Location}) {
     },[])
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
+        document.getElementById('wrapper').scrollTo(0,0);
         getItem(Location, page, search, checkedList);
     }, [page, search, checkedList]);
     //초기 map 데이터 가져오기
