@@ -9,7 +9,7 @@ import Navibar from "../components/common/Navibar";
 import FindIDnPW from "../components/Auth/FindIDnPW";
 import { useCookies } from "react-cookie";
 import { LoginContext } from "../contexts/LoginContexts";
-
+import KakaoRedirect from "../components/Auth/module/KakaoRedirect";
 export default function Auth() {
   // const [cookies, setCookie, removeCookie] = useCookies(["id"]);
   // const [login, setLogin] = useContext(LoginContext);
@@ -25,6 +25,7 @@ export default function Auth() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/find/*" element={<FindIDnPW />} />
+          <Route path="/kakao/callback/" element={<KakaoRedirect />} />
         </Routes>
       </AuthWrapper>
     </Sections>
