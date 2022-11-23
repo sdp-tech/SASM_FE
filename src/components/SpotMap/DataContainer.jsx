@@ -91,6 +91,13 @@ export default function DataContainer({ Location}) {
         },
         zoom: 13,
       });
+    const [searchHere, setSearchHere] = useState({
+        center: {
+            lat: Location.latitude,
+            lng: Location.longitude,
+          },
+          zoom: 13,
+    });
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         if (checked) {
@@ -149,14 +156,14 @@ export default function DataContainer({ Location}) {
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         document.getElementById('wrapper').scrollTo(0,0);
-        getItem(Location, page, search, checkedList);
-    }, [page, search, checkedList]);
+        getItem(searchHere.center, page, search, checkedList);
+    }, [searchHere,page, search, checkedList]);
     //초기 map 데이터 가져오기
     const getItem = async (location, page, search, checkedList) => {
         setLoading(true);
         const response = await request.get("/places/place_search/", {
-            left: location.latitude, //현재 위치
-            right: location.longitude, //현재 위치
+            left: location.lat, //현재 위치
+            right: location.lng, //현재 위치
             page: page,
             search: search,
             filter: checkedList
@@ -227,6 +234,6 @@ export default function DataContainer({ Location}) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} temp={temp} setTemp={setTemp}/></>
+            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage}/></>
     )
 }

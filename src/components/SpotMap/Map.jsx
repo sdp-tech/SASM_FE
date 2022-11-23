@@ -60,8 +60,8 @@ const Markers = (props) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
+        document.getElementById(id).style.color='black';
       }
-      document.getElementById(id).style.color='black';
     };
 
     document.addEventListener("mousedown", clickOutside);
@@ -157,9 +157,13 @@ const NaverMapAPI = (props) => {
     },
     zoom: 13,
   });
+  const [coor, setCoor] = useState(null);
   const temp = props.temp;
   const setTemp=(data)=>{
     props.setTemp(data);
+  }
+  const setSearchHere = (data) => {
+    props.setSearchHere(data);
   }
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
@@ -202,9 +206,21 @@ const NaverMapAPI = (props) => {
   const handleBackToCenter = () => {
     updateCurLocation();
   };
+  const handleCenterChanged = (data) => {
+    setCoor({
+      center:{
+        lat:data._lat,
+        lng:data._lng,
+      }
+    })
+  }
 
   return (
     <>
+      <button style={{position:'absolute', left:'50%', zIndex:'3'}} onClick={()=>{
+        props.setPage(1);
+        setSearchHere(coor);
+      }}>현 지도에서 검색</button>
       <button style={{position:'absolute', right:'0', zIndex:'3', padding:'5px'}} onClick={handleBackToCenter}>현 위치</button>
       <NaverMap
         mapDivId={"SASM_map"}
@@ -217,6 +233,9 @@ const NaverMapAPI = (props) => {
         defaultZoom={temp.zoom}
         onZoomChanged={(zoom) => {
           console.log(zoom);
+        }}
+        onCenterChanged={(center)=>{
+          handleCenterChanged(center);
         }}
       >
         {/* markers */}
@@ -273,6 +292,12 @@ export default function Map(props) {
   const setTemp=(data)=>{
     props.setTemp(data);
   }
+  const setSearchHere = (data)=> {
+    props.setSearchHere(data);
+  }
+  const setPage =(page) => {
+    props.setPage(page);
+  }
   return (
     <MapSection>
       <RenderAfterNavermapsLoaded
@@ -280,7 +305,7 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading...</p>}
       >
-        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp}/>
+        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage}/>
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton
