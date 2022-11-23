@@ -62,7 +62,7 @@ export default function SpotList(props){
         <SpotListSection>
           {/* 데이터 없을때 장소가 없습니다 띄우기 */}
           <RecommendTitle>이런 장소는 어떠세요?</RecommendTitle>
-          <SpotsWrapper>
+          <SpotsWrapper id="wrapper">
             {item.length === 0 ? (
               <NothingSearched>
                 <img src={nothingIcon} style={{ marginBottom: "10px" }} />
