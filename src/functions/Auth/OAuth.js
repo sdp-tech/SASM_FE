@@ -1,0 +1,5 @@
+const BASE_URL = "http://127.0.0.1:3000/";
+const KAKAO_CALLBACK_URI = BASE_URL + "users/kakao/callback/";
+
+const CLIENT_ID = "c7a34e2bccc9bf9d8cf67cd940cc039a";
+export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${KAKAO_CALLBACK_URI}&response_type=code`;
