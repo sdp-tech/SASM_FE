@@ -153,6 +153,7 @@ export default function ItemCard(props) {
       },
       zoom:13,
     });
+    document.getElementById(id).style.color='red';
     setLoading(false);
   };
 
