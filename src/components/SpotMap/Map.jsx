@@ -61,6 +61,7 @@ const Markers = (props) => {
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
       }
+      document.getElementById(id).style.color='black';
     };
 
     document.addEventListener("mousedown", clickOutside);
@@ -76,7 +77,7 @@ const Markers = (props) => {
     // alert(`${props.id}`);
     setLoading(true);
     const id = props.id;
-
+    document.getElementById(id).style.color='red';
     const response = await request.get("/places/place_detail/", { id: id }, null);
     // console.log("response!!!", response.data);
     setDetailInfo(response.data.data);
@@ -98,7 +99,7 @@ const Markers = (props) => {
 
   // HTML 마커
   const contentString = [
-    '<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner">',
+    `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
     `   <h4 style="background: white; border-radius: 10px; padding: 3px;">${title}</h4>`,
     '   <p style="margin-top: -20px;"> ',
     '       <img src="./img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
