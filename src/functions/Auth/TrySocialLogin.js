@@ -1,4 +1,6 @@
 import axios from "axios";
+import { KAKAO_AUTH_URL } from "./OAuth.js";
+
 axios.defaults.withCredentials = true;
 
 export default async function TrySocialLogin(site) {
@@ -12,7 +14,9 @@ export default async function TrySocialLogin(site) {
   if (site === "naver")
     // url = 'naver_url'
     url = "http://www.naver.com";
-  if (site === "kakaotalk") url = "kakaotalk_url";
+  if (site === "kakaotalk") {
+    window.location.href = KAKAO_AUTH_URL; //OAuth.js에 url 가져오기
+  }
 
   console.log(url);
 

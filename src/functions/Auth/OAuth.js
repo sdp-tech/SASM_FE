@@ -1,3 +1,4 @@
+//카카오 로그인 url 페이지
 const BASE_URL = "http://127.0.0.1:3000/";
 const KAKAO_CALLBACK_URI = BASE_URL + "users/kakao/callback/";
 
