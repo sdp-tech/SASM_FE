@@ -15,7 +15,7 @@ const ListWrapper = styled.div`
   flex-flow: column;
   margin-left: 15px;
   margin-top: 15px;
-  overflow: scroll;
+  overflow : hidden;
 `
 const SearchFilterBar = styled.div`
   // background-color: red;
@@ -84,6 +84,13 @@ export default function DataContainer({ Location}) {
         ItemList: [],
         MapList: [],
     });
+    const [temp ,setTemp] = useState({
+        center: {
+          lat: 37.551229,
+          lng: 126.988205,
+        },
+        zoom: 13,
+      });
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         if (checked) {
@@ -200,7 +207,7 @@ export default function DataContainer({ Location}) {
                         </CategoryCheckBox>
                     </FilterOptions>
                 ) : null}
-                <SpotList mapList={state.MapList}></SpotList>
+                <SpotList mapList={state.MapList} setTemp={setTemp}></SpotList>
                 <Pagination
                     total={total}
                     limit={20}
@@ -220,6 +227,6 @@ export default function DataContainer({ Location}) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} /></>
+            <Map mapList={state.MapList} temp={temp} setTemp={setTemp}/></>
     )
 }

@@ -52,8 +52,9 @@ const Markers = (props) => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
-
+  const setState = (data) => {
+    props.setState(data);
+  }
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
@@ -80,7 +81,13 @@ const Markers = (props) => {
     // console.log("response!!!", response.data);
     setDetailInfo(response.data.data);
     setModalOpen(true);
-
+    setState({
+      center: {
+        lat: response.data.data.latitude,
+        lng: response.data.data.longitude,
+      },
+      zoom:17,
+    });
     setLoading(false);
   };
 
@@ -149,16 +156,27 @@ const NaverMapAPI = (props) => {
     },
     zoom: 13,
   });
-
+  const temp = props.temp;
+  const setTemp=(data)=>{
+    props.setTemp(data);
+  }
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
+        setTemp({
+          center: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+          zoom:13,
+        });
         setState({
           center: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
+          zoom:13,
         });
 
     
@@ -186,6 +204,7 @@ const NaverMapAPI = (props) => {
 
   return (
     <>
+      <button style={{position:'absolute', right:'0', zIndex:'3', padding:'5px'}} onClick={handleBackToCenter}>현 위치</button>
       <NaverMap
         mapDivId={"SASM_map"}
         style={{
@@ -193,8 +212,8 @@ const NaverMapAPI = (props) => {
           height: "100%",
           outline: "none",
         }}
-        center={state.center}
-        defaultZoom={state.zoom}
+        center={temp.center}
+        defaultZoom={temp.zoom}
         onZoomChanged={(zoom) => {
           console.log(zoom);
         }}
@@ -208,6 +227,7 @@ const NaverMapAPI = (props) => {
 
           return (
             <Markers
+              setState={setTemp}
               left={left}
               right={right}
               title={title}
@@ -217,28 +237,6 @@ const NaverMapAPI = (props) => {
             />
           );
         })}
-        {/* <Marker
-          key={1}
-          position={new navermaps.LatLng(37.577235833483, 126.896210076434)}
-          // animation={2}
-          onClick={() => {
-            alert("여기는 서울타워입니다?");
-          }}
-          icon={{
-            url: "./img/red_dot.png",
-            size: new navermaps.Size(20, 20),
-            origin: new navermaps.Point(190, 190),
-            anchor: new navermaps.Point(10, 10),
-          }}
-        /> */}
-        {/* <Marker
-          key={2}
-          position={new navermaps.LatLng(37.5520579, 126.9394652)}
-          // animation={2}
-          onClick={() => {
-            alert("여기는 서강대입니다?");
-          }}
-        /> */}
         <Marker
           key={3}
           position={state.center}
@@ -270,7 +268,10 @@ export default function Map(props) {
       itemdata.id,
     ];
   });
-
+  const temp = props.temp;
+  const setTemp=(data)=>{
+    props.setTemp(data);
+  }
   return (
     <MapSection>
       <RenderAfterNavermapsLoaded
@@ -278,7 +279,7 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading...</p>}
       >
-        <NaverMapAPI markerInfo={markerInfo} />
+        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp}/>
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton

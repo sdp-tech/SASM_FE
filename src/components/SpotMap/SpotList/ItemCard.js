@@ -112,7 +112,9 @@ export default function ItemCard(props) {
   const node = useRef();
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
+  const setTemp = (data) => {
+    props.setTemp(data);
+  }
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
@@ -144,7 +146,13 @@ export default function ItemCard(props) {
     // console.log("response??", response.data);
     setDetailInfo(response.data.data);
     setModalOpen(true);
-
+    setTemp({
+      center: {
+        lat: response.data.data.latitude,
+        lng: response.data.data.longitude,
+      },
+      zoom:13,
+    });
     setLoading(false);
   };
 
