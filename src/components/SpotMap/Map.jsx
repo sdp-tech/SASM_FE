@@ -55,12 +55,19 @@ const Markers = (props) => {
   const setState = (data) => {
     props.setState(data);
   }
+
+  const MarkerReset = () => {
+    for(let i=0; i<document.getElementsByClassName("iw_inner").length; i++) {
+      document.getElementsByClassName("iw_inner")[i].style.color='black';
+    }
+  }
+
   useEffect(() => {
     const clickOutside = (e) => {
+      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
-        document.getElementById(id).style.color='black';
       }
     };
 
