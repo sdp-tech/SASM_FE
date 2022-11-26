@@ -107,7 +107,7 @@ export default function ItemCard(props) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [detailInfo, setDetailInfo] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(props.modalOpen);
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
@@ -164,6 +164,7 @@ export default function ItemCard(props) {
   }
 
   useEffect(() => {
+    if(modalOpen) handleClick();
     const clickOutside = (e) => {
       MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기

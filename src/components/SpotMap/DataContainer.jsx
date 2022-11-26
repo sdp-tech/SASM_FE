@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Request from '../../functions/common/Request';
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Map from './Map';
 import styled from 'styled-components';
 import SearchBar from '../common/SearchBar';
@@ -98,6 +98,7 @@ export default function DataContainer({ Location}) {
           },
           zoom: 13,
     });
+    const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         if (checked) {
@@ -148,6 +149,9 @@ export default function DataContainer({ Location}) {
         setFilterToggle(false);
         setCheckedList(tempCheckedList);
         setLoading(false);
+        if(params.place) {
+            navigate('/map');
+        }
     };
     //admin 여부 체크
     useEffect(()=>{
@@ -157,17 +161,29 @@ export default function DataContainer({ Location}) {
     useEffect(() => {
         document.getElementById('wrapper').scrollTo(0,0);
         getItem(searchHere.center, page, search, checkedList);
-    }, [searchHere,page, search, checkedList]);
+    }, [searchHere,page, search, checkedList, params]);
     //초기 map 데이터 가져오기
     const getItem = async (location, page, search, checkedList) => {
         setLoading(true);
-        const response = await request.get("/places/place_search/", {
+    let response;
+    if(params.place) {
+        response = await request.get("/places/place_search/", {
+            left: location.lat, //현재 위치
+            right: location.lng, //현재 위치
+            page: page,
+            search: params.place,
+            filter: checkedList
+        }, null);
+    }
+    else {
+        response = await request.get("/places/place_search/", {
             left: location.lat, //현재 위치
             right: location.lng, //현재 위치
             page: page,
             search: search,
             filter: checkedList
         }, null);
+    }
         console.log(response.data.data.results)
         setState({
             loading: true,

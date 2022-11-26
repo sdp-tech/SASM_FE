@@ -60,6 +60,8 @@ export default function SpotList(props){
     props.setTemp(data);
   }
   const item = props.mapList;
+  let modalOpen = false;
+  if(item.length==1) modalOpen=true;
   return (
         <SpotListSection>
           {/* 데이터 없을때 장소가 없습니다 띄우기 */}
@@ -75,6 +77,7 @@ export default function SpotList(props){
                 return (
                   <ItemCard
                     setTemp={setTemp}
+                    index={index}
                     key={index}
                     id={itemdata.id}
                     ImageURL={itemdata.rep_pic}
@@ -84,6 +87,7 @@ export default function SpotList(props){
                     Address={itemdata.address}
                     place_review={itemdata.place_review}
                     place_like={itemdata.place_like}
+                    modalOpen={modalOpen}
                   />
                 );
               })
