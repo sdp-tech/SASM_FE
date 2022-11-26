@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import Loading from "../../common/Loading";
 import Typography from "@mui/material/Typography";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 
 const StoreNameBox = styled.div`
@@ -56,7 +56,7 @@ export default function ItemCard(props) {
   };
 
   return (
-    <div>
+    <Link to={`/map/${props.place_name}`} style={{textDecoration:'none'}}>
       <Card
         sx={{
           minHeight: "250px",
@@ -110,6 +110,6 @@ export default function ItemCard(props) {
           </StoreNameBox>
         </CardContent>
       </Card>
-    </div>
+    </Link>
   );
 }

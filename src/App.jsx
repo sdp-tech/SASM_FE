@@ -62,7 +62,8 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
               <Route path="/map" element={<SpotMap />} />
-
+              <Route path="/map/:place" element={<SpotMap />} />
+              
               <Route path="/mypage/*" element={<MyPage />} />
               <Route path="/auth/*" element={<Auth />} />
 

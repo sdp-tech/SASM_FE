@@ -28,7 +28,7 @@ export default function SpotDetail(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-
+  console.log(data);
   useEffect(() => {
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
   }, [page]);
