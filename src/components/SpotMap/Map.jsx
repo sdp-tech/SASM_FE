@@ -109,7 +109,7 @@ const Markers = (props) => {
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
     `   <h4 style="background: white; border-radius: 10px; padding: 3px;">${title}</h4>`,
     '   <p style="margin-top: -20px;"> ',
-    '       <img src="./img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
+    '       <img src="/img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
     // "       02-120 | 공공,사회기관 > 특별,광역시청<br>",
     // '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
     "   </p>",
@@ -270,7 +270,7 @@ const NaverMapAPI = (props) => {
           clickable={false}
           title={"현재 위치"}
           icon={{
-            url: "./img/red_dot.png",
+            url: "/img/red_dot.png",
             size: new navermaps.Size(20, 20),
             origin: new navermaps.Point(190, 190),
             anchor: new navermaps.Point(10, 10),
