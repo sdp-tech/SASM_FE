@@ -107,12 +107,14 @@ export default function ItemCard(props) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [detailInfo, setDetailInfo] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(props.modalOpen);
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
+  const setTemp = (data) => {
+    props.setTemp(data);
+  }
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
@@ -144,12 +146,27 @@ export default function ItemCard(props) {
     // console.log("response??", response.data);
     setDetailInfo(response.data.data);
     setModalOpen(true);
-
+    setTemp({
+      center: {
+        lat: response.data.data.latitude,
+        lng: response.data.data.longitude,
+      },
+      zoom:13,
+    });
+    document.getElementById(id).style.color='red';
     setLoading(false);
   };
 
+  const MarkerReset = () => {
+    for(let i=0; i<document.getElementsByClassName("iw_inner").length; i++) {
+      document.getElementsByClassName("iw_inner")[i].style.color='black';
+    }
+  }
+
   useEffect(() => {
+    if(modalOpen) handleClick();
     const clickOutside = (e) => {
+      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);

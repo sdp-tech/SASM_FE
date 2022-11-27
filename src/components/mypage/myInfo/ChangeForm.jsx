@@ -140,6 +140,8 @@ const ChangeForm = (props) => {
                   <p>생년월일</p>
                   <ValueBox>
                     <InputWithLabel
+                      type="date"
+                      max="9999-12-31"
                       placeholder={state.birthdate}
                       onChange={(event) => {
                         setInfo({

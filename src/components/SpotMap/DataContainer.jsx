@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Request from '../../functions/common/Request';
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Map from './Map';
 import styled from 'styled-components';
 import SearchBar from '../common/SearchBar';
@@ -15,7 +15,7 @@ const ListWrapper = styled.div`
   flex-flow: column;
   margin-left: 15px;
   margin-top: 15px;
-  overflow: scroll;
+  overflow : hidden;
 `
 const SearchFilterBar = styled.div`
   // background-color: red;
@@ -84,6 +84,21 @@ export default function DataContainer({ Location}) {
         ItemList: [],
         MapList: [],
     });
+    const [temp ,setTemp] = useState({
+        center: {
+          lat: 37.551229,
+          lng: 126.988205,
+        },
+        zoom: 13,
+      });
+    const [searchHere, setSearchHere] = useState({
+        center: {
+            lat: Location.latitude,
+            lng: Location.longitude,
+          },
+          zoom: 13,
+    });
+    const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         if (checked) {
@@ -131,8 +146,12 @@ export default function DataContainer({ Location}) {
             //검색어 있는 경우
             setSearch(tempSearch);
         }
+        setFilterToggle(false);
         setCheckedList(tempCheckedList);
         setLoading(false);
+        if(params.place) {
+            navigate('/map');
+        }
     };
     //admin 여부 체크
     useEffect(()=>{
@@ -140,18 +159,31 @@ export default function DataContainer({ Location}) {
     },[])
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
-        getItem(Location, page, search, checkedList);
-    }, [page, search, checkedList]);
+        document.getElementById('wrapper').scrollTo(0,0);
+        getItem(searchHere.center, page, search, checkedList);
+    }, [searchHere,page, search, checkedList, params]);
     //초기 map 데이터 가져오기
     const getItem = async (location, page, search, checkedList) => {
         setLoading(true);
-        const response = await request.get("/places/place_search/", {
-            left: location.latitude, //현재 위치
-            right: location.longitude, //현재 위치
+    let response;
+    if(params.place) {
+        response = await request.get("/places/place_search/", {
+            left: location.lat, //현재 위치
+            right: location.lng, //현재 위치
+            page: page,
+            search: params.place,
+            filter: checkedList
+        }, null);
+    }
+    else {
+        response = await request.get("/places/place_search/", {
+            left: location.lat, //현재 위치
+            right: location.lng, //현재 위치
             page: page,
             search: search,
             filter: checkedList
         }, null);
+    }
         console.log(response.data.data.results)
         setState({
             loading: true,
@@ -198,7 +230,7 @@ export default function DataContainer({ Location}) {
                         </CategoryCheckBox>
                     </FilterOptions>
                 ) : null}
-                <SpotList mapList={state.MapList}></SpotList>
+                <SpotList mapList={state.MapList} setTemp={setTemp}></SpotList>
                 <Pagination
                     total={total}
                     limit={20}
@@ -218,6 +250,6 @@ export default function DataContainer({ Location}) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} /></>
+            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage}/></>
     )
 }

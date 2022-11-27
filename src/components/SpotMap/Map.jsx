@@ -52,10 +52,19 @@ const Markers = (props) => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
+  const setState = (data) => {
+    props.setState(data);
+  }
 
+  const MarkerReset = () => {
+    for(let i=0; i<document.getElementsByClassName("iw_inner").length; i++) {
+      document.getElementsByClassName("iw_inner")[i].style.color='black';
+    }
+  }
 
   useEffect(() => {
     const clickOutside = (e) => {
+      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
@@ -75,12 +84,18 @@ const Markers = (props) => {
     // alert(`${props.id}`);
     setLoading(true);
     const id = props.id;
-
+    document.getElementById(id).style.color='red';
     const response = await request.get("/places/place_detail/", { id: id }, null);
     // console.log("response!!!", response.data);
     setDetailInfo(response.data.data);
     setModalOpen(true);
-
+    setState({
+      center: {
+        lat: response.data.data.latitude,
+        lng: response.data.data.longitude,
+      },
+      zoom:17,
+    });
     setLoading(false);
   };
 
@@ -91,10 +106,10 @@ const Markers = (props) => {
 
   // HTML 마커
   const contentString = [
-    '<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner">',
+    `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
     `   <h4 style="background: white; border-radius: 10px; padding: 3px;">${title}</h4>`,
     '   <p style="margin-top: -20px;"> ',
-    '       <img src="./img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
+    '       <img src="/img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
     // "       02-120 | 공공,사회기관 > 특별,광역시청<br>",
     // '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
     "   </p>",
@@ -149,16 +164,31 @@ const NaverMapAPI = (props) => {
     },
     zoom: 13,
   });
-
+  const [coor, setCoor] = useState(null);
+  const temp = props.temp;
+  const setTemp=(data)=>{
+    props.setTemp(data);
+  }
+  const setSearchHere = (data) => {
+    props.setSearchHere(data);
+  }
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
+        setTemp({
+          center: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+          zoom:13,
+        });
         setState({
           center: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
+          zoom:13,
         });
 
     
@@ -183,9 +213,22 @@ const NaverMapAPI = (props) => {
   const handleBackToCenter = () => {
     updateCurLocation();
   };
+  const handleCenterChanged = (data) => {
+    setCoor({
+      center:{
+        lat:data._lat,
+        lng:data._lng,
+      }
+    })
+  }
 
   return (
     <>
+      <button style={{position:'absolute', left:'50%', zIndex:'3'}} onClick={()=>{
+        props.setPage(1);
+        setSearchHere(coor);
+      }}>현 지도에서 검색</button>
+      <button style={{position:'absolute', right:'0', zIndex:'3', padding:'5px'}} onClick={handleBackToCenter}>현 위치</button>
       <NaverMap
         mapDivId={"SASM_map"}
         style={{
@@ -193,10 +236,13 @@ const NaverMapAPI = (props) => {
           height: "100%",
           outline: "none",
         }}
-        center={state.center}
-        defaultZoom={state.zoom}
+        center={temp.center}
+        defaultZoom={temp.zoom}
         onZoomChanged={(zoom) => {
           console.log(zoom);
+        }}
+        onCenterChanged={(center)=>{
+          handleCenterChanged(center);
         }}
       >
         {/* markers */}
@@ -208,6 +254,7 @@ const NaverMapAPI = (props) => {
 
           return (
             <Markers
+              setState={setTemp}
               left={left}
               right={right}
               title={title}
@@ -217,35 +264,13 @@ const NaverMapAPI = (props) => {
             />
           );
         })}
-        {/* <Marker
-          key={1}
-          position={new navermaps.LatLng(37.577235833483, 126.896210076434)}
-          // animation={2}
-          onClick={() => {
-            alert("여기는 서울타워입니다?");
-          }}
-          icon={{
-            url: "./img/red_dot.png",
-            size: new navermaps.Size(20, 20),
-            origin: new navermaps.Point(190, 190),
-            anchor: new navermaps.Point(10, 10),
-          }}
-        /> */}
-        {/* <Marker
-          key={2}
-          position={new navermaps.LatLng(37.5520579, 126.9394652)}
-          // animation={2}
-          onClick={() => {
-            alert("여기는 서강대입니다?");
-          }}
-        /> */}
         <Marker
           key={3}
           position={state.center}
           clickable={false}
           title={"현재 위치"}
           icon={{
-            url: "./img/red_dot.png",
+            url: "/img/red_dot.png",
             size: new navermaps.Size(20, 20),
             origin: new navermaps.Point(190, 190),
             anchor: new navermaps.Point(10, 10),
@@ -270,7 +295,16 @@ export default function Map(props) {
       itemdata.id,
     ];
   });
-
+  const temp = props.temp;
+  const setTemp=(data)=>{
+    props.setTemp(data);
+  }
+  const setSearchHere = (data)=> {
+    props.setSearchHere(data);
+  }
+  const setPage =(page) => {
+    props.setPage(page);
+  }
   return (
     <MapSection>
       <RenderAfterNavermapsLoaded
@@ -278,7 +312,7 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading...</p>}
       >
-        <NaverMapAPI markerInfo={markerInfo} />
+        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage}/>
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton
