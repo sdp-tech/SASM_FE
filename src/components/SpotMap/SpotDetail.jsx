@@ -20,6 +20,7 @@ const CloseButton = styled.div`
 export default function SpotDetail(props) {
   const { modalClose } = props;
   const data = props.detailInfo;
+  const reviewData = props.reviewInfo;
   const id = props.id;
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
@@ -28,7 +29,6 @@ export default function SpotDetail(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  console.log(data);
   useEffect(() => {
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
   }, [page]);
@@ -72,6 +72,7 @@ export default function SpotDetail(props) {
           Photo2={data?.photos?.[2].image}
           story_id={data?.story_id}
           place_like={data?.place_like}
+          reviewInfo={reviewData}
         />
         {isSasmAdmin ? (
           <AdminButton
