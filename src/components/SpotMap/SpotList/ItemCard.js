@@ -107,7 +107,8 @@ export default function ItemCard(props) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [detailInfo, setDetailInfo] = useState([]);
-  const [modalOpen, setModalOpen] = useState(props.modalOpen);
+  const [reviewInfo, setReviewInfo] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
@@ -143,28 +144,32 @@ export default function ItemCard(props) {
     setLoading(true);
     const id = props.id;
     const response = await request.get("/places/place_detail/", { id: id }, null);
-    // console.log("response??", response.data);
+    //console.log("response??", response.data);
     setDetailInfo(response.data.data);
+    setReviewInfo(response.data);
     setModalOpen(true);
     setTemp({
       center: {
         lat: response.data.data.latitude,
         lng: response.data.data.longitude,
       },
-      zoom:13,
+      zoom: 13,
     });
-    document.getElementById(id).style.color='red';
+    document.getElementById(id).style.color = 'red';
     setLoading(false);
   };
 
+  useEffect(() => {
+    if (props.modalOpen) handleClick();
+  }, []);
+
   const MarkerReset = () => {
-    for(let i=0; i<document.getElementsByClassName("iw_inner").length; i++) {
-      document.getElementsByClassName("iw_inner")[i].style.color='black';
+    for (let i = 0; i < document.getElementsByClassName("iw_inner").length; i++) {
+      document.getElementsByClassName("iw_inner")[i].style.color = 'black';
     }
   }
 
   useEffect(() => {
-    if(modalOpen) handleClick();
     const clickOutside = (e) => {
       MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
@@ -263,6 +268,7 @@ export default function ItemCard(props) {
             modalClose={modalClose}
             id={props.id}
             detailInfo={detailInfo}
+            reviewInfo={reviewInfo}
           ></SpotDetail>
         )}
       </DetailBox>
