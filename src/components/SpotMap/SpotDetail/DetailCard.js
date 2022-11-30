@@ -206,29 +206,29 @@ export default function DetailCard({
     }
   };
   let keywords = [
-    '분위기가 좋다',
-    '혼자 가기 좋다',
-    '함께 가기 좋다',
-    '가족끼리 가기 좋다',
-    '청결하다',
-    '뷰가 좋다',
-    '지속가능성의 필요성을 느낄 수가 있다'
+    ['분위기가 좋다','1'],
+    ['혼자 가기 좋다','2'],
+    ['함께 가기 좋다','3'],
+    ['가족끼리 가기 좋다','4'],
+    ['청결하다','5'],
+    ['뷰가 좋다','6'],
+    ['지속가능성의 필요성을 느낄 수가 있다','7']
   ]
   switch (Category) {
     case '식당 및 카페':
-      keywords.push('음식이 맛있다', '양이 많다', '직원분이 친절하시다')
+      keywords.push(['음식이 맛있다','8'], ['양이 많다','9'], ['직원분이 친절하시다','10'])
       break;
     case '전시 및 체험공간':
-      keywords.push('전시가 멋지다', '아이와 함께 가기 좋다', '부모님과 함께 가기 좋다')
+      keywords.push(['전시가 멋지다','11'], ['아이와 함께 가기 좋다','12'], ['부모님과 함께 가기 좋다','13'])
       break;
     case '도시 재생 및 친환경 건축물':
-      keywords.push('특색 있다')
+      keywords.push(['특색 있다','14'])
       break;
     case '제로웨이스트 샵':
-      keywords.push('물건 종류가 다양하다')
+      keywords.push(['물건 종류가 다양하다','15'])
       break;
     case '녹색 공간':
-      keywords.push('관리가 잘 되어 있다')
+      keywords.push(['관리가 잘 되어 있다','16'])
       break;
   }
   return (
@@ -371,10 +371,10 @@ export default function DetailCard({
           <p>{ShortCur}</p>
         </ShortCurBox>
         <StatisticBox>
-          {reviewInfo.status}
+          {reviewInfo}
         </StatisticBox>
         <ReviewBox>
-          {reviewOpen ? <WriteReview keywords={keywords}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+          {reviewOpen ? <WriteReview keywords={keywords} id={id}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
         </ReviewBox>
         <UserReview reviewInfo={reviewInfo.data}></UserReview>
       </TextBox>
