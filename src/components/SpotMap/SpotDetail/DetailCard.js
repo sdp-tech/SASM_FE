@@ -371,12 +371,12 @@ export default function DetailCard({
           <p>{ShortCur}</p>
         </ShortCurBox>
         <StatisticBox>
-          {reviewInfo}
+          Statistic
         </StatisticBox>
         <ReviewBox>
           {reviewOpen ? <WriteReview keywords={keywords} id={id}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
         </ReviewBox>
-        <UserReview reviewInfo={reviewInfo.data}></UserReview>
+        <UserReview reviewInfo={reviewInfo.results}></UserReview>
       </TextBox>
     </StyledCard>
   );

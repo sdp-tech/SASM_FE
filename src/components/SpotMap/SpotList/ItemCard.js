@@ -148,7 +148,7 @@ export default function ItemCard(props) {
       id: id,
     }, null);
     setDetailInfo(response.data.data);
-    setReviewInfo(response_review.data);
+    setReviewInfo(response_review.data.data);
     setModalOpen(true);
     setTemp({
       center: {
