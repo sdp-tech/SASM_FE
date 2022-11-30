@@ -144,9 +144,11 @@ export default function ItemCard(props) {
     setLoading(true);
     const id = props.id;
     const response = await request.get("/places/place_detail/", { id: id }, null);
-    //console.log("response??", response.data);
+    const response_review = await request.get("/places/place_review/", {
+      id: id,
+    }, null);
     setDetailInfo(response.data.data);
-    setReviewInfo(response.data);
+    setReviewInfo(response_review.data);
     setModalOpen(true);
     setTemp({
       center: {

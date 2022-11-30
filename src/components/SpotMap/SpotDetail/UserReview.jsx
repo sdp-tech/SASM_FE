@@ -14,18 +14,11 @@ export default function UserReview(props) {
     const handleToggle = () => {
         setToggle(!toggle);
     }
+
     const data = props.reviewInfo;
+    console.log(data);
+    let review =[];
   return (
-    <div style={{border:'1px black solid'}}>
-        <div>{data.place_name}</div>
-        <div>{data.id}</div>
-        {toggle?<div>{data.short_cur}</div>:<ShortReview>{data.short_cur}</ShortReview>}
-        <button onClick={handleToggle}>{toggle?"접기":"자세히"}</button>
-        <div style={{border:'1px red solid', display:'flex', justifyContent:'space-between'}}>
-            <img src={data?.photos[0].image} style={{width:'150px', height:'150px'}}></img>
-            <img src={data?.photos[1].image} style={{width:'150px', height:'150px'}}></img>
-            <img src={data?.photos[2].image} style={{width:'150px', height:'150px'}}></img>
-        </div>
-    </div>
+    <div>hello</div>
   )
 }
