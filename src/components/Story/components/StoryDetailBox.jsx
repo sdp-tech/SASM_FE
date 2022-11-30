@@ -10,6 +10,8 @@ import HeartButton from "../../common/Heart";
 import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import WriteComment from "./WriteComment";
+import Comments from "./Comments";
 
 const Wrapper = styled.div`
   /*박스*/
@@ -206,6 +208,7 @@ const LikeButton = styled(Button)({
 const StoryDetailBox = (props) => {
   const id = props.id;
   const [data, setData] = useState([]);
+  const [comment, setComment] = useState([]);
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -239,9 +242,12 @@ const StoryDetailBox = (props) => {
 
   const loadItem = async () => {
     setLoading(true);
-    const response = await request.get("/stories/story_detail/", { id: id }, null);
-    // console.log("data", response.data);
-    setData(response.data.data[0]);
+    console.log(id);
+    const response_detail = await request.get("/stories/story_detail/", { id: id }, null);
+    const response_comment = await request.get("/stories/comments/", { story: id }, null);
+    // console.log("data", response.data);.
+    setData(response_detail.data.data[0]);
+    setComment(response_comment.data.data);
     setLoading(false);
   };
 
@@ -298,6 +304,8 @@ const StoryDetailBox = (props) => {
 
             <div dangerouslySetInnerHTML={markup()}></div>
           </ImageNContentBox>
+          <Comments data={comment}></Comments>
+          <WriteComment id={id}></WriteComment>
         </Wrapper>
       )}
     </>

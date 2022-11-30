@@ -11,6 +11,8 @@ import GoToStoryImg from "../../../assets/img/GoToStoryImg.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import WriteReview from "./WriteReview";
+import UserReview from "./UserReview";
 
 const StyledCard = styled.section`
   width: 100%;
@@ -56,7 +58,7 @@ const CategoryBox = styled.div`
 
 const ReviewBox = styled.div`
   height: auto;
-  margin-top: 20px;
+  margin: 20px 0px;
   padding: 0.017px;
   background: #cbced7;
   font-size: 1em;
@@ -78,6 +80,7 @@ const ShortCurBox = styled.div`
   height: auto;
   background: #ffffff;
 `;
+
 const Title = styled.p`
   color: #7c1d30;
   font-size: 2em;
@@ -122,6 +125,9 @@ const ButtonDiv = styled.div`
   align-items: flex-end;
   // margin: 7px;
 `;
+const StatisticBox = styled.div`
+  border:1px black solid;
+`
 const MapButton = styled(Button)({
   border: 0,
   borderRadius: "15px",
@@ -148,7 +154,8 @@ const ButtonText = styled.div`
   min-width: 80px;
   font-weight: 600;
 `;
-function DetailCard({
+
+export default function DetailCard({
   key,
   id,
   MainImage,
@@ -170,20 +177,22 @@ function DetailCard({
   Photo2,
   story_id,
   place_like,
+  reviewInfo
 }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
+  const [reviewOpen, setReviewOpen] = useState(false);
   const handleClick = () => {
     setOpen(!open);
   };
-
+  const handleReviewOpen = () => {
+    setReviewOpen(!reviewOpen);
+  }
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     // alert(`${props.id}`);
@@ -192,12 +201,36 @@ function DetailCard({
     } else {
       const response = await request.post("/places/place_like/", { id: id }, null);
       console.log("response", response);
-
       //색상 채우기
       setLike(!like);
     }
   };
-
+  let keywords = [
+    ['분위기가 좋다','1'],
+    ['혼자 가기 좋다','2'],
+    ['함께 가기 좋다','3'],
+    ['가족끼리 가기 좋다','4'],
+    ['청결하다','5'],
+    ['뷰가 좋다','6'],
+    ['지속가능성의 필요성을 느낄 수가 있다','7']
+  ]
+  switch (Category) {
+    case '식당 및 카페':
+      keywords.push(['음식이 맛있다','8'], ['양이 많다','9'], ['직원분이 친절하시다','10'])
+      break;
+    case '전시 및 체험공간':
+      keywords.push(['전시가 멋지다','11'], ['아이와 함께 가기 좋다','12'], ['부모님과 함께 가기 좋다','13'])
+      break;
+    case '도시 재생 및 친환경 건축물':
+      keywords.push(['특색 있다','14'])
+      break;
+    case '제로웨이스트 샵':
+      keywords.push(['물건 종류가 다양하다','15'])
+      break;
+    case '녹색 공간':
+      keywords.push(['관리가 잘 되어 있다','16'])
+      break;
+  }
   return (
     <StyledCard className="component component--item_card" key={key}>
       <ImgBox>
@@ -304,39 +337,47 @@ function DetailCard({
           </Collapse>
         </AddressBox>
         <PhotoBox>
+          <a href={Photo0} style={{display:'block', width:'150px', height:'150px'}}>
           <img
-            style={{ height: "150px", width: "30%" }}
+            style={{ height: "100%", width: "100%" }}
             src={Photo0}
             className="image--itemcard"
             alt="image1"
             width="600px"
             height="400px"
-          />
+          /></a>
+          <a href={Photo1} style={{display:'block', width:'150px', height:'150px'}}>
           <img
-            style={{ height: "150px", width: "30%" }}
+            style={{ height: "100%", width: "100%" }}
             src={Photo1}
             className="image--itemcard"
             alt="image2"
             width="600px"
             height="400px"
-          />
+          /></a>
+          <a href={Photo2} style={{display:'block', width:'150px', height:'150px'}}>
           <img
-            style={{ height: "150px", width: "30%" }}
+            style={{ height: "100%", width: "100%" }}
             src={Photo2}
             className="image--itemcard"
             alt="image3"
             width="600px"
             height="400px"
-          />
+          /></a>
         </PhotoBox>
         {/* images */}
         <ShortCurBox>
           {/* ShortCur */}
           <p>{ShortCur}</p>
         </ShortCurBox>
+        <StatisticBox>
+          {reviewInfo}
+        </StatisticBox>
+        <ReviewBox>
+          {reviewOpen ? <WriteReview keywords={keywords} id={id}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+        </ReviewBox>
+        <UserReview reviewInfo={reviewInfo.data}></UserReview>
       </TextBox>
     </StyledCard>
   );
 }
-
-export default DetailCard;
