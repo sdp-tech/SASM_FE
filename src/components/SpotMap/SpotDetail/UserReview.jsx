@@ -10,15 +10,17 @@ const ShortReview = styled.div`
 `
 
 export default function UserReview(props) {
+    const reviewInfo = props.reviewInfo;
     const [toggle, setToggle] = useState(false);
     const handleToggle = () => {
         setToggle(!toggle);
     }
-
-    const data = props.reviewInfo;
-    console.log(data);
     let review =[];
+    console.log(reviewInfo.length);
+    for(let i =0; i<reviewInfo.length; i++) {
+      review.push(<div>{reviewInfo[i].nickname} - {reviewInfo[i].contents} / {reviewInfo[i].created}</div>)
+    }
   return (
-    <div>hello</div>
+    <div>{review}</div>
   )
 }
