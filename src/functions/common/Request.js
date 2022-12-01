@@ -121,4 +121,39 @@ export default class Request {
             return response;
         });
     }
+
+    delete = async (path, params, headers) => {
+        return await this.default(path, async (url, headerValue) => {
+            const response = await axios.delete(
+                url,
+                {
+                    params: params,
+
+                    headers: {
+                        Authorization: headerValue,
+                        ...headers,
+                    },
+                }
+            );
+            console.log("request test => ", response);
+            return response;
+        });
+    }
+
+    patch = async (path, data, headers) => {
+        return await this.default(path, async (url, headerValue) => {
+            const response = await axios.patch(
+                url,
+                data,
+                {
+                    headers: {
+                        Authorization: headerValue,
+                        ...headers,
+                    },
+                }
+            );
+            console.log("request test => ", response);
+            return response;
+        });
+    }
 }

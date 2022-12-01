@@ -64,6 +64,7 @@ const Login = () => {
       });
       localStorage.setItem("nickname", res.data.nickname); //닉네임 따로 저장
       localStorage.setItem("accessTK", res.data.access); //access token 따로 저장
+      localStorage.setItem("email", info.email );
 
       // setCookie("name", access);
       setCookie("name", refresh);
