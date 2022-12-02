@@ -11,6 +11,15 @@ const ShortReview = styled.div`
 `
 
 export default function UserReview(props) {
+  const setMode = (mode) =>{
+    props.setMode(mode);
+  }
+  const setReviewOpen = (mode) =>{
+    props.setReviewOpen(mode);
+  }
+  const setTarget=(target)=> {
+    props.setTarget(target);
+  }
   const reviewInfo = props.reviewInfo;
   const email = localStorage.getItem("email");
   const [toggle, setToggle] = useState(false);
@@ -19,8 +28,8 @@ export default function UserReview(props) {
   }
   let review = [];
   for (let i = 0; i < reviewInfo.length; i++) {
-    if (email == reviewInfo[i].writer) { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={true} />) }
-    else { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={false} />) }
+    if (email == reviewInfo[i].writer) { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={true} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}/>) }
+    else { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={false} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}/>) }
   }
 
   return (
