@@ -72,6 +72,7 @@ export default function SpotDetail(props) {
           Photo2={data?.photos?.[2].image}
           story_id={data?.story_id}
           place_like={data?.place_like}
+          statistics={data?.category_statistics}
           reviewInfo={reviewData}
         />
         {isSasmAdmin ? (

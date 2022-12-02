@@ -29,7 +29,6 @@ const EachKeyWord = styled.div`
 `
 
 export default function WriteReview(props) {
-
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
     const request = new Request(cookies, localStorage, navigate);
@@ -66,7 +65,6 @@ export default function WriteReview(props) {
         }
     }
     const reviewUpload = async (event) => {
-        event.preventDefault();
         const formData = new FormData();
         formData.append('place', `${props.id}`);
         formData.append('contents', `${event.target.text.value}`)
@@ -77,9 +75,12 @@ export default function WriteReview(props) {
         for (let item of formData) {
             console.log(item);
         }
-        const response = await request.post("/places/place_review", formData, { "Content-Type": "multipart/form-data" });
-        console.log(response);
-
+        if (props.mode == 'write') {
+            const response = await request.post("/places/place_review/", formData, { "Content-Type": "multipart/form-data" });
+        }
+        else if (props.mode == 'update') {
+            const response = await request.put(`/places/place_review/${props.target}/`, formData, { "Content-Type": "multipart/form-data" });
+        }
     }
     let keyword = [];
     for (let i = 0; i < props.keywords.length; i++) {
