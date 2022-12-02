@@ -18,18 +18,17 @@ export default async function TrySocialLogin(site) {
     window.location.href = KAKAO_AUTH_URL; //OAuth.js에 url 가져오기
   }
 
-  console.log(url);
-
-  await axios
-    .get(url, {
-      header: {
-        "Access-Control-Allow-Origin": "https://accounts.google.com",
-      },
-    })
-    .then(function (res) {
-      console.log(res);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  // console.log(url);
+  // await axios
+  //   .get(url, {
+  //     header: {
+  //       "Access-Control-Allow-Origin": "https://accounts.google.com",
+  //     },
+  //   })
+  //   .then(function (res) {
+  //     console.log(res);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
 }
