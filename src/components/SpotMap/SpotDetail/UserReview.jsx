@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import styled from 'styled-components';
+import ReviewBox from './ReviewBox';
 
 const ShortReview = styled.div`
     text-overflow: ellipsis;
@@ -10,17 +11,19 @@ const ShortReview = styled.div`
 `
 
 export default function UserReview(props) {
-    const reviewInfo = props.reviewInfo;
-    const [toggle, setToggle] = useState(false);
-    const handleToggle = () => {
-        setToggle(!toggle);
-    }
-    let review =[];
-    console.log(reviewInfo.length);
-    for(let i =0; i<reviewInfo.length; i++) {
-      review.push(<div>{reviewInfo[i].nickname} - {reviewInfo[i].contents} / {reviewInfo[i].created}</div>)
-    }
+  const reviewInfo = props.reviewInfo;
+  const email = localStorage.getItem("email");
+  const [toggle, setToggle] = useState(false);
+  const handleToggle = () => {
+    setToggle(!toggle);
+  }
+  let review = [];
+  for (let i = 0; i < reviewInfo.length; i++) {
+    if (email == reviewInfo[i].writer) { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={true} />) }
+    else { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={false} />) }
+  }
+
   return (
-    <div>{review}</div>
+    <div style={{borderTop:'1px black solid'}}>{review}</div>
   )
 }
