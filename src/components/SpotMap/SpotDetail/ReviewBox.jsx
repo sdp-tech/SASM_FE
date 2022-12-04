@@ -29,7 +29,7 @@ export default function ReviewBox(props) {
         <div style={{ padding: '5px', borderBottom: '1px black solid' }}>
             <>
                 {reviewInfo.nickname} - {reviewInfo.contents} - {reviewInfo.id}
-                <div style={{ display: 'flex', border: "1px black solid", justifyContent: 'space-around' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <img src={reviewInfo.photos[0]?.imgfile} style={{ width: '50px' }}></img>
                     <img src={reviewInfo.photos[1]?.imgfile} style={{ width: '50px' }}></img>
                     <img src={reviewInfo.photos[2]?.imgfile} style={{ width: '50px' }}></img>
