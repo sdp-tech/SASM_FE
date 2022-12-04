@@ -65,6 +65,7 @@ export default function WriteReview(props) {
         }
     }
     const reviewUpload = async (event) => {
+        event.preventDefault();
         const formData = new FormData();
         formData.append('place', `${props.id}`);
         formData.append('contents', `${event.target.text.value}`)
@@ -81,6 +82,7 @@ export default function WriteReview(props) {
         else if (props.mode == 'update') {
             const response = await request.put(`/places/place_review/${props.target}/`, formData, { "Content-Type": "multipart/form-data" });
         }
+        window.location.reload();
     }
     let keyword = [];
     for (let i = 0; i < props.keywords.length; i++) {

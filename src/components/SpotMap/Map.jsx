@@ -39,6 +39,7 @@ const DetailBox = styled.div`
 const Markers = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [detailInfo, setDetailInfo] = useState([]);
+  const [reviewInfo, setReviewInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const node = useRef();
@@ -86,7 +87,12 @@ const Markers = (props) => {
     const id = props.id;
     document.getElementById(id).style.color='red';
     const response = await request.get("/places/place_detail/", { id: id }, null);
+    const response_review = await request.get("/places/place_review/", {
+      id: id,
+    }, null);
     // console.log("response!!!", response.data);
+
+    setReviewInfo(response_review.data.data);
     setDetailInfo(response.data.data);
     setModalOpen(true);
     setState({
@@ -145,6 +151,7 @@ const Markers = (props) => {
             modalClose={modalClose}
             id={props.id}
             detailInfo={detailInfo}
+            reviewInfo={reviewInfo}
           ></SpotDetail>
         )}
       </DetailBox>
