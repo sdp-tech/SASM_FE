@@ -177,8 +177,11 @@ export default function DetailCard({
   Photo2,
   story_id,
   place_like,
-  reviewInfo
+  reviewInfo,
+  statistics
 }) {
+  const [mode, setMode] = useState('write');
+  const [target, setTarget] = useState(null);
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [open, setOpen] = useState(false);
@@ -206,29 +209,29 @@ export default function DetailCard({
     }
   };
   let keywords = [
-    ['분위기가 좋다','1'],
-    ['혼자 가기 좋다','2'],
-    ['함께 가기 좋다','3'],
-    ['가족끼리 가기 좋다','4'],
-    ['청결하다','5'],
-    ['뷰가 좋다','6'],
-    ['지속가능성의 필요성을 느낄 수가 있다','7']
+    ['분위기가 좋다', '1'],
+    ['혼자 가기 좋다', '2'],
+    ['함께 가기 좋다', '3'],
+    ['가족끼리 가기 좋다', '4'],
+    ['청결하다', '5'],
+    ['뷰가 좋다', '6'],
+    ['지속가능성의 필요성을 느낄 수가 있다', '7']
   ]
   switch (Category) {
     case '식당 및 카페':
-      keywords.push(['음식이 맛있다','8'], ['양이 많다','9'], ['직원분이 친절하시다','10'])
+      keywords.push(['음식이 맛있다', '8'], ['양이 많다', '9'], ['직원분이 친절하시다', '10'])
       break;
     case '전시 및 체험공간':
-      keywords.push(['전시가 멋지다','11'], ['아이와 함께 가기 좋다','12'], ['부모님과 함께 가기 좋다','13'])
+      keywords.push(['전시가 멋지다', '11'], ['아이와 함께 가기 좋다', '12'], ['부모님과 함께 가기 좋다', '13'])
       break;
     case '도시 재생 및 친환경 건축물':
-      keywords.push(['특색 있다','14'])
+      keywords.push(['특색 있다', '14'])
       break;
     case '제로웨이스트 샵':
-      keywords.push(['물건 종류가 다양하다','15'])
+      keywords.push(['물건 종류가 다양하다', '15'])
       break;
     case '녹색 공간':
-      keywords.push(['관리가 잘 되어 있다','16'])
+      keywords.push(['관리가 잘 되어 있다', '16'])
       break;
   }
   return (
@@ -337,33 +340,33 @@ export default function DetailCard({
           </Collapse>
         </AddressBox>
         <PhotoBox>
-          <a href={Photo0} style={{display:'block', width:'150px', height:'150px'}}>
-          <img
-            style={{ height: "100%", width: "100%" }}
-            src={Photo0}
-            className="image--itemcard"
-            alt="image1"
-            width="600px"
-            height="400px"
-          /></a>
-          <a href={Photo1} style={{display:'block', width:'150px', height:'150px'}}>
-          <img
-            style={{ height: "100%", width: "100%" }}
-            src={Photo1}
-            className="image--itemcard"
-            alt="image2"
-            width="600px"
-            height="400px"
-          /></a>
-          <a href={Photo2} style={{display:'block', width:'150px', height:'150px'}}>
-          <img
-            style={{ height: "100%", width: "100%" }}
-            src={Photo2}
-            className="image--itemcard"
-            alt="image3"
-            width="600px"
-            height="400px"
-          /></a>
+          <a href={Photo0} style={{ display: 'block', width: '150px', height: '150px' }}>
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={Photo0}
+              className="image--itemcard"
+              alt="image1"
+              width="600px"
+              height="400px"
+            /></a>
+          <a href={Photo1} style={{ display: 'block', width: '150px', height: '150px' }}>
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={Photo1}
+              className="image--itemcard"
+              alt="image2"
+              width="600px"
+              height="400px"
+            /></a>
+          <a href={Photo2} style={{ display: 'block', width: '150px', height: '150px' }}>
+            <img
+              style={{ height: "100%", width: "100%" }}
+              src={Photo2}
+              className="image--itemcard"
+              alt="image3"
+              width="600px"
+              height="400px"
+            /></a>
         </PhotoBox>
         {/* images */}
         <ShortCurBox>
@@ -371,13 +374,12 @@ export default function DetailCard({
           <p>{ShortCur}</p>
         </ShortCurBox>
         <StatisticBox>
-          Statistic
         </StatisticBox>
         <ReviewBox>
-          {reviewOpen ? <WriteReview keywords={keywords} id={id}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+          {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
         </ReviewBox>
-        <UserReview reviewInfo={reviewInfo.results}></UserReview>
+        <UserReview reviewInfo={reviewInfo.results} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}></UserReview>
       </TextBox>
-    </StyledCard>
+    </StyledCard >
   );
 }
