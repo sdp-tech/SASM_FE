@@ -20,7 +20,7 @@ const CloseButton = styled.div`
 export default function SpotDetail(props) {
   const { modalClose } = props;
   const data = props.detailInfo;
-  const reviewData = props.reviewInfo;
+  const reviewInfo = props.reviewInfo;
   const id = props.id;
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
@@ -73,7 +73,8 @@ export default function SpotDetail(props) {
           story_id={data?.story_id}
           place_like={data?.place_like}
           statistics={data?.category_statistics}
-          reviewInfo={reviewData}
+          reviewInfo={reviewInfo}
+
         />
         {isSasmAdmin ? (
           <AdminButton

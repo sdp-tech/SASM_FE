@@ -125,8 +125,24 @@ const ButtonDiv = styled.div`
   align-items: flex-end;
   // margin: 7px;
 `;
-const StatisticBox = styled.div`
-  border:1px black solid;
+const StatisticWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+`
+const StatisticText = styled.p`
+  line-height: 0.5;
+  padding: 0px 10px;
+`
+const PercentageBar = styled.div`
+  width:${props => 20 + props.width}%;
+  height:100%;
+  position:absolute;
+  top:0%;
+  background-color:#fff;
+  z-index : -1;
 `
 const MapButton = styled(Button)({
   border: 0,
@@ -208,6 +224,12 @@ export default function DetailCard({
       setLike(!like);
     }
   };
+  let target_info;
+  for (let i = 0; i < reviewInfo.results.length; i++) {
+    if (reviewInfo.results[i].id == target) {
+      target_info = reviewInfo.results[i];
+    }
+  }
   let keywords = [
     ['분위기가 좋다', '1'],
     ['혼자 가기 좋다', '2'],
@@ -373,10 +395,20 @@ export default function DetailCard({
           {/* ShortCur */}
           <p>{ShortCur}</p>
         </ShortCurBox>
-        <StatisticBox>
-        </StatisticBox>
+        {
+          statistics.map((data, index) => {
+            return (
+              <StatisticWrapper>
+                <StatisticText>{data[0]}</StatisticText>
+                <PercentageBar width={data[1]} />
+                <StatisticText>{data[1]}%</StatisticText>
+              </StatisticWrapper>
+            );
+          })
+        }
         <ReviewBox>
-          {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+          {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target} target_info={target_info}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+
         </ReviewBox>
         <UserReview reviewInfo={reviewInfo.results} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}></UserReview>
       </TextBox>
