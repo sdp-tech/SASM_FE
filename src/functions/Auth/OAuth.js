@@ -1,5 +1,7 @@
 //카카오 로그인 url 페이지
-const BASE_URL = "http://127.0.0.1:3000/";
+
+const BASE_URL = "https://www.sasm.co.kr/";
+
 const KAKAO_CALLBACK_URI = BASE_URL + "users/kakao/callback/";
 
 const CLIENT_ID = "c7a34e2bccc9bf9d8cf67cd940cc039a";

@@ -74,6 +74,7 @@ export default function SpotDetail(props) {
           place_like={data?.place_like}
           statistics={data?.category_statistics}
           reviewInfo={reviewInfo}
+
         />
         {isSasmAdmin ? (
           <AdminButton

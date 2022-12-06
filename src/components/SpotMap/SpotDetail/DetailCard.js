@@ -408,6 +408,7 @@ export default function DetailCard({
         }
         <ReviewBox>
           {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target} target_info={target_info}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+
         </ReviewBox>
         <UserReview reviewInfo={reviewInfo.results} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}></UserReview>
       </TextBox>

@@ -105,7 +105,7 @@ export default function ReviewBox(props) {
             </>
             {props.writer ?
                 <>
-                    <Button onClick={reviewDelete}>삭제</Button>
+                    <Button onClick={confirmDelete}>삭제</Button>
                     <Button onClick={() => {
                         setMode('update');
                         setReviewOpen(true);
