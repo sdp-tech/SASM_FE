@@ -14,9 +14,9 @@ import Request from "../../../functions/common/Request";
 
 const StyledCard = styled.div`
   position: relative;
-  padding: 1em;
-  border-bottom: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
+  margin : 0 0 0 2.5%;
+  padding : 3%;
+  border-bottom: 1px black solid;
   &:last-child {
     border-bottom: none;
   }
@@ -27,55 +27,44 @@ const StyledCard = styled.div`
 `;
 
 const ImgBox = styled.div`
-  min-width: 180px;
-  min-height: 180px;
-  max-width: 180px;
-  max-height: 180px;
+  min-width:150px;
+  min-height:150px;
+  max-width:150px;
+  max-height:150px;
 `;
 const TextBox = styled.div`
+  height: 14.6vh;
   font-size: 1em;
   color: black;
-  min-width: 280px;
-  // border: 1px solid red;
-  margin: 0.7em;
+  display: flex;
+  flex-flow : row wrap;
+  margin: 0 0 0 3%;
 `;
 const TitleBox = styled.div`
-  font-size: 1.3em;
+  font-size: 1em;
   font-weight: 700;
-  color: black;
-  padding: 0 0 2px 5px;
-  border-bottom: 1px solid #000000;
-  display: flex;
-  flexdirection: column;
+  color: #000000;
+  border-bottom: 1px solid #999999;
   width: 100%;
-  justify-content: space-between;
+  position: relative;
+  display: flex;
+  padding: 1%;
+  justify-content:space-around;
+  flex-flow : column wrap;
+  height:40%;
 `;
 const ContentBox = styled.div`
-  font-size: 1em;
-  font-weight: 500;
+  padding: 1%;
+  height:60%;
+  font-weight: 400;
+  font-size: 0.6em;
   color: black;
-  padding: 0 0 2px 5px;
+  display: flex;
+  flex-flow : column wrap;
+  justify-content: space-around;
 `;
-const FirstBox = styled.div`
-  font-size: 1em;
-  font-weight: 500;
-  color: black;
-  // border: 1px solid red;
-  // max-height: 60px;
-`;
-const SecondBox = styled.div`
-  font-size: 1em;
-  font-weight: 500;
-  color: black;
-  // border: 1px solid yellow;
-`;
-const Content = styled.p`
-  font-size: 0.9em;
-  font-weight: 500;
-  color: black;
-  // margin: -4px;
-  // border: 1px solid green;
-`;
+
+
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
   background-color: #ffffff;
@@ -196,8 +185,8 @@ export default function ItemCard(props) {
             src={props.ImageURL}
             className="image--itemcard"
             alt="placeImage"
-            width="180px"
-            height="200px"
+            width="100%"
+            height="100%"
           />
         </ImgBox>
         <TextBox>
@@ -205,62 +194,28 @@ export default function ItemCard(props) {
             <div style={{ cursor: "pointer" }} onClick={handleClick}>
               {props.StoreName}
             </div>
-            <LikeButton>
+            <LikeButton style={{ position: 'absolute', right: '5%', bottom: '2%' }}>
               {props.place_like === "ok" ? (
                 <HeartButton like={!like} onClick={toggleLike} />
               ) : (
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
+            <div style={{ fontSize: "0.75em", fontWeight: "400", color: "black" }}>
+              {props.StoreType}
+            </div>
           </TitleBox>
 
           <ContentBox>
-            <FirstBox>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                }}
-              >
-                {props.StoreType}
-              </p>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                  marginTop: "-1em",
-                }}
-              >
-                {props.place_review}
-              </p>
-            </FirstBox>
-            <SecondBox>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                  marginTop: "-0.2em",
-                }}
-              >
-                주소 : {props.Address}
-              </p>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                  marginTop: "-1em",
-                }}
-              >
-                오늘 영업시간 : {props.open_hours}
-              </p>
-            </SecondBox>
-            {/* <Content>영업시간 : {props.OpeningHours}</Content> */}
-            {/* <Content>화 : {props.tues_hours}</Content>
-        <Content>수 : {props.wed_hours}</Content> */}
+            <div style={{color:"#999999"}}>
+              {props.place_review}
+            </div>
+            <div>
+              {props.Address}
+            </div>
+            <div>
+              {props.open_hours}
+            </div>
           </ContentBox>
         </TextBox>
       </StyledCard>
