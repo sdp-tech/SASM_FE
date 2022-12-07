@@ -212,16 +212,17 @@ const StoryDetailBox = (props) => {
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [mode, setMode] = useState('write');
+  const [target, setTarget] = useState(null);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
+  const email = localStorage.getItem("email");
   const handlePageGoToMap = (id) => {
     //추후 키값으로 찾고, 뒤에 붙여서 이동 예정
     window.location.href = "/map" + id;
   };
-
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     const token = cookies.name; // 쿠키에서 id 를 꺼내기
@@ -230,7 +231,6 @@ const StoryDetailBox = (props) => {
     } else {
       const response = await request.post("/stories/story_like/", { id: data.id }, null);
       console.log("response", response);
-
       //색상 채우기
       setLike(!like);
     }
@@ -242,7 +242,6 @@ const StoryDetailBox = (props) => {
 
   const loadItem = async () => {
     setLoading(true);
-    console.log(id);
     const response_detail = await request.get("/stories/story_detail/", { id: id }, null);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
     // console.log("data", response.data);.
@@ -304,8 +303,14 @@ const StoryDetailBox = (props) => {
 
             <div dangerouslySetInnerHTML={markup()}></div>
           </ImageNContentBox>
-          <Comments data={comment}></Comments>
-          <WriteComment id={id}></WriteComment>
+          {
+            comment.results.map((data, index)=>{
+              if(data.email==email)
+                return <Comments comment={data} setMode={setMode} setTarget={setTarget} isWriter={true}></Comments>
+              else return <Comments comment={data} setMode={setMode} setTarget={setTarget} isWriter={false}></Comments>
+            })
+          }
+          <WriteComment id={id} mode={mode} target={target}></WriteComment>
         </Wrapper>
       )}
     </>

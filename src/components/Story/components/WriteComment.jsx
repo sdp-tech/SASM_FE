@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import Request from '../../../functions/common/Request'
 import { useNavigate } from 'react-router-dom';
@@ -31,10 +31,11 @@ const SubmitBtn = styled.button`
     background-color:#fff;
 `
 
-export default function WriteComment({ id }) {
+export default function WriteComment({ id, target, mode }) {
     const [like, setLike] = useState(false);
     const [loading, setLoading] = useState(true);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+    const [data, setData] = useState(null);
     // const token = cookies.name; // 쿠키에서 id 를 꺼내기
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const navigate = useNavigate();
@@ -44,18 +45,55 @@ export default function WriteComment({ id }) {
         const response = await request.post("/stories/comments/", {
             story: id,
             content: event.target.text.value,
-        });
+        }, null);
         console.log(response);
     }
-
-    return (
-        <Wrapper>
-            <form onSubmit={(event) => {
-                uploadComment(event);
-            }}>
-                <TextArea id='text'></TextArea>
-                <SubmitBtn type='submit'>제출</SubmitBtn>
-            </form>
-        </Wrapper>
-    )
+    const updateComment = async (event) => {
+        event.preventDefault();
+        const response = await request.patch(`/stories/comments/${target}`, {
+            story: id,
+            content: event.target.text.value,
+        }, null);
+        console.log(response);
+    }
+    const getComment = async () => {
+        setLoading(true);
+        const response = await request.get(`/stories/comments/${target}`, null, null);
+        setData(response.data.data);
+        setLoading(false);
+    }
+    useEffect(() => {
+        if (mode == 'update') {
+            getComment();
+        }
+    }, [target]);
+    if (mode == 'write') {
+        return (
+            <Wrapper>
+                <form onSubmit={(event) => {
+                    uploadComment(event);
+                }}>
+                    <TextArea id='text' placeholder='리뷰를 작성해보세요'></TextArea>
+                    <SubmitBtn type='submit'>제출</SubmitBtn>
+                </form>
+            </Wrapper>
+        )
+    }
+    else if (mode == 'update') {
+        return (
+            <>
+                {
+                    loading ?
+                        null : <Wrapper>
+                            <form onSubmit={(event) => {
+                                updateComment(event);
+                            }}>
+                                <TextArea id='text' placeholder={data.content}></TextArea>
+                                <SubmitBtn type='submit'>제출</SubmitBtn>
+                            </form>
+                        </Wrapper>
+                }
+            </>
+        )
+    }
 }
