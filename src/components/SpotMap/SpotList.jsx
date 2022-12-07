@@ -27,12 +27,17 @@ const RecommendTitle = styled.div`
   width: 100%;
   min-height: 4%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border-left: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
-  border-bottom: 1px solid #99a0b0;
   box-sizing: border-box;
+  align-items: center;
+  font-size:0.75em;
+  color: #44ADF7;
+  margin: 0 0 0 2.5%;
+  &::after {
+    content:" ";
+    width:64%;
+    margin : 0 0 0 1%;
+    border: 1px #44ADF7 solid;
+  }
 `;
 const SpotsWrapper = styled.div`
   // background-color: yellow;
@@ -40,9 +45,6 @@ const SpotsWrapper = styled.div`
   min-height: 30%;
   // height: 90%;
   overflow: auto;
-  border-left: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
-  border-bottom: 1px solid #99a0b0;
   box-sizing: border-box;
   &::-webkit-scrollbar {
     width: 12px;
@@ -65,7 +67,7 @@ export default function SpotList(props){
   return (
         <SpotListSection>
           {/* 데이터 없을때 장소가 없습니다 띄우기 */}
-          <RecommendTitle>이런 장소는 어떠세요?</RecommendTitle>
+          <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
           <SpotsWrapper id="wrapper">
             {item.length === 0 ? (
               <NothingSearched>
