@@ -1,6 +1,6 @@
 //카카오 로그인 url 페이지
 
-const BASE_URL = "https://sasm.co.kr/";
+const BASE_URL = "https://www.sasm.co.kr/";
 
 const KAKAO_CALLBACK_URI = BASE_URL + "users/kakao/callback/";
 
