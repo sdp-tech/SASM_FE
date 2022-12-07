@@ -86,7 +86,7 @@ const KakaoRedirect = (props) => {
 
   // 인가코드
   let code = new URL(window.location.href).searchParams.get("code");
-  // console.log(code, n);
+  console.log(code, n);
 
   if (n == 0) {
     KakaoLogin(code);
