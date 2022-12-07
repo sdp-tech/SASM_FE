@@ -53,13 +53,13 @@ const Markers = (props) => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-  const setState = (data) => {
-    props.setState(data);
+  const setTemp = (data) => {
+    props.setTemp(data);
   }
 
   const MarkerReset = () => {
-    for(let i=0; i<document.getElementsByClassName("iw_inner").length; i++) {
-      document.getElementsByClassName("iw_inner")[i].style.color='black';
+    for (let i = 0; i < document.getElementsByClassName("iw_inner").length; i++) {
+      document.getElementsByClassName("iw_inner")[i].style.color = 'black';
     }
   }
 
@@ -85,7 +85,7 @@ const Markers = (props) => {
     // alert(`${props.id}`);
     setLoading(true);
     const id = props.id;
-    document.getElementById(id).style.color='red';
+    document.getElementById(id).style.color = 'red';
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -95,12 +95,12 @@ const Markers = (props) => {
     setReviewInfo(response_review.data.data);
     setDetailInfo(response.data.data);
     setModalOpen(true);
-    setState({
+    setTemp({
       center: {
         lat: response.data.data.latitude,
         lng: response.data.data.longitude,
       },
-      zoom:17,
+      zoom: 13,
     });
     setLoading(false);
   };
@@ -163,17 +163,10 @@ const NaverMapAPI = (props) => {
   const Item = props.markerInfo;
   const navermaps = window.naver.maps;
 
-  // 일단은 기본 default 맵을 서울 시청 좌표로 상태 유지
-  const [state, setState] = useState({
-    center: {
-      lat: 37.551229,
-      lng: 126.988205,
-    },
-    zoom: 13,
-  });
+  //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
   const temp = props.temp;
-  const setTemp=(data)=>{
+  const setTemp = (data) => {
     props.setTemp(data);
   }
   const setSearchHere = (data) => {
@@ -183,22 +176,14 @@ const NaverMapAPI = (props) => {
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
+        //현재 위치 고정
         setTemp({
           center: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
-          zoom:13,
+          zoom: 13,
         });
-        setState({
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-          zoom:13,
-        });
-
-    
       },
       (error) => {
         console.log(error);
@@ -222,20 +207,19 @@ const NaverMapAPI = (props) => {
   };
   const handleCenterChanged = (data) => {
     setCoor({
-      center:{
-        lat:data._lat,
-        lng:data._lng,
+      center: {
+        lat: data._lat,
+        lng: data._lng,
       }
     })
   }
-
   return (
     <>
-      <button style={{position:'absolute', left:'50%', zIndex:'3'}} onClick={()=>{
+      <button style={{ position: 'absolute', left: '50%', zIndex: '3' }} onClick={() => {
         props.setPage(1);
         setSearchHere(coor);
       }}>현 지도에서 검색</button>
-      <button style={{position:'absolute', right:'0', zIndex:'3', padding:'5px'}} onClick={handleBackToCenter}>현 위치</button>
+      <button style={{ position: 'absolute', right: '0', zIndex: '3', padding: '5px' }} onClick={handleBackToCenter}>현 위치</button>
       <NaverMap
         mapDivId={"SASM_map"}
         style={{
@@ -245,10 +229,14 @@ const NaverMapAPI = (props) => {
         }}
         center={temp.center}
         defaultZoom={temp.zoom}
+        minZoom={11}
+        maxZoom={19}
         onZoomChanged={(zoom) => {
           console.log(zoom);
         }}
-        onCenterChanged={(center)=>{
+        zoomControl={true}
+        zoomControlOptions={{ position: navermaps.Position.RIGHT_CENTER }}
+        onCenterChanged={(center) => {
           handleCenterChanged(center);
         }}
       >
@@ -261,7 +249,7 @@ const NaverMapAPI = (props) => {
 
           return (
             <Markers
-              setState={setTemp}
+              setTemp={setTemp}
               left={left}
               right={right}
               title={title}
@@ -273,7 +261,7 @@ const NaverMapAPI = (props) => {
         })}
         <Marker
           key={3}
-          position={state.center}
+          position={temp.center}
           clickable={false}
           title={"현재 위치"}
           icon={{
@@ -303,13 +291,13 @@ export default function Map(props) {
     ];
   });
   const temp = props.temp;
-  const setTemp=(data)=>{
+  const setTemp = (data) => {
     props.setTemp(data);
   }
-  const setSearchHere = (data)=> {
+  const setSearchHere = (data) => {
     props.setSearchHere(data);
   }
-  const setPage =(page) => {
+  const setPage = (page) => {
     props.setPage(page);
   }
   return (
@@ -317,9 +305,9 @@ export default function Map(props) {
       <RenderAfterNavermapsLoaded
         ncpClientId={"aef7a2wcmn"}
         error={<p>Maps Load Error</p>}
-        loading={<p>Maps Loading...</p>}
+        loading={<p>Maps Loading…</p>}
       >
-        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage}/>
+        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} />
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton
