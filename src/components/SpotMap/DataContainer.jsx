@@ -63,7 +63,7 @@ const CategoryLabel = styled.div`
   padding: 2%;
 `;
 
-export default function DataContainer({ Location}) {
+export default function DataContainer({ Location }) {
 
     const [filterToggle, setFilterToggle] = useState(false);
     const [searchToggle, setSearchToggle] = useState(false);
@@ -84,19 +84,20 @@ export default function DataContainer({ Location}) {
         ItemList: [],
         MapList: [],
     });
-    const [temp ,setTemp] = useState({
+    //지도의 현재 위치 고정
+    const [temp, setTemp] = useState({
         center: {
-          lat: 37.551229,
-          lng: 126.988205,
+            lat: 37.551229,
+            lng: 126.988205,
         },
         zoom: 13,
-      });
+    });
     const [searchHere, setSearchHere] = useState({
         center: {
             lat: Location.latitude,
             lng: Location.longitude,
-          },
-          zoom: 13,
+        },
+        zoom: 13,
     });
     const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
@@ -149,41 +150,41 @@ export default function DataContainer({ Location}) {
         setFilterToggle(false);
         setCheckedList(tempCheckedList);
         setLoading(false);
-        if(params.place) {
+        if (params.place) {
             navigate('/map');
         }
     };
     //admin 여부 체크
-    useEffect(()=>{
+    useEffect(() => {
         checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
-    },[])
+    }, [])
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
-        document.getElementById('wrapper').scrollTo(0,0);
+        document.getElementById('wrapper').scrollTo(0, 0);
         getItem(searchHere.center, page, search, checkedList);
-    }, [searchHere,page, search, checkedList, params]);
+    }, [searchHere, page, search, checkedList, params]);
     //초기 map 데이터 가져오기
     const getItem = async (location, page, search, checkedList) => {
         setLoading(true);
-    let response;
-    if(params.place) {
-        response = await request.get("/places/place_search/", {
-            left: location.lat, //현재 위치
-            right: location.lng, //현재 위치
-            page: page,
-            search: params.place,
-            filter: checkedList
-        }, null);
-    }
-    else {
-        response = await request.get("/places/place_search/", {
-            left: location.lat, //현재 위치
-            right: location.lng, //현재 위치
-            page: page,
-            search: search,
-            filter: checkedList
-        }, null);
-    }
+        let response;
+        if (params.place) {
+            response = await request.get("/places/place_search/", {
+                left: location.lat, //현재 위치
+                right: location.lng, //현재 위치
+                page: page,
+                search: params.place,
+                filter: checkedList
+            }, null);
+        }
+        else {
+            response = await request.get("/places/place_search/", {
+                left: location.lat, //현재 위치
+                right: location.lng, //현재 위치
+                page: page,
+                search: search,
+                filter: checkedList
+            }, null);
+        }
         console.log(response.data.data.results)
         setState({
             loading: true,
@@ -250,6 +251,6 @@ export default function DataContainer({ Location}) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage}/></>
+            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></>
     )
 }
