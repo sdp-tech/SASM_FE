@@ -7,6 +7,8 @@ import Loading from "../common/Loading";
 import SpotDetail from "./SpotDetail";
 import { useNavigate } from "react-router-dom";
 import Request from "../../functions/common/Request";
+import Restart from "../../assets/img/Map/Restart.svg";
+import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -16,25 +18,42 @@ const MapSection = styled.div`
   grid-area: map;
   outline: none;
 `;
-const SearchAgainButton = styled.button`
-  position: absolute;
-
-  top: 3vh;
-  left: 50%;
-  transform: translate3d(-50%, 0, 0);
-  background: #c4c4c4;
-  border-radius: 14px;
-  border: none;
-  padding: 6px 22px;
-  z-index: 4;
-  cursor: pointer;
-`;
 const DetailBox = styled.div`
   // boxsizing: border-box;
   position: absolute;
   z-index: 6;
   height: 100vh;
 `;
+const SearchHereButton = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border: none;
+  background: #44ADF7;
+  height: 36px;
+  border-radius: 15px;
+  color: #FFFFFF;
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+`
+const MoveToCenterButton = styled.button`
+  background: #FFFFFF;
+  display: flex;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 3;
+  border: none;
+  border-radius: 10px;
+  right: 0.35%;
+  bottom : 18%;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+`
 
 const Markers = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -215,11 +234,16 @@ const NaverMapAPI = (props) => {
   }
   return (
     <>
-      <button style={{ position: 'absolute', left: '50%', zIndex: '3' }} onClick={() => {
+      <SearchHereButton onClick={() => {
         props.setPage(1);
         setSearchHere(coor);
-      }}>현 지도에서 검색</button>
-      <button style={{ position: 'absolute', right: '0', zIndex: '3', padding: '5px' }} onClick={handleBackToCenter}>현 위치</button>
+      }}>
+          <img style={{marginRight:'5px'}} src={Restart}/>
+          지금 지도에서 검색
+      </SearchHereButton>
+      <MoveToCenterButton>
+        <img src={MoveToCenter}/>
+      </MoveToCenterButton>
       <NaverMap
         mapDivId={"SASM_map"}
         style={{
@@ -235,7 +259,7 @@ const NaverMapAPI = (props) => {
           console.log(zoom);
         }}
         zoomControl={true}
-        zoomControlOptions={{ position: navermaps.Position.RIGHT_CENTER }}
+        zoomControlOptions={{ position: navermaps.Position.RIGHT_BOTTOM }}
         onCenterChanged={(center) => {
           handleCenterChanged(center);
         }}

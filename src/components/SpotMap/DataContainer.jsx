@@ -31,7 +31,7 @@ const FilterOptions = styled.div`
 `;
 
 const CategoryCheckBox = styled.div`
-  margin : 2% 0;
+  margin : 2% 0 1% 0;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -230,7 +230,7 @@ export default function DataContainer({ Location }) {
                                             <CategoryImageWrapper>
                                                 <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%'}} />
                                             </CategoryImageWrapper>
-                                            <div style={{fontSize:'0.625em'}}>{item.name}</div>
+                                            <div style={{fontSize:'1.125em', marginTop:'5%'}}>{item.name}</div>
                                         </CategoryLabel>
                                     </label>
                                 </CategoryLabelWrapper>

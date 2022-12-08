@@ -24,19 +24,18 @@ const NothingSearched = styled.div`
   transform: translate3d(-50%, -50%, 0);
 `;
 const RecommendTitle = styled.div`
-  width: 100%;
-  min-height: 4%;
+  padding: 1%;
   display: flex;
   box-sizing: border-box;
   align-items: center;
   font-size:0.75em;
   color: #44ADF7;
-  margin: 0 0 0 2.5%;
   &::after {
-    content:" ";
-    width:64%;
+    content:"";
+    height:1px;
+    width: 76%;
     margin : 0 0 0 1%;
-    border: 1px #44ADF7 solid;
+    background-color: #44ADF7;
   }
 `;
 const SpotsWrapper = styled.div`
