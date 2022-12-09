@@ -13,6 +13,11 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import WriteReview from "./WriteReview";
 import UserReview from "./UserReview";
+import OpenTimeImg from "../../../assets/img/PlaceDetail/OpenTime.svg"
+import PlaceImg from "../../../assets/img/PlaceDetail/PlaceMarker.svg"
+import { Tabs, Tab } from "@mui/material";
+import PropTypes from "prop-types";
+import { fontWeight } from "@mui/system";
 
 const StyledCard = styled.section`
   width: 100%;
@@ -30,37 +35,27 @@ const TextBox = styled.div`
   font-size: 1em;
   color: black;
   min-width: 280px;
-  // border: 1px solid yellow;
-  margin: 0.7em 1.4em 0.7em 1.4em;
-  // margin: 5em;
+  margin : 2% 3%;
 `;
-const LikeBox = styled.div`
+const InfoBox = styled.div`
+  border-bottom: 1px #999999 solid;
+  position: relative;
+`
+const ButtonBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 60px;
-  width: 100%;
-  margin-top: -45px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0%;
+  right: 0%;
 `;
-const CategoryBox = styled.div`
-  box-sizing: border-box;
-  font-size: 1.3em;
-  font-weight: 400;
-  color: black;
-  border-bottom: 1.3px solid #000000;
-  // border: 1px solid red;
-  display: flex;
-  width: 90%;
-  height: auto;
-  justify-content: space-between;
-`;
-
 const ReviewBox = styled.div`
   height: auto;
   margin: 20px 0px;
-  padding: 0.017px;
-  background: #cbced7;
+  padding: 5px 10px;
+  background: #E5E5E5;
+  border-radius:10px;
   font-size: 1em;
 `;
 const AddressBox = styled.div`
@@ -73,19 +68,14 @@ const PhotoBox = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  // height: 00px;
+  margin: 10px 0px;
 `;
 
 const ShortCurBox = styled.div`
   height: auto;
-  background: #ffffff;
-`;
-
-const Title = styled.p`
-  color: #7c1d30;
-  font-size: 2em;
-  margin-top: -2px;
-  min-width: 300px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background: #E5E5E5;
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
@@ -105,7 +95,7 @@ const LikeButton = styled(Button)({
   justifyContent: "center",
   height: "30px",
   width: "30px",
-  marginTop: "30px",
+  marginLeft: "15px"
 });
 const ListButton = styled(Button)({
   boxSizing: "border-box",
@@ -116,29 +106,33 @@ const ListButton = styled(Button)({
   marginLeft: "-1.5%",
   marginTop: "-3%",
 });
-const ButtonDiv = styled.div`
-  box-sizing: border-box;
-  height: 50px;
-  width: 200px;
+const StatisticWrapper = styled.div`
+  position: relative;
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  // margin: 7px;
-`;
-const StatisticBox = styled.div`
-  border:1px black solid;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+`
+const StatisticText = styled.p`
+  line-height: 0.5;
+  padding: 0px 10px;
+`
+const PercentageBar = styled.div`
+  width:${props => 20 + props.width}%;
+  height:100%;
+  position:absolute;
+  top:0%;
+  background-color:#fff;
+  z-index : -1;
 `
 const MapButton = styled(Button)({
-  border: 0,
-  borderRadius: "15px",
-  // boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-  boxShadow:
-    "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)" /* 그림자 */,
-  color: "#5480E5",
-  display: "flex",
-  width: "110px",
-
-  // justifyContent: "flex-end",
+  background: "#44ADF7",
+  height: "30px",
+  borderRadius: '15px',
+  padding: '5px 15px',
+  color: "#FFFFFF",
+  fontWeight: "700",
+  fontSize: "1em"
 });
 const ButtonImg = styled.div`
   box-sizing: border-box;
@@ -154,6 +148,30 @@ const ButtonText = styled.div`
   min-width: 80px;
   font-weight: 600;
 `;
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <div>{children}</div>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
 
 export default function DetailCard({
   key,
@@ -180,6 +198,7 @@ export default function DetailCard({
   reviewInfo,
   statistics
 }) {
+  const [value, setValue] = useState(0);
   const [mode, setMode] = useState('write');
   const [target, setTarget] = useState(null);
   const [like, setLike] = useState(false);
@@ -208,6 +227,15 @@ export default function DetailCard({
       setLike(!like);
     }
   };
+  const handleTab = (event, value) => {
+    setValue(value);
+  }
+  let target_info;
+  for (let i = 0; i < reviewInfo.results.length; i++) {
+    if (reviewInfo.results[i].id == target) {
+      target_info = reviewInfo.results[i];
+    }
+  }
   let keywords = [
     ['분위기가 좋다', '1'],
     ['혼자 가기 좋다', '2'],
@@ -246,139 +274,140 @@ export default function DetailCard({
         />
       </ImgBox>
       <TextBox>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            minWidth: "240px",
-            justifyContent: "space-between",
-          }}
-        >
-          <Title>{StoreName}</Title>
-          <ButtonDiv>
+        <InfoBox>
+          <p style={{ fontSize: "1.5em", fontWeight: "700", marginBottom:'-1%' }}>{StoreName}</p>
+          <p style={{ fontSize: "1.25em", fontWeight: "400"}}>{Category}</p>
+          <ButtonBox>
             {/* 스토리가 있는 경우에만 버튼 띄우기 */}
             {story_id ? (
               <Link
                 to={`/story/${story_id}`}
                 style={{ textDecoration: "none" }}
               >
-                <MapButton>
-                  <ButtonImg>
-                    <img src={GoToStoryImg} />
-                  </ButtonImg>
-                  <ButtonText>Go To Story</ButtonText>
-                </MapButton>
+                <MapButton>Go To Story</MapButton>
               </Link>
             ) : (
               ""
             )}
-          </ButtonDiv>
-        </div>
-        <LikeBox>
-          <CategoryBox>
-            <p>{Category}</p>
-          </CategoryBox>
-          <LikeButton>
-            {place_like === "ok" ? (
-              <HeartButton like={!like} onClick={toggleLike} />
-            ) : (
-              <HeartButton like={like} onClick={toggleLike} />
-            )}
-          </LikeButton>
-        </LikeBox>
-        <ReviewBox>
-          {/* PlaceReview */}
-          <p>{PlaceReview}</p>
-        </ReviewBox>
-        <AddressBox>
-          {/* address */}
-          <p
-            style={{
-              fontSize: "1em",
-              fontWeight: "500",
-              color: "black",
-              // marginTop: "-1em",
-            }}
-          >
-            {Address}
-          </p>
-          {/* openingHours */}
-
-          <ListButton onClick={handleClick}>
-            <p>영업시간 : {open_hours}</p>
-            {/* {open ? "∧" : "∨"} */}
-            {open ? (
-              <>
-                <img src={openButton} style={{ transform: "rotate(180deg)" }} />
-              </>
-            ) : (
-              <>
-                <img src={openButton} />
-              </>
-            )}
-          </ListButton>
-
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <div
-                style={{
-                  fontSize: "1em",
-                  fontWeight: "500",
-                  color: "black",
-                  height: "100%",
-                }}
-              >
-                <p>월 : {Mon}</p>
-                <p>화 : {Tues}</p>
-                <p>수 : {Wed}</p>
-                <p>목 : {Thurs}</p>
-                <p>금 : {Fri}</p>
-                <p>토 : {Sat}</p>
-                <p>일 : {Sun}</p>
+            <LikeButton>
+              {place_like === "ok" ? (
+                <HeartButton like={!like} onClick={toggleLike} />
+              ) : (
+                <HeartButton like={like} onClick={toggleLike} />
+              )}
+            </LikeButton>
+          </ButtonBox>
+        </InfoBox>
+        <Tabs value={value} onChange={handleTab}>
+          <Tab sx={{ width: '50%', fontSize:'1.25em'}} label="홈" />
+          <Tab sx={{ width: '50%', fontSize:'1.25em'}} label="리뷰" />
+        </Tabs>
+        <TabPanel value={value} index={0}>
+          <>
+            <ReviewBox>
+              {/* PlaceReview */}
+              <p>{PlaceReview}</p>
+            </ReviewBox>
+            <AddressBox>
+              {/* address */}
+              <div style={{ display: 'flex', width: '100%' }}>
+                <img style={{ width: '25px' }} src={PlaceImg} />
+                <p style={{ marginLeft: '3%' }}>{Address}</p>
               </div>
-            </List>
-          </Collapse>
-        </AddressBox>
-        <PhotoBox>
-          <a href={Photo0} style={{ display: 'block', width: '150px', height: '150px' }}>
-            <img
-              style={{ height: "100%", width: "100%" }}
-              src={Photo0}
-              className="image--itemcard"
-              alt="image1"
-              width="600px"
-              height="400px"
-            /></a>
-          <a href={Photo1} style={{ display: 'block', width: '150px', height: '150px' }}>
-            <img
-              style={{ height: "100%", width: "100%" }}
-              src={Photo1}
-              className="image--itemcard"
-              alt="image2"
-              width="600px"
-              height="400px"
-            /></a>
-          <a href={Photo2} style={{ display: 'block', width: '150px', height: '150px' }}>
-            <img
-              style={{ height: "100%", width: "100%" }}
-              src={Photo2}
-              className="image--itemcard"
-              alt="image3"
-              width="600px"
-              height="400px"
-            /></a>
-        </PhotoBox>
-        {/* images */}
-        <ShortCurBox>
-          {/* ShortCur */}
-          <p>{ShortCur}</p>
-        </ShortCurBox>
-        <StatisticBox>
-        </StatisticBox>
-        <ReviewBox>
-          {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
-        </ReviewBox>
-        <UserReview reviewInfo={reviewInfo.results} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}></UserReview>
+              {/* openingHours */}
+
+              <ListButton onClick={handleClick}>
+                <div style={{ display: 'flex', width: '100%' }}>
+                  <img style={{ width: '25px' }} src={OpenTimeImg} />
+                  <p style={{ marginLeft: '3%' }}>{open_hours}</p>
+                </div>
+                {/* {open ? "∧" : "∨"} */}
+                {open ? (
+                  <>
+                    <img src={openButton} style={{ transform: "rotate(180deg)" }} />
+                  </>
+                ) : (
+                  <>
+                    <img src={openButton} />
+                  </>
+                )}
+              </ListButton>
+
+              <Collapse in={open} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <div
+                    style={{
+                      fontSize: "1em",
+                      fontWeight: "500",
+                      color: "black",
+                      height: "100%",
+                    }}
+                  >
+                    <p>월 : {Mon}</p>
+                    <p>화 : {Tues}</p>
+                    <p>수 : {Wed}</p>
+                    <p>목 : {Thurs}</p>
+                    <p>금 : {Fri}</p>
+                    <p>토 : {Sat}</p>
+                    <p>일 : {Sun}</p>
+                  </div>
+                </List>
+              </Collapse>
+            </AddressBox>
+            <PhotoBox>
+              <a href={Photo0} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
+                <img
+                  style={{ height: "100%", width: "100%" }}
+                  src={Photo0}
+                  className="image--itemcard"
+                  alt="image1"
+                  width="600px"
+                  height="400px"
+                /></a>
+              <a href={Photo1} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
+                <img
+                  style={{ height: "100%", width: "100%" }}
+                  src={Photo1}
+                  className="image--itemcard"
+                  alt="image2"
+                  width="600px"
+                  height="400px"
+                /></a>
+              <a href={Photo2} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
+                <img
+                  style={{ height: "100%", width: "100%" }}
+                  src={Photo2}
+                  className="image--itemcard"
+                  alt="image3"
+                  width="600px"
+                  height="400px"
+                /></a>
+            </PhotoBox>
+            {/* images */}
+            <ShortCurBox>
+              {/* ShortCur */}
+              <p>{ShortCur}</p>
+            </ShortCurBox></>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <>
+            {
+              statistics.map((data, index) => {
+                return (
+                  <StatisticWrapper>
+                    <StatisticText>{data[0]}</StatisticText>
+                    <PercentageBar width={data[1]} />
+                    <StatisticText>{data[1]}%</StatisticText>
+                  </StatisticWrapper>
+                );
+              })
+            }
+            <ReviewBox>
+              {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target} target_info={target_info}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
+
+            </ReviewBox>
+            <UserReview reviewInfo={reviewInfo.results} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}></UserReview></>
+        </TabPanel>
       </TextBox>
     </StyledCard >
   );

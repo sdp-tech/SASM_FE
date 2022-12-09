@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import searchIcon from "../../assets/img/search.svg";
-import filteringIcon from "../../assets/img/filtering.svg";
+import searchIcon from "../../assets/img/search_white.svg";
 
 const Wrapper = styled.form`
   position: relative;
@@ -9,6 +8,9 @@ const Wrapper = styled.form`
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
+  background-color:#44ADF7;
+  border-radius: 100px;
+  box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
 `;
 
 const SearchForm = styled.input`
@@ -16,24 +18,33 @@ const SearchForm = styled.input`
   border-box: box-sizing;
   outline: none;
   flex-grow: 1;
-  padding: 0 0 0 2%;
-  border: none;
+  padding: 0 0 0 10%;
+  border:none;
+  background-color:#44ADF7;
+  border-radius: 100px;
+  color: white;
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    text-align: center;
+    color: white;
+  }
+  :-ms-input-placeholder {
+    text-align: center;
+    color: white;
+  }
 `;
 
 const IconWrapper = styled.div`
-  // background-color: pink;
-
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 2%;
   cursor: pointer;
-  border-left: 1px solid #99a0b0;
+  margin : 0 2% 0 0;
 `;
-const FilterIcon = styled.div``;
+
 export default function SearchBar({
-  handleFilterToggle,
   handleSearchToggle,
   onSearch,
   search,
@@ -50,13 +61,6 @@ export default function SearchBar({
       <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
       </IconWrapper>
-      {handleFilterToggle ? (
-        <IconWrapper type="submit" onClick={handleFilterToggle}>
-          <img src={filteringIcon}></img>
-        </IconWrapper>
-      ) : (
-        ""
-      )}
     </Wrapper>
   );
 }

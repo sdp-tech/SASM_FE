@@ -8,19 +8,24 @@ import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import CloseDetail from '../../assets/img/PlaceDetail/CloseDetail.svg'
+
 const CloseButton = styled.div`
   // border-radius: 4px;
-  // color: white;
   cursor: pointer;
   position: fixed;
-  top: 16.3%;
-  left: 28.7%;
+  top: 14.6%;
+  left: 52.7%;
+  padding:1%;
+  display:flex;
+  background-color:#FFFFFF;
+  border-radius: 0 10px 10px 0;
 `;
 
 export default function SpotDetail(props) {
   const { modalClose } = props;
   const data = props.detailInfo;
-  const reviewData = props.reviewInfo;
+  const reviewInfo = props.reviewInfo;
   const id = props.id;
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
@@ -41,14 +46,14 @@ export default function SpotDetail(props) {
           padding: "0",
           boxSizing: "border-box",
           position: "fixed",
-          top: "16.3%",
+          top: "12.6%",
           left: "28.7%",
           width: "100%",
           // height: "100%",
-          height: "82.2%",
+          height: "83%",
           overflow: "hidden",
           maxWidth: "24%",
-          bgcolor: "#DEE5F3",
+          bgcolor: "#FFFFFF",
         }}
       >
         <DetailCard
@@ -73,7 +78,8 @@ export default function SpotDetail(props) {
           story_id={data?.story_id}
           place_like={data?.place_like}
           statistics={data?.category_statistics}
-          reviewInfo={reviewData}
+          reviewInfo={reviewInfo}
+
         />
         {isSasmAdmin ? (
           <AdminButton
@@ -90,7 +96,7 @@ export default function SpotDetail(props) {
       </List>
 
       <CloseButton>
-        <button onClick={modalClose}>X</button>
+        <img src={CloseDetail} onClick={modalClose}/>
       </CloseButton>
     </>
   );
