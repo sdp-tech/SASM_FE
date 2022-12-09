@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.div`
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: ${oc.gray[8]};
     margin-bottom: 4rem;

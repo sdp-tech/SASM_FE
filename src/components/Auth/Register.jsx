@@ -17,31 +17,31 @@ const InputAndButton = styled.div`
   flex-wrap: nowrap;
   align-items: end;
   width: 100%;
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
+  margin: 0.8em 0;
 `;
 
 const Button = styled.div`
-  background-color: rgba(84, 128, 229, 1);
+  background-color: #44ADF7;
+  margin-left: 2%;
   height: 100%;
   text-align: center;
+  transform: translateY(-10%);
   line-height: 3;
   border-radius: 4px;
   font-size: 16px;
   color: white;
-
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.1em;
   cursor: pointer;
   flex-grow: 0.5;
-  margin-left: 1em;
 `;
 const Message = styled.div`
   font-size: 0.2em;
   //   margin-top: 1.1em;
   color: #db524e;
+  margin-left: 2.5%;
 `;
 
 const year = ["년도"];
@@ -188,10 +188,7 @@ const Register = () => {
 
       <AuthButton
         style={{
-          color: "rgba(84, 128, 229, 1)",
-          boxShadow:
-            "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-          border: "none",
+          border: "1px #44ADF7 solid",
           fontSize: "16px",
           padding: "10px",
         }}
