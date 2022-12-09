@@ -17,16 +17,16 @@ const TitleBox = styled.div`
   display: flex;
   width: 90%;
   color: #6c6c6c;
-  margin-top: 4%;
+  margin-top: 7%;
 `;
 
 const StoreNameBox = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  width: 90%;
+  width: 80%;
   color: #000000;
-  border-bottom: 0.7px solid #000000;
+  margin-top: 5%;
 `;
 
 const CategoryBox = styled.div`
@@ -34,7 +34,7 @@ const CategoryBox = styled.div`
   display: flex;
   width: 90%;
   color: #000000;
-  margin-top: 4%;
+  // margin-top: 4%;
 `;
 const OptionBox = styled.div`
   box-sizing: border-box;
@@ -75,6 +75,8 @@ const LikeButton = styled(Button)({
   display: "flex",
   height: "30px",
   width: "30px",
+  marginTop: "2%",
+  marginBottom: "2%",
 });
 
 export default function ItemCard(props) {
@@ -111,6 +113,8 @@ export default function ItemCard(props) {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
+          border: "none",
+          boxShadow: "none",
         }}
       >
         <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
@@ -123,6 +127,7 @@ export default function ItemCard(props) {
               maxHeight: "300px",
               maxWidth: "300px",
               display: "flex",
+              borderRadius: "10%",
             }}
             image={props.rep_pic}
             alt="placeImage"
@@ -141,27 +146,13 @@ export default function ItemCard(props) {
           }}
         >
           {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
-          <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
-            <TitleBox>
-              <Typography
-                component={"span"}
-                gutterBottom
-                variant="h5"
-                fontSize="21px"
-                fontFamily={"kopub"}
-                fontWeight="400"
-              >
-                {props.title}
-              </Typography>
-            </TitleBox>
-          </Link>
           <StoreNameBox>
             <Typography
               component={"span"}
               gutterBottom
               variant="h5"
-              fontSize="21px"
-              fontFamily={"kopub"}
+              fontSize="32px"
+              fontFamily={"Pretendard"}
               fontWeight="600"
             >
               {props.place_name}
@@ -174,12 +165,25 @@ export default function ItemCard(props) {
               )}
             </LikeButton>
           </StoreNameBox>
-
+          <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
+            <TitleBox>
+              <Typography
+                component={"span"}
+                gutterBottom
+                variant="h5"
+                fontSize="24px"
+                fontFamily={"kopub"}
+                fontWeight="400"
+              >
+                {props.title}
+              </Typography>
+            </TitleBox>
+          </Link>
           <CategoryBox>
             <Typography
               component={"span"}
               fontSize="14px"
-              fontFamily={"kopub"}
+              fontFamily={"Predendard"}
               fontWeight="600"
             >
               {props.category}
@@ -190,7 +194,7 @@ export default function ItemCard(props) {
             <Typography
               component={"span"}
               fontSize="14px"
-              fontFamily={"kopub"}
+              fontFamily={"Pretendard"}
               fontWeight="600"
             >
               {props.semi_category}
@@ -201,7 +205,7 @@ export default function ItemCard(props) {
             <Typography
               component={"span"}
               fontSize="14px"
-              fontFamily={"kopub"}
+              fontFamily={"Pretendard"}
               fontWeight="600"
             >
               {props.preview}
