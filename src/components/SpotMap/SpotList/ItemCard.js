@@ -34,6 +34,7 @@ const ImgBox = styled.div`
 `;
 const TextBox = styled.div`
   height: 14.6vh;
+  width: 100%;
   font-size: 1em;
   color: black;
   display: flex;
