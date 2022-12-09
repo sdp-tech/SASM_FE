@@ -9,6 +9,7 @@ import SpotList from './SpotList';
 import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
+import SearchWhite from '../../assets/img/Map/Search_white.svg'
 
 const ListWrapper = styled.div`
   display: flex;
@@ -203,6 +204,8 @@ export default function DataContainer({ Location }) {
                         handleFilterToggle={handleFilterToggle}
                         handleSearchToggle={handleSearchToggle}
                         placeholder="지속가능한 장소를 검색해보세요!"
+                        searchIcon={SearchWhite}
+                        background="#44ADF7"
                     />
                 </SearchFilterBar>
 

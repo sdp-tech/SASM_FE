@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import searchIcon from "../../assets/img/search_white.svg";
 
 const Wrapper = styled.form`
   position: relative;
@@ -8,7 +7,7 @@ const Wrapper = styled.form`
   height: 100%;
   display: flex;
   flex-wrap: nowrap;
-  background-color:#44ADF7;
+  background-color:${props => props.background};
   border-radius: 100px;
   box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
 `;
@@ -20,7 +19,7 @@ const SearchForm = styled.input`
   flex-grow: 1;
   padding: 0 0 0 10%;
   border:none;
-  background-color:#44ADF7;
+  background-color:${props => props.background};
   border-radius: 100px;
   color: white;
   ::placeholder,
@@ -50,13 +49,16 @@ export default function SearchBar({
   search,
   onChangeSearch,
   placeholder,
+  searchIcon,
+  background
 }) {
   return (
-    <Wrapper onSubmit={handleSearchToggle}>
+    <Wrapper onSubmit={handleSearchToggle} background={background}>
       <SearchForm
         placeholder={placeholder}
         value={search}
         onChange={onChangeSearch}
+        background={background}
       />
       <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
