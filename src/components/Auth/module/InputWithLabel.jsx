@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   & + & {
     margin-top: 1rem;
   }
+  margin : 1% 0;
   // background-color: black;
   display: flex;
   flex-direction: column;
@@ -19,12 +20,14 @@ const Label = styled.div`
   font-weight: 700;
   font-size: 14px;
   color: black;
+  margin: 0 2.5%;
   margin-bottom: 0.25rem;
   // background-color: black;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
   border: 1px solid ${oc.gray[3]};
   outline: none;
   border-radius: 4px;

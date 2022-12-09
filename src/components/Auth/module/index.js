@@ -6,3 +6,4 @@ export { default as ProfileButton } from "./ProfileButton";
 export { default as RightAlignedLink } from "./RightAlignedLink";
 export { default as LeftAlignedLink } from "./LeftAlignedLink";
 export { default as SocialLogin } from "./SocialLogin";
+export { default as CenterAlignedLink } from "./CenterAlignedLink";

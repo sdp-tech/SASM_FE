@@ -38,7 +38,7 @@ const Sections = styled.div`
   display: grid;
   position: relative;
   height: 100vh;
-  grid-template-rows: 0.15fr 0.85fr;
+  grid-template-rows: 0.05fr 0.95fr;
   grid-template-areas:
     "navibar"
     "auth";
