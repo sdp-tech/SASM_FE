@@ -118,38 +118,6 @@ const StoryListPage = () => {
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
                 />
               </SearchFilterBar>
-              <div style={{ marginTop: "-2%" }}>
-                {filterToggle ? (
-                  <FilterOptions>
-                    <CategoryTitle>카테고리</CategoryTitle>
-                    <CategoryCheckBox>
-                      {CATEGORY_LIST.map((item) => {
-                        return (
-                          <CategoryLabel key={item.id}>
-                            <input
-                              type="checkbox"
-                              // 이때 value값으로 data를 지정해준다.
-                              value={item.data}
-                              // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
-                              onChange={(e) => {
-                                onCheckedElement(
-                                  e.target.checked,
-                                  e.target.value
-                                );
-                              }}
-                              // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
-                              checked={
-                                checkedList.includes(item.data) ? true : false
-                              }
-                            />
-                            <div>{item.data}</div>
-                          </CategoryLabel>
-                        );
-                      })}
-                    </CategoryCheckBox>
-                  </FilterOptions>
-                ) : null}
-              </div>
             </SearchBarSection>
             <StoryListSection>
               <StoryList info={item} />
@@ -179,20 +147,20 @@ const StoryListPage = () => {
     </>
   );
 };
+
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 100%;
+  height: 90vh;
   width: 100%;
   grid-area: story;
   display: flex;
   flex-direction: column;
-  // border: 1px solid red;
 `;
 const SearchBarSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 8%;
+  height: 19%;
   width: 100%;
   display: flex;
   margin-top: 0.1%;
@@ -200,7 +168,6 @@ const SearchBarSection = styled.div`
   grid-area: story;
   align-items: center;
   justify-content: center;
-  // border: 1px solid red;
 `;
 const StoryListSection = styled.div`
   box-sizing: border-box;
@@ -226,8 +193,10 @@ const FooterSection = styled.div`
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 35%;
-  height: 70%;
-  border: 3px solid #99a0b0;
+  height: 33%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 56px;
 `;
 const FilterOptions = styled.div`
   width: 20%;

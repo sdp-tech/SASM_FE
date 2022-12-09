@@ -18,6 +18,9 @@ const SearchForm = styled.input`
   flex-grow: 1;
   padding: 0 0 0 2%;
   border: none;
+  border-top-left-radius: 56px;
+  border-bottom-left-radius: 56px;
+  text-align: center;
 `;
 
 const IconWrapper = styled.div`
@@ -29,8 +32,8 @@ const IconWrapper = styled.div`
   align-items: center;
   padding: 0 2%;
   cursor: pointer;
-  border-left: 1px solid #99a0b0;
 `;
+
 const FilterIcon = styled.div``;
 export default function SearchBar({
   handleFilterToggle,
@@ -50,13 +53,7 @@ export default function SearchBar({
       <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
       </IconWrapper>
-      {handleFilterToggle ? (
-        <IconWrapper type="submit" onClick={handleFilterToggle}>
-          <img src={filteringIcon}></img>
-        </IconWrapper>
-      ) : (
-        ""
-      )}
+      
     </Wrapper>
   );
 }

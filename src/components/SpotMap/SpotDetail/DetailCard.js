@@ -48,7 +48,6 @@ const CategoryBox = styled.div`
   font-size: 1.3em;
   font-weight: 400;
   color: black;
-  border-bottom: 1.3px solid #000000;
   // border: 1px solid red;
   display: flex;
   width: 90%;
