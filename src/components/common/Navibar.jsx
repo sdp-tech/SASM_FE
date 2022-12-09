@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 
-import logo from "../../assets/img/sasm_logo.svg";
+import logo from "../../assets/img/sasm_logo.png";
 import { LoginContext } from "../../contexts/LoginContexts";
 import PageRedirection from "../../functions/common/PageRedirection";
 import axios from "axios";
@@ -13,8 +13,8 @@ const NavibarSection = styled.div`
   position: sticky;
   top: 0px;
   grid-area: navibar;
-  min-height: 120px;
-  max-height: 120px;
+  min-height: 64px;
+  max-height: 64px;
   width: 100%;
   z-index: 10;
 `;
@@ -32,18 +32,26 @@ const Bar = styled.div`
 `;
 const LogoBox = styled.div`
   height: 100%;
-  width: 15%;
+  width: 10%;
   display: flex;
   align-items: center;
   cursor: pointer;
+  margin-left: 10%;
 `;
 const Logo = styled.img`
   display: block;
   width: auto;
-  height: 80%;
-  position: absolute;
+  height: 60%;
+  // position: absolute;
   left: 4%;
+  float: left;
 `;
+const LogoWord = styled.div`
+  display: block;
+  // position: absolute;
+  // left: 10%;
+  float: right;
+`
 const PagesBox = styled.div`
   position: absolute;
   height: 100%;
@@ -80,9 +88,9 @@ const PageTitleCss = styled.div`
     transform: revert;
   }
   &:hover {
-    border-bottom: 2px solid #5480e5;
+    // border-bottom: 2px solid #5480e5;
     cursor: pointer;
-    color: #5480e5;
+    color: #01A0FC;
     transform: translateY(-2px);
   }
 `;
@@ -93,7 +101,7 @@ const PageTitle = ({ navigate, title }) => {
 
   return (
     <PageTitleCss
-      style={{ fontSize: "1.6vw" }}
+      style={{ fontSize: "1vw" }}
       onClick={() => {
         console.log("@@@", title);
         // color === "yellow" ? setColor("red") : setColor("yellow");
@@ -113,7 +121,7 @@ const LoggingOut = ({ login, setLogin }) => {
   const navigate = useNavigate();
   return (
     <div
-      style={{ fontSize: "1.6vw", cursor: "pointer" }}
+      style={{ fontSize: "1vw", cursor: "pointer" }}
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
@@ -147,6 +155,10 @@ export default function Navibar() {
             src={logo}
             onClick={() => PageRedirection(navigate, "SASM")}
           ></Logo>
+          <LogoWord
+            style={{ fontSize: "0.8vw", paddingLeft: "5%"}}
+            onClick={() => PageRedirection(navigate, "SASM")}
+          >SASM</LogoWord>
         </LogoBox>
 
         {/* 메뉴 */}

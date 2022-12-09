@@ -43,6 +43,7 @@ const IconWrapper = styled.div`
   cursor: pointer;
   margin : 0 2% 0 0;
 `;
+
 export default function SearchBar({
   handleSearchToggle,
   onSearch,

@@ -18,8 +18,9 @@ const Sections = styled.div`
   display: grid;
   position: relative;
   height: 100vh;
-  grid-template-rows: 0.15fr 0.85fr;
+  grid-template-rows: 0.0625fr 0.9375fr;
   grid-template-areas:
     "navibar"
     "story";
+  // background-color: black;
 `;

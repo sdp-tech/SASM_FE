@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "kopub";
-  src: url(./assets/font/KoPubWorld\ Batang\ Medium.ttf) format("truetype");
+  font-family: "Pretendard";
+  src: url(./assets/font/Pretendard-Medium.otf) format("truetype");
 }
 
 @font-face {
@@ -8,5 +8,5 @@
   src: url(./assets/font/KoPubWorld\ Dotum\ Medium.ttf) format("truetype");
 }
 * {
-  font-family: "kopub", "Dotum";
+  font-family: "Pretendard", "Dotum";
 }
