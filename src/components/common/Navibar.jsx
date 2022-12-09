@@ -51,6 +51,7 @@ const LogoWord = styled.div`
   // position: absolute;
   // left: 10%;
   float: right;
+  font-weight: 700;
 `
 const PagesBox = styled.div`
   position: absolute;

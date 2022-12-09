@@ -4,6 +4,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GoToMapImg from "../../../assets/img/GoToMapImg.png";
+import toggle_left from "../../../assets/img/toggle_left.svg";
+import toggle_right from "../../../assets/img/toggle_right.svg";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import HeartButton from "../../common/Heart";
@@ -68,9 +70,9 @@ const Options = styled.div`
 const MainTitleNStoreNameBox = styled.div`
   box-sizing: border-box;
   height: 150px;
-  font-size: 2.5rem;
+  // font-size: 2.5rem;
   font-weight: 100;
-  color: white;
+  // color: white;
   display: flex;
   margin: 0 30px 0 30px;
   flex-direction: column;
@@ -80,11 +82,12 @@ const MainTitleNStoreNameBox = styled.div`
 const MainTitleBox = styled.div`
   box-sizing: border-box;
   display: flex;
+  justify-content: space-between;
 `;
 const MainTitle = styled.div`
   // border: 1px solid RED;
   height: 50px;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 40px;
   line-height: 44px;
   color: #000000;
@@ -106,7 +109,7 @@ const StoreName = styled.div`
   font-style: normal;
   font-weight: 700;
   font-size: 40px;
-  line-height: 50px;
+  line-height: 70px;
   padding: 10px;
   display: flex;
   flex-direction: row;
@@ -129,7 +132,7 @@ const Tag = styled.div`
 const LikeIconBox = styled.div`
   width: 30px;
   height: 30px;
-  padding: 10px;
+  padding: 10px 10px 25px 10px;
   cursor: pointer;
 `;
 const ImageNContentBox = styled.div`
@@ -176,28 +179,25 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+
 const MapButton = styled(Button)({
   border: 0,
-  borderRadius: "15px",
-  // boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  borderRadius: "29px",
   boxShadow:
-    "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)" /* 그림자 */,
-  color: "#5480E5",
+    "0px 3.25367px 3.25367px rgba(0, 0, 0, 0.25), 0px 3.25367px 3.25367px rgba(0, 0, 0, 0.25)" /* 그림자 */,
+  backgroundColor: "#3AE89480",
+  fontWeight: "600",
   display: "flex",
+  width: "137px",
+  
   // justifyContent: "flex-end",
 });
 
-const ButtonImg = styled.div`
-  box-sizing: border-box;
-  height: 30px;
-  width: 30px;
-  display: flex;
-  margin: 2px 4px 2px 2px;
-`;
 const ButtonText = styled.div`
   box-sizing: border-box;
   display: flex;
-  margin: 2px 4px 2px 3px;
+  margin-left: auto;
+  margin-right: auto;
 `;
 const LikeButton = styled(Button)({
   boxSizing: "border-box",
@@ -205,7 +205,19 @@ const LikeButton = styled(Button)({
   display: "flex",
 });
 
+const FooterBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const backToList = styled.div`
+  color: black;
+  font-size: 20px;
+`
 const StoryDetailBox = (props) => {
+  // const location = useLocation();
+  // const pageCount = location.state?.pageCount;
   const id = props.id;
   const [data, setData] = useState([]);
   const [comment, setComment] = useState([]);
@@ -217,9 +229,8 @@ const StoryDetailBox = (props) => {
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
 
-  const handlePageGoToMap = (id) => {
-    //추후 키값으로 찾고, 뒤에 붙여서 이동 예정
-    window.location.href = "/map" + id;
+  const handlePageGoToMap = (place_name) => {
+    window.location.href = `/map/${place_name}`
   };
 
   // 좋아요 클릭 이벤트
@@ -266,26 +277,23 @@ const StoryDetailBox = (props) => {
               <Category>{data.category}</Category>
               <Options>{data.semi_category}</Options>
             </CategoryOptionBox>
-            <ButtonDiv>
-              {/* <MapButton onClick={handlePageGoToMap}>
-                <ButtonImg>
-                  <img src={GoToMapImg} />
-                </ButtonImg>
-                <ButtonText>Go To Map</ButtonText>
-              </MapButton> */}
-            </ButtonDiv>
           </TopBox>
           <MainTitleNStoreNameBox>
             <MainTitleBox>
               <MainTitle>{data.title}</MainTitle>
+              <backToList 
+                  onClick={() => {
+                    navigate(`/story`);
+                  }}
+                  style={{
+                    marginTop: "auto",
+                    marginBottom: "auto",
+                  }}>&#60; Back To List</backToList>
             </MainTitleBox>
-
             <StoreNameBox>
               <StoreName>
                 {data.place_name}
-                <Tag>{data.tag}</Tag>
-              </StoreName>
-              <LikeIconBox>
+                <LikeIconBox>
                 <LikeButton>
                   {data.story_like === "ok" ? (
                     <HeartButton like={!like} onClick={toggleLike} />
@@ -294,6 +302,13 @@ const StoryDetailBox = (props) => {
                   )}
                 </LikeButton>
               </LikeIconBox>
+                <Tag>{data.tag}</Tag>
+              </StoreName>
+              <ButtonDiv>
+              <MapButton onClick={(e)=>{handlePageGoToMap(data.place_name)}}>
+                <ButtonText>Go To Map</ButtonText>
+              </MapButton>
+            </ButtonDiv>
             </StoreNameBox>
           </MainTitleNStoreNameBox>
 
@@ -306,6 +321,8 @@ const StoryDetailBox = (props) => {
           </ImageNContentBox>
           <Comments data={comment}></Comments>
           <WriteComment id={id}></WriteComment>
+          <FooterBox>
+          </FooterBox>
         </Wrapper>
       )}
     </>
