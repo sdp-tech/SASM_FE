@@ -3,9 +3,6 @@
 //
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import GoToMapImg from "../../../assets/img/GoToMapImg.png";
-import toggle_left from "../../../assets/img/toggle_left.svg";
-import toggle_right from "../../../assets/img/toggle_right.svg";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import HeartButton from "../../common/Heart";

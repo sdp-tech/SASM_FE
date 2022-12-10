@@ -79,6 +79,7 @@ const AuthBox = styled.div`
 const PageTitleCss = styled.div`
   fontsize: 2vw;
   cursor: pointer;
+  text-decoration: none;
   &:active {
     // border: none;
     // background: white;
@@ -105,9 +106,6 @@ const PageTitle = ({ navigate, title }) => {
       style={{ fontSize: "1vw" }}
       onClick={() => {
         console.log("@@@", title);
-        // color === "yellow" ? setColor("red") : setColor("yellow");
-        // // PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title)
-        // // aria-current={ ? "title" : null}
         PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
       }}
     >
@@ -157,7 +155,7 @@ export default function Navibar() {
             onClick={() => PageRedirection(navigate, "SASM")}
           ></Logo>
           <LogoWord
-            style={{ fontSize: "0.8vw", paddingLeft: "5%"}}
+            style={{ fontSize: "0.8vw", paddingLeft: "5%" }}
             onClick={() => PageRedirection(navigate, "SASM")}
           >SASM</LogoWord>
         </LogoBox>
