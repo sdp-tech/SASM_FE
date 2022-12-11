@@ -43,8 +43,6 @@ export default function SpotMap() {
   }, []);
   return (
     <Sections>
-      <Navibar />
-
       {loading ? (
         <Loading />
       ) : (
@@ -60,11 +58,9 @@ const Sections = styled.div`
   box-sizing: border-box;
   display: grid;
   position: relative;
-  height: 100vh;
+  height: calc(100vh - 64px);
   grid-template-columns: 0.28fr 0.72fr;
-  grid-template-rows: 0.01fr 0.99fr;
+  grid-template-rows: 1fr;
   grid-template-areas:
-    "navibar navibar"
     "spotlist map";
-  // gap: 1% 0.5%;
 `;
