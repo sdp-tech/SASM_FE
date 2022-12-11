@@ -2,45 +2,86 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
-import img from "../assets/img/img.jpg";
-import logo from "../assets/img/sasm_logo.svg";
-
+import logo from "../assets/img/sasm_logo.png";
+import picture from "../assets/img/Main/Picture.png";
+import background1 from "../assets/img/Main/Background1.svg";
+import background2 from "../assets/img/Main/Background2.svg";
+import background3 from "../assets/img/Main/Background3.svg";
+import mapimage from "../assets/img/Main/MapImage.svg";
+import Navibar from "../components/common/Navibar";
+const ImageBox = styled.div`
+`
 const IntroImg = styled.img`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 100vh;
   width: 100vw;
+  height: auto;
 `;
 
+//SASM
 const SASM = styled.div`
-  box-sizing: border-box;
-  position: absolute;
   width: 60%;
-  height: 40%;
-  margin: 0 auto;
-  top: 55%;
-  left: 45%;
-  transform: translate(-50%, -50%);
+  height: 550px;
+  margin: 5% auto;
+  color: black;
+  display: block;
 `;
-
+const SubTitle = styled.div`
+  font-size: 2vw;
+  font-weight: 600;
+`
+const TitleBox = styled.div`
+  display: flex;
+`
 const Tittle = styled.div`
   box-sizing: border-box;
-  color: white;
-  font-size: 7.5vw;
-  // font-size: 80px;
+  color: black;
+  font-size: 7vw;
+  font-weight: 700;
 `;
 
 const Content = styled.div`
   box-sizing: border-box;
   position: absolute;
-  // font-family: 'Crimson Text';
-  color: white;
-  font-size: 2vw;
+  font-size: 1.5vw;
   // font-size: 20px;
 `;
-
+//Map
+const Map = styled.div`
+`
+const Background2Box = styled.div`
+  float: right;
+  position: relative;
+  z-index: 2;
+  bottom: 80px;
+`
+const Background1Box = styled.div`
+  position: relative;
+  bottom: 80vh;
+  z-index: 1;
+`
+const MapSubtitle = styled.div`
+  font-size: 3.5vw;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3%;
+`
+const MapTitle = styled.div`
+  font-size: 5vw;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.1em;
+`
+const MapImage = styled.div`
+  position: relative;
+  z-index: 3;
+  top: 25vh;
+  left: 5vw;
+`
+const MapImageBox = styled.img`
+  // box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.2);
+  left: 3%;
+  width: 50%;
+  height: auto;
+`
 const Wrapper = styled.div`
   position: absolute;
   margin: 0 auto;
@@ -87,67 +128,76 @@ const StyledLink = styled(Link)`
 
 // logo
 const LogoBox = styled.div`
-  box-sizing: border-box;
-  position: absolute;
+  // position: absolute;
   height: 15%;
-  width: 100%;
-  margin-top: 3%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  // border: 1px solid RED;
+  width: 15%;
+  margin-left: 10%;
+  margin-top: 1%;
+
 `;
 const Logo = styled.img`
   display: block;
-  width: auto;
   height: 100%;
-  // position: absolute;
+  width: 100%;
+  cursor: pointer;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 5%;
-  left: 5%;
-  // border: 1px solid yellow;
 `;
 //
 export default function Home() {
   return (
     <>
-      <IntroImg src={img}></IntroImg>
-
-      <LogoBox>
-        <Logo
-          src={logo}
-          // onClick={() => PageRedirection(navigate, "SASM")}
-        ></Logo>
-      </LogoBox>
-
+      <Navibar />
+      <ImageBox>
+        <IntroImg src={picture}></IntroImg>
+      </ImageBox>
       <SASM>
-        <Tittle>SASM</Tittle>
-
+        <SubTitle>Sustainable Act Space Map</SubTitle>
+        <TitleBox>
+          <Tittle>SASM</Tittle>
+          <LogoBox>
+            <Logo
+              src={logo}
+            // onClick={() => PageRedirection(navigate, "SASM")}
+            ></Logo>
+          </LogoBox>
+        </TitleBox>
         <Content>
           SASM은 지속가능한 공간을 큐레이팅하여, <br /> 한국 도시의 지속가능한
           발전을 돕습니다.
         </Content>
       </SASM>
+      <Map>
+        <MapSubtitle>Subtitle about map</MapSubtitle>
+        <MapTitle>MAP</MapTitle>
+        <Background2Box>
+          <img src={background2}></img>
+        </Background2Box>
+        <MapImage>
+          <MapImageBox src={mapimage}></MapImageBox>
+        </MapImage>
+        <Background1Box>
+          <img src={background1}></img>
+        </Background1Box>
 
-      <Wrapper>
+      </Map>
+      <img src={background3}></img>
+
+      {/* <Wrapper>
         {/* hover 추가하기 */}
-        <NavBtn>
-          <StyledLink to="/map">MAP</StyledLink>
-        </NavBtn>
-        <NavBtn>
-          <StyledLink to="/story">STORY</StyledLink>
-        </NavBtn>
-        <NavBtn>
-          <StyledLink to="/mypage">MY PAGE</StyledLink>
-        </NavBtn>
+      {/* <NavBtn>
+        <StyledLink to="/map">MAP</StyledLink>
+      </NavBtn>
+      <NavBtn>
+        <StyledLink to="/story">STORY</StyledLink>
+      </NavBtn>
+      <NavBtn>
+        <StyledLink to="/mypage">MY PAGE</StyledLink>
+      </NavBtn> */}
 
-        {/* <NavBtn>
+      {/* <NavBtn>
           <StyledLink to="/auth">Sign in</StyledLink>
         </NavBtn> */}
-      </Wrapper>
+      {/* </Wrapper> */}
     </>
   );
 }

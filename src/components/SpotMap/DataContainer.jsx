@@ -206,6 +206,7 @@ export default function DataContainer({ Location }) {
                         placeholder="지속가능한 장소를 검색해보세요!"
                         searchIcon={SearchWhite}
                         background="#44ADF7"
+                        color="white"
                     />
                 </SearchFilterBar>
 
