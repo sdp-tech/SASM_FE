@@ -3,6 +3,7 @@ import { AuthButton } from "../module";
 import { useNavigate } from 'react-router-dom'
 import styled from "styled-components";
 import PageRedirection from "../../../functions/common/PageRedirection";
+import SasmLogo from "../../../assets/img/sasm_logo.png"
 
 const Wrapper = styled.div`
   width: 100%;
@@ -31,6 +32,7 @@ const EmailExist = (id) => {
   return (
     <>
       <Wrapper>
+        <img style={{ width: '10%', margin: '3% 0' }} src={SasmLogo} />
         <div
           style={{
             height: "30px",
@@ -47,20 +49,11 @@ const EmailExist = (id) => {
 
       <AuthButton
         style={{
-          color: "#FFFFFF",
-          backgroundColor: "#5480E5",
-          boxShadow:
-            "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-          border: "none",
-          fontSize: "16px",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          borderRadius: "4px",
-          transform: "translate(-1.5%, 50%)",
+          border:'none',
+          backgroundColor:"#44ADF7",
+          borderRadius:'4px',
+          color:'white',
+          marginTop:'3%'
         }}
         onClick={() => PageRedirection(navigate, "LOG IN")}
       >

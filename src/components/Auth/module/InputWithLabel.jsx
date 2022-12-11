@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   justify-content: center;
   // align-items: center;
   flex-grow: 3;
+  
 `;
 
 const Label = styled.div`
@@ -24,7 +25,6 @@ const Label = styled.div`
 `;
 
 const Input = styled.input`
-  width: 100%;
   border: 1px solid ${oc.gray[3]};
   outline: none;
   border-radius: 4px;
