@@ -184,6 +184,14 @@ const NaverMapAPI = (props) => {
 
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
+  //State => 현 위치 reddot의 좌표
+  const [state, setState] = useState({
+      center: {
+          lat: 37.551229,
+          lng: 126.988205,
+      },
+      zoom: 13,
+  });
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
@@ -203,6 +211,14 @@ const NaverMapAPI = (props) => {
           },
           zoom: 13,
         });
+        setState({
+          center: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          },
+          zoom: 13,
+        });
+        
       },
       (error) => {
         console.log(error);
@@ -242,7 +258,7 @@ const NaverMapAPI = (props) => {
           지금 지도에서 검색
       </SearchHereButton>
       <MoveToCenterButton>
-        <img src={MoveToCenter}/>
+        <img src={MoveToCenter} onClick={handleBackToCenter}/>
       </MoveToCenterButton>
       <NaverMap
         mapDivId={"SASM_map"}
@@ -285,7 +301,7 @@ const NaverMapAPI = (props) => {
         })}
         <Marker
           key={3}
-          position={temp.center}
+          position={state.center}
           clickable={false}
           title={"현재 위치"}
           icon={{
@@ -314,6 +330,7 @@ export default function Map(props) {
       itemdata.id,
     ];
   });
+  //temp => 지도의 center
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
