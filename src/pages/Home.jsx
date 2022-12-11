@@ -146,7 +146,6 @@ const Logo = styled.img`
 export default function Home() {
   return (
     <>
-      <Navibar />
       <ImageBox>
         <IntroImg src={picture}></IntroImg>
       </ImageBox>

@@ -11,7 +11,6 @@ export default function StoryAdmin() {
 
     return (
         <Sections>
-            <Navibar />
             {params.id ? <StoryFormPage id={params.id} /> : <StoryFormPage />}
         </Sections>
     );
@@ -21,9 +20,8 @@ const Sections = styled.div`
   box-sizing: border-box;
   display: grid;
   position: relative;
-  height: 100vh;
-  grid-template-rows: 0.0625fr 0.9375fr;
+  height: calc(100vh - 64px);
+  grid-template-rows: 1fr;
   grid-template-areas:
-    "navibar"
     "story";
 `;

@@ -16,6 +16,7 @@ import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
+import Navibar from "./components/common/Navibar";
 const GlobalStyle = createGlobalStyle`
 
 
@@ -58,6 +59,7 @@ const App = () => {
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
           <BrowserRouter>
+          <Navibar/>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
