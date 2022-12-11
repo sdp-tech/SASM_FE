@@ -3,10 +3,8 @@ import styled from "styled-components";
 import oc from 'open-color';
 
 const Wrapper = styled.div`
-  width: 50%;
   margin: 3rem auto;
-  padding: 1rem 5%;
-
+  padding: 1rem 0;
   border: 2px solid #44ADE7;
   border-radius:10px;
 

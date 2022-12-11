@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const Aligner = styled.div`
   margin-top: 1rem;
-  margin-right: 2.5%;
   text-align: right;
 `;
 

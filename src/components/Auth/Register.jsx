@@ -15,7 +15,7 @@ const InputAndButton = styled.div`
   position: relative;
   display: flex;
   flex-wrap: nowrap;
-  align-items: end;
+  align-items: flex-end;
   width: 100%;
   margin: 0.8em 0;
 `;
@@ -25,7 +25,6 @@ const Button = styled.div`
   margin-left: 2%;
   height: 100%;
   text-align: center;
-  transform: translateY(-10%);
   line-height: 3;
   border-radius: 4px;
   font-size: 16px;
@@ -33,7 +32,6 @@ const Button = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.1em;
   cursor: pointer;
   flex-grow: 0.5;
 `;

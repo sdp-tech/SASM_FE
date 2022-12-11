@@ -6,13 +6,13 @@ const Wrapper = styled.div`
   & + & {
     margin-top: 1rem;
   }
-  margin : 1% 0;
   // background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
   // align-items: center;
   flex-grow: 3;
+  
 `;
 
 const Label = styled.div`
