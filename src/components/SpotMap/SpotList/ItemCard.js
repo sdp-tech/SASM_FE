@@ -34,14 +34,13 @@ const ImgBox = styled.div`
 `;
 const TextBox = styled.div`
   width: 100%;
-  font-size: 1.25rem;
   color: black;
   display: flex;
   flex-flow : row wrap;
   margin: 0 0 0 3%;
 `;
 const TitleBox = styled.div`
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   border-bottom: 1px solid #999999;
   width: 100%;
@@ -52,9 +51,9 @@ const TitleBox = styled.div`
   height:40%;
 `;
 const ContentBox = styled.div`
+  font-size: 0.75rem;
   height:60%;
   font-weight: 400;
-  font-size: 0.75rem;
   color: black;
   display: flex;
   flex-flow : column wrap;
@@ -196,7 +195,7 @@ export default function ItemCard(props) {
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
-            <div style={{ fontSize:"1rem",fontWeight: "400" }}>
+            <div style={{fontWeight: "400", fontSize:"1rem" }}>
               {props.StoreType}
             </div>
           </TitleBox>

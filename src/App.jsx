@@ -19,7 +19,7 @@ import "./index.css";
 import Navibar from "./components/common/Navibar";
 import {device} from "./device"
 const GlobalStyle = createGlobalStyle`
-  *{
+  html{
     @media screen and (${device.laptop}) {
       font-size: 12px;
     }
