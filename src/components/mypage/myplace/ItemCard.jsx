@@ -10,15 +10,22 @@ import Loading from "../../common/Loading";
 import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import { MatchCategory, CATEGORY_LIST } from "../../common/Category";
 
-const StoreNameBox = styled.div`
+const PlacenameBox = styled.div`
   box-sizing: border-box;
   display: flex;
   width: 100%;
-  color: #000000;
-  flex-direction: row;
+  font-weight: 550;
+  font-size: 1rem;
+  align-items: center;
+  color:#000000;
+  margin-top: -2%;
+  margin-bottom: 5%;
   justify-content: space-between;
+  
 `;
+
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
   background-color: #ffffff;
@@ -45,7 +52,6 @@ export default function ItemCard(props) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
   // 좋아요 클릭 이벤트
   const toggleLike = async (id) => {
     const response = await request.post("/places/place_like/", { id: id }, null);
@@ -56,13 +62,11 @@ export default function ItemCard(props) {
   };
 
   return (
-    <Link to={`/map/${props.place_name}`} style={{textDecoration:'none'}}>
+    <div>
       <Card
         sx={{
-          minHeight: "250px",
-          minWidth: "350px",
-          maxHeight: "250px",
-          maxWidth: "350px",
+          minWidth: "320px",
+          maxWidth: "320px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -72,10 +76,10 @@ export default function ItemCard(props) {
           component="img"
           sx={{
             // 16: 9,
-            minHeight: "200px",
-            minWidth: "350px",
-            maxHeight: "200px",
-            maxWidth: "350px",
+            minHeight: "180px",
+            minWidth: "320px",
+            maxHeight: "180px",
+            maxWidth: "320px",
             display: "flex",
           }}
           image={props.rep_pic}
@@ -84,32 +88,26 @@ export default function ItemCard(props) {
 
         <CardContent
           sx={{
-            minHeight: "100px",
-            minWidth: "310px",
-            maxHeight: "100px",
-            maxWidth: "310px",
+            height:"10px",
+            minWidth: "300px",
+            maxWidth: "300px",
             display: "flex",
             flexFlow: "column",
-            position: "relative",
           }}
         >
-          <StoreNameBox>
-            <Typography
-              component={"span"}
-              gutterBottom
-              variant="h5"
-              fontSize="21px"
-              fontFamily={"kopub"}
-              fontWeight="500"
-            >
+          <Link to={`/map/${props.place_name}`} style={{ textDecoration: 'none' }}>
+            <PlacenameBox>
               {props.place_name}
-            </Typography>
-            <LikeButton>
-              <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
-            </LikeButton>
-          </StoreNameBox>
+              <div style={{display:'flex', }}>
+              <img src={require(`../../../assets/img/Category/Category${MatchCategory(props.category)}.svg`)} />
+                <LikeButton>
+                  <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
+                </LikeButton>
+              </div>
+            </PlacenameBox>
+          </Link>
         </CardContent>
       </Card>
-    </Link>
+    </div>
   );
 }

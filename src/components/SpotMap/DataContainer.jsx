@@ -9,7 +9,8 @@ import SpotList from './SpotList';
 import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
-import SearchWhite from '../../assets/img/Map/Search_white.svg'
+import SearchWhite from '../../assets/img/Map/Search_white.svg';
+import {CATEGORY_LIST, MatchCategory} from '../common/Category'
 
 const ListWrapper = styled.div`
   display: flex;
@@ -110,14 +111,6 @@ export default function DataContainer({ Location }) {
             setTempCheckedList(tempCheckedList.filter((el) => el !== item));
         }
     };
-    const CATEGORY_LIST = [
-        { id: 0, data: "식당 및 카페", name: "식당·카페" },
-        { id: 1, data: "전시 및 체험공간", name: "전시·체험" },
-        { id: 2, data: "제로웨이스트 샵", name: "제로웨이스트" },
-        { id: 3, data: "도시 재생 및 친환경 건축물", name: "건축물" },
-        { id: 4, data: "복합 문화 공간", name: "복합문화" },
-        { id: 5, data: "녹색 공간", name: "녹색공간" },
-    ];
 
     const handleFilterToggle = () => {
         setFilterToggle(!filterToggle);

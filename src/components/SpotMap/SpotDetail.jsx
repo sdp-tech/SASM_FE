@@ -8,19 +8,19 @@ import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import CloseDetail from '../../assets/img/PlaceDetail/CloseDetail.svg'
+import { device } from "../../device"
 
-const CloseButton = styled.div`
-  // border-radius: 4px;
-  cursor: pointer;
-  position: fixed;
-  top: 14.6%;
-  left: 52.7%;
-  padding:1%;
-  display:flex;
-  background-color:#FFFFFF;
-  border-radius: 0 10px 10px 0;
-`;
+const StyledList = styled(List)`
+  @media screen and (${device.laptop}) {
+      left: 35.6%;
+    }
+    @media screen and (${device.laptopL}) {
+      left: 35.6%;
+    }
+    @media screen and (${device.desktop}) {
+      left: 28%;
+    }
+`
 
 export default function SpotDetail(props) {
   const { modalClose } = props;
@@ -39,20 +39,18 @@ export default function SpotDetail(props) {
   }, [page]);
   return (
     <>
-      <List
-        style={{ overflow: "auto" }}
+      <StyledList
+        style={{ overflow: "auto",
+        position: "fixed",
+        top: `calc(64px)`,
+        }}
         sx={{
-          // gridArea: "spotlist",
+          height:`calc(100vh - 64px)`,
           padding: "0",
           boxSizing: "border-box",
-          position: "fixed",
-          top: "12.6%",
-          left: "28.7%",
           width: "100%",
-          // height: "100%",
-          height: "83%",
           overflow: "hidden",
-          maxWidth: "24%",
+          maxWidth: "25%",
           bgcolor: "#FFFFFF",
         }}
       >
@@ -79,7 +77,7 @@ export default function SpotDetail(props) {
           place_like={data?.place_like}
           statistics={data?.category_statistics}
           reviewInfo={reviewInfo}
-
+          modalClose={modalClose}
         />
         {isSasmAdmin ? (
           <AdminButton
@@ -93,11 +91,7 @@ export default function SpotDetail(props) {
         ) : (
           <></>
         )}
-      </List>
-
-      <CloseButton>
-        <img src={CloseDetail} onClick={modalClose}/>
-      </CloseButton>
+      </StyledList>
     </>
   );
 }

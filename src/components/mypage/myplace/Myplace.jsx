@@ -71,7 +71,6 @@ const Myplace = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
-                  width: "80vw",
                 }}
               >
                 <>
@@ -94,6 +93,7 @@ const Myplace = (props) => {
                               rep_pic={info.rep_pic}
                               place_name={info.place_name}
                               place_like={info.place_like}
+                              category={info.category}
                             />
                           </CardSection>
                         </Grid>
@@ -124,11 +124,7 @@ const MyplaceSection = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // overflow: hidden;
   grid-area: story;
-  height: 100%;
-  // height: auto;
-  // border: 1px solid yellow;
 `;
 const FooterSection = styled.div`
   position: relative;
