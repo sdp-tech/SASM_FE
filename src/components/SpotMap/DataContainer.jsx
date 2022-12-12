@@ -82,6 +82,7 @@ export default function DataContainer({ Location }) {
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [total, setTotal] = useState(0);
+    const [zoom ,setZoom] = useState(14);
     const [state, setState] = useState({
         loading: false,
         ItemList: [],
@@ -93,14 +94,14 @@ export default function DataContainer({ Location }) {
             lat: 37.551229,
             lng: 126.988205,
         },
-        zoom: 13,
+        zoom: 14,
     });
     const [searchHere, setSearchHere] = useState({
         center: {
             lat: Location.latitude,
             lng: Location.longitude,
         },
-        zoom: 13,
+        zoom: 14,
     });
     const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
@@ -256,6 +257,6 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></>
+            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></>
     )
 }

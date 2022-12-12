@@ -45,15 +45,40 @@ const MoveToCenterButton = styled.button`
   width: 40px;
   height: 40px;
   justify-content: center;
+  cursor: pointer;
   align-items: center;
-  position: absolute;
+  //position: absolute;
   z-index: 3;
   border: none;
   border-radius: 10px;
-  right: 0.35%;
-  bottom : 18%;
+  //right: 1vw;
+  //bottom : 12vw;
   box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
 `
+
+const ZoomSlider = styled.input`
+`
+const ZoomSliderWrapper = styled.div`
+  height:40px;
+  display: flex;
+  z-index: 3;
+  //position: absolute;
+  background-color: #FFFFFF;
+  //right: 1vw;
+  //bottom: 5vw;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+  margin-right: 30px;
+`
+const ControllerWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  transform: rotate(270deg);
+  z-index: 3;
+  right: -4vw;
+  bottom: 7vw;
+`
+
 
 const Markers = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -181,16 +206,19 @@ const Markers = (props) => {
 const NaverMapAPI = (props) => {
   const Item = props.markerInfo;
   const navermaps = window.naver.maps;
-
+  const zoom = props.zoom;
+  const setZoom = (zoom) => {
+    props.setZoom(zoom);
+  }
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
   const [state, setState] = useState({
     center: {
-        lat: 37.551229,
-        lng: 126.988205,
+      lat: 37.551229,
+      lng: 126.988205,
     },
     zoom: 13,
-})
+  })
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
@@ -208,14 +236,14 @@ const NaverMapAPI = (props) => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
-          zoom: 13,
+          zoom: zoom,
         });
         setState({
           center: {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           },
-          zoom: 13,
+          zoom: zoom,
         });
       },
       (error) => {
@@ -252,12 +280,19 @@ const NaverMapAPI = (props) => {
         props.setPage(1);
         setSearchHere(coor);
       }}>
-          <img style={{marginRight:'5px'}} src={Restart}/>
-          지금 지도에서 검색
+        <img style={{ marginRight: '5px' }} src={Restart} />
+        지금 지도에서 검색
       </SearchHereButton>
-      <MoveToCenterButton>
-        <img src={MoveToCenter} onClick={handleBackToCenter}/>
-      </MoveToCenterButton>
+      <ControllerWrapper>
+        <ZoomSliderWrapper>
+          <ZoomSlider type="range" min="11" max="19" value={zoom} onChange={(event) => {
+            setZoom(Number(event.target.value));
+          }} />
+        </ZoomSliderWrapper>
+        <MoveToCenterButton>
+          <img src={MoveToCenter} onClick={handleBackToCenter} />
+        </MoveToCenterButton>
+      </ControllerWrapper>
       <NaverMap
         mapDivId={"SASM_map"}
         style={{
@@ -266,14 +301,13 @@ const NaverMapAPI = (props) => {
           outline: "none",
         }}
         center={temp.center}
-        defaultZoom={temp.zoom}
+        zoom={zoom}
         minZoom={11}
         maxZoom={19}
         onZoomChanged={(zoom) => {
-          console.log(zoom);
+          setZoom(zoom);
         }}
-        zoomControl={true}
-        zoomControlOptions={{ position: navermaps.Position.RIGHT_BOTTOM }}
+        zoomControl={false}
         onCenterChanged={(center) => {
           handleCenterChanged(center);
         }}
@@ -328,6 +362,10 @@ export default function Map(props) {
       itemdata.id,
     ];
   });
+  const zoom = props.zoom;
+  const setZoom = (zoom) => {
+    props.setZoom(zoom);
+  }
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
@@ -345,7 +383,7 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading…</p>}
       >
-        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} />
+        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} />
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton
