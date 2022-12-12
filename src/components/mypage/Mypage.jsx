@@ -15,18 +15,15 @@ import SendFeedback from "./myInfo/SendFeedback";
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  max-height: 87vh;
-  min-height: 87vh;
+  height: calc(100vh - 64px);
   width: 100%;
   grid-area: mypage;
   display: flex;
-  //   flex-direction: column;
 `;
 
 const LeftSection = styled.div`
-  height: 87vh;
+  height: calc(100vh - 64px);
   background: #5480e51f;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -114,7 +111,7 @@ export default function Mypage() {
   return (
     <Section>
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2} minHeight="xl">
+        <Grid container spacing={0} minHeight="xl">
           <Grid item xs={3}>
             <LeftSection>
               <ListBox>
@@ -142,7 +139,7 @@ export default function Mypage() {
                           style={{
                             fontSize: "1.5em",
                             minWidth: "190px",
-                            marginLeft: "50%",
+                            marginLeft: "25%",
                           }}
                         >
                           ·MY PLACE
@@ -156,7 +153,7 @@ export default function Mypage() {
                           style={{
                             fontSize: "1.5em",
                             minWidth: "190px",
-                            marginLeft: "50%",
+                            marginLeft: "25%",
                           }}
                         >
                           ·MY STORY

@@ -17,7 +17,20 @@ import OpenTimeImg from "../../../assets/img/PlaceDetail/OpenTime.svg"
 import PlaceImg from "../../../assets/img/PlaceDetail/PlaceMarker.svg"
 import { Tabs, Tab } from "@mui/material";
 import PropTypes from "prop-types";
+import CloseDetail from "../../../assets/img/PlaceDetail/CloseDetail.svg"
 import { fontWeight } from "@mui/system";
+
+const CloseButton = styled.div`
+  cursor: pointer;
+  position: absolute;
+  top: 3%;
+  right: 0%;
+  padding:3%;
+  display:flex;
+  background-color:#FFFFFF;
+  border: 1px #999999 solid;
+  border-radius: 10px 0 0 10px;
+`;
 
 const StyledCard = styled.section`
   width: 100%;
@@ -196,7 +209,8 @@ export default function DetailCard({
   story_id,
   place_like,
   reviewInfo,
-  statistics
+  statistics,
+  modalClose
 }) {
   const [value, setValue] = useState(0);
   const [mode, setMode] = useState('write');
@@ -264,6 +278,10 @@ export default function DetailCard({
   }
   return (
     <StyledCard className="component component--item_card" key={key}>
+
+      <CloseButton>
+        <img src={CloseDetail} onClick={modalClose} />
+      </CloseButton>
       <ImgBox>
         <img
           src={MainImage}
@@ -275,8 +293,8 @@ export default function DetailCard({
       </ImgBox>
       <TextBox>
         <InfoBox>
-          <p style={{ fontSize: "1.5em", fontWeight: "700", marginBottom:'-1%' }}>{StoreName}</p>
-          <p style={{ fontSize: "1.25em", fontWeight: "400"}}>{Category}</p>
+          <p style={{ fontSize: "1.5rem", fontWeight: "700", marginBottom: '-1%' }}>{StoreName}</p>
+          <p style={{ fontSize: "1.25rem", fontWeight: "400" }}>{Category}</p>
           <ButtonBox>
             {/* 스토리가 있는 경우에만 버튼 띄우기 */}
             {story_id ? (
@@ -299,8 +317,8 @@ export default function DetailCard({
           </ButtonBox>
         </InfoBox>
         <Tabs value={value} onChange={handleTab}>
-          <Tab sx={{ width: '50%', fontSize:'1.25em'}} label="홈" />
-          <Tab sx={{ width: '50%', fontSize:'1.25em'}} label="리뷰" />
+          <Tab sx={{ width: '50%', fontSize: '1.25rem' }} label="홈" />
+          <Tab sx={{ width: '50%', fontSize: '1.25rem' }} label="리뷰" />
         </Tabs>
         <TabPanel value={value} index={0}>
           <>

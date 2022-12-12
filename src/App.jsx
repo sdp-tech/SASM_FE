@@ -17,21 +17,19 @@ import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
 import Navibar from "./components/common/Navibar";
+import {device} from "./device"
 const GlobalStyle = createGlobalStyle`
-
-
-// div{
-//   font-family: 'kopub';
-// };
-*{/* 프로젝트 내 모든 엘리먼트에 공통적으로 적용 */
-  font-family: 'kopub', 'Dotum';
-};
-body{/* 프로젝트 내 body 태그 안에 공통적으로 적용 */
-  font-family: 'kopub', 'Dotum';
-};
-// p{
-//   font-family: 'Dotum';
-// };
+  *{
+    @media screen and (${device.laptop}) {
+      font-size: 12px;
+    }
+    @media screen and (${device.laptopL}) {
+      font-size: 16px;
+    }
+    @media screen and (${device.desktop}) {
+      font-size: 20px;
+    }
+  }
 `;
 
 const App = () => {
@@ -55,7 +53,7 @@ const App = () => {
   // }, []);
   return (
     <>
-      {/* <GlobalStyle /> */}
+      <GlobalStyle />
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
           <BrowserRouter>
