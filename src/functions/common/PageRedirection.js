@@ -4,6 +4,7 @@ export default function PageRedirection(navigate, title) {
     MAP: "map",
     STORY: "story",
     "MY PAGE": "mypage",
+    "MY PICK": "mypick",
     "LOG IN": "auth",
     JOIN: "auth/register",
   };

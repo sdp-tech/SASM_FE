@@ -10,6 +10,7 @@ import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
@@ -57,9 +58,11 @@ const Myplace = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <span
-              style={{ fontWeight: "500", fontSize: "1.6em", color: "#000000" }}
-            >
+            <span style={{position:'absolute', left:'15vw', top:'1%', display:'flex', fontSize:"1.25rem"}} onClick={props.handleMode}>
+              <img src={ChangeMode} style={{marginRight:'10px'}} />
+              STORY
+            </span>
+            <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
               MY PLACE
             </span>
 
@@ -125,6 +128,7 @@ const MyplaceSection = styled.div`
   align-items: center;
   flex-direction: column;
   grid-area: story;
+  margin-top:10%;
 `;
 const FooterSection = styled.div`
   position: relative;
