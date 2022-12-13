@@ -10,6 +10,7 @@ import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 
 const Mystory = (props) => {
   const [info, setInfo] = useState([]);
@@ -18,7 +19,6 @@ const Mystory = (props) => {
   const [limit, setLimit] = useState(4);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
   const offset = (page - 1) * limit;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -54,9 +54,11 @@ const Mystory = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <span
-              style={{ fontWeight: "500", fontSize: "1.6em", color: "#000000" }}
-            >
+          <span style={{position:'absolute', left:'15vw', top:'1%', display:'flex', fontSize:"1.25rem"}} onClick={props.handleMode}>
+              <img src={ChangeMode} style={{marginRight:'10px'}} />
+              PLACE
+            </span>
+            <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
               MY STORY
             </span>
 
@@ -68,6 +70,7 @@ const Mystory = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
+                  width:"100%"
                 }}
               >
                 <>
@@ -81,7 +84,7 @@ const Mystory = (props) => {
                       해당하는 스토리가 없습니다
                     </NothingSearched>
                   ) : (
-                    <Grid container spacing={5}>
+                    <Grid container spacing={10}>
                       {info.map((info, index) => (
                         <Grid item key={info.id} xs={12} sm={12} md={6} lg={6}>
                           <CardSection>
@@ -125,6 +128,7 @@ const MyplaceSection = styled.div`
   align-items: center;
   flex-direction: column;
   grid-area: story;
+  margin-top: 10%;
 `;
 const FooterSection = styled.div`
   position: relative;

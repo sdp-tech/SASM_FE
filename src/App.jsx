@@ -18,6 +18,7 @@ import { createGlobalStyle } from "styled-components";
 import "./index.css";
 import Navibar from "./components/common/Navibar";
 import {device} from "./device"
+import MyPick from "./pages/MyPick";
 const GlobalStyle = createGlobalStyle`
   html{
     @media screen and (${device.laptop}) {
@@ -65,6 +66,7 @@ const App = () => {
               <Route path="/map/:place" element={<SpotMap />} />
               
               <Route path="/mypage/*" element={<MyPage />} />
+              <Route path="/mypick/*" element={<MyPick />} />
               <Route path="/auth/*" element={<Auth />} />
 
               <Route path="/story" element={<StoryList />} />
@@ -82,3 +84,4 @@ const App = () => {
 };
 
 export default App;
+
