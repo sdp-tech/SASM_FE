@@ -23,6 +23,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
+      style={{boxShadow:"2px 2px 4px rgba(0,0,0,0.15)"}}
       {...other}
     >
       {value === index && (
@@ -98,6 +99,7 @@ const FindIDnPW = () => {
             textColor="inherit"
             variant="fullWidth"
             position="sticky"
+            style={{width:'50%', margin:'auto', boxShadow:'2px 2px 4px rgba(0,0,0,0.15)'}}
             centered
           >
             <Tab label="아이디 찾기" {...a11yProps(0)} />

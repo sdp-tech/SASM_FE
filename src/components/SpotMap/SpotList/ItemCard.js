@@ -15,57 +15,50 @@ import Request from "../../../functions/common/Request";
 const StyledCard = styled.div`
   position: relative;
   margin : 0 0 0 2.5%;
-  padding : 3%;
+  padding: 3%;
   border-bottom: 1px black solid;
   &:last-child {
     border-bottom: none;
   }
   display: flex;
   flex-direction: row;
-  max-height: 200px;
   overflow: hidden;
 `;
 
 const ImgBox = styled.div`
-  min-width:150px;
-  min-height:150px;
-  max-width:150px;
-  max-height:150px;
+  border:1px black solid;
+  min-width:15vmin;
+  min-height:15vmin;
+  max-width:15vmin;
+  max-height:15vmin;
 `;
 const TextBox = styled.div`
-  height: 14.6vh;
   width: 100%;
-  font-size: 1em;
   color: black;
   display: flex;
   flex-flow : row wrap;
   margin: 0 0 0 3%;
 `;
 const TitleBox = styled.div`
-  font-size: 1em;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #000000;
   border-bottom: 1px solid #999999;
   width: 100%;
   position: relative;
   display: flex;
-  padding: 1%;
   justify-content:space-around;
   flex-flow : column wrap;
   height:40%;
 `;
 const ContentBox = styled.div`
-  padding: 1%;
+  font-size: 0.75rem;
   height:60%;
   font-weight: 400;
-  font-size: 0.6em;
   color: black;
   display: flex;
   flex-flow : column wrap;
   justify-content: space-around;
 `;
-
-
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
   background-color: #ffffff;
@@ -192,7 +185,7 @@ export default function ItemCard(props) {
         </ImgBox>
         <TextBox>
           <TitleBox>
-            <div style={{ cursor: "pointer" }} onClick={handleClick}>
+            <div style={{ cursor: "pointer"}} onClick={handleClick}>
               {props.StoreName}
             </div>
             <LikeButton style={{ position: 'absolute', right: '5%', bottom: '2%' }}>
@@ -202,7 +195,7 @@ export default function ItemCard(props) {
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
-            <div style={{ fontSize: "0.75em", fontWeight: "400", color: "black" }}>
+            <div style={{fontWeight: "400", fontSize:"1rem" }}>
               {props.StoreType}
             </div>
           </TitleBox>

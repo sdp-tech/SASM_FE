@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Navibar from "../components/common/Navibar";
 import styled from "styled-components";
-import Mypage from "../components/mypage/Mypage";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-export default function MyPage() {
+import Mypick from "../components/mypick/Mypick"
+
+export default function MyPick() {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -16,13 +17,13 @@ export default function MyPage() {
     if (!token) {
       navigate("/auth");
     } else {
-      navigate("/mypage");
+      navigate("/mypick");
     }
   }, []);
 
   return (
     <Sections>
-      {token ? <Mypage /> : alert("로그인이 필요합니다.")}
+      {token ? <Mypick/> : alert("로그인이 필요합니다.")}
     </Sections>
   );
 }
@@ -36,3 +37,4 @@ const Sections = styled.div`
   grid-template-areas:
     "mypage";
 `;
+

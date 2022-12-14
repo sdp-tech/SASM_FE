@@ -10,6 +10,7 @@ import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
@@ -57,9 +58,11 @@ const Myplace = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <span
-              style={{ fontWeight: "500", fontSize: "1.6em", color: "#000000" }}
-            >
+            <span style={{position:'absolute', left:'15vw', top:'1%', display:'flex', fontSize:"1.25rem"}} onClick={props.handleMode}>
+              <img src={ChangeMode} style={{marginRight:'10px'}} />
+              STORY
+            </span>
+            <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
               MY PLACE
             </span>
 
@@ -71,7 +74,6 @@ const Myplace = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
-                  width: "80vw",
                 }}
               >
                 <>
@@ -94,6 +96,7 @@ const Myplace = (props) => {
                               rep_pic={info.rep_pic}
                               place_name={info.place_name}
                               place_like={info.place_like}
+                              category={info.category}
                             />
                           </CardSection>
                         </Grid>
@@ -124,11 +127,8 @@ const MyplaceSection = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // overflow: hidden;
   grid-area: story;
-  height: 100%;
-  // height: auto;
-  // border: 1px solid yellow;
+  margin-top:10%;
 `;
 const FooterSection = styled.div`
   position: relative;

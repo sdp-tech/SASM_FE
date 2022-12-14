@@ -9,6 +9,7 @@ import {
   AuthButton,
   RightAlignedLink,
   SocialLogin,
+  CenterAlignedLink
 } from "./module";
 // import { setCookie } from "../common/Cookie";
 import { useCookies } from "react-cookie"; // useCookies import
@@ -23,6 +24,7 @@ const emailFormat = [
 
 const Message = styled.div`
   font-size: 0.2em;
+  margin-left: 2.5%;
   margin-top: 1.1em;
   color: #db524e;
 `;
@@ -92,7 +94,7 @@ const Login = () => {
             });
           }}
           name="email"
-          placeholder="Email"
+          placeholder="E-mail"
           style={flag ? {} : { backgroundColor: "#F9E3E3" }}
         />
         <Message>{flag ? "" : "이메일 형식이 올바르지 않습니다"}</Message>
@@ -118,10 +120,10 @@ const Login = () => {
         <RightAlignedLink to="/auth/find">
           아이디/비밀번호 찾기
         </RightAlignedLink>
-        <RightAlignedLink to="/auth/register">회원가입 하기</RightAlignedLink>
 
-        <AuthButton onClick={LoginClick}>Log in</AuthButton>
+        <AuthButton onClick={LoginClick}>로그인하기</AuthButton>
         <SocialLogin />
+        <CenterAlignedLink style={{backgroundColor:'#44ADF7', color:'white', padding:'10px 50px', borderRadius:'10px'}} to="/auth/register">회원가입하기</CenterAlignedLink>
       </form>
     </AuthContent>
   );

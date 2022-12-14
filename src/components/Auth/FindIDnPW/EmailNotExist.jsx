@@ -1,7 +1,7 @@
 import React from "react";
 import { AuthButton } from "../module";
 import { useNavigate } from 'react-router-dom'
-
+import SasmLogo from "../../../assets/img/sasm_logo.png"
 import styled from "styled-components";
 import PageRedirection from "../../../functions/common/PageRedirection";
 
@@ -25,12 +25,14 @@ const Wrapper = styled.div`
   translation: 0.2s all;
 `;
 
-const EmailNotExist = ({id, handleAnotherEmail}) => {
-  const navigate = useNavigate() 
+const EmailNotExist = ({ id, handleAnotherEmail }) => {
+  const navigate = useNavigate()
 
   return (
     <>
       <Wrapper>
+
+        <img style={{ width: '10%', margin: '3% 0' }} src={SasmLogo} />
         <div
           style={{
             height: "30px",
@@ -47,20 +49,12 @@ const EmailNotExist = ({id, handleAnotherEmail}) => {
 
       <AuthButton
         style={{
-          color: "#FFFFFF",
-          backgroundColor: "#5480E5",
-          boxShadow:
-            "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-          border: "none",
-          fontSize: "16px",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          borderRadius: "4px",
-          transform: "translate(-1.5%, 50%)",
+          border: 'none',
+          backgroundColor: "#44ADF7",
+          borderRadius: '4px',
+          color: 'white',
+          marginTop: '3%',
+          marginBottom: '3%'
         }}
         onClick={() => PageRedirection(navigate, "JOIN")}
       >
@@ -69,14 +63,10 @@ const EmailNotExist = ({id, handleAnotherEmail}) => {
 
       <AuthButton
         style={{
-          color: "rgba(84, 128, 229, 1)",
-          boxShadow:
-            "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-          border: "none",
-          fontSize: "16px",
-          padding: "10px",
-          width: "100%",
-          transform: "translate(-1.5%, 50%)",
+          border: 'none',
+          boxShadow: '2px 2px 4px rgba(0,0,0,0.15)',
+          borderRadius: '4px',
+          marginTop: '1%',
         }}
         onClick={() => navigate('../')}
       >

@@ -12,13 +12,14 @@ import {
 import styled from "styled-components";
 import FindId from "../../../functions/Auth/FindId";
 import { Navigate } from "react-router-dom";
+import SasmLogo from '../../../assets/img/sasm_logo.png'
 
 const Wrapper = styled.div`
   width: 100%;
 
   // transform: translate(70%, 20%);
 
-  //   margin-top: 3rem;
+  margin-bottom: 3%;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
 
@@ -42,6 +43,7 @@ const FindPW = ({TryFindPassword, handleId}) => {
   return (
     <>
       <Wrapper>
+        <img style={{width:'10%', margin:'3% 0'}} src={SasmLogo}/>
         <div>가입하셨던 이메일 계정을 입력하시면,</div>
         <div>비밀번호를 새로 만들 수 있는 링크를</div>
         <div>이메일로 발송해드립니다.</div>
@@ -51,25 +53,13 @@ const FindPW = ({TryFindPassword, handleId}) => {
 
       <AuthButton
         style={{
-          color: "#FFFFFF",
-          backgroundColor: "#5480E5",
-          boxShadow:
-            "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-          border: "none",
-          fontSize: "16px",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          borderRadius: "4px",
-          transform: "translate(-1.5%, 50%)",
+          border:'none',
+          backgroundColor:"#44ADF7",
+          borderRadius:'4px',
+          color:'white',
+          marginTop:'3%'
         }}
-        onClick={() => {
-          setPressed(true)
-          TryFindPassword()
-        }}
+        onClick={TryFindPassword}
       >
         {pressed? '링크 재발송하기': '링크 발송하기'}
       </AuthButton>

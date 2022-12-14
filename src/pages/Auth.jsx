@@ -20,7 +20,6 @@ export default function Auth() {
   // console.log("token@", token);
   return (
     <Sections>
-      <Navibar />
       <AuthWrapper>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -37,9 +36,8 @@ const Sections = styled.div`
   box-sizing: border-box;
   display: grid;
   position: relative;
-  height: 100vh;
-  grid-template-rows: 0.15fr 0.85fr;
+  height: calc(100vh - 64px);
+  grid-template-rows: 1fr;
   grid-template-areas:
-    "navibar"
     "auth";
 `;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 
 const Wrapper = styled.div`
-    width: 90%;
+    width: 100%;
     // background-color: pink;
     // display: flex;
     // position: relative;
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.div`
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: 700;
     color: ${oc.gray[8]};
     margin-bottom: 4rem;

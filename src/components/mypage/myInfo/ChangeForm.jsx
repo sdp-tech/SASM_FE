@@ -20,7 +20,6 @@ const ChangeForm = (props) => {
   const navigate = useNavigate();
 
   const { state } = useLocation(); //placeholder 값 가져오기
-
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
 
@@ -70,8 +69,8 @@ const ChangeForm = (props) => {
     const response = await request.post("/users/me/", formData, {
       "Content-Type": "multipart/form-data",
     });
-    if("data" in response.data) {
-      if("nickname" in response.data.data) {
+    if ("data" in response.data) {
+      if ("nickname" in response.data.data) {
         //nickname이 변경된 경우, localStorage에 저장
         console.log('changed');
         localStorage.setItem("nickname", response.data.data.nickname);
@@ -83,7 +82,7 @@ const ChangeForm = (props) => {
   return (
     <>
       <>
-        <Section>
+        {/* <Section>
           <MyplaceSection>
             <ImageBox>
               <img
@@ -111,13 +110,6 @@ const ChangeForm = (props) => {
                 onChange={onChangeImage}
               />
             </AppStyle>
-
-            {/* <input
-              type="file"
-              accept="image/*"
-              ref={imgRef}
-              onChange={onChangeImage}
-            ></input> */}
             <form>
               <InfoBox>
                 <Name>
@@ -176,6 +168,83 @@ const ChangeForm = (props) => {
               <LeftAlignedLink to="./feedback">의견 보내기</LeftAlignedLink>
             </ButtonBox>
           </MyplaceSection>
+        </Section> */}
+        <Section>
+          <form style={{width:'100%', height: '100%'}}>
+            <div style={{height: '30%', display: 'flex', alignItems: 'center' }}>
+              <div style={{ position: 'relative' }}>
+                <ImageBox>
+                  <img
+                    src={state.profile_image}
+                    alt="profile"
+                    height="180px"
+                    width="180px"
+                  />
+                </ImageBox>
+                <AppStyle>
+                  <label htmlFor="ex_file">
+                    <div>
+                      <img
+                        src={Edit_profileimage}
+                        alt="edit"
+                        height="30px"
+                        width="30px"
+                      />
+                    </div>
+                  </label>
+                  <input
+                    type="file"
+                    id="ex_file"
+                    accept="image/*"
+                    onChange={onChangeImage}
+                  />
+                </AppStyle>
+              </div>
+            </div>
+            <Grid container sx={{ height: '70%' }} >
+              <Grid item xs={5} sm={5} md={5} lg={5}>
+                <InfoContainer style={{ paddingLeft: '10vw', paddingRight: '5vw' }}>
+                  <LabelWrapper>
+                    <Label>이메일</Label>
+                    <Text value={state.email} readOnly/>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label>닉네임</Label>
+                    <Text type="text" placeholder={state.nickname} onChange={(event) => {
+                        setInfo({
+                          ...info,
+                          nickname: event.target.value,
+                        });
+                      }}
+                      name="nickname"/>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label>생년월일</Label>
+                    <Text type="date"
+                      max="9999-12-31"
+                      defaultValue={state.birthdate}
+                      onChange={(event) => {
+                        setInfo({
+                          ...info,
+                          birthdate: event.target.value,
+                        });
+                      }}
+                      name="birthdate"/>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label style={{ opacity: "0"}}>저장하기</Label>
+                    <Label onClick={SaveInfo} style={{ fontSize: '0.75rem', cursor: 'pointer'  }}>저장하기</Label>
+                    <Label style={{ opacity: "0"}}>저장하기</Label>
+                  </LabelWrapper>
+                </InfoContainer>
+              </Grid>
+              <Grid item xs={7} sm={7} md={7} lg={7}>
+                <InfoContainer style={{ paddingLeft: '5vw', paddingRight: '10vw' }}>
+
+                </InfoContainer>
+              </Grid>
+            </Grid>
+          </form>
         </Section>
       </>
     </>
@@ -189,81 +258,29 @@ const Section = styled.div`
   align-items: center;
   flex-direction: column;
   overflow: hidden;
-  //   height: 800px;
+  height:100%;
   width: 100%;
-  margin-top: 5%;
 `;
 
-const MyplaceSection = styled.div`
-  display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  flex-direction: column;
-  width: 60%;
-  height: 80%;
-`;
 const ImageBox = styled.div`
+  position:relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 100px;
-  width: 180px;
-  height: 180px;
-  flex-direction: column;
+  border-radius: 50%;
+  width: 12vw;
+  height: 12vw;
   overflow: hidden;
-`;
-const InfoBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50%;
-  margin-top: 5%;
-`;
-const ValueBox = styled.div`
-  display: flex;
-  width: 400px;
-`;
-const Name = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 1.3em;
-  font-weight: 600;
+  border: 1px black solid;
+  margin-left: 10vw;
 `;
 
-const Bday = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 1.3em;
-  font-weight: 600;
-`;
-const Email = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  font-size: 1.3em;
-  font-weight: 600;
-`;
-const ButtonBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: stretch;
-  width: 100%;
-  margin-top: 10%;
-`;
 const AppStyle = styled.div`
   position: absolute;
   width: 30px;
-  margin-top: 140px;
-  margin-left: 140px;
   z-index: 4;
+  right:0;
+  bottom:0;
   img {
     max-width: 30px;
   }
@@ -286,4 +303,41 @@ const AppStyle = styled.div`
   }
 `;
 
+const LabelWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`
+const Label = styled.div`
+  width: 12vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(171, 239, 194, 0.1);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5vw;
+  padding: 2% 0;
+  font-size: 1rem;
+  font-weight: 400;
+  & + & {
+    margin-left: 2vw;
+  }
+`
+const Text = styled.input`
+  width: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  border: none;
+  border-radius; 2px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+  padding: 2% 1vw;
+`
+const InfoContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  border-right: 2px #44ADF7 solid;
+`
 export default ChangeForm;

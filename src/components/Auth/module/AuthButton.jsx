@@ -3,17 +3,11 @@ import styled from "styled-components";
 import oc from 'open-color';
 
 const Wrapper = styled.div`
-  width: 60%;
+  margin: 3rem auto;
+  padding: 1rem 0;
+  border: 2px solid #44ADE7;
+  border-radius:10px;
 
-  transform: translate(30%, 20%);
-
-  margin-top: 1rem;
-  padding-top: 0.6rem;
-  padding-bottom: 0.5rem;
-
-  border: 4px solid transparent;
-  border-image: linear-gradient(to right, rgba(180, 227, 182, 1), rgba(180, 199, 244, 1));
-  border-image-slice: 1;
   color: black;
 
   text-align: center;
