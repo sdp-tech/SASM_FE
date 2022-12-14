@@ -98,7 +98,7 @@ const StoryFormPage = (props) => {
                 console.log(response);
             }
             else {
-                const response = await request.put("/sdp_admin/stories/", formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.put(`/sdp_admin/stories/${id}/`, formData, { "Content-Type": "multipart/form-data" });
                 console.log(response)
             }
             navigate("/story");

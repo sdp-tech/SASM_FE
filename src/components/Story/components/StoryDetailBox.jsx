@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import WriteComment from "./WriteComment";
 import Comments from "./Comments";
+import Recommends from "./StoryRecommend";
 
 const Wrapper = styled.div`
   /*박스*/
@@ -186,7 +187,7 @@ const MapButton = styled(Button)({
   fontWeight: "600",
   display: "flex",
   width: "137px",
-  
+
   // justifyContent: "flex-end",
 });
 
@@ -218,6 +219,7 @@ const StoryDetailBox = (props) => {
   const id = props.id;
   const [data, setData] = useState([]);
   const [comment, setComment] = useState([]);
+  const [recommend, setRecommend] = useState([]);
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -253,9 +255,11 @@ const StoryDetailBox = (props) => {
     console.log(id);
     const response_detail = await request.get("/stories/story_detail/", { id: id }, null);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
+    const recommend_story = await request.get("/stories/recommend_story/", { id: id }, null);
     // console.log("data", response.data);.
     setData(response_detail.data.data[0]);
     setComment(response_comment.data.data);
+    setRecommend(recommend_story.data.data);
     setLoading(false);
   };
 
@@ -278,34 +282,34 @@ const StoryDetailBox = (props) => {
           <MainTitleNStoreNameBox>
             <MainTitleBox>
               <MainTitle>{data.title}</MainTitle>
-              <backToList 
-                  onClick={() => {
-                    navigate(`/story`);
-                  }}
-                  style={{
-                    marginTop: "auto",
-                    marginBottom: "auto",
-                  }}>&#60; Back To List</backToList>
+              <backToList
+                onClick={() => {
+                  navigate(`/story`);
+                }}
+                style={{
+                  marginTop: "auto",
+                  marginBottom: "auto",
+                }}>&#60; Back To List</backToList>
             </MainTitleBox>
             <StoreNameBox>
               <StoreName>
                 {data.place_name}
                 <LikeIconBox>
-                <LikeButton>
-                  {data.story_like === "ok" ? (
-                    <HeartButton like={!like} onClick={toggleLike} />
-                  ) : (
-                    <HeartButton like={like} onClick={toggleLike} />
-                  )}
-                </LikeButton>
-              </LikeIconBox>
+                  <LikeButton>
+                    {data.story_like === "ok" ? (
+                      <HeartButton like={!like} onClick={toggleLike} />
+                    ) : (
+                      <HeartButton like={like} onClick={toggleLike} />
+                    )}
+                  </LikeButton>
+                </LikeIconBox>
                 <Tag>{data.tag}</Tag>
               </StoreName>
               <ButtonDiv>
-              <MapButton onClick={(e)=>{handlePageGoToMap(data.place_name)}}>
-                <ButtonText>Go To Map</ButtonText>
-              </MapButton>
-            </ButtonDiv>
+                <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
+                  <ButtonText>Go To Map</ButtonText>
+                </MapButton>
+              </ButtonDiv>
             </StoreNameBox>
           </MainTitleNStoreNameBox>
 
@@ -318,7 +322,9 @@ const StoryDetailBox = (props) => {
           </ImageNContentBox>
           <Comments data={comment}></Comments>
           <WriteComment id={id}></WriteComment>
+          <Recommends data={recommend}></Recommends>
           <FooterBox>
+
           </FooterBox>
         </Wrapper>
       )}

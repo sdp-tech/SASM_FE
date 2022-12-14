@@ -67,4 +67,5 @@ const FooterSection = styled.div`
   justify-content: center;
   align-items: center;
   // background: black;
+  transform : translateY(-100%);
 `;
