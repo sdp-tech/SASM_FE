@@ -3,6 +3,6 @@
   src: url(./assets/font/Pretendard-Medium.otf) format("truetype");
 }
 
-* {
+html {
   font-family: "Pretendard";
 }

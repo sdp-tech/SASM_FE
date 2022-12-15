@@ -23,12 +23,15 @@ const GlobalStyle = createGlobalStyle`
   html{
     @media screen and (${device.laptop}) {
       font-size: 12px;
+      font-family: "Pretendard"
     }
     @media screen and (${device.laptopL}) {
       font-size: 16px;
+      font-family: "Pretendard"
     }
     @media screen and (${device.desktop}) {
       font-size: 20px;
+      font-family: "Pretendard"
     }
   }
 `;
