@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+// import { device } from "../../device.js";
 
 const TitleBox = styled.div`
   box-sizing: border-box;
@@ -106,10 +107,10 @@ export default function ItemCard(props) {
     <div>
       <Card
         sx={{
-          minHeight: "300px",
-          minWidth: "600px",
-          maxHeight: "300px",
-          maxWidth: "600px",
+          minHeight: "230px",
+          minWidth: "500px",
+          maxHeight: "230px",
+          maxWidth: "500px",
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -122,10 +123,10 @@ export default function ItemCard(props) {
             component="img"
             sx={{
               16: 9,
-              minHeight: "300px",
-              minWidth: "300px",
-              maxHeight: "300px",
-              maxWidth: "300px",
+              minHeight: "250px",
+              minWidth: "250px",
+              maxHeight: "250px",
+              maxWidth: "250px",
               display: "flex",
               borderRadius: "10%",
             }}
@@ -136,10 +137,10 @@ export default function ItemCard(props) {
         <CardContent
           sx={{
             // flexGrow: 1,
-            minHeight: "300px",
-            minWidth: "300px",
-            maxHeight: "300px",
-            maxWidth: "300px",
+            minHeight: "250px",
+            minWidth: "250px",
+            maxHeight: "250px",
+            maxWidth: "250px",
             display: "flex",
             flexFlow: "column",
             position: "relative",
@@ -151,7 +152,7 @@ export default function ItemCard(props) {
               component={"span"}
               gutterBottom
               variant="h5"
-              fontSize="32px"
+              fontSize="1.4rem"
               fontFamily={"Pretendard"}
               fontWeight="600"
             >
@@ -171,8 +172,8 @@ export default function ItemCard(props) {
                 component={"span"}
                 gutterBottom
                 variant="h5"
-                fontSize="24px"
-                fontFamily={"kopub"}
+                fontSize="1.2rem"
+                fontFamily={"Pretendard"}
                 fontWeight="400"
               >
                 {props.title}
@@ -182,7 +183,7 @@ export default function ItemCard(props) {
           <CategoryBox>
             <Typography
               component={"span"}
-              fontSize="14px"
+              fontSize="0.9rem"
               fontFamily={"Predendard"}
               fontWeight="600"
             >
@@ -193,7 +194,7 @@ export default function ItemCard(props) {
           <OptionBox>
             <Typography
               component={"span"}
-              fontSize="14px"
+              fontSize="0.9rem"
               fontFamily={"Pretendard"}
               fontWeight="600"
             >
@@ -204,7 +205,7 @@ export default function ItemCard(props) {
           <ContentBox>
             <Typography
               component={"span"}
-              fontSize="14px"
+              fontSize="0.8rem"
               fontFamily={"Pretendard"}
               fontWeight="600"
             >
