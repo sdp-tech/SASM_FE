@@ -17,7 +17,7 @@ const StoryList = ({ info }) => {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "90vw",
+                width: "85vw",
               }}
               maxWidth="xl"
             >
@@ -27,7 +27,7 @@ const StoryList = ({ info }) => {
                   해당하는 스토리가 없습니다
                 </NothingSearched>
               ) : (
-                <Grid container spacing={6}>
+                <Grid container spacing={5}>
                   {info.map((info, index) => (
                     <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
                       <CardSection>

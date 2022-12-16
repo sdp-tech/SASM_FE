@@ -124,7 +124,7 @@ const StoryListPage = () => {
               </SearchFilterBar>
             </SearchBarSection>
             <StoryListSection>
-              <StoryList info={item}/>
+              <StoryList info={item} />
             </StoryListSection>
           </Section>
           <FooterSection>
@@ -156,6 +156,7 @@ const Section = styled.div`
   box-sizing: border-box;
   position: relative;
   height: 90vh;
+  min-height: 100%;
   width: 100%;
   grid-area: story;
   display: flex;
@@ -185,11 +186,11 @@ const StoryListSection = styled.div`
   scrollbar-height: thin;
 `;
 const FooterSection = styled.div`
-  position: relative;
   display: flex;
   flex-direction: row;
-  // overflow: hidden;
-  // grid-area: story;
+  width: 100%;
+  // position: relative;
+  // transform : translateY(-100%);
   height: 12%;
   justify-content: center;
   align-items: center;
