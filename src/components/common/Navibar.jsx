@@ -51,6 +51,7 @@ const LogoWord = styled.div`
   // position: absolute;
   // left: 10%;
   float: right;
+  font-weight: 700;
 `
 const PagesBox = styled.div`
   position: absolute;
@@ -78,6 +79,7 @@ const AuthBox = styled.div`
 const PageTitleCss = styled.div`
   fontsize: 2vw;
   cursor: pointer;
+  text-decoration: none;
   &:active {
     // border: none;
     // background: white;
@@ -104,9 +106,6 @@ const PageTitle = ({ navigate, title }) => {
       style={{ fontSize: "1vw" }}
       onClick={() => {
         console.log("@@@", title);
-        // color === "yellow" ? setColor("red") : setColor("yellow");
-        // // PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title)
-        // // aria-current={ ? "title" : null}
         PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
       }}
     >
@@ -156,7 +155,7 @@ export default function Navibar() {
             onClick={() => PageRedirection(navigate, "SASM")}
           ></Logo>
           <LogoWord
-            style={{ fontSize: "0.8vw", paddingLeft: "5%"}}
+            style={{ fontSize: "0.8vw", paddingLeft: "5%" }}
             onClick={() => PageRedirection(navigate, "SASM")}
           >SASM</LogoWord>
         </LogoBox>
@@ -165,6 +164,7 @@ export default function Navibar() {
         <PagesBox>
           <PageTitle navigate={navigate} title="MAP"></PageTitle>
           <PageTitle navigate={navigate} title="STORY"></PageTitle>
+          <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
           <PageTitle navigate={navigate} title="MY PAGE"></PageTitle>
         </PagesBox>
 

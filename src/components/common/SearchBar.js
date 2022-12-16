@@ -21,15 +21,15 @@ const SearchForm = styled.input`
   border:none;
   background-color:${props => props.background};
   border-radius: 100px;
-  color: white;
+  color: ${props => props.color};
   ::placeholder,
   ::-webkit-input-placeholder {
     text-align: center;
-    color: white;
+    color: ${props => props.color};
   }
   :-ms-input-placeholder {
     text-align: center;
-    color: white;
+    color: ${props => props.color};
   }
 `;
 
@@ -50,7 +50,8 @@ export default function SearchBar({
   onChangeSearch,
   placeholder,
   searchIcon,
-  background
+  background,
+  color,
 }) {
   return (
     <Wrapper onSubmit={handleSearchToggle} background={background}>
@@ -59,6 +60,7 @@ export default function SearchBar({
         value={search}
         onChange={onChangeSearch}
         background={background}
+        color={color}
       />
       <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>

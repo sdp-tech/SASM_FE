@@ -16,21 +16,24 @@ import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
+import Navibar from "./components/common/Navibar";
+import {device} from "./device"
+import MyPick from "./pages/MyPick";
 const GlobalStyle = createGlobalStyle`
-
-
-// div{
-//   font-family: 'kopub';
-// };
-*{/* 프로젝트 내 모든 엘리먼트에 공통적으로 적용 */
-  font-family: 'kopub', 'Dotum';
-};
-body{/* 프로젝트 내 body 태그 안에 공통적으로 적용 */
-  font-family: 'kopub', 'Dotum';
-};
-// p{
-//   font-family: 'Dotum';
-// };
+  html{
+    @media screen and (${device.laptop}) {
+      font-size: 12px;
+      font-family: "Pretendard"
+    }
+    @media screen and (${device.laptopL}) {
+      font-size: 16px;
+      font-family: "Pretendard"
+    }
+    @media screen and (${device.desktop}) {
+      font-size: 20px;
+      font-family: "Pretendard"
+    }
+  }
 `;
 
 const App = () => {
@@ -54,10 +57,11 @@ const App = () => {
   // }, []);
   return (
     <>
-      {/* <GlobalStyle /> */}
+      <GlobalStyle />
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
           <BrowserRouter>
+          <Navibar/>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
@@ -65,6 +69,7 @@ const App = () => {
               <Route path="/map/:place" element={<SpotMap />} />
               
               <Route path="/mypage/*" element={<MyPage />} />
+              <Route path="/mypick/*" element={<MyPick />} />
               <Route path="/auth/*" element={<Auth />} />
 
               <Route path="/story" element={<StoryList />} />
@@ -82,3 +87,4 @@ const App = () => {
 };
 
 export default App;
+

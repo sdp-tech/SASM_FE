@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StoryList from "./components/StoryList";
 import SearchBar from "../common/SearchBar";
 import nothingIcon from "../../assets/img/nothing.svg";
+import searchBlack from "../../assets/img/search_black.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -116,11 +117,14 @@ const StoryListPage = () => {
                   handleSearchToggle={handleSearchToggle}
                   handleFilterToggle={handleFilterToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
+                  searchIcon={searchBlack}
+                  background="white"
+                  color="black"
                 />
               </SearchFilterBar>
             </SearchBarSection>
             <StoryListSection>
-              <StoryList info={item} />
+              <StoryList info={item}/>
             </StoryListSection>
           </Section>
           <FooterSection>

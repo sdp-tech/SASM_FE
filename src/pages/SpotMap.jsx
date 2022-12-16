@@ -6,6 +6,7 @@ import Loading from "../components/common/Loading";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import DataContainer from "../components/SpotMap/DataContainer";
+import {device} from "../device"
 
 export default function SpotMap() {
   const [page, setPage] = useState(1);
@@ -43,8 +44,6 @@ export default function SpotMap() {
   }, []);
   return (
     <Sections>
-      <Navibar />
-
       {loading ? (
         <Loading />
       ) : (
@@ -60,11 +59,17 @@ const Sections = styled.div`
   box-sizing: border-box;
   display: grid;
   position: relative;
-  height: 100vh;
-  grid-template-columns: 0.28fr 0.72fr;
-  grid-template-rows: 0.01fr 0.99fr;
+  height: calc(100vh - 64px);
+  @media screen and (${device.laptop}) {
+    grid-template-columns: 0.35fr 0.65fr;
+  }
+  @media screen and (${device.laptopL}) {
+    grid-template-columns: 0.35fr 0.65fr;
+  }
+  @media screen and (${device.desktop}) {
+    grid-template-columns: 0.28fr 0.72fr;
+  }
+  grid-template-rows: 1fr;
   grid-template-areas:
-    "navibar navibar"
     "spotlist map";
-  // gap: 1% 0.5%;
 `;

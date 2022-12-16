@@ -11,7 +11,6 @@ export default function PlaceAdmin() {
 
     return (
         <div>
-            <Navibar />
             {params.id ? <PlaceFormPage id={params.id} /> : <PlaceFormPage />}
         </div>
     );

@@ -9,9 +9,8 @@ import kakaotalk_login from "../../../assets/img/kakaotalk_login.svg";
 
 const Wrapper = styled.div`
   width: 50%;
-  margin: auto;
+  margin: 3rem auto;
   // transform: translate(70%, 20%);
-  margin-top: 3rem;
   padding-top: 0.6rem;
   padding-bottom: 0.5rem;
 
