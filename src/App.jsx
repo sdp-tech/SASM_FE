@@ -17,8 +17,9 @@ import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
 import Navibar from "./components/common/Navibar";
-import {device} from "./device"
+import { device } from "./device"
 import MyPick from "./pages/MyPick";
+import { useMediaQuery } from "react-responsive";
 const GlobalStyle = createGlobalStyle`
   html{
     @media screen and (${device.laptop}) {
@@ -40,6 +41,15 @@ const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
   });
+  const isPc = useMediaQuery({
+    query: "(min-width:1024px)"
+  });
+  const isTablet = useMediaQuery({
+    query: "(min-width:768px) and (max-width:1023px)"
+  });
+  const isMobile = useMediaQuery({
+    query: "(max-width:767px)"
+  });
   // const [cookies, setCookie, removeCookie] = useCookies(["id"]);
   // const token = cookies.id;
   // console.log("token@!", token);
@@ -57,31 +67,39 @@ const App = () => {
   // }, []);
   return (
     <>
-      <GlobalStyle />
-      <CookiesProvider>
-        <LoginProvider value={[login, setLogin]}>
-          <BrowserRouter>
-          <Navibar/>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/users/*" element={<Auth />} />
-              <Route path="/map" element={<SpotMap />} />
-              <Route path="/map/:place" element={<SpotMap />} />
-              
-              <Route path="/mypage/*" element={<MyPage />} />
-              <Route path="/mypick/*" element={<MyPick />} />
-              <Route path="/auth/*" element={<Auth />} />
+      {isPc &&
+        <CookiesProvider>
+          <LoginProvider value={[login, setLogin]}>
+            <BrowserRouter>
+              <Navibar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/users/*" element={<Auth />} />
+                <Route path="/map" element={<SpotMap />} />
+                <Route path="/map/:place" element={<SpotMap />} />
 
-              <Route path="/story" element={<StoryList />} />
-              <Route path="/story/:id" element={<StoryDetail />} />
-              <Route path="/admin/place" element={<PlaceAdmin />} />
-              <Route path="/admin/place/:id" element={<PlaceAdmin />} />
-              <Route path="/admin/story" element={<StoryAdmin />} />
-              <Route path="/admin/story/:id" element={<StoryAdmin />} />
-            </Routes>
-          </BrowserRouter>
-        </LoginProvider>
-      </CookiesProvider>
+                <Route path="/mypage/*" element={<MyPage />} />
+                <Route path="/mypick/*" element={<MyPick />} />
+                <Route path="/auth/*" element={<Auth />} />
+
+                <Route path="/story" element={<StoryList />} />
+                <Route path="/story/:id" element={<StoryDetail />} />
+                <Route path="/admin/place" element={<PlaceAdmin />} />
+                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
+                <Route path="/admin/story" element={<StoryAdmin />} />
+                <Route path="/admin/story/:id" element={<StoryAdmin />} />
+              </Routes>
+            </BrowserRouter>
+          </LoginProvider>
+        </CookiesProvider>}
+        {
+          isTablet &&
+          <p>Tablet</p>
+        }
+        {
+          isMobile &&
+          <p>Mobile</p>
+        }
     </>
   );
 };
