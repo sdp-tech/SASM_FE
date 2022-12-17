@@ -35,6 +35,9 @@ const RecommendTitle = styled.div`
     margin : 0 0 0 1%;
     background-color: #44ADF7;
     width: 70%;
+    @media screen and (max-width: 768px) {
+      width: 60%;
+    }
     }
   }
 `;

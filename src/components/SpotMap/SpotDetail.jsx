@@ -11,6 +11,11 @@ import { useCookies } from "react-cookie";
 
 const StyledList = styled(List)`
   left: 35.6%;
+  max-width: 25%;
+  @media screen and (max-width : 768px){
+    left: 0%;
+    max-width: 100%;
+  }
 `
 
 export default function SpotDetail(props) {
@@ -41,7 +46,6 @@ export default function SpotDetail(props) {
           boxSizing: "border-box",
           width: "100%",
           overflow: "hidden",
-          maxWidth: "25%",
           bgcolor: "#FFFFFF",
         }}
       >

@@ -47,8 +47,7 @@ const TitleBox = styled.div`
   position: relative;
   display: flex;
   justify-content:space-around;
-  flex-flow : column wrap;
-  height:40%;
+  flex-flow : row wrap;
 `;
 const ContentBox = styled.div`
   font-size: 0.75rem;
@@ -185,7 +184,7 @@ export default function ItemCard(props) {
         </ImgBox>
         <TextBox>
           <TitleBox>
-            <div style={{ cursor: "pointer"}} onClick={handleClick}>
+            <div style={{width:'100%', cursor: "pointer"}} onClick={handleClick}>
               {props.StoreName}
             </div>
             <LikeButton style={{ position: 'absolute', right: '5%', bottom: '2%' }}>
@@ -195,7 +194,7 @@ export default function ItemCard(props) {
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
-            <div style={{fontWeight: "400", fontSize:"1rem" }}>
+            <div style={{width:'100%',fontWeight: "400", fontSize:"1rem" }}>
               {props.StoreType}
             </div>
           </TitleBox>
