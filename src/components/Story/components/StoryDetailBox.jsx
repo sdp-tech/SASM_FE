@@ -322,7 +322,12 @@ const StoryDetailBox = (props) => {
           </ImageNContentBox>
           <Comments data={comment}></Comments>
           <WriteComment id={id}></WriteComment>
-          <Recommends data={recommend}></Recommends>
+          {recommend.count != 0 ? (
+            <Recommends data={recommend}></Recommends>
+          ) : (
+            <></>
+          )}
+
           <FooterBox>
 
           </FooterBox>
