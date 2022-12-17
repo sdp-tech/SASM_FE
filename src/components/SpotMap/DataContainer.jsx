@@ -11,6 +11,7 @@ import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
 import {CATEGORY_LIST, MatchCategory} from '../common/Category'
+import {Pc, Tablet, Mobile} from "../../device"
 
 const ListWrapper = styled.div`
   display: flex;
@@ -264,6 +265,8 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></>
+            <Pc><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></Pc>
+            <Tablet><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></Tablet>
+        </>
     )
 }
