@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import ItemCard from "./SpotList/ItemCard.js";
 import nothingIcon from "../../assets/img/nothing.svg";
-import { device } from "../../device.js";
 
 const SpotListSection = styled.div`
   position: relative;
@@ -35,14 +34,7 @@ const RecommendTitle = styled.div`
     height:1px;
     margin : 0 0 0 1%;
     background-color: #44ADF7;
-    @media screen and (${device.laptop}) {
-      width: 69%;
-    }
-    @media screen and (${device.laptopL}) {
-      width: 69%;
-    }
-    @media screen and (${device.desktop}) {
-      width: 73%;
+    width: 70%;
     }
   }
 `;

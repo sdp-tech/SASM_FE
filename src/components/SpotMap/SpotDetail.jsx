@@ -8,18 +8,9 @@ import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { device } from "../../device"
 
 const StyledList = styled(List)`
-  @media screen and (${device.laptop}) {
-      left: 35.6%;
-    }
-    @media screen and (${device.laptopL}) {
-      left: 35.6%;
-    }
-    @media screen and (${device.desktop}) {
-      left: 28%;
-    }
+  left: 35.6%;
 `
 
 export default function SpotDetail(props) {
