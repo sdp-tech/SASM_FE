@@ -217,6 +217,13 @@ export default function DataContainer({ Location }) {
                                         // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
                                         onChange={(e) => {
                                             onCheckedElement(e.target.checked, e.target.value);
+                                            if(e.target.checked) {
+                                                e.target.closest('div').style.color='red';
+                                            }
+                                            else {
+                                                e.target.closest('div').style.color='black';
+                                            }
+                                            
                                         }}
                                         // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
                                         checked={tempCheckedList.includes(item.data) ? true : false}
