@@ -8,7 +8,9 @@ const Wrapper = styled.form`
   display: flex;
   flex-wrap: nowrap;
   background-color:${props => props.background};
-  padding: 1% 0;
+  @media screen and (max-width: 768px) {
+    padding: 1% 0;
+  }
   border-radius: 100px;
   box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
 `;
@@ -42,6 +44,9 @@ const IconWrapper = styled.div`
   padding: 0 2%;
   cursor: pointer;
   margin : 0 2% 0 0;
+  @media screen and (max-width: 768px) {
+    transform: scale(0.5);
+  }
 `;
 
 export default function SearchBar({

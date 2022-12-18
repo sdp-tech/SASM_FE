@@ -19,6 +19,9 @@ const TitleBox = styled.div`
   width: 90%;
   color: #6c6c6c;
   margin-top: 7%;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  } 
 `;
 
 const StoreNameBox = styled.div`
@@ -28,6 +31,10 @@ const StoreNameBox = styled.div`
   width: 80%;
   color: #000000;
   margin-top: 5%;
+  @media screen and (max-width: 768px) {
+    width:100%;
+    margin: 0;
+  } 
 `;
 
 const CategoryBox = styled.div`
@@ -35,7 +42,9 @@ const CategoryBox = styled.div`
   display: flex;
   width: 90%;
   color: #000000;
-  // margin-top: 4%;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  } 
 `;
 const OptionBox = styled.div`
   box-sizing: border-box;
@@ -44,6 +53,9 @@ const OptionBox = styled.div`
   color: #999999;
   padding-left: 2%;
   border-left: 2px solid #000000;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  } 
 `;
 
 const ContentBox = styled.div`
@@ -55,7 +67,9 @@ const ContentBox = styled.div`
   min-height: 86px;
   max-height: 86px;
   color: #797979;
-  // border: 2px solid #000000;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  } 
 `;
 
 // 기존에 존재하는 버튼에 재스타일
@@ -76,9 +90,23 @@ const LikeButton = styled(Button)({
   display: "flex",
   height: "30px",
   width: "30px",
-  marginTop: "2%",
-  marginBottom: "2%",
+  margin: "2% 3% 2% 0"
 });
+const StyledCard = styled(Card)`
+  display: flex;
+  min-height: 250px;
+  min-width: 500px;
+  max-height: 250px;
+  max-width: 500px;
+  flex-direction: row;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    min-height: 500px;
+    min-width: 250px;
+    max-height: 500px;
+    max-width: 250px;
+  }
+`
 
 export default function ItemCard(props) {
   const [like, setLike] = useState(false);
@@ -105,16 +133,9 @@ export default function ItemCard(props) {
 
   return (
     <div>
-      <Card
+      <StyledCard
         sx={{
-          minHeight: "230px",
-          minWidth: "500px",
-          maxHeight: "230px",
-          maxWidth: "500px",
-          display: "flex",
-          flexDirection: "row",
           alignItems: "center",
-          border: "none",
           boxShadow: "none",
         }}
       >
@@ -155,6 +176,7 @@ export default function ItemCard(props) {
               fontSize="1.4rem"
               fontFamily={"Pretendard"}
               fontWeight="600"
+              margin="auto 0"
             >
               {props.place_name}
             </Typography>
@@ -213,7 +235,7 @@ export default function ItemCard(props) {
             </Typography>
           </ContentBox>
         </CardContent>
-      </Card>
+      </StyledCard>
     </div>
   );
 }
