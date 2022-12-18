@@ -107,7 +107,7 @@ const StoryListPage = () => {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div style={{}}>
           <Section>
             <SearchBarSection>
               <SearchFilterBar>
@@ -146,7 +146,7 @@ const StoryListPage = () => {
               <></>
             )}
           </FooterSection>
-        </>
+        </div>
       )}
     </>
   );
@@ -155,7 +155,7 @@ const StoryListPage = () => {
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 90vh;
+  height: calc(100vh - 114px);
   min-height: 100%;
   width: 100%;
   grid-area: story;
@@ -165,7 +165,7 @@ const Section = styled.div`
 const SearchBarSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 19%;
+  height: 8vh;
   width: 100%;
   display: flex;
   margin-top: 0.1%;
@@ -177,27 +177,32 @@ const SearchBarSection = styled.div`
 const StoryListSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 90%;
+  height: calc(100vh - 64px - 13vh);
   width: 100%;
-  margin-top: 1%;
   display: flex;
   flex-direction: column;
   grid-area: story;
   scrollbar-height: thin;
+  overflow: scroll;
 `;
 const FooterSection = styled.div`
   display: flex;
   flex-direction: row;
+  position: absolute;
+  bottom: 0;
   width: 100%;
   // position: relative;
-  // transform : translateY(-100%);
-  height: 12%;
+  z-index: 20;
+  height: 5vh;
   justify-content: center;
   align-items: center;
 `;
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 35%;
+  @media screen and (max-width: 768px) {
+    width: 80%;
+  }
   height: 33%;
   background: #FFFFFF;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
