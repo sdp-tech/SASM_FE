@@ -14,6 +14,7 @@ import Request from "../../../functions/common/Request";
 
 const StyledCard = styled.div`
   position: relative;
+  max-width: 100%;
   margin : 0 0 0 2.5%;
   padding: 3%;
   border-bottom: 1px black solid;
@@ -56,7 +57,7 @@ const ContentBox = styled.div`
   color: black;
   display: flex;
   flex-flow : column wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`

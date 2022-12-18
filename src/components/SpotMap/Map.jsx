@@ -75,8 +75,12 @@ const ControllerWrapper = styled.div`
   display: flex;
   transform: rotate(270deg);
   z-index: 3;
-  right: -4vw;
-  bottom: 7vw;
+  right: -5%;
+  bottom: 20%;
+  @media screen and (max-width: 768px) {
+    right: -13%;
+    bottom: 33%;
+  }
 `
 
 

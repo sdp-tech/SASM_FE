@@ -10,10 +10,14 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 const StyledList = styled(List)`
-  left: 35.6%;
+  top: 64px;
+  height: calc(100vh - 64px);
+  left: 28.6%;
   max-width: 25%;
   @media screen and (max-width : 768px){
     left: 0%;
+    top: calc((100vh - 64px) * 0.4 + 64px);
+    height: calc(100vh - (100vh - 64px) * 0.4 - 64px);
     max-width: 100%;
   }
 `
@@ -36,16 +40,13 @@ export default function SpotDetail(props) {
   return (
     <>
       <StyledList
-        style={{ overflow: "auto",
+        style={{ overflow: "scroll",
         position: "fixed",
-        top: `calc(64px)`,
         }}
         sx={{
-          height:`calc(100vh - 64px)`,
           padding: "0",
           boxSizing: "border-box",
           width: "100%",
-          overflow: "hidden",
           bgcolor: "#FFFFFF",
         }}
       >
