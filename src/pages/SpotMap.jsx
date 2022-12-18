@@ -60,9 +60,10 @@ const Sections = styled.div`
   position: relative;
   height: calc(100vh - 64px);
   @media screen and (max-width : 768px){
+  grid-template-rows: 0.4fr 0.6fr; 
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
   grid-template-areas:
+    "map";
     "spotlist";
   }
   grid-template-columns: 0.28fr 0.72fr;

@@ -8,6 +8,7 @@ const Wrapper = styled.form`
   display: flex;
   flex-wrap: nowrap;
   background-color:${props => props.background};
+  padding: 1% 0;
   border-radius: 100px;
   box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
 `;

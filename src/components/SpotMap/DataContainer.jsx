@@ -10,8 +10,8 @@ import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
-import {CATEGORY_LIST, MatchCategory} from '../common/Category'
-import {Pc, Tablet, Mobile} from "../../device"
+import { CATEGORY_LIST, MatchCategory } from '../common/Category'
+import { Pc, Tablet, Mobile } from "../../device"
 
 const ListWrapper = styled.div`
   display: flex;
@@ -20,6 +20,7 @@ const ListWrapper = styled.div`
   margin-top: 15px;
   overflow : hidden;
 `
+
 const SearchFilterBar = styled.div`
   // background-color: red;
   margin : 0 auto;
@@ -64,6 +65,10 @@ const CategoryImageWrapper = styled.div`
   border-radius: 50%;
   width: 3vw;
   height: 3vw;
+  @media screen and (max-width: 768px) {
+    width:10vw;
+    height: 10vw;
+  }
 `
 
 export default function DataContainer({ Location }) {
@@ -83,7 +88,7 @@ export default function DataContainer({ Location }) {
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [total, setTotal] = useState(0);
-    const [zoom ,setZoom] = useState(14);
+    const [zoom, setZoom] = useState(14);
     const [state, setState] = useState({
         loading: false,
         ItemList: [],
@@ -191,6 +196,7 @@ export default function DataContainer({ Location }) {
     };
     return (
         <>
+            <Mobile><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
@@ -204,8 +210,6 @@ export default function DataContainer({ Location }) {
                         color="white"
                     />
                 </SearchFilterBar>
-
-
                 <FilterOptions>
                     <CategoryCheckBox>
                         {CATEGORY_LIST.map((item) => {
@@ -218,13 +222,13 @@ export default function DataContainer({ Location }) {
                                         // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
                                         onChange={(e) => {
                                             onCheckedElement(e.target.checked, e.target.value);
-                                            if(e.target.checked) {
-                                                e.target.closest('div').style.color='red';
+                                            if (e.target.checked) {
+                                                e.target.closest('div').style.color = 'red';
                                             }
                                             else {
-                                                e.target.closest('div').style.color='black';
+                                                e.target.closest('div').style.color = 'black';
                                             }
-                                            
+
                                         }}
                                         // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
                                         checked={tempCheckedList.includes(item.data) ? true : false}
@@ -234,9 +238,9 @@ export default function DataContainer({ Location }) {
                                     <label htmlFor={`category${item.id}`}>
                                         <CategoryLabel>
                                             <CategoryImageWrapper>
-                                                <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%'}} />
+                                                <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%' }} />
                                             </CategoryImageWrapper>
-                                            <div style={{fontSize:'1.125em', marginTop:'5%'}}>{item.name}</div>
+                                            <div style={{ fontSize: '1.125em', marginTop: '5%' }}>{item.name}</div>
                                         </CategoryLabel>
                                     </label>
                                 </CategoryLabelWrapper>
@@ -265,8 +269,8 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Pc><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></Pc>
-            <Tablet><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></Tablet>
+            <Pc><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Pc>
+            <Tablet><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Tablet>
         </>
     )
 }
