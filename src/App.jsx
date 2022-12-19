@@ -25,23 +25,25 @@ const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
   });
-  // const [cookies, setCookie, removeCookie] = useCookies(["id"]);
-  // const token = cookies.id;
-  // console.log("token@!", token);
-  // // 백 검사하기
-
-  // useEffect(() => {
-  //   if (token) {
-  //     setLogin({
-  //       ...login,
-  //       loggedIn: true,
-  //       // token: res.token,
-  //       // nickname: res.nickname,
-  //     });
-  //   }
-  // }, []);
+  const GlobalStyle = createGlobalStyle`
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  * {
+    @media screen and (max-width: 768px) {
+      
+    }
+    @media screen and (min-width:769px) and (max-width: 1023px) {
+      
+    }
+    @media screen and (min-width: 1024px) {
+      
+    }
+  }
+`;
   return (
     <>
+      <GlobalStyle/>
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
           <Pc>
