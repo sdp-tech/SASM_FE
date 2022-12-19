@@ -12,6 +12,51 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 
+const MyplaceSection = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  grid-area: story;
+  margin-top: 10%;
+`;
+const FooterSection = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-area: story;
+`;
+const CardSection = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  grid-area: story;
+  justify-content: center;
+  align-items: center;
+`;
+const NothingSearched = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const ChangeModeButton = styled.span`
+  display: flex;
+  font-size: 1.25rem;
+  position: absolute;
+  left: 15vw;
+  top: 1%;
+  @media screen and (max-width: 768px) {
+    left: 7vw;
+    top: 0.5%;
+    font-size: 1rem;
+  }
+`
+
 const Mystory = (props) => {
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -26,7 +71,6 @@ const Mystory = (props) => {
   const request = new Request(cookies, localStorage, navigate);
 
   const pageMystory = async () => {
-    console.log("page", page);
     let newPage;
     if (page === 1) {
       newPage = null;
@@ -54,10 +98,10 @@ const Mystory = (props) => {
       ) : (
         <>
           <MyplaceSection>
-          <span style={{position:'absolute', left:'15vw', top:'1%', display:'flex', fontSize:"1.25rem"}} onClick={props.handleMode}>
+            <ChangeModeButton onClick={props.handleMode}>
               <img src={ChangeMode} style={{marginRight:'10px'}} />
               PLACE
-            </span>
+            </ChangeModeButton>
             <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
               MY STORY
             </span>
@@ -84,7 +128,7 @@ const Mystory = (props) => {
                       해당하는 스토리가 없습니다
                     </NothingSearched>
                   ) : (
-                    <Grid container spacing={10}>
+                    <Grid container spacing={5}>
                       {info.map((info, index) => (
                         <Grid item key={info.id} xs={12} sm={12} md={6} lg={6}>
                           <CardSection>
@@ -120,38 +164,5 @@ const Mystory = (props) => {
     </>
   );
 };
-
-const MyplaceSection = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  grid-area: story;
-  margin-top: 10%;
-`;
-const FooterSection = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  grid-area: story;
-`;
-const CardSection = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  grid-area: story;
-  justify-content: center;
-  align-items: center;
-`;
-const NothingSearched = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default Mystory;
