@@ -9,6 +9,9 @@ const Positioner = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 40%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
   grid-area: auth;
 `;
   

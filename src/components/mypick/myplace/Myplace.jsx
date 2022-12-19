@@ -12,6 +12,52 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 
+const MyplaceSection = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  grid-area: story;
+  margin-top:10%;
+`;
+const FooterSection = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-area: story;
+  height: 12%;
+`;
+const CardSection = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  grid-area: story;
+  justify-content: center;
+  align-items: center;
+`;
+const NothingSearched = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const ChangeModeButton = styled.span`
+  display: flex;
+  font-size: 1.25rem;
+  position: absolute;
+  left: 15vw;
+  top: 1%;
+  @media screen and (max-width: 768px) {
+    left: 7vw;
+    top: 0.5%;
+    font-size: 1rem;
+  }
+`
+
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -21,14 +67,13 @@ const Myplace = (props) => {
   const [loading, setLoading] = useState(true);
 
   const offset = (page - 1) * limit;
-  console.log("pageInfo", page, offset); //현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
+  //console.log("pageInfo", page, offset); 현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
 
   const pageMyplace = async () => {
-    console.log("page", page);
     let newPage;
     if (page == 1) {
       newPage = null;
@@ -58,10 +103,10 @@ const Myplace = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <span style={{position:'absolute', left:'15vw', top:'1%', display:'flex', fontSize:"1.25rem"}} onClick={props.handleMode}>
+            <ChangeModeButton onClick={props.handleMode}>
               <img src={ChangeMode} style={{marginRight:'10px'}} />
               STORY
-            </span>
+            </ChangeModeButton>
             <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
               MY PLACE
             </span>
@@ -120,39 +165,5 @@ const Myplace = (props) => {
     </>
   );
 };
-
-const MyplaceSection = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  grid-area: story;
-  margin-top:10%;
-`;
-const FooterSection = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  grid-area: story;
-  height: 12%;
-`;
-const CardSection = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  grid-area: story;
-  justify-content: center;
-  align-items: center;
-`;
-const NothingSearched = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default Myplace;

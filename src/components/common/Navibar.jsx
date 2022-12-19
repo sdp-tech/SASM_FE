@@ -77,7 +77,7 @@ const AuthBox = styled.div`
   }
 `;
 const PageTitleCss = styled.div`
-  font-size: 0.5rem;
+  font-size: 1rem;
   cursor: pointer;
   text-decoration: none;
   &:active {
