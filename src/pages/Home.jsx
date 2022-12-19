@@ -18,7 +18,7 @@ const IntroImg = styled.img`
   height: auto;
   @media screen and (max-width: 768px) {
     height: 30vw;
-  } 
+  }
 `;
 const HomeImg = styled.img`
   width: 100vw;
@@ -44,7 +44,7 @@ const SubTitle = styled.div`
   } 
   @media screen and (max-width: 768px) {
     font-size: 4vw;
-  } 
+  }
 `
 const TitleBox = styled.div`
   display: flex;
@@ -124,6 +124,7 @@ const MapImage = styled.div`
   z-index: 3;
   // top: 25vh;
   left: 5vw;
+  width: 95vw;
   @media screen and (max-width: 768px) {
     bottom: 110vw;
     width: 130%;
