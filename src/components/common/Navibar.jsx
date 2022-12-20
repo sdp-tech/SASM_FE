@@ -185,7 +185,7 @@ const LoggingOut = ({ login, setLogin }) => {
   const navigate = useNavigate();
   return (
     <div
-      style={{ fontSize: "0.5rem", cursor: "pointer" }}
+      style={{cursor: "pointer" }}
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
@@ -224,7 +224,7 @@ export default function Navibar() {
             onClick={() => PageRedirection(navigate, "SASM")}
           ></Logo>
           <LogoWord
-            style={{ fontSize: "0.8vw", paddingLeft: "5%" }}
+            style={{paddingLeft: "5%" }}
             onClick={() => PageRedirection(navigate, "SASM")}
           >SASM</LogoWord>
         </LogoBox>
