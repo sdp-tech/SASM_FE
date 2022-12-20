@@ -170,17 +170,10 @@ const ChangeForm = (props) => {
           </MyplaceSection>
         </Section> */}
         <Section>
-          <form style={{width:'100%', height: '100%'}}>
-            <div style={{height: '30%', display: 'flex', alignItems: 'center' }}>
+          <form style={{ width: '100%', height: '100%' }}>
+            <div style={{ height: '30%', display: 'flex', alignItems: 'center' }}>
               <div style={{ position: 'relative' }}>
-                <ImageBox>
-                  <img
-                    src={state.profile_image}
-                    alt="profile"
-                    height="180px"
-                    width="180px"
-                  />
-                </ImageBox>
+                <ImageBox profile={state.profile_image} />
                 <AppStyle>
                   <label htmlFor="ex_file">
                     <div>
@@ -202,21 +195,21 @@ const ChangeForm = (props) => {
               </div>
             </div>
             <Grid container sx={{ height: '70%' }} >
-              <Grid item xs={5} sm={5} md={5} lg={5}>
-                <InfoContainer style={{ paddingLeft: '10vw', paddingRight: '5vw' }}>
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <InfoContainer>
                   <LabelWrapper>
                     <Label>이메일</Label>
-                    <Text value={state.email} readOnly/>
+                    <Text value={state.email} readOnly />
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label>닉네임</Label>
                     <Text type="text" placeholder={state.nickname} onChange={(event) => {
-                        setInfo({
-                          ...info,
-                          nickname: event.target.value,
-                        });
-                      }}
-                      name="nickname"/>
+                      setInfo({
+                        ...info,
+                        nickname: event.target.value,
+                      });
+                    }}
+                      name="nickname" />
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label>생년월일</Label>
@@ -229,19 +222,19 @@ const ChangeForm = (props) => {
                           birthdate: event.target.value,
                         });
                       }}
-                      name="birthdate"/>
+                      name="birthdate" />
                   </LabelWrapper>
                   <LabelWrapper>
-                    <Label style={{ opacity: "0"}}>저장하기</Label>
-                    <Label onClick={SaveInfo} style={{ fontSize: '0.75rem', cursor: 'pointer'  }}>저장하기</Label>
-                    <Label style={{ opacity: "0"}}>저장하기</Label>
+                    <Label style={{ opacity: "0" }}>저장하기</Label>
+                    <Label onClick={SaveInfo} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>저장하기</Label>
+                    <Label style={{ opacity: "0" }}>저장하기</Label>
                   </LabelWrapper>
                 </InfoContainer>
               </Grid>
-              <Grid item xs={7} sm={7} md={7} lg={7}>
-                <InfoContainer style={{ paddingLeft: '5vw', paddingRight: '10vw' }}>
+              <Grid item xs={12} sm={12} md={7} lg={7}>
+                <DetailContainer>
 
-                </InfoContainer>
+                </DetailContainer>
               </Grid>
             </Grid>
           </form>
@@ -263,7 +256,6 @@ const Section = styled.div`
 `;
 
 const ImageBox = styled.div`
-  position:relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -273,8 +265,13 @@ const ImageBox = styled.div`
   overflow: hidden;
   border: 1px black solid;
   margin-left: 10vw;
+  background-image: url(${props => props.profile});
+  background-size: cover;
+  @media screen and (max-width: 768px) {
+    width: 35vw;
+    height: 35vw;
+  }
 `;
-
 const AppStyle = styled.div`
   position: absolute;
   width: 30px;
@@ -309,7 +306,7 @@ const LabelWrapper = styled.div`
   justify-content: space-between;
 `
 const Label = styled.div`
-  width: 12vw;
+  width: 10vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,9 +319,12 @@ const Label = styled.div`
   & + & {
     margin-left: 2vw;
   }
+  @media screen and (max-width: 768px) {
+    width: 30vw;
+  }
 `
 const Text = styled.input`
-  width: 10vw;
+  width: 15vw;
   display: flex;
   align-items: center;
   justify-content: left;
@@ -332,12 +332,30 @@ const Text = styled.input`
   border-radius; 2px;
   box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
   padding: 2% 1vw;
+  @media screen and (max-width: 768px) {
+    width: 50vw;
+  }
 `
 const InfoContainer = styled.div`
-  height: 100%;
+  height: calc(100vh - 64px - 0.3 * (100vh - 64px));
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
+  padding-left: 10vw;
+  padding-right: 5vw;
   border-right: 2px #44ADF7 solid;
+  @media screen and (max-width: 768px) {
+    padding: 2vw;
+    border: none;
+    border-bottom : 2px #44ADF7 solid;
+  }
+`
+const DetailContainer = styled.div`
+  height: calc(100vh - 64px - 0.3 * (100vh - 64px));
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  padding-left: 5vw;
+  padding-right: 10vw;
 `
 export default ChangeForm;
