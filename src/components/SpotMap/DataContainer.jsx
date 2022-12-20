@@ -16,9 +16,11 @@ import { Pc, Tablet, Mobile } from "../../device"
 const ListWrapper = styled.div`
   display: flex;
   flex-flow: column;
-  margin-left: 15px;
   margin-top: 15px;
   overflow : hidden;
+  @media screen and (min-width: 769px) {
+    margin-left: 15px;
+  }
 `
 
 const SearchFilterBar = styled.div`
@@ -68,6 +70,13 @@ const CategoryImageWrapper = styled.div`
   @media screen and (max-width: 768px) {
     width:10vw;
     height: 10vw;
+  }
+`
+const CategoryNameWrapper = styled.div`
+  margin-top: 5%;
+  font-size: 0.65rem;
+  @media screen and (max-width: 768px) {
+    font-size: 0.65rem;
   }
 `
 
@@ -240,7 +249,7 @@ export default function DataContainer({ Location }) {
                                             <CategoryImageWrapper>
                                                 <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%' }} />
                                             </CategoryImageWrapper>
-                                            <div style={{ fontSize: '1.125em', marginTop: '5%' }}>{item.name}</div>
+                                            <CategoryNameWrapper>{item.name}</CategoryNameWrapper>
                                         </CategoryLabel>
                                     </label>
                                 </CategoryLabelWrapper>

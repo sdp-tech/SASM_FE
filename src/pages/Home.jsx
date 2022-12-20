@@ -126,13 +126,11 @@ const MapImage = styled.div`
   left: 5vw;
   width: 95vw;
   @media screen and (max-width: 768px) {
-    bottom: 110vw;
-    width: 130%;
+    bottom: 110vw;=
     height: auto;
   }
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     bottom: 80vw;
-    width: 120%;
     height: auto;
   }
 `

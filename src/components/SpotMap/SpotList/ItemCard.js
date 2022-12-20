@@ -32,10 +32,15 @@ const ImgBox = styled.div`
   min-height:15vmin;
   max-width:15vmin;
   max-height:15vmin;
+  @media screen and (max-width: 768px) {
+    min-width:25vmin;
+    min-height:25vmin;
+    max-width:25vmin;
+    max-height:25vmin;
+  }
 `;
 const TextBox = styled.div`
   width: 100%;
-  color: black;
   display: flex;
   flex-flow : row wrap;
   margin: 0 0 0 3%;
@@ -52,7 +57,7 @@ const TitleBox = styled.div`
 `;
 const ContentBox = styled.div`
   font-size: 0.75rem;
-  height:60%;
+  min-height: 60%;
   font-weight: 400;
   color: black;
   display: flex;
