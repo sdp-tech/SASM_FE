@@ -78,8 +78,8 @@ const ControllerWrapper = styled.div`
   right: -5%;
   bottom: 20%;
   @media screen and (max-width: 768px) {
-    right: -13%;
-    bottom: 33%;
+    right: -20%;
+    bottom: 45%;
   }
 `
 

@@ -38,6 +38,9 @@ const LogoBox = styled.div`
   align-items: center;
   cursor: pointer;
   margin-left: 10%;
+  @media screen and (max-width: 768px) {
+    margin-left: 5%;
+  }
 `;
 const Logo = styled.img`
   display: block;
@@ -73,7 +76,7 @@ const AuthBox = styled.div`
   flex-direction: row;
   align-items: center;
   @media screen and (max-width: 768px) {
-    width: 30%;
+    width: 40%;
   }
 `;
 const PageTitleCss = styled.div`
@@ -112,11 +115,13 @@ const MobileMenuList = styled.div`
   position: fixed;
   top: 64px;
   color: black;
+  border-top: 1px #999999 solid;
+  box-shadow: 0 4px 4px -4px black;
 `
 const MobilePageTitle = styled.div`
   padding: 2% 5%;
   text-align: right;
-  font-size: 0.5rem;
+  font-size: 0.8rem;
   cursor: pointer;
   text-decoration: none;
   &:active {
@@ -185,7 +190,7 @@ const LoggingOut = ({ login, setLogin }) => {
   const navigate = useNavigate();
   return (
     <div
-      style={{cursor: "pointer" }}
+      style={{cursor: "pointer", fontSize:"0.8rem" }}
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
