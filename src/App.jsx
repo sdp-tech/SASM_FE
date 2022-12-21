@@ -37,7 +37,17 @@ const App = () => {
       
     }
     @media screen and (min-width: 1024px) {
-      
+    }
+  }
+  html {
+    @media screen and (max-width: 1536px) {
+      font-size: 16px;
+    }
+    @media screen and (min-width: 1537px) and (max-width: 1920px) {
+      font-size : 22px;
+    }
+    @media screen and (min-width: 1921px) and (max-width: 2560px) {
+      font-size: 30px;
     }
   }
 `;

@@ -17,7 +17,7 @@ const PlacenameBox = styled.div`
   display: flex;
   width: 100%;
   font-weight: 550;
-  font-size: 1rem;
+  font-size: 0.8rem;
   align-items: center;
   color:#000000;
   margin-top: -2%;
@@ -88,7 +88,7 @@ export default function ItemCard(props) {
 
         <CardContent
           sx={{
-            height:"10px",
+            height:"50px",
             minWidth: "300px",
             maxWidth: "300px",
             display: "flex",

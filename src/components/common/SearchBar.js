@@ -3,16 +3,12 @@ import styled from "styled-components";
 
 const Wrapper = styled.form`
   position: relative;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-wrap: nowrap;
   background-color:${props => props.background};
-  @media screen and (max-width: 768px) {
-    padding: 1% 0;
-  }
   border-radius: 100px;
   box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
+  align-items: center;
 `;
 
 const SearchForm = styled.input`
@@ -20,10 +16,9 @@ const SearchForm = styled.input`
   border-box: box-sizing;
   outline: none;
   flex-grow: 1;
-  padding: 0 0 0 10%;
+  margin-left: 5%;
   border:none;
   background-color:${props => props.background};
-  border-radius: 100px;
   color: ${props => props.color};
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -44,9 +39,6 @@ const IconWrapper = styled.div`
   padding: 0 2%;
   cursor: pointer;
   margin : 0 2% 0 0;
-  @media screen and (max-width: 768px) {
-    transform: scale(0.5);
-  }
 `;
 
 export default function SearchBar({

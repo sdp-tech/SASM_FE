@@ -10,16 +10,15 @@ const StoryList = ({ info }) => {
     <>
       <>
         <StorySection>
-          <main>
+          <main style={{width: '100%', marginTop:'2rem'}}>
             <Container
               sx={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "85vw",
+                minWidth: "85vw",
               }}
-              maxWidth="xl"
             >
               {info.length === 0 ? (
                 <NothingSearched>
