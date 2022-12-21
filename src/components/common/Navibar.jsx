@@ -100,7 +100,6 @@ const PageTitleCss = styled.div`
   }
 `;
 const MobileMenuBox = styled.div`
-  font-size: 0.5rem;
   height: 100%;
   width: 10%;
   display: flex;
@@ -143,6 +142,13 @@ const MobilePageTitle = styled.div`
     border-top:1px #999999 solid;
   }
 `;
+const LogginOutTitle = styled.div`
+  font-size: 1rem;
+  cursor: pointer;
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+`
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({ navigate, title, setMenu }) => {
   const [color, setColor] = useState("yellow");
@@ -189,8 +195,7 @@ const LoggingOut = ({ login, setLogin }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   return (
-    <div
-      style={{cursor: "pointer", fontSize:"0.8rem" }}
+    <LogginOutTitle
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
@@ -203,7 +208,7 @@ const LoggingOut = ({ login, setLogin }) => {
       }}
     >
       LOG OUT
-    </div>
+    </LogginOutTitle>
   );
 };
 

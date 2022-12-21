@@ -22,12 +22,10 @@ const ListWrapper = styled.div`
     margin-left: 15px;
   }
 `
-
 const SearchFilterBar = styled.div`
   // background-color: red;
   margin : 0 auto;
   width: 95%;
-  min-height: 5%;
   box-sizing: border-box;
 `;
 const FilterOptions = styled.div`

@@ -16,60 +16,65 @@ import Request from "../../../functions/common/Request";
 const TitleBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 90%;
+  width: 100%;
   color: #6c6c6c;
   margin-top: 7%;
   @media screen and (max-width: 768px) {
     width:100%;
-  } 
+  }
+  font-size: 1rem;
 `;
 
 const StoreNameBox = styled.div`
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 100%;
   color: #000000;
-  margin-top: 5%;
   @media screen and (max-width: 768px) {
     width:100%;
     margin: 0;
-  } 
+  }
+  font-size: 1.25rem;
 `;
 
 const CategoryBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 90%;
+  margin-top: 2.5%;
+  width: 100%;
   color: #000000;
   @media screen and (max-width: 768px) {
     width:100%;
-  } 
+  }
+  font-size:0.8rem;
 `;
 const OptionBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 90%;
+  width: 100%;
   color: #999999;
   padding-left: 2%;
   border-left: 2px solid #000000;
   @media screen and (max-width: 768px) {
     width:100%;
-  } 
+  }
+  font-size: 0.8rem;
 `;
 
 const ContentBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  margin-top: 22px;
-  width: 90%;
+  margin-top: 1rem;
+  width: 100%;
   overflow: hidden;
   min-height: 86px;
   max-height: 86px;
   color: #797979;
   @media screen and (max-width: 768px) {
     width:100%;
-  } 
+  }
+  font-size: 0.8rem;
 `;
 
 // 기존에 존재하는 버튼에 재스타일
@@ -94,10 +99,10 @@ const LikeButton = styled(Button)({
 });
 const StyledCard = styled(Card)`
   display: flex;
-  min-height: 250px;
-  min-width: 500px;
-  max-height: 250px;
-  max-width: 500px;
+  min-height: 15vw;
+  min-width: 30vw;
+  max-height: 15vw;
+  max-width: 30vw;
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -144,10 +149,10 @@ export default function ItemCard(props) {
             component="img"
             sx={{
               16: 9,
-              minHeight: "250px",
-              minWidth: "250px",
-              maxHeight: "250px",
-              maxWidth: "250px",
+              minHeight: "15vw",
+              minWidth: "15vw",
+              maxHeight: "15vw",
+              maxWidth: "15vw",
               display: "flex",
               borderRadius: "10%",
             }}
@@ -158,10 +163,10 @@ export default function ItemCard(props) {
         <CardContent
           sx={{
             // flexGrow: 1,
-            minHeight: "250px",
-            minWidth: "250px",
-            maxHeight: "250px",
-            maxWidth: "250px",
+            minHeight: "15vw",
+            minWidth: "15vw",
+            maxHeight: "15vw",
+            maxWidth: "15vw",
             display: "flex",
             flexFlow: "column",
             position: "relative",
@@ -171,11 +176,9 @@ export default function ItemCard(props) {
           <StoreNameBox>
             <Typography
               component={"span"}
-              gutterBottom
-              variant="h5"
-              fontSize="1.4rem"
+              variant="p"
               fontFamily={"Pretendard"}
-              fontWeight="600"
+              fontWeight="700"
               margin="auto 0"
             >
               {props.place_name}
@@ -192,11 +195,9 @@ export default function ItemCard(props) {
             <TitleBox>
               <Typography
                 component={"span"}
-                gutterBottom
-                variant="h5"
-                fontSize="1.2rem"
                 fontFamily={"Pretendard"}
                 fontWeight="400"
+                variant="p"
               >
                 {props.title}
               </Typography>
@@ -205,9 +206,9 @@ export default function ItemCard(props) {
           <CategoryBox>
             <Typography
               component={"span"}
-              fontSize="0.9rem"
               fontFamily={"Predendard"}
               fontWeight="600"
+              variant="p"
             >
               {props.category}
             </Typography>
@@ -216,9 +217,9 @@ export default function ItemCard(props) {
           <OptionBox>
             <Typography
               component={"span"}
-              fontSize="0.9rem"
               fontFamily={"Pretendard"}
               fontWeight="600"
+              variant="p"
             >
               {props.semi_category}
             </Typography>
@@ -227,9 +228,9 @@ export default function ItemCard(props) {
           <ContentBox>
             <Typography
               component={"span"}
-              fontSize="0.8rem"
               fontFamily={"Pretendard"}
               fontWeight="600"
+              variant="p"
             >
               {props.preview}
             </Typography>

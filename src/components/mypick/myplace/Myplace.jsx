@@ -65,7 +65,6 @@ const Myplace = (props) => {
   const [limit, setLimit] = useState(6);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-
   const offset = (page - 1) * limit;
   //console.log("pageInfo", page, offset); 현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
@@ -111,7 +110,7 @@ const Myplace = (props) => {
               MY PLACE
             </span>
 
-            <main>
+            <main style={{width:'100%'}}>
               <Container
                 sx={{
                   marginTop: "3%",
@@ -119,6 +118,7 @@ const Myplace = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
+                  width:'100%'
                 }}
               >
                 <>

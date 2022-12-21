@@ -106,7 +106,7 @@ const Mystory = (props) => {
               MY STORY
             </span>
 
-            <main>
+            <main style={{width: '100%'}}>
               <Container
                 sx={{
                   marginTop: "3%",
