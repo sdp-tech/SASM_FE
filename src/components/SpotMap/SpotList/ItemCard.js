@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-
-import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 

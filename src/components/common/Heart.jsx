@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import HeartImg from "../../assets/img/Filledlike.png";
-import EmptyHeartImg from "../../assets/img/Like.png";
+import HeartImg from "../../assets/img/FilledLike.svg";
+import EmptyHeartImg from "../../assets/img/UnFilledLike.svg";
 
 const Heart = styled.img`
     // css
