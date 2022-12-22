@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
-// import { device } from "../../device.js";
+import { useMediaQuery } from "react-responsive";
 
 const TitleBox = styled.div`
   box-sizing: border-box;
@@ -28,6 +28,7 @@ const TitleBox = styled.div`
 const StoreNameBox = styled.div`
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
   color: #000000;
@@ -95,7 +96,7 @@ const LikeButton = styled(Button)({
   display: "flex",
   height: "30px",
   width: "30px",
-  margin: "2% 3% 2% 0"
+  margin: "2% 3% 2% 0",
 });
 const StyledCard = styled(Card)`
   display: flex;
@@ -106,10 +107,10 @@ const StyledCard = styled(Card)`
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    min-height: 500px;
-    min-width: 250px;
-    max-height: 500px;
-    max-width: 250px;
+    min-height: 120vw;
+    min-width: 60vw;
+    max-height: 120vw;
+    max-width: 60vw;
   }
 `
 
@@ -119,6 +120,9 @@ export default function ItemCard(props) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
+  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
+  const width = isMobile ? "60vw" : "15vw";
+  const height = isMobile ? "60vw" : "15vw";
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
@@ -149,10 +153,10 @@ export default function ItemCard(props) {
             component="img"
             sx={{
               16: 9,
-              minHeight: "15vw",
-              minWidth: "15vw",
-              maxHeight: "15vw",
-              maxWidth: "15vw",
+              minHeight: height,
+              minWidth: width,
+              maxHeight: height,
+              maxWidth: width,
               display: "flex",
               borderRadius: "10%",
             }}
@@ -163,10 +167,10 @@ export default function ItemCard(props) {
         <CardContent
           sx={{
             // flexGrow: 1,
-            minHeight: "15vw",
-            minWidth: "15vw",
-            maxHeight: "15vw",
-            maxWidth: "15vw",
+            minHeight: height,
+            minWidth: width,
+            maxHeight: height,
+            maxWidth: width,
             display: "flex",
             flexFlow: "column",
             position: "relative",
@@ -174,15 +178,17 @@ export default function ItemCard(props) {
         >
           {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
           <StoreNameBox>
-            <Typography
-              component={"span"}
-              variant="p"
-              fontFamily={"Pretendard"}
-              fontWeight="700"
-              margin="auto 0"
-            >
-              {props.place_name}
-            </Typography>
+            <Link to={`/story/${props.id}`} style={{ textDecoration: "none", color:'black' }}>
+              <Typography
+                component={"span"}
+                variant="p"
+                fontFamily={"Pretendard"}
+                fontWeight="700"
+                margin="auto 0"
+              >
+                {props.place_name}
+              </Typography>
+            </Link>
             <LikeButton>
               {props.story_like === "ok" ? (
                 <HeartButton like={!like} onClick={toggleLike} />

@@ -49,8 +49,8 @@ const LikeButton = styled(Button)({
 
 export default function ItemCard(props) {
   const isMobile = useMediaQuery({query: "(max-width:768px)"});
-  const width = isMobile?"320px":"480px";
-  const height = isMobile?"180px":"270px";
+  const width = isMobile?"80vw":"32vw";
+  const height = isMobile?"45vw":"18vw";
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [loading, setLoading] = useState(true);

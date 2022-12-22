@@ -6,8 +6,8 @@ import EmptyHeartImg from "../../assets/img/UnFilledLike.svg";
 const Heart = styled.img`
     // css
     }
-    width:30px;
-    height:30px;
+    width:25px;
+    height:25px;
     
 `;
 

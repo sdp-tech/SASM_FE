@@ -18,8 +18,8 @@ const MyplaceSection = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 5%;
   grid-area: story;
-  margin-top:10%;
 `;
 const FooterSection = styled.div`
   position: relative;

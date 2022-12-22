@@ -39,15 +39,6 @@ const StoryListPage = () => {
     }
   };
 
-  const CATEGORY_LIST = [
-    { id: 0, data: "식당 및 카페" },
-    { id: 1, data: "전시 및 체험공간" },
-    { id: 2, data: "제로웨이스트 샵" },
-    { id: 3, data: "도시 재생 및 친환경 건축물" },
-    { id: 4, data: "복합 문화 공간" },
-    { id: 5, data: "녹색 공간" },
-  ];
-
   const handleFilterToggle = () => {
     setFilterToggle(!filterToggle);
   };
@@ -193,9 +184,9 @@ const FooterSection = styled.div`
   width: 100%;
   // position: relative;
   z-index: 20;
-  height: 5vh;
   justify-content: center;
   align-items: center;
+  background-color: #FFFFFF;
 `;
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
