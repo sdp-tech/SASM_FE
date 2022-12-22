@@ -223,6 +223,8 @@ const StoryDetailBox = (props) => {
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [mode, setMode] = useState('write');
+  const [target, setTarget] = useState(null);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
@@ -320,8 +322,8 @@ const StoryDetailBox = (props) => {
 
             <div dangerouslySetInnerHTML={markup()}></div>
           </ImageNContentBox>
-          <Comments data={comment}></Comments>
-          <WriteComment id={id}></WriteComment>
+          <Comments data={comment} setMode={setMode} setTarget={setTarget}></Comments>
+          <WriteComment id={id} mode={mode} setMode={setMode} target={target}></WriteComment>
           {recommend.count != 0 ? (
             <Recommends data={recommend}></Recommends>
           ) : (
