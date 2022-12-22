@@ -63,7 +63,7 @@ export default function Comment({ data, setMode,setTarget }) {
           <Button onClick={deleteComment}>삭제</Button>
           <Button onClick={()=>{
             setMode('update');
-            setTarget(data.id);
+            setTarget(data);
           }}>수정</Button>
         </ButtonWrapper> : null}
     </CommentWrapper>

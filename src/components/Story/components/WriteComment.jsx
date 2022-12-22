@@ -46,7 +46,7 @@ export default function WriteComment({ id, mode, setMode, target }) {
         });
     }
     const updateComment = async (event) => {
-        const response = await request.patch(`/stories/comments/${target}`, {
+        const response = await request.patch(`/stories/comments/${target.id}`, {
             content: event.target.text.value,
         });
     }
@@ -69,9 +69,8 @@ export default function WriteComment({ id, mode, setMode, target }) {
             <Wrapper>
                 <form onSubmit={(event) => {
                     updateComment(event);
-                    setMode('write');
                 }}>
-                    <TextArea id='text'></TextArea>
+                    <TextArea id='text' placeholder={target.content}></TextArea>
                     <SubmitBtn type='submit'>수정</SubmitBtn>
                 </form>
             </Wrapper>
