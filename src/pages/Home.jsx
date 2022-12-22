@@ -206,11 +206,12 @@ const StoryTitle = styled.div`
 const StoryExample = styled.div`
   width: 90vw;
   height: 600px;
-  background: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255,255,255,0.8);
+  opacity: 0.8;
   box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
   border-radius: 54px;
   border: 1px solid rgba(0, 0, 0, 0.25);
-
+  margin: 0 auto;
 `
 const NavBtn = styled.button`
   background: none;

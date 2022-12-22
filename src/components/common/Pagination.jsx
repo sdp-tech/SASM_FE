@@ -39,8 +39,6 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
-  margin: 16px;
 `;
 
 const Button = styled.button`

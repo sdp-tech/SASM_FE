@@ -277,7 +277,7 @@ export default function Navibar() {
           )}
         </AuthBox>
         <Mobile>
-          <MobileMenuBox onClick={handleMobileMenu}>{menu ? "close" : "menu"}</MobileMenuBox>
+          <MobileMenuBox onClick={handleMobileMenu}>{menu ? "-" : "+"}</MobileMenuBox>
         </Mobile>
       </Bar>
       {menu ? <MobileMenuList>
