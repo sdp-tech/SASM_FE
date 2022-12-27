@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
@@ -12,7 +11,14 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 import {CATEGORY_LIST, MatchCategory} from "../../common/Category"
-
+const Container = styled.div`
+  margin: 0 auto;
+  margin-top: 3%;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const MyplaceSection = styled.div`
   position: relative;
   display: flex;
