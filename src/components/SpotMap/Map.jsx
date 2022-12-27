@@ -98,6 +98,7 @@ const Markers = (props) => {
   const right = props.right;
   const title = props.title;
   const id = props.id;
+  const category = props.category;
   const key = props.index;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -163,8 +164,11 @@ const Markers = (props) => {
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <h4 style="background: white; border-radius: 10px; padding: 3px;">${title}</h4>`,
-    '   <p style="margin-top: -20px;"> ',
+    `   <div style="background: white; border-radius: 10px; padding:3px">`,
+    `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
+    `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem; color:#535151;">${category}</p>`,
+    `   </div>`,
+    '   <p style="margin-top:0px" > ',
     `       <img src=${MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
     "   </p>",
     "</div>",
@@ -322,6 +326,7 @@ const NaverMapAPI = (props) => {
           const right = itemdata[1];
           const title = itemdata[2];
           const id = itemdata[3];
+          const category = itemdata[4];
 
           return (
             <Markers
@@ -330,6 +335,7 @@ const NaverMapAPI = (props) => {
               right={right}
               title={title}
               id={id}
+              category={category}
               navermaps={navermaps}
               key={index}
             />
@@ -364,6 +370,7 @@ export default function Map(props) {
       itemdata.longitude,
       itemdata.place_name,
       itemdata.id,
+      itemdata.category,
     ];
   });
   const zoom = props.zoom;
