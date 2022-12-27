@@ -9,6 +9,8 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import MarkerDefault from "../../../assets/img/Map/MarkerDefault.svg";
+import MarkerActive from "../../../assets/img/Map/MarkerActive.svg";
 
 const StyledCard = styled.div`
   position: relative;
@@ -98,6 +100,7 @@ export default function ItemCard(props) {
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
+  const id = props.id;
   const request = new Request(cookies, localStorage, navigate);
   const setTemp = (data) => {
     props.setTemp(data);
@@ -116,7 +119,7 @@ export default function ItemCard(props) {
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      const response = await request.post("/places/place_like/", { id: props.id }, null);
+      const response = await request.post("/places/place_like/", { id: id }, null);
       // console.log("response", response);
 
       //색상 채우기
@@ -128,7 +131,8 @@ export default function ItemCard(props) {
   const handleClick = async () => {
     // alert(`${props.id}`);
     setLoading(true);
-    const id = props.id;
+    document.getElementById(id).style.transform = 'scale(1.2)';
+    document.getElementById(`${id}img`).setAttribute('src', MarkerActive);
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -143,7 +147,7 @@ export default function ItemCard(props) {
       },
       zoom: 13,
     });
-    document.getElementById(id).style.color = 'red';
+
     setLoading(false);
   };
 
@@ -152,9 +156,8 @@ export default function ItemCard(props) {
   }, []);
 
   const MarkerReset = () => {
-    for (let i = 0; i < document.getElementsByClassName("iw_inner").length; i++) {
-      document.getElementsByClassName("iw_inner")[i].style.color = 'black';
-    }
+    document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    document.getElementById(id).style.transform='scale(1)';
   }
 
   useEffect(() => {
