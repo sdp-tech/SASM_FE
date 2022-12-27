@@ -50,7 +50,7 @@ const CategoryLabelWrapper = styled.div`
   align-items: center;
   padding: 1%;
 `;
-const CategoryLabel = styled.div`
+const CategoryLabel = styled.label`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
@@ -69,12 +69,29 @@ const CategoryImageWrapper = styled.div`
     width:10vw;
     height: 10vw;
   }
+  &:hover {
+    background-color:#44ADF7;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
+    img {
+        filter: invert(100);
+    }
+  }
 `
 const CategoryNameWrapper = styled.div`
   margin-top: 5%;
   font-size: 0.65rem;
   @media screen and (max-width: 768px) {
     font-size: 0.65rem;
+  }
+`
+
+const CategoryCheckInput = styled.input`
+  display: none;
+  &:checked + ${CategoryLabel} > ${CategoryImageWrapper} {
+    background-color: #44ADF7;
+  }
+  &:checked + ${CategoryLabel} > ${CategoryImageWrapper} > img {
+    filter: invert(100);
   }
 `
 
@@ -222,34 +239,24 @@ export default function DataContainer({ Location }) {
                         {CATEGORY_LIST.map((item) => {
                             return (
                                 <CategoryLabelWrapper key={item.id}>
-                                    <input
+                                    <CategoryCheckInput
                                         type="checkbox"
                                         // 이때 value값으로 data를 지정해준다.
                                         value={item.data}
                                         // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
                                         onChange={(e) => {
                                             onCheckedElement(e.target.checked, e.target.value);
-                                            if (e.target.checked) {
-                                                e.target.closest('div').style.color = 'red';
-                                            }
-                                            else {
-                                                e.target.closest('div').style.color = 'black';
-                                            }
-
                                         }}
                                         // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
                                         checked={tempCheckedList.includes(item.data) ? true : false}
                                         id={`category${item.id}`}
-                                        style={{ display: 'none' }}
                                     />
-                                    <label htmlFor={`category${item.id}`}>
-                                        <CategoryLabel>
-                                            <CategoryImageWrapper>
-                                                <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%' }} />
-                                            </CategoryImageWrapper>
-                                            <CategoryNameWrapper>{item.name}</CategoryNameWrapper>
-                                        </CategoryLabel>
-                                    </label>
+                                    <CategoryLabel htmlFor={`category${item.id}`}>
+                                        <CategoryImageWrapper>
+                                            <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%' }} />
+                                        </CategoryImageWrapper>
+                                        <CategoryNameWrapper>{item.name}</CategoryNameWrapper>
+                                    </CategoryLabel>
                                 </CategoryLabelWrapper>
                             );
                         })}

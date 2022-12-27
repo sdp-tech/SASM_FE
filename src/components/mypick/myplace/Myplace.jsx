@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
@@ -11,7 +10,14 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 import { CATEGORY_LIST, MatchCategory } from "../../common/Category";
-
+const Container = styled.div`
+  margin: 0 auto;
+  margin-top: 3%;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const MyplaceSection = styled.div`
   position: relative;
   display: flex;
@@ -107,7 +113,6 @@ const Myplace = (props) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [checkedList, setCheckedList] = useState('');
-  
   const offset = (page - 1) * limit;
   //console.log("pageInfo", page, offset); 현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
@@ -196,18 +201,8 @@ const Myplace = (props) => {
                 );
               })}
             </CategoryCheckBox>
-            <main style={{ width: '100%' }}>
-              <Container
-                sx={{
-                  marginTop: "3%",
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: '100%'
-                }}
-              >
-                <>
+            <main style={{ width: '100%'}}>
+              <Container>
                   {info.length === 0 ? (
                     <NothingSearched>
                       <img
@@ -217,7 +212,7 @@ const Myplace = (props) => {
                       해당하는 장소가 없습니다
                     </NothingSearched>
                   ) : (
-                    <Grid container spacing={3}>
+                    <Grid container spacing={3} style={{width:'100%'}}>
                       {info.map((info, index) => (
                         <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
                           <CardSection>
@@ -234,7 +229,6 @@ const Myplace = (props) => {
                       ))}
                     </Grid>
                   )}
-                </>
               </Container>
             </main>
           </MyplaceSection>

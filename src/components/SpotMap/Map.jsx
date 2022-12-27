@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../functions/common/Request";
 import Restart from "../../assets/img/Map/Restart.svg";
 import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
+import MarkerActive from "../../assets/img/Map/MarkerActive.svg";
+import MarkerDefault from "../../assets/img/Map/MarkerDefault.svg";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -106,9 +108,8 @@ const Markers = (props) => {
   }
 
   const MarkerReset = () => {
-    for (let i = 0; i < document.getElementsByClassName("iw_inner").length; i++) {
-      document.getElementsByClassName("iw_inner")[i].style.color = 'black';
-    }
+    document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    document.getElementById(id).style.transform='scale(1)';
   }
 
   useEffect(() => {
@@ -133,7 +134,8 @@ const Markers = (props) => {
     // alert(`${props.id}`);
     setLoading(true);
     const id = props.id;
-    document.getElementById(id).style.color = 'red';
+    document.getElementById(id).style.transform = 'scale(1.2)';
+    document.getElementById(`${id}img`).setAttribute('src', MarkerActive);
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -163,9 +165,7 @@ const Markers = (props) => {
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
     `   <h4 style="background: white; border-radius: 10px; padding: 3px;">${title}</h4>`,
     '   <p style="margin-top: -20px;"> ',
-    '       <img src="/img/MarkerIcon.png" width="25" height="25" alt="marker" class="thumb" />',
-    // "       02-120 | 공공,사회기관 > 특별,광역시청<br>",
-    // '       <a href="http://www.seoul.go.kr" target="_blank">www.seoul.go.kr/</a>',
+    `       <img src=${MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
     "   </p>",
     "</div>",
   ].join("");
