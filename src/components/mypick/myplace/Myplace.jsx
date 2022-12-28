@@ -34,7 +34,9 @@ const HeaderSection = styled.div`
   position: relative;
   justify-content: space-around;
   @media screen and (max-width: 768px) {
-
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `
 const FooterSection = styled.div`
@@ -66,9 +68,17 @@ const ChangeModeButton = styled.div`
   text-align: center;
   font-size: 1.25rem;
   z-index: 3;
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `
 const FilterOptions = styled.div`
   width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 const Myplace = (props) => {
