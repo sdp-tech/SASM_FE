@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-
 import logo from "../../assets/img/sasm_logo.png";
 import { LoginContext } from "../../contexts/LoginContexts";
 import PageRedirection from "../../functions/common/PageRedirection";
-import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Pc, Tablet, Mobile } from "../../device"
 import { useMediaQuery } from "react-responsive";
 import { useRef } from "react";
+import MenuOpen from "../../assets/img/Navibar/MenuOpen.svg"
+import MenuClose from "../../assets/img/Navibar/MenuClose.svg"
 
 const NavibarSection = styled.div`
   // position: relative;
@@ -186,7 +186,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
   );
 };
 
-const LoggingOut = ({ login, setLogin }) => {
+const LoggingOut = ({ login, setLogin, setMenu }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   return (
@@ -199,6 +199,7 @@ const LoggingOut = ({ login, setLogin }) => {
         localStorage.removeItem("accessTK"); //access token 삭제
         localStorage.removeItem("nickname"); //nickname 삭제
         localStorage.removeItem("email"); //email 삭제
+        setMenu(false);
         navigate("/"); // 메인 페이지로 이동
       }}
     >
@@ -227,7 +228,6 @@ export default function Navibar() {
         setMenu(false);
       }
     };
-    console.log(menu);
     document.addEventListener("mousedown", clickOutside);
 
     return () => {
@@ -242,15 +242,19 @@ export default function Navibar() {
         <LogoBox>
           <Logo
             src={logo}
-            onClick={() => PageRedirection(navigate, "SASM")}
+            onClick={() => {
+              setMenu(false);
+              PageRedirection(navigate, "SASM")}}
           ></Logo>
           <LogoWord
             style={{ paddingLeft: "5%" }}
-            onClick={() => PageRedirection(navigate, "SASM")}
+            onClick={() => {
+              setMenu(false);
+              PageRedirection(navigate, "SASM")}}
           >SASM</LogoWord>
         </LogoBox>
         {isMobile ?
-          <MobileMenuBox onClick={handleMobileMenu}>{menu ? "-" : "+"}</MobileMenuBox>
+          <MobileMenuBox onClick={handleMobileMenu}>{menu ? <img src={MenuOpen} style={{transform:'scale(0.8)'}}/> : <img src={MenuClose} style={{transform:'scale(0.8)'}}/>}</MobileMenuBox>
             :
           <>
             <PagesBox>
@@ -269,10 +273,7 @@ export default function Navibar() {
                 </>
               ) : (
                 <>
-                  <PageTitle
-                    navigate={navigate}
-                    title={`${setNickname}님`}
-                  ></PageTitle>
+                  <PageTitle navigate={navigate} title={`${setNickname}님`}></PageTitle>
                   <div style={{ padding: "5%"}}>|</div>
                   <LoggingOut login={login} setLogin={setLogin} />
                 </>
@@ -287,15 +288,15 @@ export default function Navibar() {
         <PageTitle navigate={navigate} setMenu={setMenu} title="MY PAGE"></PageTitle>
         {!token ? (
           <MobileAuthBox>
-            <PageTitle navigate={navigate} style={{border: "none"}} title="LOG IN"></PageTitle>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="LOG IN"></PageTitle>
             <div style={{ padding: "0 5%" }}>|</div>
-            <PageTitle navigate={navigate} style={{border: "none"}} title="JOIN"></PageTitle>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="JOIN"></PageTitle>
           </MobileAuthBox>
         ) : (
           <MobileAuthBox>
-            <PageTitle navigate={navigate} style={{border: "none"}} title={`${setNickname}님`}></PageTitle>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title={`${setNickname}님`}></PageTitle>
             <div style={{ padding: "0 5%" }}>|</div>
-            <LoggingOut login={login} setLogin={setLogin} />
+            <LoggingOut login={login} setLogin={setLogin} setMenu={setMenu} />
           </MobileAuthBox>
         )}
       </MobileMenuList> : null}
