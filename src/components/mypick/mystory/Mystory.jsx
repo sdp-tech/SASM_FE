@@ -10,7 +10,7 @@ import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
-import {CATEGORY_LIST, MatchCategory} from "../../common/Category"
+import CategorySelector, {CATEGORY_LIST, MatchCategory} from "../../common/Category"
 const Container = styled.div`
   margin: 0 auto;
   margin-top: 3%;
@@ -62,6 +62,7 @@ const ChangeModeButton = styled.span`
     top: 0.5%;
     font-size: 1rem;
   }
+  z-index: 3;
 `
 const CategoryCheckBox = styled.div`
   position: absolute;
@@ -104,7 +105,12 @@ const CategoryNameWrapper = styled.div`
     font-size: 0.65rem;
   }
 `
-
+const FilterOptions = styled.div`
+  position: absolute;
+  right: 10%;
+  top: -50%;
+  width: 30%;
+`
 const Mystory = (props) => {
   const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
@@ -159,46 +165,12 @@ const Mystory = (props) => {
               <img src={ChangeMode} style={{marginRight:'10px'}} />
               PLACE
             </ChangeModeButton>
-            <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
+            <span style={{width:"100%",textAlign:"center", fontWeight: "500", fontSize: "1.6rem", color: "#000000", position:'relative' }}>
               MY STORY
+              <FilterOptions>
+                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement}/>
+              </FilterOptions>
             </span>
-            <CategoryCheckBox>
-              {CATEGORY_LIST.map((item) => {
-                return (
-                  <CategoryLabelWrapper key={item.id}>
-                    <input
-                      type="checkbox"
-                      // 이때 value값으로 data를 지정해준다.
-                      value={item.data}
-                      // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
-                      onChange={(e) => {
-                        onCheckedElement(e.target.checked, e.target.value);
-                        if (e.target.checked) {
-                          e.target.closest('div').style.color = 'red';
-                        }
-                        else {
-                          e.target.closest('div').style.color = 'black';
-                        }
-
-                      }}
-                      // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
-                      checked={checkedList.includes(item.data) ? true : false}
-                      id={`category${item.id}`}
-                      style={{ display: 'none' }}
-                    />
-                    <label htmlFor={`category${item.id}`}>
-                      <CategoryLabel>
-                        <CategoryImageWrapper>
-                          <img src={require(`../../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%' }} />
-                        </CategoryImageWrapper>
-                        <CategoryNameWrapper>{item.name}</CategoryNameWrapper>
-                      </CategoryLabel>
-                    </label>
-                  </CategoryLabelWrapper>
-                );
-              })}
-            </CategoryCheckBox>
-
             <main style={{width: '100%'}}>
               <Container
                 sx={{

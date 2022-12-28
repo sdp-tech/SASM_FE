@@ -10,7 +10,7 @@ import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
-import { CATEGORY_LIST, MatchCategory } from '../common/Category'
+import CategorySelector, { CATEGORY_LIST, MatchCategory } from '../common/Category'
 import { Pc, Tablet, Mobile } from "../../device"
 
 const ListWrapper = styled.div`
@@ -33,67 +33,6 @@ const FilterOptions = styled.div`
   box-sizing: border-box;
   display: flex;
 `;
-
-const CategoryCheckBox = styled.div`
-  margin : 2% 0 1% 0;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 0 0.7%;
-`;
-const CategoryLabelWrapper = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  padding: 1%;
-`;
-const CategoryLabel = styled.label`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  text-align: center;
-  font-size: 12px;
-`
-const CategoryImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px #99a0b0 solid;
-  border-radius: 50%;
-  width: 3vw;
-  height: 3vw;
-  @media screen and (max-width: 768px) {
-    width:10vw;
-    height: 10vw;
-  }
-  &:hover {
-    background-color:#44ADF7;
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
-    img {
-        filter: invert(100);
-    }
-  }
-`
-const CategoryNameWrapper = styled.div`
-  margin-top: 5%;
-  font-size: 0.65rem;
-  @media screen and (max-width: 768px) {
-    font-size: 0.65rem;
-  }
-`
-
-const CategoryCheckInput = styled.input`
-  display: none;
-  &:checked + ${CategoryLabel} > ${CategoryImageWrapper} {
-    background-color: #44ADF7;
-  }
-  &:checked + ${CategoryLabel} > ${CategoryImageWrapper} > img {
-    filter: invert(100);
-  }
-`
 
 export default function DataContainer({ Location }) {
 
@@ -235,32 +174,7 @@ export default function DataContainer({ Location }) {
                     />
                 </SearchFilterBar>
                 <FilterOptions>
-                    <CategoryCheckBox>
-                        {CATEGORY_LIST.map((item) => {
-                            return (
-                                <CategoryLabelWrapper key={item.id}>
-                                    <CategoryCheckInput
-                                        type="checkbox"
-                                        // 이때 value값으로 data를 지정해준다.
-                                        value={item.data}
-                                        // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
-                                        onChange={(e) => {
-                                            onCheckedElement(e.target.checked, e.target.value);
-                                        }}
-                                        // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
-                                        checked={tempCheckedList.includes(item.data) ? true : false}
-                                        id={`category${item.id}`}
-                                    />
-                                    <CategoryLabel htmlFor={`category${item.id}`}>
-                                        <CategoryImageWrapper>
-                                            <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%' }} />
-                                        </CategoryImageWrapper>
-                                        <CategoryNameWrapper>{item.name}</CategoryNameWrapper>
-                                    </CategoryLabel>
-                                </CategoryLabelWrapper>
-                            );
-                        })}
-                    </CategoryCheckBox>
+                    <CategorySelector checkedList={tempCheckedList} onCheckedElement={onCheckedElement}/>
                 </FilterOptions>
 
                 <SpotList mapList={state.MapList} setTemp={setTemp}></SpotList>
