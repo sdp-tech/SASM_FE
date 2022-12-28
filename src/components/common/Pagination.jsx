@@ -39,8 +39,6 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 4px;
-  margin: 16px;
 `;
 
 const Button = styled.button`
@@ -49,7 +47,7 @@ const Button = styled.button`
   padding: 8px;
   margin: 0;
   background: white;
-  color: #999999;
+  color: #808080;
   // color: black;
   font-size: 1.3rem;
 
@@ -74,7 +72,7 @@ const Button = styled.button`
     background: white;
     font-weight: bold;
     cursor: revert;
-    color: black;
+    color: #209DF5;
     transform: revert;
   }
 `;

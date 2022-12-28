@@ -9,10 +9,98 @@ import {
   ProfileButton,
   LeftAlignedLink,
 } from "../../Auth/module";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import { Grid } from "@mui/material";
+import { Link } from "react-router-dom";
 
-const InfoForm = (props) => {
+const Section = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  width: 100%
+`;
+const LabelWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`
+const Label = styled.div`
+  width: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(171, 239, 194, 0.1);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5vw;
+  padding: 2% 0;
+  font-size: 1rem;
+  font-weight: 400;
+  & + & {
+    margin-left: 2vw;
+  }
+  @media screen and (max-width: 768px) {
+    width: 30vw;
+  }
+`
+const Text = styled.div`
+  width: 15vw;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  border: none;
+  border-radius; 2px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+  padding: 2% 1vw;
+  @media screen and (max-width: 768px) {
+    width: 50vw;
+  }
+`
+const InfoContainer = styled.div`
+  height: calc(100vh - 64px - 0.3 * (100vh - 64px));
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  padding-left: 10vw;
+  padding-right: 5vw;
+  border-right: 2px #44ADF7 solid;
+  @media screen and (max-width: 768px) {
+    padding: 2vw;
+    border: none;
+    border-bottom : 2px #44ADF7 solid;
+  }
+`
+const DetailContainer = styled.div`
+  height: calc(100vh - 64px - 0.3 * (100vh - 64px));
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  padding-left: 5vw;
+  padding-right: 10vw;
+`
+const ImageBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 12vw;
+  height: 12vw;
+  overflow: hidden;
+  border: 1px black solid;
+  margin-left: 10vw;
+  background-image: url(${props => props.profile});
+  background-size: cover;
+  @media screen and (max-width: 768px) {
+    width: 35vw;
+    height: 35vw;
+  }
+`;
+
+export default function InfoForm(props) {
   const navigate = useNavigate();
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -22,7 +110,6 @@ const InfoForm = (props) => {
   const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = new Request(cookies, localStorage, navigate);
-
   //   초기에 mypage data 불러오기
   const updateMypage = useCallback(async () => {
     setLoading(true);
@@ -50,33 +137,38 @@ const InfoForm = (props) => {
       ) : (
         <>
           <Section>
-            <MyplaceSection>
-              <ImageBox>
-                <img
-                  src={profile_image}
-                  alt="profile"
-                  height="180px"
-                  width="180px"
-                />
-              </ImageBox>
-              <InfoBox>
-                <Name>
-                  <p>닉네임</p> <ValueBox>{nickname}</ValueBox>
-                </Name>
-                <Bday>
-                  <p>생년월일</p> <ValueBox>{birthdate}</ValueBox>
-                </Bday>
-                <Email>
-                  <p>이메일</p> <ValueBox>{email}</ValueBox>
-                </Email>
-              </InfoBox>
-              <ButtonBox>
-                <ProfileButton onClick={EditProfile}>
-                  프로필 편집하기
-                </ProfileButton>
-                <LeftAlignedLink to="./feedback">의견 보내기</LeftAlignedLink>
-              </ButtonBox>
-            </MyplaceSection>
+            <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
+              <ImageBox profile={profile_image}/>
+            </div>
+            <Grid container sx={{ height: '70%' }} >
+              <Grid item xs={12} sm={12} md={5} lg={5}>
+                <InfoContainer>
+                  <LabelWrapper>
+                    <Label>이메일</Label>
+                    <Text>{email}</Text>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label>닉네임</Label>
+                    <Text>{nickname}</Text>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label>생년월일</Label>
+                    <Text>{birthdate}</Text>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label onClick={EditProfile} style={{fontSize: '0.75rem', cursor: 'pointer'}}>프로필 편집</Label>
+                    <Label style={{fontSize: '0.75rem'}}>
+                      <Link to='/auth/find/SetNewPassword' style={{color:'#000000', textDecoration: 'none'}}>비밀번호 변경</Link>
+                    </Label>
+                    <Label style={{fontSize: '0.75rem'}}>
+                      <Link to='./feedback' style={{color:'#000000', textDecoration: 'none'}}>의견 보내기</Link>
+                    </Label>
+                  </LabelWrapper>
+                </InfoContainer>
+              </Grid>
+              <Grid item xs={12} sm={12} md={7} lg={7}>
+              </Grid>
+            </Grid>
           </Section>
         </>
       )}
@@ -84,81 +176,3 @@ const InfoForm = (props) => {
   );
 };
 
-const Section = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-  width: 100%;
-  margin-top: 5%;
-`;
-
-const MyplaceSection = styled.div`
-  display: flex;
-
-  flex-direction: column;
-  width: 60%;
-  height: 80%;
-`;
-const ImageBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px;
-  width: 180px;
-  height: 180px;
-  overflow: hidden;
-`;
-const InfoBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50%;
-  margin-top: 5%;
-`;
-const ValueBox = styled.div`
-  width: 400px;
-`;
-const Name = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  //   border: 1px solid red;
-  font-size: 1.3em;
-  font-weight: 600;
-`;
-
-const Bday = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  //   border: 1px solid red;
-  font-size: 1.3em;
-  font-weight: 600;
-`;
-const Email = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  //   border: 1px solid red;
-  font-size: 1.3em;
-  font-weight: 600;
-`;
-const ButtonBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: stretch;
-  width: 100%;
-  margin-top: 10%;
-`;
-
-export default InfoForm;

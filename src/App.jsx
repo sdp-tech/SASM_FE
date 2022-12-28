@@ -16,69 +16,118 @@ import { CookiesProvider } from "react-cookie";
 import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
-const GlobalStyle = createGlobalStyle`
-
-
-// div{
-//   font-family: 'kopub';
-// };
-*{/* 프로젝트 내 모든 엘리먼트에 공통적으로 적용 */
-  font-family: 'kopub', 'Dotum';
-};
-body{/* 프로젝트 내 body 태그 안에 공통적으로 적용 */
-  font-family: 'kopub', 'Dotum';
-};
-// p{
-//   font-family: 'Dotum';
-// };
-`;
+import Navibar from "./components/common/Navibar";
+import { device } from "./device"
+import MyPick from "./pages/MyPick";
+import { Pc, Tablet, Mobile } from "./device"
 
 const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
   });
-  // const [cookies, setCookie, removeCookie] = useCookies(["id"]);
-  // const token = cookies.id;
-  // console.log("token@!", token);
-  // // 백 검사하기
-
-  // useEffect(() => {
-  //   if (token) {
-  //     setLogin({
-  //       ...login,
-  //       loggedIn: true,
-  //       // token: res.token,
-  //       // nickname: res.nickname,
-  //     });
-  //   }
-  // }, []);
+  const GlobalStyle = createGlobalStyle`
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  * {
+    @media screen and (max-width: 768px) {
+      
+    }
+    @media screen and (min-width:769px) and (max-width: 1023px) {
+      
+    }
+    @media screen and (min-width: 1024px) {
+    }
+  }
+  html {
+    @media screen and (max-width: 1536px) {
+      font-size: 16px;
+    }
+    @media screen and (min-width: 1537px) and (max-width: 1920px) {
+      font-size : 22px;
+    }
+    @media screen and (min-width: 1921px) and (max-width: 2560px) {
+      font-size: 30px;
+    }
+  }
+`;
   return (
     <>
-      {/* <GlobalStyle /> */}
+      <GlobalStyle/>
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/users/*" element={<Auth />} />
-              <Route path="/map" element={<SpotMap />} />
-              <Route path="/map/:place" element={<SpotMap />} />
-              
-              <Route path="/mypage/*" element={<MyPage />} />
-              <Route path="/auth/*" element={<Auth />} />
+          <Pc>
+            <BrowserRouter>
+              <Navibar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/users/*" element={<Auth />} />
+                <Route path="/map" element={<SpotMap />} />
+                <Route path="/map/:place" element={<SpotMap />} />
 
-              <Route path="/story" element={<StoryList />} />
-              <Route path="/story/:id" element={<StoryDetail />} />
-              <Route path="/admin/place" element={<PlaceAdmin />} />
-              <Route path="/admin/place/:id" element={<PlaceAdmin />} />
-              <Route path="/admin/story" element={<StoryAdmin />} />
-              <Route path="/admin/story/:id" element={<StoryAdmin />} />
-            </Routes>
-          </BrowserRouter>
+                <Route path="/mypage/*" element={<MyPage />} />
+                <Route path="/mypick/*" element={<MyPick />} />
+                <Route path="/auth/*" element={<Auth />} />
+
+                <Route path="/story" element={<StoryList />} />
+                <Route path="/story/:id" element={<StoryDetail />} />
+                <Route path="/admin/place" element={<PlaceAdmin />} />
+                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
+                <Route path="/admin/story" element={<StoryAdmin />} />
+                <Route path="/admin/story/:id" element={<StoryAdmin />} />
+              </Routes>
+            </BrowserRouter>
+          </Pc>
+          <Tablet>
+            <BrowserRouter>
+              <Navibar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/users/*" element={<Auth />} />
+                <Route path="/map" element={<SpotMap />} />
+                <Route path="/map/:place" element={<SpotMap />} />
+
+                <Route path="/mypage/*" element={<MyPage />} />
+                <Route path="/mypick/*" element={<MyPick />} />
+                <Route path="/auth/*" element={<Auth />} />
+
+                <Route path="/story" element={<StoryList />} />
+                <Route path="/story/:id" element={<StoryDetail />} />
+                <Route path="/admin/place" element={<PlaceAdmin />} />
+                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
+                <Route path="/admin/story" element={<StoryAdmin />} />
+                <Route path="/admin/story/:id" element={<StoryAdmin />} />
+              </Routes>
+            </BrowserRouter>
+          </Tablet>
+          <Mobile>
+            <BrowserRouter>
+              <Navibar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/users/*" element={<Auth />} />
+                <Route path="/map" element={<SpotMap />} />
+                <Route path="/map/:place" element={<SpotMap />} />
+
+                <Route path="/mypage/*" element={<MyPage />} />
+                <Route path="/mypick/*" element={<MyPick />} />
+                <Route path="/auth/*" element={<Auth />} />
+
+                <Route path="/story" element={<StoryList />} />
+                <Route path="/story/:id" element={<StoryDetail />} />
+                <Route path="/admin/place" element={<PlaceAdmin />} />
+                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
+                <Route path="/admin/story" element={<StoryAdmin />} />
+                <Route path="/admin/story/:id" element={<StoryAdmin />} />
+              </Routes>
+            </BrowserRouter>
+          </Mobile>
         </LoginProvider>
       </CookiesProvider>
+
     </>
   );
 };
 
 export default App;
+

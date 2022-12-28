@@ -3,6 +3,7 @@ import styled from "styled-components";
 import StoryList from "./components/StoryList";
 import SearchBar from "../common/SearchBar";
 import nothingIcon from "../../assets/img/nothing.svg";
+import searchBlack from "../../assets/img/search_black.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -37,15 +38,6 @@ const StoryListPage = () => {
       setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
-
-  const CATEGORY_LIST = [
-    { id: 0, data: "식당 및 카페" },
-    { id: 1, data: "전시 및 체험공간" },
-    { id: 2, data: "제로웨이스트 샵" },
-    { id: 3, data: "도시 재생 및 친환경 건축물" },
-    { id: 4, data: "복합 문화 공간" },
-    { id: 5, data: "녹색 공간" },
-  ];
 
   const handleFilterToggle = () => {
     setFilterToggle(!filterToggle);
@@ -106,7 +98,7 @@ const StoryListPage = () => {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div style={{}}>
           <Section>
             <SearchBarSection>
               <SearchFilterBar>
@@ -116,40 +108,11 @@ const StoryListPage = () => {
                   handleSearchToggle={handleSearchToggle}
                   handleFilterToggle={handleFilterToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
+                  searchIcon={searchBlack}
+                  background="white"
+                  color="black"
                 />
               </SearchFilterBar>
-              <div style={{ marginTop: "-2%" }}>
-                {filterToggle ? (
-                  <FilterOptions>
-                    <CategoryTitle>카테고리</CategoryTitle>
-                    <CategoryCheckBox>
-                      {CATEGORY_LIST.map((item) => {
-                        return (
-                          <CategoryLabel key={item.id}>
-                            <input
-                              type="checkbox"
-                              // 이때 value값으로 data를 지정해준다.
-                              value={item.data}
-                              // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
-                              onChange={(e) => {
-                                onCheckedElement(
-                                  e.target.checked,
-                                  e.target.value
-                                );
-                              }}
-                              // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
-                              checked={
-                                checkedList.includes(item.data) ? true : false
-                              }
-                            />
-                            <div>{item.data}</div>
-                          </CategoryLabel>
-                        );
-                      })}
-                    </CategoryCheckBox>
-                  </FilterOptions>
-                ) : null}
-              </div>
             </SearchBarSection>
             <StoryListSection>
               <StoryList info={item} />
@@ -174,25 +137,26 @@ const StoryListPage = () => {
               <></>
             )}
           </FooterSection>
-        </>
+        </div>
       )}
     </>
   );
 };
+
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 100%;
+  height: calc(100vh - 114px);
+  min-height: 100%;
   width: 100%;
   grid-area: story;
   display: flex;
   flex-direction: column;
-  // border: 1px solid red;
 `;
 const SearchBarSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 8%;
+  height: 8vh;
   width: 100%;
   display: flex;
   margin-top: 0.1%;
@@ -200,34 +164,40 @@ const SearchBarSection = styled.div`
   grid-area: story;
   align-items: center;
   justify-content: center;
-  // border: 1px solid red;
 `;
 const StoryListSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 90%;
+  height: calc(100vh - 64px - 13vh);
   width: 100%;
-  margin-top: 1%;
   display: flex;
   flex-direction: column;
   grid-area: story;
   scrollbar-height: thin;
+  overflow: scroll;
 `;
 const FooterSection = styled.div`
-  position: relative;
   display: flex;
   flex-direction: row;
-  // overflow: hidden;
-  // grid-area: story;
-  height: 12%;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  // position: relative;
+  z-index: 20;
   justify-content: center;
   align-items: center;
+  background-color: #FFFFFF;
 `;
 const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 35%;
-  height: 70%;
-  border: 3px solid #99a0b0;
+  @media screen and (max-width: 768px) {
+    width: 80%;
+  }
+  height: 33%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 56px;
 `;
 const FilterOptions = styled.div`
   width: 20%;

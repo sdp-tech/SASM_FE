@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import searchIcon from "../../assets/img/search.svg";
-import filteringIcon from "../../assets/img/filtering.svg";
 
 const Wrapper = styled.form`
   position: relative;
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-wrap: nowrap;
+  background-color:${props => props.background};
+  border-radius: 100px;
+  box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
+  align-items: center;
 `;
 
 const SearchForm = styled.input`
@@ -16,47 +16,53 @@ const SearchForm = styled.input`
   border-box: box-sizing;
   outline: none;
   flex-grow: 1;
-  padding: 0 0 0 2%;
-  border: none;
+  margin-left: 5%;
+  border:none;
+  background-color:${props => props.background};
+  color: ${props => props.color};
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    text-align: center;
+    color: ${props => props.color};
+  }
+  :-ms-input-placeholder {
+    text-align: center;
+    color: ${props => props.color};
+  }
 `;
 
 const IconWrapper = styled.div`
-  // background-color: pink;
-
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 2%;
   cursor: pointer;
-  border-left: 1px solid #99a0b0;
+  margin : 0 2% 0 0;
 `;
-const FilterIcon = styled.div``;
+
 export default function SearchBar({
-  handleFilterToggle,
   handleSearchToggle,
   onSearch,
   search,
   onChangeSearch,
   placeholder,
+  searchIcon,
+  background,
+  color,
 }) {
   return (
-    <Wrapper onSubmit={handleSearchToggle}>
+    <Wrapper onSubmit={handleSearchToggle} background={background}>
       <SearchForm
         placeholder={placeholder}
         value={search}
         onChange={onChangeSearch}
+        background={background}
+        color={color}
       />
       <IconWrapper type="submit" onClick={handleSearchToggle}>
         <img src={searchIcon}></img>
       </IconWrapper>
-      {handleFilterToggle ? (
-        <IconWrapper type="submit" onClick={handleFilterToggle}>
-          <img src={filteringIcon}></img>
-        </IconWrapper>
-      ) : (
-        ""
-      )}
     </Wrapper>
   );
 }

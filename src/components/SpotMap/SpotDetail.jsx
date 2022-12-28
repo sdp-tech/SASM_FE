@@ -8,14 +8,19 @@ import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-const CloseButton = styled.div`
-  // border-radius: 4px;
-  // color: white;
-  cursor: pointer;
-  position: fixed;
-  top: 16.3%;
-  left: 28.7%;
-`;
+
+const StyledList = styled(List)`
+  top: 64px;
+  height: calc(100vh - 64px);
+  left: 28.6%;
+  max-width: 25%;
+  @media screen and (max-width : 768px){
+    left: 0%;
+    top: calc((100vh - 64px) * 0.4 + 64px);
+    height: calc(100vh - (100vh - 64px) * 0.4 - 64px);
+    max-width: 100%;
+  }
+`
 
 export default function SpotDetail(props) {
   const { modalClose } = props;
@@ -34,21 +39,15 @@ export default function SpotDetail(props) {
   }, [page]);
   return (
     <>
-      <List
-        style={{ overflow: "auto" }}
+      <StyledList
+        style={{ overflow: "scroll",
+        position: "fixed",
+        }}
         sx={{
-          // gridArea: "spotlist",
           padding: "0",
           boxSizing: "border-box",
-          position: "fixed",
-          top: "16.3%",
-          left: "28.7%",
           width: "100%",
-          // height: "100%",
-          height: "82.2%",
-          overflow: "hidden",
-          maxWidth: "24%",
-          bgcolor: "#DEE5F3",
+          bgcolor: "#FFFFFF",
         }}
       >
         <DetailCard
@@ -74,7 +73,7 @@ export default function SpotDetail(props) {
           place_like={data?.place_like}
           statistics={data?.category_statistics}
           reviewInfo={reviewInfo}
-
+          modalClose={modalClose}
         />
         {isSasmAdmin ? (
           <AdminButton
@@ -88,11 +87,7 @@ export default function SpotDetail(props) {
         ) : (
           <></>
         )}
-      </List>
-
-      <CloseButton>
-        <button onClick={modalClose}>X</button>
-      </CloseButton>
+      </StyledList>
     </>
   );
 }

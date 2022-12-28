@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-
-import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 
@@ -11,70 +9,60 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import MarkerDefault from "../../../assets/img/Map/MarkerDefault.svg";
+import MarkerActive from "../../../assets/img/Map/MarkerActive.svg";
 
 const StyledCard = styled.div`
   position: relative;
-  padding: 1em;
-  border-bottom: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
+  max-width: 100%;
+  margin : 0 0 0 2.5%;
+  padding: 3%;
+  border-bottom: 1px black solid;
   &:last-child {
     border-bottom: none;
   }
   display: flex;
   flex-direction: row;
-  max-height: 200px;
   overflow: hidden;
 `;
 
 const ImgBox = styled.div`
-  min-width: 180px;
-  min-height: 180px;
-  max-width: 180px;
-  max-height: 180px;
+  border:1px black solid;
+  min-width:15vmin;
+  min-height:15vmin;
+  max-width:15vmin;
+  max-height:15vmin;
+  @media screen and (max-width: 768px) {
+    min-width:25vmin;
+    min-height:25vmin;
+    max-width:25vmin;
+    max-height:25vmin;
+  }
 `;
 const TextBox = styled.div`
-  font-size: 1em;
-  color: black;
-  min-width: 280px;
-  // border: 1px solid red;
-  margin: 0.7em;
+  width: 100%;
+  display: flex;
+  flex-flow : row wrap;
+  margin: 0 0 0 3%;
 `;
 const TitleBox = styled.div`
-  font-size: 1.3em;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: black;
-  padding: 0 0 2px 5px;
-  border-bottom: 1px solid #000000;
-  display: flex;
-  flexdirection: column;
+  border-bottom: 1px solid #999999;
   width: 100%;
-  justify-content: space-between;
+  position: relative;
+  display: flex;
+  justify-content:space-around;
+  flex-flow : row wrap;
 `;
 const ContentBox = styled.div`
-  font-size: 1em;
-  font-weight: 500;
+  font-size: 0.75rem;
+  min-height: 60%;
+  font-weight: 400;
   color: black;
-  padding: 0 0 2px 5px;
-`;
-const FirstBox = styled.div`
-  font-size: 1em;
-  font-weight: 500;
-  color: black;
-  // border: 1px solid red;
-  // max-height: 60px;
-`;
-const SecondBox = styled.div`
-  font-size: 1em;
-  font-weight: 500;
-  color: black;
-  // border: 1px solid yellow;
-`;
-const Content = styled.p`
-  font-size: 0.9em;
-  font-weight: 500;
-  color: black;
-  // margin: -4px;
-  // border: 1px solid green;
+  display: flex;
+  flex-flow : column wrap;
+  justify-content: space-between;
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
@@ -92,8 +80,8 @@ const LikeButton = styled(Button)({
   boxSizing: "border-box",
   border: "none",
   display: "flex",
-  height: "30px",
-  width: "30px",
+  height: "20px",
+  width: "20px",
 });
 
 const DetailBox = styled.div`
@@ -112,6 +100,7 @@ export default function ItemCard(props) {
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
+  const id = props.id;
   const request = new Request(cookies, localStorage, navigate);
   const setTemp = (data) => {
     props.setTemp(data);
@@ -130,7 +119,7 @@ export default function ItemCard(props) {
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      const response = await request.post("/places/place_like/", { id: props.id }, null);
+      const response = await request.post("/places/place_like/", { id: id }, null);
       // console.log("response", response);
 
       //색상 채우기
@@ -142,7 +131,8 @@ export default function ItemCard(props) {
   const handleClick = async () => {
     // alert(`${props.id}`);
     setLoading(true);
-    const id = props.id;
+    document.getElementById(id).style.transform = 'scale(1.2)';
+    document.getElementById(`${id}img`).setAttribute('src', MarkerActive);
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -157,7 +147,7 @@ export default function ItemCard(props) {
       },
       zoom: 13,
     });
-    document.getElementById(id).style.color = 'red';
+
     setLoading(false);
   };
 
@@ -166,9 +156,8 @@ export default function ItemCard(props) {
   }, []);
 
   const MarkerReset = () => {
-    for (let i = 0; i < document.getElementsByClassName("iw_inner").length; i++) {
-      document.getElementsByClassName("iw_inner")[i].style.color = 'black';
-    }
+    document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    document.getElementById(id).style.transform='scale(1)';
   }
 
   useEffect(() => {
@@ -196,71 +185,37 @@ export default function ItemCard(props) {
             src={props.ImageURL}
             className="image--itemcard"
             alt="placeImage"
-            width="180px"
-            height="200px"
+            width="100%"
+            height="100%"
           />
         </ImgBox>
         <TextBox>
           <TitleBox>
-            <div style={{ cursor: "pointer" }} onClick={handleClick}>
+            <div style={{width:'100%', cursor: "pointer"}} onClick={handleClick}>
               {props.StoreName}
             </div>
-            <LikeButton>
+            <LikeButton style={{ position: 'absolute', right: '5%', bottom: '2%' }}>
               {props.place_like === "ok" ? (
                 <HeartButton like={!like} onClick={toggleLike} />
               ) : (
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
+            <div style={{width:'100%',fontWeight: "400", fontSize:"1rem" }}>
+              {props.StoreType}
+            </div>
           </TitleBox>
 
           <ContentBox>
-            <FirstBox>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                }}
-              >
-                {props.StoreType}
-              </p>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                  marginTop: "-1em",
-                }}
-              >
-                {props.place_review}
-              </p>
-            </FirstBox>
-            <SecondBox>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                  marginTop: "-0.2em",
-                }}
-              >
-                주소 : {props.Address}
-              </p>
-              <p
-                style={{
-                  fontSize: "0.9em",
-                  fontWeight: "500",
-                  color: "black",
-                  marginTop: "-1em",
-                }}
-              >
-                오늘 영업시간 : {props.open_hours}
-              </p>
-            </SecondBox>
-            {/* <Content>영업시간 : {props.OpeningHours}</Content> */}
-            {/* <Content>화 : {props.tues_hours}</Content>
-        <Content>수 : {props.wed_hours}</Content> */}
+            <div style={{color:"#999999"}}>
+              {props.place_review}
+            </div>
+            <div>
+              {props.Address}
+            </div>
+            <div>
+              {props.open_hours}
+            </div>
           </ContentBox>
         </TextBox>
       </StyledCard>

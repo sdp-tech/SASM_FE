@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
 import ItemCard from "./SpotList/ItemCard.js";
 import nothingIcon from "../../assets/img/nothing.svg";
 
@@ -24,15 +23,19 @@ const NothingSearched = styled.div`
   transform: translate3d(-50%, -50%, 0);
 `;
 const RecommendTitle = styled.div`
-  width: 100%;
-  min-height: 4%;
+  padding: 1%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border-left: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
-  border-bottom: 1px solid #99a0b0;
   box-sizing: border-box;
+  align-items: center;
+  font-size:1rem;
+  color: #44ADF7;
+  &::after {
+    content:"";
+    height:1px;
+    margin : 0 0 0 1%;
+    background-color: #44ADF7;
+    width: 60%;
+  }
 `;
 const SpotsWrapper = styled.div`
   // background-color: yellow;
@@ -40,9 +43,6 @@ const SpotsWrapper = styled.div`
   min-height: 30%;
   // height: 90%;
   overflow: auto;
-  border-left: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
-  border-bottom: 1px solid #99a0b0;
   box-sizing: border-box;
   &::-webkit-scrollbar {
     width: 12px;
@@ -65,7 +65,7 @@ export default function SpotList(props){
   return (
         <SpotListSection>
           {/* 데이터 없을때 장소가 없습니다 띄우기 */}
-          <RecommendTitle>이런 장소는 어떠세요?</RecommendTitle>
+          <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
           <SpotsWrapper id="wrapper">
             {item.length === 0 ? (
               <NothingSearched>

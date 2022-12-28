@@ -11,50 +11,71 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import { useMediaQuery } from "react-responsive";
 
 const TitleBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 90%;
+  width: 100%;
   color: #6c6c6c;
-  margin-top: 4%;
+  margin-top: 7%;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  }
+  font-size: 1rem;
 `;
 
 const StoreNameBox = styled.div`
   box-sizing: border-box;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  width: 90%;
+  width: 100%;
   color: #000000;
-  border-bottom: 0.7px solid #000000;
+  @media screen and (max-width: 768px) {
+    width:100%;
+    margin: 0;
+  }
+  font-size: 1.25rem;
 `;
 
 const CategoryBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 90%;
+  margin-top: 2.5%;
+  width: 100%;
   color: #000000;
-  margin-top: 4%;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  }
+  font-size:0.8rem;
 `;
 const OptionBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  width: 90%;
+  width: 100%;
   color: #999999;
   padding-left: 2%;
   border-left: 2px solid #000000;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  }
+  font-size: 0.8rem;
 `;
 
 const ContentBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  margin-top: 22px;
-  width: 90%;
+  margin-top: 1rem;
+  width: 100%;
   overflow: hidden;
   min-height: 86px;
   max-height: 86px;
   color: #797979;
-  // border: 2px solid #000000;
+  @media screen and (max-width: 768px) {
+    width:100%;
+  }
+  font-size: 0.8rem;
 `;
 
 // 기존에 존재하는 버튼에 재스타일
@@ -75,7 +96,23 @@ const LikeButton = styled(Button)({
   display: "flex",
   height: "30px",
   width: "30px",
+  margin: "2% 3% 2% 0",
 });
+const StyledCard = styled(Card)`
+  display: flex;
+  min-height: 15vw;
+  min-width: 30vw;
+  max-height: 15vw;
+  max-width: 30vw;
+  flex-direction: row;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    min-height: 120vw;
+    min-width: 60vw;
+    max-height: 120vw;
+    max-width: 60vw;
+  }
+`
 
 export default function ItemCard(props) {
   const [like, setLike] = useState(false);
@@ -83,6 +120,9 @@ export default function ItemCard(props) {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
+  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
+  const width = isMobile ? "60vw" : "15vw";
+  const height = isMobile ? "60vw" : "15vw";
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
@@ -102,15 +142,10 @@ export default function ItemCard(props) {
 
   return (
     <div>
-      <Card
+      <StyledCard
         sx={{
-          minHeight: "300px",
-          minWidth: "600px",
-          maxHeight: "300px",
-          maxWidth: "600px",
-          display: "flex",
-          flexDirection: "row",
           alignItems: "center",
+          boxShadow: "none",
         }}
       >
         <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
@@ -118,11 +153,12 @@ export default function ItemCard(props) {
             component="img"
             sx={{
               16: 9,
-              minHeight: "300px",
-              minWidth: "300px",
-              maxHeight: "300px",
-              maxWidth: "300px",
+              minHeight: height,
+              minWidth: width,
+              maxHeight: height,
+              maxWidth: width,
               display: "flex",
+              borderRadius: "10%",
             }}
             image={props.rep_pic}
             alt="placeImage"
@@ -131,41 +167,28 @@ export default function ItemCard(props) {
         <CardContent
           sx={{
             // flexGrow: 1,
-            minHeight: "300px",
-            minWidth: "300px",
-            maxHeight: "300px",
-            maxWidth: "300px",
+            minHeight: height,
+            minWidth: width,
+            maxHeight: height,
+            maxWidth: width,
             display: "flex",
             flexFlow: "column",
             position: "relative",
           }}
         >
           {/* 제목, 식당이름, 장소 카테고리, 장소 옵션들, 미리보기(preivew) */}
-          <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
-            <TitleBox>
+          <StoreNameBox>
+            <Link to={`/story/${props.id}`} style={{ textDecoration: "none", color:'black' }}>
               <Typography
                 component={"span"}
-                gutterBottom
-                variant="h5"
-                fontSize="21px"
-                fontFamily={"kopub"}
-                fontWeight="400"
+                variant="p"
+                fontFamily={"Pretendard"}
+                fontWeight="700"
+                margin="auto 0"
               >
-                {props.title}
+                {props.place_name}
               </Typography>
-            </TitleBox>
-          </Link>
-          <StoreNameBox>
-            <Typography
-              component={"span"}
-              gutterBottom
-              variant="h5"
-              fontSize="21px"
-              fontFamily={"kopub"}
-              fontWeight="600"
-            >
-              {props.place_name}
-            </Typography>
+            </Link>
             <LikeButton>
               {props.story_like === "ok" ? (
                 <HeartButton like={!like} onClick={toggleLike} />
@@ -174,13 +197,24 @@ export default function ItemCard(props) {
               )}
             </LikeButton>
           </StoreNameBox>
-
+          <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
+            <TitleBox>
+              <Typography
+                component={"span"}
+                fontFamily={"Pretendard"}
+                fontWeight="400"
+                variant="p"
+              >
+                {props.title}
+              </Typography>
+            </TitleBox>
+          </Link>
           <CategoryBox>
             <Typography
               component={"span"}
-              fontSize="14px"
-              fontFamily={"kopub"}
+              fontFamily={"Predendard"}
               fontWeight="600"
+              variant="p"
             >
               {props.category}
             </Typography>
@@ -189,9 +223,9 @@ export default function ItemCard(props) {
           <OptionBox>
             <Typography
               component={"span"}
-              fontSize="14px"
-              fontFamily={"kopub"}
+              fontFamily={"Pretendard"}
               fontWeight="600"
+              variant="p"
             >
               {props.semi_category}
             </Typography>
@@ -200,15 +234,15 @@ export default function ItemCard(props) {
           <ContentBox>
             <Typography
               component={"span"}
-              fontSize="14px"
-              fontFamily={"kopub"}
+              fontFamily={"Pretendard"}
               fontWeight="600"
+              variant="p"
             >
               {props.preview}
             </Typography>
           </ContentBox>
         </CardContent>
-      </Card>
+      </StyledCard>
     </div>
   );
 }

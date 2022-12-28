@@ -83,7 +83,6 @@ export default function WriteReview(props) {
     }
     const reviewUpload = async (event) => {
         const formData = new FormData();
-        event.preventDefault();
         formData.append('place', `${props.id}`);
         formData.append('contents', `${event.target.text.value}`)
         for (let i = 0; i < event.target.file.files.length; i++) {

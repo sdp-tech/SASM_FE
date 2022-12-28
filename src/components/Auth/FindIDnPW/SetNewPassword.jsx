@@ -64,7 +64,7 @@ const SetNewPassword = () => {
           비밀번호 재설정
         </div>
         <br />
-        <div>새로 사용하기를 원하는 비밀번호를 입력해 주세요.</div>
+        <div>새로운 비밀번호를 입력해 주세요.</div>
       </Wrapper>
       <>
         <form>
@@ -91,7 +91,7 @@ const SetNewPassword = () => {
                   password: event.target.value,
                 });
               }}
-              label="새로운 비밀번호"
+              placeholder="새로운 비밀번호"
               name="password"
               type="password"
             />
@@ -102,7 +102,7 @@ const SetNewPassword = () => {
               onChange={(event) => {
                 setPasswordConfirm(event.target.value);
               }}
-              label="새로운 비밀번호 확인"
+              placeholder="새로운 비밀번호 확인"
               name="passwordConfirm"
               type="password"
               style={passwordCheck ? {} : { backgroundColor: "#F9E3E3" }}
@@ -114,20 +114,10 @@ const SetNewPassword = () => {
 
           <AuthButton
             style={{
-              color: "#FFFFFF",
-              backgroundColor: "#5480E5",
-              boxShadow:
-                "0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08)",
-              border: "none",
-              fontSize: "16px",
-              padding: "10px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              borderRadius: "4px",
-              transform: "translate(-1.5%, 50%)",
+              border: 'none',
+              backgroundColor: "#44ADF7",
+              borderRadius: '4px',
+              color: 'white',
             }}
             onClick={async () => {
               const res = await ChangePw(info);

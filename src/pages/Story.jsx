@@ -7,19 +7,17 @@ import StoryListPage from "../components/Story/StoryListPage";
 export default function StoryList() {
   return (
     <Sections>
-      <Navibar />
       <StoryListPage />
     </Sections>
   );
 }
 
 const Sections = styled.div`
-  box-sizing: border-box;
-  display: grid;
-  position: relative;
-  height: 100vh;
-  grid-template-rows: 0.15fr 0.85fr;
-  grid-template-areas:
-    "navibar"
-    "story";
+box-sizing: border-box;
+display: grid;
+position: relative;
+height: calc(100vh - 64px);
+grid-template-rows: 1fr;
+grid-template-areas:
+  "story";
 `;
