@@ -9,6 +9,7 @@ const Wrapper = styled.form`
   border-radius: 100px;
   box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
   align-items: center;
+  padding: 1% 0;
 `;
 
 const SearchForm = styled.input`
@@ -61,7 +62,7 @@ export default function SearchBar({
         color={color}
       />
       <IconWrapper type="submit" onClick={handleSearchToggle}>
-        <img src={searchIcon}></img>
+        <img src={searchIcon} style={{transform:'scale(0.8)'}} />
       </IconWrapper>
     </Wrapper>
   );
