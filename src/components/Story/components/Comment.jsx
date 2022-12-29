@@ -12,10 +12,13 @@ const CommentWrapper = styled.div`
 `
 const ButtonWrapper = styled.div`
   position: absolute;
+  height: 100%;
   right: 0;
   display:flex;
 `
 const Button = styled.div`
+  display: flex;
+  align-items: center;
   height: 100%;
   cursor: pointer;
   padding: 0 5px;
@@ -25,12 +28,14 @@ const Button = styled.div`
 `
 const NickNameBox = styled.div`
   width:20%;
-  padding-left: 3%;
+  padding: 1% 3%;
   border-right: 1px black solid;
+  @media screen and (max-width: 768px) {
+    width: 30%;
+  }
 `
 const ContentBox = styled.div`
-  width:50%;
-  padding-left: 3%;
+  padding: 1% 3%;
 `
 
 export default function Comment({ data, setMode,setTarget }) {

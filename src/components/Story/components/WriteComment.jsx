@@ -8,13 +8,16 @@ const Wrapper = styled.div`
     position:relative;
     width:80%;
     margin:10px auto;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 `
 
 const TextArea = styled.textarea`
     display:block;
     margin:0;
     height:100%;
-    width:90%;
+    width:80%;
     resize:none;
     outine-color:red;
     box-sizing:border-box;
@@ -26,7 +29,7 @@ const SubmitBtn = styled.button`
     top:0;
     right:0;
     height:100%;
-    width:10%;
+    width:20%;
     border:1px black solid;
     background-color:#fff;
 `
