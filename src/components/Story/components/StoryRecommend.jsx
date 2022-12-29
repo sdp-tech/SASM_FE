@@ -13,10 +13,16 @@ const RecommendList = styled.div`
     width:70%;
     margin:10px auto;
     display: flex;
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 `
 const Title = styled.div`
     // float: left;
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+        width: 65%;
+    }
 `
 const Date = styled.div`
     margin-left: auto;

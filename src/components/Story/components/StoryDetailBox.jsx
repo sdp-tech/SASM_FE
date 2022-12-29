@@ -10,6 +10,7 @@ import WriteComment from "./WriteComment";
 import Comments from "./Comments";
 import Recommends from "./StoryRecommend";
 import { useMediaQuery } from "react-responsive";
+import { Mobile, Pc, Tablet } from "../../../device"
 
 const Wrapper = styled.div`
   background: white;
@@ -23,34 +24,32 @@ const Wrapper = styled.div`
 const TopBox = styled.div`
   width: 100%;
   box-sizing: border-box;
-  height: 35px;
-  font-size: 2.5rem;
-  text-align: center;
-  font-weight: 100;
   display: flex;
-  justify-content: space-between;
   margin-bottom: 1rem;
 `;
 const CategoryOptionBox = styled.div`
   display: flex;
   float: left;
+  line-height: 1rem;
 `;
 const Category = styled.div`
-  height: 35px; //line-height와 맞춰서 중앙정렬
+  height: 1.5rem; //line-height와 맞춰서 중앙정렬
+  font-size: 1rem;
+  line-height: 1.5rem;
   font-weight: 700;
-  font-size: 20px;
   color: #000000;
-  padding: 5px 10px;
+  padding: 0 10px;
   display: inline-block; //텍스트 크기에 자동 맞춤
 `;
 const Options = styled.div`
-  height: 35px;
+  height: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
   font-weight: 700;
-  font-size: 20px;
   color: #999999;
   border-left: 1px solid #000000;
   border-width: 3px;
-  padding: 5px 10px;
+  padding: 0 10px;
   display: inline-block;
 `;
 
@@ -83,7 +82,7 @@ const MainTitle = styled.div`
   padding-left: 10px;
   display: inline-block; //텍스트 크기에 자동 맞춤
   @media screen and (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 1.3rem;
     height: auto;
     line-height: 150%;
   }
@@ -127,7 +126,7 @@ const Tag = styled.div`
     margin: 0;
     padding: 0;
     height: auto;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 `;
 const ButtonDiv = styled.div`
@@ -205,7 +204,7 @@ const ButtonText = styled.div`
 `;
 const LikeButton = styled(Button)({
   boxSizing: "border-box",
-  border: "1px red solid",
+  border: "none",
   display: "flex",
 });
 
@@ -278,117 +277,72 @@ const StoryDetailBox = (props) => {
       {loading ? (
         <Loading />
       ) : (
-        <>
-          {isMobile ?
-            <Wrapper>
-              <ButtonDiv>
-                <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
-                  <ButtonText>Go To Map</ButtonText>
-                </MapButton>
-                <BackToList
-                  onClick={() => {
-                    navigate(`/story`);
-                  }}>&#60; Back To List</BackToList>
-              </ButtonDiv>
-              <TopBox>
-                <CategoryOptionBox>
-                  <Category>{data.category}</Category>
-                  <Options>{data.semi_category}</Options>
-                </CategoryOptionBox>
-              </TopBox>
-              <MainTitleNStoreNameBox>
-                <MainTitleBox>
-                  <MainTitle>{data.title}</MainTitle>
-                </MainTitleBox>
-                <StoreNameBox>
-                  <StoreName>
-                    {data.place_name}
-                    <LikeIconBox>
-                      <LikeButton>
-                        {data.story_like === "ok" ? (
-                          <HeartButton like={!like} onClick={toggleLike} />
-                        ) : (
-                          <HeartButton like={like} onClick={toggleLike} />
-                        )}
-                      </LikeButton>
-                    </LikeIconBox>
-                    <Tag>{data.tag}</Tag>
-                  </StoreName>
-                </StoreNameBox>
-              </MainTitleNStoreNameBox>
-              <ImageNContentBox>
-                <div>{data.story_review}</div>
-                <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
-              </ImageNContentBox>
-              <Comments data={comment} setMode={setMode} setTarget={setTarget}></Comments>
-              <WriteComment id={id} mode={mode} setMode={setMode} target={target}></WriteComment>
-              {recommend.count != 0 ? (
-                <Recommends data={recommend}></Recommends>
-              ) : (
-                <></>
-              )}
-              <FooterBox>
-              </FooterBox>
-            </Wrapper>
-            :
-            <Wrapper>
-              <TopBox>
-                <CategoryOptionBox>
-                  <Category>{data.category}</Category>
-                  <Options>{data.semi_category}</Options>
-                </CategoryOptionBox>
-              </TopBox>
-              <MainTitleNStoreNameBox>
-                <MainTitleBox>
-                  <MainTitle>{data.title}</MainTitle>
-                  <BackToList
-                    onClick={() => {
-                      navigate(`/story`);
-                    }}
-                    style={{
-                      marginTop: "auto",
-                      marginBottom: "auto",
-                    }}>&#60; Back To List</BackToList>
-                </MainTitleBox>
-                <StoreNameBox>
-                  <StoreName>
-                    {data.place_name}
-                    <LikeIconBox>
-                      <LikeButton>
-                        {data.story_like === "ok" ? (
-                          <HeartButton like={!like} onClick={toggleLike} />
-                        ) : (
-                          <HeartButton like={like} onClick={toggleLike} />
-                        )}
-                      </LikeButton>
-                    </LikeIconBox>
-                    <Tag>{data.tag}</Tag>
-                  </StoreName>
-                  <ButtonDiv>
-                    <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
-                      <ButtonText>Go To Map</ButtonText>
-                    </MapButton>
-                  </ButtonDiv>
-                </StoreNameBox>
-              </MainTitleNStoreNameBox>
-
-              <ImageNContentBox>
-                <div>{data.story_review}</div>
-                <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
-              </ImageNContentBox>
-              <Comments data={comment} setMode={setMode} setTarget={setTarget}></Comments>
-              <WriteComment id={id} mode={mode} setMode={setMode} target={target}></WriteComment>
-              {recommend.count != 0 ? (
-                <Recommends data={recommend}></Recommends>
-              ) : (
-                <></>
-              )}
-
-              <FooterBox>
-
-              </FooterBox>
-            </Wrapper>}
-        </>
+        <Wrapper>
+          <Mobile>
+            <ButtonDiv>
+              <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
+                <ButtonText>Go To Map</ButtonText>
+              </MapButton>
+              <BackToList
+                onClick={() => { navigate(`/story`); }}>&#60; Back To List</BackToList>
+            </ButtonDiv>
+          </Mobile>
+          <TopBox>
+            <CategoryOptionBox>
+              <Category>{data.category}</Category>
+              <Options>{data.semi_category}</Options>
+            </CategoryOptionBox>
+          </TopBox>
+          <MainTitleNStoreNameBox>
+            <MainTitleBox>
+              <MainTitle>{data.title}</MainTitle>
+              <Pc><BackToList onClick={() => { navigate(`/story`); }}>&#60; Back To List</BackToList></Pc>
+              <Tablet><BackToList onClick={() => { navigate(`/story`); }}>&#60; Back To List</BackToList></Tablet>
+            </MainTitleBox>
+            <StoreNameBox>
+              <StoreName>
+                {data.place_name}
+                <LikeIconBox>
+                  <LikeButton>
+                    {data.story_like === "ok" ? (
+                      <HeartButton like={!like} onClick={toggleLike} />
+                    ) : (
+                      <HeartButton like={like} onClick={toggleLike} />
+                    )}
+                  </LikeButton>
+                </LikeIconBox>
+                <Tag>{data.tag}</Tag>
+              </StoreName>
+              <Pc>
+                <ButtonDiv>
+                  <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
+                    <ButtonText>Go To Map</ButtonText>
+                  </MapButton>
+                </ButtonDiv>
+              </Pc>
+              <Tablet>
+                <ButtonDiv>
+                  <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
+                    <ButtonText>Go To Map</ButtonText>
+                  </MapButton>
+                </ButtonDiv>
+              </Tablet>
+            </StoreNameBox>
+          </MainTitleNStoreNameBox>
+          <ImageNContentBox>
+            <div>{data.story_review}</div>
+            <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
+          </ImageNContentBox>
+          <Comments data={comment} setMode={setMode} setTarget={setTarget}></Comments>
+          <WriteComment id={id} mode={mode} setMode={setMode} target={target}></WriteComment>
+          {recommend.count != 0 ? (
+            <Recommends data={recommend}></Recommends>
+          ) : (
+            <></>
+          )}
+          <FooterBox>
+          </FooterBox>
+        </Wrapper>
       )}
     </>
   );
