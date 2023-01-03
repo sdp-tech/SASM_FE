@@ -34,9 +34,10 @@ const SearchBarSection = styled.div`
   align-items: center;
   justify-content: center;
   @media screen and (max-width: 768px) {
+    margin-top: 3vh;
     flex-direction: column;
-    height: 12vh;
-    justify-content: flex-start;
+    height: 10vh;
+    justify-content: space-between;
     align-items: center;
   }
 `;
@@ -48,9 +49,9 @@ const ToggleWrapper = styled.div`
   width: 8vw;
   align-items: center;
   @media screen and (max-width: 768px) {
-    width: 25vw;
+    width: 30vw;
     position: relative;
-    right: -27vw;
+    right: -25vw;
     height: 4vh;
   }
 `
@@ -65,7 +66,6 @@ const StoryListSection = styled.div`
   scrollbar-height: thin;
   overflow: scroll;
   @media screen and (max-width: 768px) {
-    z-index: 5;
   }
 `;
 const FooterSection = styled.div`
@@ -93,6 +93,7 @@ const SearchFilterBar = styled.div`
   border-radius: 56px;
 `;
 const OrderToggle = styled.div`
+  background-color: #FFFFFF;
   cursor: pointer;
   width: 100%;
   height: 100%;
@@ -110,6 +111,9 @@ const OrderToggle = styled.div`
   }
   img {
     transform: scale(0.8);
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0 3vw;
   }
   z-index: 3;
 `
