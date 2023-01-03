@@ -87,6 +87,7 @@ const ControllerWrapper = styled.div`
 
 
 const Markers = (props) => {
+  const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0,2);
   const [modalOpen, setModalOpen] = useState(false);
   const [detailInfo, setDetailInfo] = useState([]);
   const [reviewInfo, setReviewInfo] = useState([]);
@@ -100,7 +101,9 @@ const Markers = (props) => {
   const id = props.id;
   const category = props.category;
   const key = props.index;
+  const width = Math.max(htmlFontSize*title.length, htmlFontSize*0.75*category.length);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+  
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
@@ -164,7 +167,7 @@ const Markers = (props) => {
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="background: white; border-radius: 10px; padding:3px">`,
+    `   <div style="background: white; border-radius: 10px; padding:5px; width: ${width}px; height: 50px; ">`,
     `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
     `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem; color:#535151;">${category}</p>`,
     `   </div>`,
