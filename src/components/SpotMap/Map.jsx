@@ -167,7 +167,7 @@ const Markers = (props) => {
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="background: white; border-radius: 10px; padding:5px; width: ${width}px; height: 50px; ">`,
+    `   <div style="background: white; border-radius: 10px; padding:5px; width: ${width}px; height: 50px; position: absolute; transform: translateY(-100%);">`,
     `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
     `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem; color:#535151;">${category}</p>`,
     `   </div>`,
