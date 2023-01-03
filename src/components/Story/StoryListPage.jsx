@@ -33,7 +33,27 @@ const SearchBarSection = styled.div`
   grid-area: story;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    height: 12vh;
+    justify-content: flex-start;
+    align-items: center;
+  }
 `;
+const ToggleWrapper = styled.div`
+  position: absolute;
+  height: 50%;
+  display: flex;
+  right: 15vw;
+  width: 8vw;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 25vw;
+    position: relative;
+    right: -27vw;
+    height: 4vh;
+  }
+`
 const StoryListSection = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -44,6 +64,9 @@ const StoryListSection = styled.div`
   grid-area: story;
   scrollbar-height: thin;
   overflow: scroll;
+  @media screen and (max-width: 768px) {
+    z-index: 5;
+  }
 `;
 const FooterSection = styled.div`
   display: flex;
@@ -62,6 +85,7 @@ const SearchFilterBar = styled.div`
   width: 35%;
   @media screen and (max-width: 768px) {
     width: 80%;
+    height: 4vh;
   }
   height: 50%;
   display: flex;
@@ -70,10 +94,9 @@ const SearchFilterBar = styled.div`
 `;
 const OrderToggle = styled.div`
   cursor: pointer;
-  height: 50%;
+  width: 100%;
+  height: 100%;
   position: absolute;
-  right: 15vw;
-  width: 8vw;
   padding: 0 1vw;
   text-align: center;
   border-radius: 100px;
@@ -182,37 +205,39 @@ const StoryListPage = () => {
                   fontsize="0.8rem"
                 />
               </SearchFilterBar>
-              {orderList ?
-                <>{toggleOpen ?
-                  <>
-                    <OrderToggle onClick={() => {
-                      setOrderList(true);
-                      handleToggleOpen();
-                    }}>최신순 <img style={{transform:'rotate(180deg) scale(0.8)'}} src={toggleOpenImg}/></OrderToggle>
-                    <OrderToggle onClick={() => {
-                      setOrderList(false);
-                      handleToggleOpen();
-                    }}>오래된 순</OrderToggle>
+              <ToggleWrapper>
+                {orderList ?
+                  <>{toggleOpen ?
+                    <>
+                      <OrderToggle onClick={() => {
+                        setOrderList(true);
+                        handleToggleOpen();
+                      }}>최신순 <img style={{ transform: 'rotate(180deg) scale(0.8)' }} src={toggleOpenImg} /></OrderToggle>
+                      <OrderToggle onClick={() => {
+                        setOrderList(false);
+                        handleToggleOpen();
+                      }}>오래된 순</OrderToggle>
+                    </>
+                    :
+                    <OrderToggle onClick={handleToggleOpen}>최신순 <img src={toggleOpenImg} /></OrderToggle>}
                   </>
                   :
-                  <OrderToggle onClick={handleToggleOpen}>최신순 <img src={toggleOpenImg}/></OrderToggle>}
-                </>
-                :
-                <>{toggleOpen ?
-                  <>
-                    <OrderToggle onClick={() => {
-                      setOrderList(false);
-                      handleToggleOpen();
-                    }}>오래된 순 <img style={{transform:'rotate(180deg) scale(0.8)'}} src={toggleOpenImg}/></OrderToggle>
-                    <OrderToggle onClick={() => {
-                      setOrderList(true);
-                      handleToggleOpen();
-                    }}>최신순</OrderToggle>
+                  <>{toggleOpen ?
+                    <>
+                      <OrderToggle onClick={() => {
+                        setOrderList(false);
+                        handleToggleOpen();
+                      }}>오래된 순 <img style={{ transform: 'rotate(180deg) scale(0.8)' }} src={toggleOpenImg} /></OrderToggle>
+                      <OrderToggle onClick={() => {
+                        setOrderList(true);
+                        handleToggleOpen();
+                      }}>최신순</OrderToggle>
+                    </>
+                    :
+                    <OrderToggle onClick={handleToggleOpen}>오래된 순 <img src={toggleOpenImg} /></OrderToggle>}
                   </>
-                  :
-                  <OrderToggle onClick={handleToggleOpen}>오래된 순 <img src={toggleOpenImg}/></OrderToggle>}
-                </>
-              }
+                }
+              </ToggleWrapper>
             </SearchBarSection>
             <StoryListSection>
               <StoryList info={item} />
