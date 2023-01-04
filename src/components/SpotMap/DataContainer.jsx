@@ -149,7 +149,6 @@ export default function DataContainer({ Location }) {
                 filter: checkedList
             }, null);
         }
-        console.log(response.data.data.results)
         setState({
             loading: true,
             MapList: response.data.data.results,

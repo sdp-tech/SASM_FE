@@ -16,7 +16,7 @@ export default function Comments({data, setMode, setTarget}) {
         <CommentsBox>
             {data.results.map((data, index) => {
                 return (
-                    <Comment data={data} index={index} setMode={setMode} setTarget={setTarget}/>
+                    <Comment data={data} key={index} index={index} setMode={setMode} setTarget={setTarget}/>
                 );
             })}
         </CommentsBox>

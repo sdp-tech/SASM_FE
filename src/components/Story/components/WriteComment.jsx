@@ -35,8 +35,6 @@ const SubmitBtn = styled.button`
 `
 
 export default function WriteComment({ id, mode, setMode, target }) {
-    console.log(mode);
-    console.log(target);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     // const token = cookies.name; // 쿠키에서 id 를 꺼내기
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기

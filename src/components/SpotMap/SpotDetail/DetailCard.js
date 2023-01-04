@@ -412,7 +412,7 @@ export default function DetailCard({
             {
               statistics.map((data, index) => {
                 return (
-                  <StatisticWrapper>
+                  <StatisticWrapper key={index}>
                     <StatisticText>{data[0]}</StatisticText>
                     <PercentageBar width={data[1]} />
                     <StatisticText>{data[1]}%</StatisticText>
