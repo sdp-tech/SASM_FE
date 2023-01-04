@@ -233,7 +233,6 @@ const StoryDetailBox = (props) => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-  console.log(data.html_content);
   const handlePageGoToMap = (place_name) => {
     window.location.href = `/map/${place_name}`
   };
@@ -257,7 +256,6 @@ const StoryDetailBox = (props) => {
 
   const loadItem = async () => {
     setLoading(true);
-    console.log(id);
     const response_detail = await request.get("/stories/story_detail/", { id: id }, null);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
     const recommend_story = await request.get("/stories/recommend_story/", { id: id }, null);
