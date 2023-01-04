@@ -16,6 +16,9 @@ const Title = styled.div`
     font-weight: 700;
     color: ${oc.gray[8]};
     margin-bottom: 4rem;
+    @media screen and (max-width: 768px) {
+        margin-bottom: 1rem;
+    }
     text-align: center;
 `;
 

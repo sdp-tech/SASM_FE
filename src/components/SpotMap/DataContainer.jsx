@@ -10,20 +10,22 @@ import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
-import {CATEGORY_LIST, MatchCategory} from '../common/Category'
+import CategorySelector, { CATEGORY_LIST, MatchCategory } from '../common/Category'
+import { Pc, Tablet, Mobile } from "../../device"
 
 const ListWrapper = styled.div`
   display: flex;
   flex-flow: column;
-  margin-left: 15px;
   margin-top: 15px;
   overflow : hidden;
+  @media screen and (min-width: 769px) {
+    margin-left: 15px;
+  }
 `
 const SearchFilterBar = styled.div`
   // background-color: red;
   margin : 0 auto;
   width: 95%;
-  min-height: 5%;
   box-sizing: border-box;
 `;
 const FilterOptions = styled.div`
@@ -31,39 +33,6 @@ const FilterOptions = styled.div`
   box-sizing: border-box;
   display: flex;
 `;
-
-const CategoryCheckBox = styled.div`
-  margin : 2% 0 1% 0;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  padding: 0 0.7%;
-`;
-const CategoryLabelWrapper = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  padding: 1%;
-`;
-const CategoryLabel = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
-  text-align: center;
-  font-size: 12px;
-`
-const CategoryImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px #99a0b0 solid;
-  border-radius: 50%;
-  width: 3vw;
-  height: 3vw;
-`
 
 export default function DataContainer({ Location }) {
 
@@ -82,7 +51,7 @@ export default function DataContainer({ Location }) {
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [total, setTotal] = useState(0);
-    const [zoom ,setZoom] = useState(14);
+    const [zoom, setZoom] = useState(14);
     const [state, setState] = useState({
         loading: false,
         ItemList: [],
@@ -180,7 +149,6 @@ export default function DataContainer({ Location }) {
                 filter: checkedList
             }, null);
         }
-        console.log(response.data.data.results)
         setState({
             loading: true,
             MapList: response.data.data.results,
@@ -190,6 +158,7 @@ export default function DataContainer({ Location }) {
     };
     return (
         <>
+            <Mobile><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
@@ -203,38 +172,8 @@ export default function DataContainer({ Location }) {
                         color="white"
                     />
                 </SearchFilterBar>
-
-
                 <FilterOptions>
-                    <CategoryCheckBox>
-                        {CATEGORY_LIST.map((item) => {
-                            return (
-                                <CategoryLabelWrapper key={item.id}>
-                                    <input
-                                        type="checkbox"
-                                        // 이때 value값으로 data를 지정해준다.
-                                        value={item.data}
-                                        // onChange이벤트가 발생하면 check여부와 value(data)값을 전달하여 배열에 data를 넣어준다.
-                                        onChange={(e) => {
-                                            onCheckedElement(e.target.checked, e.target.value);
-                                        }}
-                                        // 체크표시 & 해제를 시키는 로직. 배열에 data가 있으면 true, 없으면 false
-                                        checked={tempCheckedList.includes(item.data) ? true : false}
-                                        id={`category${item.id}`}
-                                        style={{ display: 'none' }}
-                                    />
-                                    <label htmlFor={`category${item.id}`}>
-                                        <CategoryLabel>
-                                            <CategoryImageWrapper>
-                                                <img src={require(`../../assets/img/Category/Category${item.id}.svg`)} style={{ width: '60%'}} />
-                                            </CategoryImageWrapper>
-                                            <div style={{fontSize:'1.125em', marginTop:'5%'}}>{item.name}</div>
-                                        </CategoryLabel>
-                                    </label>
-                                </CategoryLabelWrapper>
-                            );
-                        })}
-                    </CategoryCheckBox>
+                    <CategorySelector checkedList={tempCheckedList} onCheckedElement={onCheckedElement}/>
                 </FilterOptions>
 
                 <SpotList mapList={state.MapList} setTemp={setTemp}></SpotList>
@@ -257,6 +196,8 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom}/></>
+            <Pc><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Pc>
+            <Tablet><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Tablet>
+        </>
     )
 }

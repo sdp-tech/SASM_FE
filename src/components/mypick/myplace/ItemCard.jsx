@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import { MatchCategory, CATEGORY_LIST } from "../../common/Category";
+import { useMediaQuery } from "react-responsive";
 
 const PlacenameBox = styled.div`
   box-sizing: border-box;
@@ -23,7 +24,6 @@ const PlacenameBox = styled.div`
   margin-top: -2%;
   margin-bottom: 5%;
   justify-content: space-between;
-  
 `;
 
 // 기존에 존재하는 버튼에 재스타일
@@ -44,6 +44,8 @@ const LikeButton = styled(Button)({
   display: "flex",
   height: "30px",
   width: "30px",
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 export default function ItemCard(props) {
@@ -51,6 +53,9 @@ export default function ItemCard(props) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
+  const width = isMobile ? "80vw" : "24vw";
+  const height = isMobile ? "45vw" : "13.5vw";
   const request = new Request(cookies, localStorage, navigate);
   // 좋아요 클릭 이벤트
   const toggleLike = async (id) => {
@@ -65,8 +70,8 @@ export default function ItemCard(props) {
     <div>
       <Card
         sx={{
-          minWidth: "320px",
-          maxWidth: "320px",
+          minWidth: width,
+          maxWidth: width,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -76,21 +81,20 @@ export default function ItemCard(props) {
           component="img"
           sx={{
             // 16: 9,
-            minHeight: "180px",
-            minWidth: "320px",
-            maxHeight: "180px",
-            maxWidth: "320px",
+            minHeight: height,
+            minWidth: width,
+            maxHeight: height,
+            maxWidth: width,
             display: "flex",
           }}
           image={props.rep_pic}
           alt="placeImage"
         />
-
         <CardContent
           sx={{
-            height:"10px",
-            minWidth: "300px",
-            maxWidth: "300px",
+            height: "2.5vw",
+            minWidth: width,
+            maxWidth: width,
             display: "flex",
             flexFlow: "column",
           }}
@@ -98,8 +102,8 @@ export default function ItemCard(props) {
           <Link to={`/map/${props.place_name}`} style={{ textDecoration: 'none' }}>
             <PlacenameBox>
               {props.place_name}
-              <div style={{display:'flex', }}>
-              <img src={require(`../../../assets/img/Category/Category${MatchCategory(props.category)}.svg`)} />
+              <div style={{ display: 'flex', }}>
+                <img src={require(`../../../assets/img/Category/Category${MatchCategory(props.category)}.svg`)} />
                 <LikeButton>
                   <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
                 </LikeButton>

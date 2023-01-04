@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-
-import archiveIcon from "../../../assets/img/Like.png";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 
@@ -11,9 +9,12 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
+import MarkerDefault from "../../../assets/img/Map/MarkerDefault.svg";
+import MarkerActive from "../../../assets/img/Map/MarkerActive.svg";
 
 const StyledCard = styled.div`
   position: relative;
+  max-width: 100%;
   margin : 0 0 0 2.5%;
   padding: 3%;
   border-bottom: 1px black solid;
@@ -31,10 +32,15 @@ const ImgBox = styled.div`
   min-height:15vmin;
   max-width:15vmin;
   max-height:15vmin;
+  @media screen and (max-width: 768px) {
+    min-width:25vmin;
+    min-height:25vmin;
+    max-width:25vmin;
+    max-height:25vmin;
+  }
 `;
 const TextBox = styled.div`
   width: 100%;
-  color: black;
   display: flex;
   flex-flow : row wrap;
   margin: 0 0 0 3%;
@@ -47,17 +53,16 @@ const TitleBox = styled.div`
   position: relative;
   display: flex;
   justify-content:space-around;
-  flex-flow : column wrap;
-  height:40%;
+  flex-flow : row wrap;
 `;
 const ContentBox = styled.div`
   font-size: 0.75rem;
-  height:60%;
+  min-height: 60%;
   font-weight: 400;
   color: black;
   display: flex;
   flex-flow : column wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 // 기존에 존재하는 버튼에 재스타일
 const Button = styled.button`
@@ -75,8 +80,8 @@ const LikeButton = styled(Button)({
   boxSizing: "border-box",
   border: "none",
   display: "flex",
-  height: "30px",
-  width: "30px",
+  height: "20px",
+  width: "20px",
 });
 
 const DetailBox = styled.div`
@@ -95,6 +100,7 @@ export default function ItemCard(props) {
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
+  const id = props.id;
   const request = new Request(cookies, localStorage, navigate);
   const setTemp = (data) => {
     props.setTemp(data);
@@ -113,7 +119,7 @@ export default function ItemCard(props) {
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      const response = await request.post("/places/place_like/", { id: props.id }, null);
+      const response = await request.post("/places/place_like/", { id: id }, null);
       // console.log("response", response);
 
       //색상 채우기
@@ -125,7 +131,8 @@ export default function ItemCard(props) {
   const handleClick = async () => {
     // alert(`${props.id}`);
     setLoading(true);
-    const id = props.id;
+    document.getElementById(id).style.transform = 'scale(1.2)';
+    document.getElementById(`${id}img`).setAttribute('src', MarkerActive);
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -140,7 +147,7 @@ export default function ItemCard(props) {
       },
       zoom: 13,
     });
-    document.getElementById(id).style.color = 'red';
+
     setLoading(false);
   };
 
@@ -149,8 +156,11 @@ export default function ItemCard(props) {
   }, []);
 
   const MarkerReset = () => {
-    for (let i = 0; i < document.getElementsByClassName("iw_inner").length; i++) {
-      document.getElementsByClassName("iw_inner")[i].style.color = 'black';
+    if(document.getElementById(`${id}img`)){
+      document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    }
+    if(document.getElementById(id)){
+      document.getElementById(id).style.transform = 'scale(1)';
     }
   }
 
@@ -185,7 +195,7 @@ export default function ItemCard(props) {
         </ImgBox>
         <TextBox>
           <TitleBox>
-            <div style={{ cursor: "pointer"}} onClick={handleClick}>
+            <div style={{width:'100%', cursor: "pointer"}} onClick={handleClick}>
               {props.StoreName}
             </div>
             <LikeButton style={{ position: 'absolute', right: '5%', bottom: '2%' }}>
@@ -195,7 +205,7 @@ export default function ItemCard(props) {
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
-            <div style={{fontWeight: "400", fontSize:"1rem" }}>
+            <div style={{width:'100%',fontWeight: "400", fontSize:"1rem" }}>
               {props.StoreType}
             </div>
           </TitleBox>

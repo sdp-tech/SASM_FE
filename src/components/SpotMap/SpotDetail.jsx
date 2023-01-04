@@ -8,18 +8,18 @@ import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { device } from "../../device"
 
 const StyledList = styled(List)`
-  @media screen and (${device.laptop}) {
-      left: 35.6%;
-    }
-    @media screen and (${device.laptopL}) {
-      left: 35.6%;
-    }
-    @media screen and (${device.desktop}) {
-      left: 28%;
-    }
+  top: 64px;
+  height: calc(100vh - 64px);
+  left: 28.6%;
+  max-width: 25%;
+  @media screen and (max-width : 768px){
+    left: 0%;
+    top: calc((100vh - 64px) * 0.4 + 64px);
+    height: calc(100vh - (100vh - 64px) * 0.4 - 64px);
+    max-width: 100%;
+  }
 `
 
 export default function SpotDetail(props) {
@@ -40,17 +40,13 @@ export default function SpotDetail(props) {
   return (
     <>
       <StyledList
-        style={{ overflow: "auto",
+        style={{ overflow: "scroll",
         position: "fixed",
-        top: `calc(64px)`,
         }}
         sx={{
-          height:`calc(100vh - 64px)`,
           padding: "0",
           boxSizing: "border-box",
           width: "100%",
-          overflow: "hidden",
-          maxWidth: "25%",
           bgcolor: "#FFFFFF",
         }}
       >

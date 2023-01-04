@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import axios from "axios";
 import List from "@mui/material/List";
 import Collapse from "@mui/material/Collapse";
-import openButton from "../../../assets/img/openButton.png";
+import toggleOpen from "../../../assets/img/toggleOpen.svg"
 // import GoToMapImg from "../../../assets/img/GoToMapImg.png";
 import GoToStoryImg from "../../../assets/img/GoToStoryImg.png";
 import { Link } from "react-router-dom";
@@ -342,11 +342,11 @@ export default function DetailCard({
                 {/* {open ? "∧" : "∨"} */}
                 {open ? (
                   <>
-                    <img src={openButton} style={{ transform: "rotate(180deg)" }} />
+                    <img src={toggleOpen} style={{ transform: "rotate(180deg)" }} />
                   </>
                 ) : (
                   <>
-                    <img src={openButton} />
+                    <img src={toggleOpen} />
                   </>
                 )}
               </ListButton>
@@ -412,7 +412,7 @@ export default function DetailCard({
             {
               statistics.map((data, index) => {
                 return (
-                  <StatisticWrapper>
+                  <StatisticWrapper key={index}>
                     <StatisticText>{data[0]}</StatisticText>
                     <PercentageBar width={data[1]} />
                     <StatisticText>{data[1]}%</StatisticText>

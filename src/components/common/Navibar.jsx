@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
-
 import logo from "../../assets/img/sasm_logo.png";
 import { LoginContext } from "../../contexts/LoginContexts";
 import PageRedirection from "../../functions/common/PageRedirection";
-import axios from "axios";
 import { useCookies } from "react-cookie";
+import { Pc, Tablet, Mobile } from "../../device"
+import { useMediaQuery } from "react-responsive";
+import { useRef } from "react";
+import MenuOpen from "../../assets/img/Navibar/MenuOpen.svg"
+import MenuClose from "../../assets/img/Navibar/MenuClose.svg"
 
 const NavibarSection = styled.div`
   // position: relative;
@@ -37,6 +40,9 @@ const LogoBox = styled.div`
   align-items: center;
   cursor: pointer;
   margin-left: 10%;
+  @media screen and (max-width: 768px) {
+    margin-left: 5%;
+  }
 `;
 const Logo = styled.img`
   display: block;
@@ -68,16 +74,15 @@ const AuthBox = styled.div`
   // position: absolute;
   height: 100%;
   width: 20%;
-  // background-color: green;
-  // right: 5%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  // justify-content: space-between;
-  // cursor: pointer;
+  @media screen and (max-width: 768px) {
+    width: 40%;
+  }
 `;
 const PageTitleCss = styled.div`
-  fontsize: 2vw;
+  font-size: 1rem;
   cursor: pointer;
   text-decoration: none;
   &:active {
@@ -96,99 +101,205 @@ const PageTitleCss = styled.div`
     transform: translateY(-2px);
   }
 `;
-
+const MobileMenuBox = styled.div`
+  height: 100%;
+  width: 10%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+const MobileMenuList = styled.div`
+  width:100%;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  z-index: 10;
+  position: fixed;
+  top: 64px;
+  color: black;
+  border-top: 1px #999999 solid;
+  box-shadow: 0 4px 4px -4px black;
+`
+const MobileAuthBox = styled.div`
+  display: flex;
+  align-items: center;
+  padding: none;
+  justify-content: flex-end;
+  padding: 0% 5%;
+`
+const MobilePageTitle = styled.div`
+  padding: 2% 5%;
+  text-align: right;
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-decoration: none;
+  border-bottom: 1px #999999 solid;
+  &:active {
+    // border: none;
+    // background: white;
+    font-weight: bold;
+    cursor: revert;
+    border-bottom: 2px solid #5480e5;
+    color: #5480e5;
+    transform: revert;
+  }
+  &:hover {
+    // border-bottom: 2px solid #5480e5;
+    cursor: pointer;
+    color: #01A0FC;
+    transform: translateY(-2px);
+  }
+`;
+const LogginOutTitle = styled.div`
+  font-size: 1rem;
+  cursor: pointer;
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+  }
+`
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
-const PageTitle = ({ navigate, title }) => {
+const PageTitle = ({ navigate, title, setMenu, style }) => {
   const [color, setColor] = useState("yellow");
-
+  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   return (
-    <PageTitleCss
-      style={{ fontSize: "1vw" }}
-      onClick={() => {
-        console.log("@@@", title);
-        PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
-      }}
-    >
-      {/* {userID} */}
-      {title}
-    </PageTitleCss>
+    <>
+      {isMobile ? <MobilePageTitle
+        onClick={() => {
+          console.log("@@@", title);
+          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
+          setMenu(false);
+        }}
+        style={style}
+      >
+        {/* {userID} */}
+        {title}
+      </MobilePageTitle> : <PageTitleCss
+        onClick={() => {
+          console.log("@@@", title);
+          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
+        }}
+        style={style}
+      >
+        {/* {userID} */}
+        {title}
+      </PageTitleCss>}
+    </>
   );
 };
 
-const LoggingOut = ({ login, setLogin }) => {
+const LoggingOut = ({ login, setLogin, setMenu }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   return (
-    <div
-      style={{ fontSize: "1vw", cursor: "pointer" }}
+    <LogginOutTitle
       onClick={() => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
         // 서버에 토큰 블랙리스트화하기 위해 전달
         removeCookie("name"); // 쿠키 삭제
         localStorage.removeItem("accessTK"); //access token 삭제
-
+        localStorage.removeItem("nickname"); //nickname 삭제
+        localStorage.removeItem("email"); //email 삭제
+        setMenu(false);
         navigate("/"); // 메인 페이지로 이동
       }}
     >
       LOG OUT
-    </div>
+    </LogginOutTitle>
   );
 };
 
 export default function Navibar() {
+  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const [login, setLogin] = useContext(LoginContext);
-
+  const [menu, setMenu] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const setNickname = localStorage.getItem("nickname"); //닉네임 가져오기
   const navigate = useNavigate();
+  const node = useRef();
+  const handleMobileMenu = () => {
+    setMenu(!menu);
+  }
+  useEffect(() => {
+    const clickOutside = (e) => {
+      // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
+      if (menu && node.current && !node.current.contains(e.target)) {
+        setMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", clickOutside);
 
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", clickOutside);
+    };
+  }, [menu]);
   return (
-    <NavibarSection>
+    <NavibarSection ref={node}>
       <Bar>
         {/* 로고 */}
         <LogoBox>
           <Logo
             src={logo}
-            onClick={() => PageRedirection(navigate, "SASM")}
+            onClick={() => {
+              setMenu(false);
+              PageRedirection(navigate, "SASM")}}
           ></Logo>
           <LogoWord
-            style={{ fontSize: "0.8vw", paddingLeft: "5%" }}
-            onClick={() => PageRedirection(navigate, "SASM")}
+            style={{ paddingLeft: "5%" }}
+            onClick={() => {
+              setMenu(false);
+              PageRedirection(navigate, "SASM")}}
           >SASM</LogoWord>
         </LogoBox>
-
-        {/* 메뉴 */}
-        <PagesBox>
-          <PageTitle navigate={navigate} title="MAP"></PageTitle>
-          <PageTitle navigate={navigate} title="STORY"></PageTitle>
-          <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
-          <PageTitle navigate={navigate} title="MY PAGE"></PageTitle>
-        </PagesBox>
-
-        {/* 로그인 및 회원가입 */}
-        <AuthBox>
-          {!token ? (
-            <>
-              <PageTitle navigate={navigate} title="LOG IN"></PageTitle>
-              <div style={{ padding: "5%" }}>|</div>
-              <PageTitle navigate={navigate} title="JOIN"></PageTitle>
-            </>
-          ) : (
-            <>
-              <PageTitle
-                navigate={navigate}
-                // title={`${login.nickname}님`}
-                title={`${setNickname}님`}
-              ></PageTitle>
-              <div style={{ padding: "5%" }}>|</div>
-              <LoggingOut login={login} setLogin={setLogin} />
-            </>
-          )}
-        </AuthBox>
+        {isMobile ?
+          <MobileMenuBox onClick={handleMobileMenu}>{menu ? <img src={MenuOpen} style={{transform:'scale(0.8)'}}/> : <img src={MenuClose} style={{transform:'scale(0.8)'}}/>}</MobileMenuBox>
+            :
+          <>
+            <PagesBox>
+              <PageTitle navigate={navigate} title="MAP"></PageTitle>
+              <PageTitle navigate={navigate} title="STORY"></PageTitle>
+              <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
+              <PageTitle navigate={navigate} title="MY PAGE"></PageTitle>
+            </PagesBox>
+            {/* 로그인 및 회원가입 */}
+            <AuthBox>
+              {!token ? (
+                <>
+                  <PageTitle navigate={navigate} title="LOG IN"></PageTitle>
+                  <div style={{ padding: "5%"}}>|</div>
+                  <PageTitle navigate={navigate} title="JOIN"></PageTitle>
+                </>
+              ) : (
+                <>
+                  <PageTitle navigate={navigate} title={`${setNickname}님`}></PageTitle>
+                  <div style={{ padding: "5%"}}>|</div>
+                  <LoggingOut login={login} setLogin={setLogin} />
+                </>
+              )}
+            </AuthBox>
+          </>}
       </Bar>
+      {menu ? <MobileMenuList>
+        <PageTitle navigate={navigate} setMenu={setMenu} title="MAP"></PageTitle>
+        <PageTitle navigate={navigate} setMenu={setMenu} title="STORY"></PageTitle>
+        <PageTitle navigate={navigate} setMenu={setMenu} title="MY PICK"></PageTitle>
+        <PageTitle navigate={navigate} setMenu={setMenu} title="MY PAGE"></PageTitle>
+        {!token ? (
+          <MobileAuthBox>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="LOG IN"></PageTitle>
+            <div style={{ padding: "0 5%" }}>|</div>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="JOIN"></PageTitle>
+          </MobileAuthBox>
+        ) : (
+          <MobileAuthBox>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title={`${setNickname}님`}></PageTitle>
+            <div style={{ padding: "0 5%" }}>|</div>
+            <LoggingOut login={login} setLogin={setLogin} setMenu={setMenu} />
+          </MobileAuthBox>
+        )}
+      </MobileMenuList> : null}
     </NavibarSection>
   );
 }

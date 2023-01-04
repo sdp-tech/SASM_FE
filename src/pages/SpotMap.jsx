@@ -6,7 +6,6 @@ import Loading from "../components/common/Loading";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import DataContainer from "../components/SpotMap/DataContainer";
-import {device} from "../device"
 
 export default function SpotMap() {
   const [page, setPage] = useState(1);
@@ -60,15 +59,14 @@ const Sections = styled.div`
   display: grid;
   position: relative;
   height: calc(100vh - 64px);
-  @media screen and (${device.laptop}) {
-    grid-template-columns: 0.35fr 0.65fr;
+  @media screen and (max-width : 768px){
+  grid-template-rows: 0.4fr 0.6fr; 
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "map";
+    "spotlist";
   }
-  @media screen and (${device.laptopL}) {
-    grid-template-columns: 0.35fr 0.65fr;
-  }
-  @media screen and (${device.desktop}) {
-    grid-template-columns: 0.28fr 0.72fr;
-  }
+  grid-template-columns: 0.28fr 0.72fr;
   grid-template-rows: 1fr;
   grid-template-areas:
     "spotlist map";

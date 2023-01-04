@@ -10,16 +10,15 @@ const StoryList = ({ info }) => {
     <>
       <>
         <StorySection>
-          <main>
+          <main style={{width: '100%', marginTop:'2rem'}}>
             <Container
               sx={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                width: "90vw",
+                minWidth: "85vw",
               }}
-              maxWidth="xl"
             >
               {info.length === 0 ? (
                 <NothingSearched>
@@ -27,7 +26,7 @@ const StoryList = ({ info }) => {
                   해당하는 스토리가 없습니다
                 </NothingSearched>
               ) : (
-                <Grid container spacing={6}>
+                <Grid container spacing={5}>
                   {info.map((info, index) => (
                     <Grid item key={info.id} xs={12} sm={12} md={12} lg={6}>
                       <CardSection>
@@ -73,6 +72,7 @@ const StorySection = styled.div`
   grid-area: story;
   // height: 100%;
   height: auto;
+  margin-bottom: 5vh;
 `;
 const FooterSection = styled.div`
   position: relative;

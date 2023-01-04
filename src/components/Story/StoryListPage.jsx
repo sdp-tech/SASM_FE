@@ -2,17 +2,121 @@ import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import StoryList from "./components/StoryList";
 import SearchBar from "../common/SearchBar";
-import nothingIcon from "../../assets/img/nothing.svg";
 import searchBlack from "../../assets/img/search_black.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
 import AdminButton from "../Admin/components/AdminButton";
 import Request from "../../functions/common/Request";
+import toggleOpenImg from "../../assets/img/toggleOpen.svg";
 
+const Section = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  height: calc(100vh - 114px);
+  min-height: 100%;
+  width: 100%;
+  grid-area: story;
+  display: flex;
+  flex-direction: column;
+`;
+const SearchBarSection = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  height: 8vh;
+  width: 100%;
+  display: flex;
+  margin-top: 0.1%;
+  flex-direction: row;
+  grid-area: story;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 768px) {
+    margin-top: 3vh;
+    flex-direction: column;
+    height: 10vh;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+const ToggleWrapper = styled.div`
+  position: absolute;
+  height: 50%;
+  display: flex;
+  right: 15vw;
+  width: 8vw;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 30vw;
+    position: relative;
+    right: -25vw;
+    height: 4vh;
+  }
+`
+const StoryListSection = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  height: calc(100vh - 64px - 13vh);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  grid-area: story;
+  scrollbar-height: thin;
+  overflow: scroll;
+  @media screen and (max-width: 768px) {
+  }
+`;
+const FooterSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  // position: relative;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+`;
+const SearchFilterBar = styled.div`
+  box-sizing: border-box;
+  width: 35%;
+  @media screen and (max-width: 768px) {
+    width: 80%;
+    height: 4vh;
+  }
+  height: 50%;
+  display: flex;
+  background: #FFFFFF;
+  border-radius: 56px;
+`;
+const OrderToggle = styled.div`
+  background-color: #FFFFFF;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  padding: 0 1vw;
+  text-align: center;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  & + & {
+    transform: translateY(100%);
+    justify-content: center;
+  }
+  img {
+    transform: scale(0.8);
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0 3vw;
+  }
+  z-index: 3;
+`
 const StoryListPage = () => {
   const [item, setItem] = useState([]);
   const [pageCount, setPageCount] = useState([]);
@@ -22,36 +126,20 @@ const StoryListPage = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [filterToggle, setFilterToggle] = useState(false);
-  const [checkedList, setCheckedList] = useState([]);
+  const [toggleOpen, setToggleOpen] = useState(false);
+  const [orderList, setOrderList] = useState(true);
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = new Request(cookies, localStorage, navigate);
 
-  // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
-  const onCheckedElement = (checked, item) => {
-    if (checked) {
-      setCheckedList([...checkedList, item]);
-    } else if (!checked) {
-      setCheckedList(checkedList.filter((el) => el !== item));
-    }
-  };
-
-  const CATEGORY_LIST = [
-    { id: 0, data: "식당 및 카페" },
-    { id: 1, data: "전시 및 체험공간" },
-    { id: 2, data: "제로웨이스트 샵" },
-    { id: 3, data: "도시 재생 및 친환경 건축물" },
-    { id: 4, data: "복합 문화 공간" },
-    { id: 5, data: "녹색 공간" },
-  ];
-
-  const handleFilterToggle = () => {
-    setFilterToggle(!filterToggle);
-  };
-
+  const handleOrderToggle = () => {
+    setOrderList(!orderList);
+  }
+  const handleToggleOpen = () => {
+    setToggleOpen(!toggleOpen);
+  }
   const onChangeSearch = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
@@ -60,7 +148,7 @@ const StoryListPage = () => {
   useEffect(() => {
     handleSearchToggle();
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page]);
+  }, [page, orderList]);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
@@ -68,7 +156,6 @@ const StoryListPage = () => {
       e.preventDefault();
     } //초기화 방지
     setSearchToggle(true);
-    console.log(search, checkedList);
     setLoading(true);
     let newPage;
     if (page == 1) {
@@ -91,10 +178,10 @@ const StoryListPage = () => {
       searched = search;
     }
 
-    const response = await request.get("/stories/story_search/", {
+    const response = await request.get("/stories/story_order/", {
       page: newPage,
       search: searched,
-      filter: checkedList,
+      order: orderList.toString(),
     }, null);
     // console.log("response??", response);
     setItem(response.data.data.results);
@@ -107,7 +194,7 @@ const StoryListPage = () => {
       {loading ? (
         <Loading />
       ) : (
-        <>
+        <div style={{}}>
           <Section>
             <SearchBarSection>
               <SearchFilterBar>
@@ -115,16 +202,49 @@ const StoryListPage = () => {
                   search={search}
                   onChangeSearch={onChangeSearch}
                   handleSearchToggle={handleSearchToggle}
-                  handleFilterToggle={handleFilterToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
                   searchIcon={searchBlack}
                   background="white"
                   color="black"
+                  fontsize="0.8rem"
                 />
               </SearchFilterBar>
+              <ToggleWrapper>
+                {orderList ?
+                  <>{toggleOpen ?
+                    <>
+                      <OrderToggle onClick={() => {
+                        setOrderList(true);
+                        handleToggleOpen();
+                      }}>최신순 <img style={{ transform: 'rotate(180deg) scale(0.8)' }} src={toggleOpenImg} /></OrderToggle>
+                      <OrderToggle onClick={() => {
+                        setOrderList(false);
+                        handleToggleOpen();
+                      }}>오래된 순</OrderToggle>
+                    </>
+                    :
+                    <OrderToggle onClick={handleToggleOpen}>최신순 <img src={toggleOpenImg} /></OrderToggle>}
+                  </>
+                  :
+                  <>{toggleOpen ?
+                    <>
+                      <OrderToggle onClick={() => {
+                        setOrderList(false);
+                        handleToggleOpen();
+                      }}>오래된 순 <img style={{ transform: 'rotate(180deg) scale(0.8)' }} src={toggleOpenImg} /></OrderToggle>
+                      <OrderToggle onClick={() => {
+                        setOrderList(true);
+                        handleToggleOpen();
+                      }}>최신순</OrderToggle>
+                    </>
+                    :
+                    <OrderToggle onClick={handleToggleOpen}>오래된 순 <img src={toggleOpenImg} /></OrderToggle>}
+                  </>
+                }
+              </ToggleWrapper>
             </SearchBarSection>
             <StoryListSection>
-              <StoryList info={item}/>
+              <StoryList info={item} />
             </StoryListSection>
           </Section>
           <FooterSection>
@@ -146,101 +266,10 @@ const StoryListPage = () => {
               <></>
             )}
           </FooterSection>
-        </>
+        </div>
       )}
     </>
   );
 };
 
-const Section = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  height: 90vh;
-  width: 100%;
-  grid-area: story;
-  display: flex;
-  flex-direction: column;
-`;
-const SearchBarSection = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  height: 19%;
-  width: 100%;
-  display: flex;
-  margin-top: 0.1%;
-  flex-direction: row;
-  grid-area: story;
-  align-items: center;
-  justify-content: center;
-`;
-const StoryListSection = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  height: 90%;
-  width: 100%;
-  margin-top: 1%;
-  display: flex;
-  flex-direction: column;
-  grid-area: story;
-  scrollbar-height: thin;
-`;
-const FooterSection = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  // overflow: hidden;
-  // grid-area: story;
-  height: 12%;
-  justify-content: center;
-  align-items: center;
-`;
-const SearchFilterBar = styled.div`
-  box-sizing: border-box;
-  width: 35%;
-  height: 33%;
-  background: #FFFFFF;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 56px;
-`;
-const FilterOptions = styled.div`
-  width: 20%;
-  min-height: 30%;
-  border-left: 1px solid #99a0b0;
-  border-right: 1px solid #99a0b0;
-  border-bottom: 1px solid #99a0b0;
-  box-sizing: border-box;
-  display: flex;
-  position: absolute;
-  background: white;
-  z-index: 4;
-`;
-const CategoryTitle = styled.div`
-  width: 30%;
-  min-height: 30%;
-  margin: 4.3% 3% 0 3%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-`;
-const CategoryCheckBox = styled.div`
-  width: 100%;
-  min-height: 30%;
-  // margin: 7% 3% 0 3%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-const CategoryLabel = styled.div`
-  width: 100%;
-  min-width: 100%;
-  min-height: 5%;
-  height: 14%;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 2%;
-`;
 export default StoryListPage;

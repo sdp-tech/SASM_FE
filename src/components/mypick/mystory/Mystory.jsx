@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
@@ -11,8 +10,78 @@ import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
+import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category"
 
+const Container = styled.div`
+  margin: 0 auto;
+  margin-top: 3%;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const MyplaceSection = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5%;
+  grid-area: story;
+`;
+const HeaderSection = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+  justify-content: space-around;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`
+const FooterSection = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  grid-area: story;
+`;
+const CardSection = styled.div`
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  grid-area: story;
+  justify-content: center;
+  align-items: center;
+`;
+const NothingSearched = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const ChangeModeButton = styled.div`
+  width: 30%;
+  text-align: center;
+  font-size: 1.25rem;
+  z-index: 3;
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+`
+const FilterOptions = styled.div`
+  width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`
 const Mystory = (props) => {
+  const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
@@ -24,9 +93,15 @@ const Mystory = (props) => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-
+  // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
+  const onCheckedElement = (checked, item) => {
+    if (checked) {
+      setCheckedList([...checkedList, item]);
+    } else if (!checked) {
+      setCheckedList(checkedList.filter((el) => el !== item));
+    }
+  };
   const pageMystory = async () => {
-    console.log("page", page);
     let newPage;
     if (page === 1) {
       newPage = null;
@@ -37,6 +112,7 @@ const Mystory = (props) => {
     setLoading(true);
     const response = await request.get("/users/like_story/", {
       page: newPage,
+      filter: checkedList
     }, null);
     setPageCount(response.data.data.count);
     setInfo(response.data.data.results);
@@ -46,7 +122,7 @@ const Mystory = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMystory();
-  }, [page]);
+  }, [page, checkedList]);
   return (
     <>
       {loading ? (
@@ -54,15 +130,19 @@ const Mystory = (props) => {
       ) : (
         <>
           <MyplaceSection>
-          <span style={{position:'absolute', left:'15vw', top:'1%', display:'flex', fontSize:"1.25rem"}} onClick={props.handleMode}>
-              <img src={ChangeMode} style={{marginRight:'10px'}} />
-              PLACE
-            </span>
-            <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000000" }}>
-              MY STORY
-            </span>
-
-            <main>
+            <HeaderSection>
+              <ChangeModeButton onClick={props.handleMode}>
+                <img src={ChangeMode} style={{ marginRight: '10px' }} />
+                PLACE
+              </ChangeModeButton>
+              <span style={{ fontWeight: "500", fontSize: "1.6rem" }}>
+                MY STORY
+              </span>
+              <FilterOptions>
+                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
+              </FilterOptions>
+            </HeaderSection>
+            <main style={{ width: '100%' }}>
               <Container
                 sx={{
                   marginTop: "3%",
@@ -70,7 +150,7 @@ const Mystory = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
-                  width:"100%"
+                  width: "100%"
                 }}
               >
                 <>
@@ -84,7 +164,7 @@ const Mystory = (props) => {
                       해당하는 스토리가 없습니다
                     </NothingSearched>
                   ) : (
-                    <Grid container spacing={10}>
+                    <Grid container spacing={5}>
                       {info.map((info, index) => (
                         <Grid item key={info.id} xs={12} sm={12} md={6} lg={6}>
                           <CardSection>
@@ -120,38 +200,5 @@ const Mystory = (props) => {
     </>
   );
 };
-
-const MyplaceSection = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  grid-area: story;
-  margin-top: 10%;
-`;
-const FooterSection = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  grid-area: story;
-`;
-const CardSection = styled.div`
-  box-sizing: border-box;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  grid-area: story;
-  justify-content: center;
-  align-items: center;
-`;
-const NothingSearched = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 export default Mystory;

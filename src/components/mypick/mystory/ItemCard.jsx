@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import { MatchCategory, CATEGORY_LIST } from "../../common/Category";
+import { useMediaQuery } from "react-responsive";
 
 const PlacenameBox = styled.div`
   box-sizing: border-box;
@@ -47,7 +48,9 @@ const LikeButton = styled(Button)({
 });
 
 export default function ItemCard(props) {
-  console.log(props.preview);
+  const isMobile = useMediaQuery({query: "(max-width:768px)"});
+  const width = isMobile?"80vw":"32vw";
+  const height = isMobile?"45vw":"18vw";
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [loading, setLoading] = useState(true);
@@ -66,8 +69,8 @@ export default function ItemCard(props) {
     <div>
       <Card
         sx={{
-          minWidth: "480px",
-          maxWidth: "480px",
+          minWidth: width,
+          maxWidth: width,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -77,10 +80,10 @@ export default function ItemCard(props) {
           component="img"
           sx={{
             // 16: 9,
-            minHeight: "270px",
-            minWidth: "480px",
-            maxHeight: "270px",
-            maxWidth: "480px",
+            minHeight: height,
+            minWidth: width,
+            maxHeight: height,
+            maxWidth: width,
             display: "flex",
           }}
           image={props.rep_pic}
@@ -89,8 +92,8 @@ export default function ItemCard(props) {
 
         <CardContent
           sx={{
-            minWidth: "480px",
-            maxWidth: "480px",
+            minWidth: width,
+            maxWidth: width,
             display: "flex",
             flexFlow: "column",
           }}
