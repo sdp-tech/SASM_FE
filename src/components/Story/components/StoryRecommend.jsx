@@ -33,7 +33,6 @@ const goToRecommendStory = (id) => {
 
 export default function Recommends(props) {
     const data = props.data.results;
-    console.log('data', data);
     return (
         <div>
             <RecommendText>
