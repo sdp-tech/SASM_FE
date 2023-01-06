@@ -46,6 +46,7 @@ const TextArea = styled.textarea`
 `
 
 const SubmitBtn = styled.button`
+    cursor: pointer;
     border: none;
     font-size: 1.25rem;
     font-weight: 700;
@@ -56,7 +57,7 @@ const SubmitBtn = styled.button`
     box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
 `
 
-export default function WriteComment({ id, mode, setMode, target }) {
+export default function WriteComment({ id }) {
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     // const token = cookies.name; // 쿠키에서 id 를 꺼내기
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -68,35 +69,15 @@ export default function WriteComment({ id, mode, setMode, target }) {
             content: event.target.text.value,
         });
     }
-    const updateComment = async (event) => {
-        const response = await request.patch(`/stories/comments/${target.id}`, {
-            content: event.target.text.value,
-        });
-    }
 
-    if (mode == 'write') {
-        return (
-            <Wrapper>
-                <Form onSubmit={(event) => {
-                    uploadComment(event);
-                    setMode('write');
-                }}>
-                    <TextArea id='text' placeholder='댓글을 달아주세요.'></TextArea>
-                    <SubmitBtn type='submit'>제출</SubmitBtn>
-                </Form>
-            </Wrapper>
-        )
-    }
-    else {
-        return (
-            <Wrapper>
-                <Form onSubmit={(event) => {
-                    updateComment(event);
-                }}>
-                    <TextArea id='text' placeholder={target.content}></TextArea>
-                    <SubmitBtn type='submit'>수정</SubmitBtn>
-                </Form>
-            </Wrapper>
-        )
-    }
+    return (
+        <Wrapper>
+            <Form onSubmit={(event) => {
+                uploadComment(event);
+            }}>
+                <TextArea id='text' placeholder='댓글을 달아주세요.'></TextArea>
+                <SubmitBtn type='submit'>제출</SubmitBtn>
+            </Form>
+        </Wrapper>
+    )
 }
