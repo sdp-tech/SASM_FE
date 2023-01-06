@@ -33,7 +33,6 @@ const goToRecommendStory = (id) => {
 
 export default function Recommends(props) {
     const data = props.data.results;
-    console.log('data', data);
     return (
         <div>
             <RecommendText>
@@ -41,8 +40,8 @@ export default function Recommends(props) {
                 <div>&nbsp;카테고리의 다른 글도 확인해보세요</div>
             </RecommendText>
             <br></br><br></br>
-            {data.map((it) => (
-                <RecommendList>
+            {data.map((it, index) => (
+                <RecommendList key={index}>
                     <Title onClick={(e) => { goToRecommendStory(it.id) }}>{it.title}</Title>
                     <Date>{it.created.slice(0, 10)}</Date>
                 </RecommendList>
