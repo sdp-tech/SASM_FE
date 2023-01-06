@@ -52,7 +52,7 @@ const TextArea = styled.textarea`
     height: 5vh;
     resize:none;
     border: 1px rgba(0,0,0,0.3) solid;
-    padding: 10px 30px;
+    padding: 11px 30px;
     border-radius:1000px;
     ::placeholder,
     ::-webkit-input-placeholder {
@@ -77,6 +77,7 @@ export default function Comment({ data }) {
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   const email = localStorage.getItem('email');
+  const [updatetext, setUpdateText] = useState(data.content);
 
   const handleUpdate = () => {
     setUpdate(!update);
@@ -121,7 +122,9 @@ export default function Comment({ data }) {
         </ButtonBox>
       </InfoBox>
       <ContentBox>
-        {update ? <><TextArea id="textarea"></TextArea></> : <>{data.content}</>}
+        {update ? <><TextArea autoFocus id="textarea" value={updatetext} onChange={(event)=>{
+          setUpdateText(event.target.value);
+        }}></TextArea></> : <>{data.content}</>}
       </ContentBox>
     </CommentBox>
   )
