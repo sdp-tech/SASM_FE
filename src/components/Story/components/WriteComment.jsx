@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
     position:relative;
     width:80%;
-    height: 6vh;
+    height: 3vh;
     margin:10px auto;
     @media screen and (max-width: 768px) {
         width: 100%;
@@ -32,16 +32,21 @@ const TextArea = styled.textarea`
     border-radius:1000px;
     ::placeholder,
     ::-webkit-input-placeholder {
+        font-size: 0.75rem;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         left: 5%;
     }
     :-ms-input-placeholder {
+        font-size: 0.75rem;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         left: 5%;
+    }
+    @media screen and (max-width: 768px) {
+        padding: 0;
     }
 `
 
@@ -55,6 +60,9 @@ const SubmitBtn = styled.button`
     border-radius: 1000px;
     width: 15%;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    @media screen and (max-width: 768px) {
+        font-size: 0.75rem;
+    }
 `
 
 export default function WriteComment({ id }) {
