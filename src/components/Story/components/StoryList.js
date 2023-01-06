@@ -72,6 +72,7 @@ const StorySection = styled.div`
   grid-area: story;
   // height: 100%;
   height: auto;
+  margin-bottom: 5vh;
 `;
 const FooterSection = styled.div`
   position: relative;

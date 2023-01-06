@@ -28,6 +28,17 @@ const MyplaceSection = styled.div`
   margin-top: 5%;
   grid-area: story;
 `;
+const HeaderSection = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+  justify-content: space-around;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`
 const FooterSection = styled.div`
   position: relative;
   display: flex;
@@ -52,24 +63,22 @@ const NothingSearched = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const ChangeModeButton = styled.span`
-  display: flex;
+const ChangeModeButton = styled.div`
+  width: 30%;
+  text-align: center;
   font-size: 1.25rem;
-  position: absolute;
-  left: 15vw;
-  top: 1%;
-  @media screen and (max-width: 768px) {
-    left: 7vw;
-    top: 0.5%;
-    font-size: 1rem;
-  }
   z-index: 3;
+  @media screen and (max-width: 768px) {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 `
 const FilterOptions = styled.div`
-  position: absolute;
-  right: 10%;
-  top: -50%;
   width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `
 
 const Myplace = (props) => {
@@ -89,9 +98,9 @@ const Myplace = (props) => {
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
     if (checked) {
-        setCheckedList([...checkedList, item]);
+      setCheckedList([...checkedList, item]);
     } else if (!checked) {
-        setCheckedList(checkedList.filter((el) => el !== item));
+      setCheckedList(checkedList.filter((el) => el !== item));
     }
   };
   const pageMyplace = async () => {
@@ -106,7 +115,7 @@ const Myplace = (props) => {
 
     const response = await request.get("/users/like_place/", {
       page: newPage,
-      //filter: checkedList
+      filter: checkedList
     }, null);
 
     setPageCount(response.data.data.count);
@@ -117,7 +126,7 @@ const Myplace = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
-  }, [page]);
+  }, [page, checkedList]);
   return (
     <>
       {loading ? (
@@ -125,44 +134,46 @@ const Myplace = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <ChangeModeButton onClick={props.handleMode}>
-              <img src={ChangeMode} style={{ marginRight: '10px' }} />
-              STORY
-            </ChangeModeButton>
-            <span style={{width:"100%",textAlign:'center', fontWeight: "500", fontSize: "1.6rem", color: "#000000", position:'relative' }}>
-              MY PLACE
+            <HeaderSection>
+              <ChangeModeButton onClick={props.handleMode}>
+                <img src={ChangeMode} style={{ marginRight: '10px' }} />
+                STORY
+              </ChangeModeButton>
+              <span style={{ fontWeight: "500", fontSize: "1.6rem" }}>
+                MY PLACE
+              </span>
               <FilterOptions>
-                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement}/>
+                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
               </FilterOptions>
-            </span>
-            <main style={{ width: '100%'}}>
+            </HeaderSection>
+            <main style={{ width: '100%' }}>
               <Container>
-                  {info.length === 0 ? (
-                    <NothingSearched>
-                      <img
-                        src={nothingIcon}
-                        style={{ marginTop: "50%", paddingTop: "50%" }}
-                      />
-                      해당하는 장소가 없습니다
-                    </NothingSearched>
-                  ) : (
-                    <Grid container spacing={3} style={{width:'100%'}}>
-                      {info.map((info, index) => (
-                        <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
-                          <CardSection>
-                            <ItemCard
-                              key={index}
-                              id={info.id}
-                              rep_pic={info.rep_pic}
-                              place_name={info.place_name}
-                              place_like={info.place_like}
-                              category={info.category}
-                            />
-                          </CardSection>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  )}
+                {info.length === 0 ? (
+                  <NothingSearched>
+                    <img
+                      src={nothingIcon}
+                      style={{ marginTop: "50%", paddingTop: "50%" }}
+                    />
+                    해당하는 장소가 없습니다
+                  </NothingSearched>
+                ) : (
+                  <Grid container spacing={3} style={{ width: '100%' }}>
+                    {info.map((info, index) => (
+                      <Grid item key={info.id} xs={12} sm={12} md={6} lg={4}>
+                        <CardSection>
+                          <ItemCard
+                            key={index}
+                            id={info.id}
+                            rep_pic={info.rep_pic}
+                            place_name={info.place_name}
+                            place_like={info.place_like}
+                            category={info.category}
+                          />
+                        </CardSection>
+                      </Grid>
+                    ))}
+                  </Grid>
+                )}
               </Container>
             </main>
           </MyplaceSection>

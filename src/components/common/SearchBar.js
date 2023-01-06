@@ -9,23 +9,27 @@ const Wrapper = styled.form`
   border-radius: 100px;
   box-shadow: 4px 4px 4px rgba(0,0,0,0.2);
   align-items: center;
+  padding: 1% 0;
+  width: 100%;
 `;
 
 const SearchForm = styled.input`
   height: 100%;
   border-box: box-sizing;
   outline: none;
+  border: none;
   flex-grow: 1;
   margin-left: 5%;
-  border:none;
   background-color:${props => props.background};
   color: ${props => props.color};
   ::placeholder,
   ::-webkit-input-placeholder {
+    font-size: ${props => props.fontsize};
     text-align: center;
     color: ${props => props.color};
   }
   :-ms-input-placeholder {
+    font-size: ${props => props.fontsize};
     text-align: center;
     color: ${props => props.color};
   }
@@ -50,6 +54,7 @@ export default function SearchBar({
   searchIcon,
   background,
   color,
+  fontsize,
 }) {
   return (
     <Wrapper onSubmit={handleSearchToggle} background={background}>
@@ -59,9 +64,10 @@ export default function SearchBar({
         onChange={onChangeSearch}
         background={background}
         color={color}
+        fontsize={fontsize}
       />
       <IconWrapper type="submit" onClick={handleSearchToggle}>
-        <img src={searchIcon}></img>
+        <img src={searchIcon} style={{transform:'scale(0.8)'}} />
       </IconWrapper>
     </Wrapper>
   );

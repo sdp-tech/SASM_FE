@@ -10,7 +10,8 @@ import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
-import CategorySelector, {CATEGORY_LIST, MatchCategory} from "../../common/Category"
+import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category"
+
 const Container = styled.div`
   margin: 0 auto;
   margin-top: 3%;
@@ -28,6 +29,17 @@ const MyplaceSection = styled.div`
   margin-top: 5%;
   grid-area: story;
 `;
+const HeaderSection = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+  justify-content: space-around;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`
 const FooterSection = styled.div`
   position: relative;
   display: flex;
@@ -51,65 +63,22 @@ const NothingSearched = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const ChangeModeButton = styled.span`
-  display: flex;
-  font-size: 1.25rem;
-  position: absolute;
-  left: 15vw;
-  top: 1%;
-  @media screen and (max-width: 768px) {
-    left: 7vw;
-    top: 0.5%;
-    font-size: 1rem;
-  }
-  z-index: 3;
-`
-const CategoryCheckBox = styled.div`
-  position: absolute;
-  right: 10vw;
-  top: -5%;
-  display: flex;
-`;
-const CategoryLabelWrapper = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  padding: 1%;
-`;
-const CategoryLabel = styled.div`
-  display: flex;
-  flex-flow: column wrap;
-  align-items: center;
+const ChangeModeButton = styled.div`
+  width: 30%;
   text-align: center;
-  font-size: 12px;
-`
-const CategoryImageWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px #99a0b0 solid;
-  border-radius: 50%;
-  width: 4vw;
-  height: 4vw;
+  font-size: 1.25rem;
+  z-index: 3;
   @media screen and (max-width: 768px) {
-    width:10vw;
-    height: 10vw;
-  }
-`
-const CategoryNameWrapper = styled.div`
-  margin-top: 5%;
-  font-size: 0.65rem;
-  @media screen and (max-width: 768px) {
-    font-size: 0.65rem;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 `
 const FilterOptions = styled.div`
-  position: absolute;
-  right: 10%;
-  top: -50%;
   width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `
 const Mystory = (props) => {
   const [checkedList, setCheckedList] = useState('');
@@ -143,7 +112,7 @@ const Mystory = (props) => {
     setLoading(true);
     const response = await request.get("/users/like_story/", {
       page: newPage,
-      //filter: checkedList
+      filter: checkedList
     }, null);
     setPageCount(response.data.data.count);
     setInfo(response.data.data.results);
@@ -153,7 +122,7 @@ const Mystory = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMystory();
-  }, [page]);
+  }, [page, checkedList]);
   return (
     <>
       {loading ? (
@@ -161,17 +130,19 @@ const Mystory = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <ChangeModeButton onClick={props.handleMode}>
-              <img src={ChangeMode} style={{marginRight:'10px'}} />
-              PLACE
-            </ChangeModeButton>
-            <span style={{width:"100%",textAlign:"center", fontWeight: "500", fontSize: "1.6rem", color: "#000000", position:'relative' }}>
-              MY STORY
+            <HeaderSection>
+              <ChangeModeButton onClick={props.handleMode}>
+                <img src={ChangeMode} style={{ marginRight: '10px' }} />
+                PLACE
+              </ChangeModeButton>
+              <span style={{ fontWeight: "500", fontSize: "1.6rem" }}>
+                MY STORY
+              </span>
               <FilterOptions>
-                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement}/>
+                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
               </FilterOptions>
-            </span>
-            <main style={{width: '100%'}}>
+            </HeaderSection>
+            <main style={{ width: '100%' }}>
               <Container
                 sx={{
                   marginTop: "3%",
@@ -179,7 +150,7 @@ const Mystory = (props) => {
                   flexDirection: "row",
                   justifyContent: "center",
                   alignItems: "center",
-                  width:"100%"
+                  width: "100%"
                 }}
               >
                 <>

@@ -11,6 +11,8 @@ import Restart from "../../assets/img/Map/Restart.svg";
 import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
 import MarkerActive from "../../assets/img/Map/MarkerActive.svg";
 import MarkerDefault from "../../assets/img/Map/MarkerDefault.svg";
+import ZoomPlus from "../../assets/img/Map/ZoomPlus.svg";
+import ZoomMinus from "../../assets/img/Map/ZoomMinus.svg";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -77,16 +79,17 @@ const ControllerWrapper = styled.div`
   display: flex;
   transform: rotate(270deg);
   z-index: 3;
-  right: -5%;
-  bottom: 20%;
+  right: -10%;
+  bottom: 25%;
   @media screen and (max-width: 768px) {
-    right: -20%;
+    right: -29%;
     bottom: 45%;
   }
 `
 
 
 const Markers = (props) => {
+  const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0, 2);
   const [modalOpen, setModalOpen] = useState(false);
   const [detailInfo, setDetailInfo] = useState([]);
   const [reviewInfo, setReviewInfo] = useState([]);
@@ -100,7 +103,9 @@ const Markers = (props) => {
   const id = props.id;
   const category = props.category;
   const key = props.index;
+  const width = Math.max(htmlFontSize * title.length, htmlFontSize * 0.75 * category.length);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
+
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
@@ -109,8 +114,12 @@ const Markers = (props) => {
   }
 
   const MarkerReset = () => {
-    document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
-    document.getElementById(id).style.transform='scale(1)';
+    if(document.getElementById(`${id}img`)){
+      document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    }
+    if(document.getElementById(id)){
+      document.getElementById(id).style.transform = 'scale(1)';
+    }
   }
 
   useEffect(() => {
@@ -164,7 +173,7 @@ const Markers = (props) => {
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="background: white; border-radius: 10px; padding:3px">`,
+    `   <div style="background: white; border-radius: 10px; padding:5px; width: ${width}px; height: 50px; position: absolute; transform: translateY(-100%);">`,
     `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
     `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem; color:#535151;">${category}</p>`,
     `   </div>`,
@@ -293,9 +302,15 @@ const NaverMapAPI = (props) => {
       </SearchHereButton>
       <ControllerWrapper>
         <ZoomSliderWrapper>
-          <ZoomSlider type="range" min="11" max="19" value={zoom} onChange={(event) => {
+          <label htmlFor="zoomRange" style={{ display: 'flex', height: '100%' }} onClick={(e) => {
+            setZoom(zoom - 1);
+          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
+          <ZoomSlider type="range" min="11" max="19" id="zoomRange" value={zoom} onChange={(event) => {
             setZoom(Number(event.target.value));
           }} />
+          <label htmlFor="zoomRange" style={{ display: 'flex', height: '100%' }} onClick={(e) => {
+            setZoom(zoom + 1);
+          }}><img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} /></label>
         </ZoomSliderWrapper>
         <MoveToCenterButton>
           <img src={MoveToCenter} onClick={handleBackToCenter} />

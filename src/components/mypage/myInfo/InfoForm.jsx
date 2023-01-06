@@ -33,6 +33,7 @@ const Label = styled.div`
   width: 10vw;
   display: flex;
   align-items: center;
+  background-color: ${props => props.backgroundColor};
   justify-content: center;
   border: 2px solid rgba(171, 239, 194, 0.1);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
@@ -144,15 +145,15 @@ export default function InfoForm(props) {
               <Grid item xs={12} sm={12} md={5} lg={5}>
                 <InfoContainer>
                   <LabelWrapper>
-                    <Label>이메일</Label>
+                    <Label backgroundColor={"#AAEFC2"}>이메일</Label>
                     <Text>{email}</Text>
                   </LabelWrapper>
                   <LabelWrapper>
-                    <Label>닉네임</Label>
+                    <Label backgroundColor={"#AAEFC2"}>닉네임</Label>
                     <Text>{nickname}</Text>
                   </LabelWrapper>
                   <LabelWrapper>
-                    <Label>생년월일</Label>
+                    <Label backgroundColor={"#AAEFC2"}>생년월일</Label>
                     <Text>{birthdate}</Text>
                   </LabelWrapper>
                   <LabelWrapper>

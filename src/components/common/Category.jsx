@@ -36,13 +36,6 @@ const CategoryImageWrapper = styled.div`
     width:10vw;
     height: 10vw;
   }
-  &:hover {
-    background-color:#44ADF7;
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.25);
-    img {
-        filter: invert(100);
-    }
-  }
 `
 const CategoryNameWrapper = styled.div`
   margin-top: 5%;
