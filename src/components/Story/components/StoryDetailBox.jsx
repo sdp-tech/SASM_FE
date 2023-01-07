@@ -76,7 +76,7 @@ const MainTitleBox = styled.div`
 const MainTitle = styled.div`
   height: 50px;
   font-weight: 600;
-  font-size: 40px;
+  font-size: 1.5rem;
   line-height: 50px;
   color: #000000;
   padding-left: 10px;
@@ -100,7 +100,7 @@ const StoreName = styled.div`
   color: #000000;
   font-style: normal;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 2.5rem;
   line-height: 70px;
   padding: 10px;
   display: flex;
@@ -118,7 +118,7 @@ const Tag = styled.div`
   color: #000000;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 1rem;
   line-height: 50px;
   padding: 10px;
   margin-left: 2%;
@@ -164,7 +164,7 @@ const ImageNContentBox = styled.div`
 const Button = styled.button`
   background-color: #ffffff;
   height: 50px;
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 700;
   border-radius: 15px;
   display: flex;
@@ -215,7 +215,7 @@ const FooterBox = styled.div`
 `;
 const BackToList = styled.div`
   color: black;
-  font-size: 20px;
+  font-size: 1rem;
   @media screen and (max-width: 768px) {
   }
 `;
