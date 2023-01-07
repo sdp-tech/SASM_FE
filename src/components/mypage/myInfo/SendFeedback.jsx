@@ -62,7 +62,6 @@ const SendFeedback = (props) => {
             </form>
             <ButtonBox>
               <ProfileButton onClick={SaveInfo}>저장하기</ProfileButton>
-              <LeftAlignedLink to="/auth/find">의견 보내기</LeftAlignedLink>
             </ButtonBox>
           </FeedbackSection>
         </Section>

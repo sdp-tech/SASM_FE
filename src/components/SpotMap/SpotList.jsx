@@ -9,6 +9,7 @@ const SpotListSection = styled.div`
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  padding: 0 1.5%;
 `;
 const NothingSearched = styled.div`
   // background-color: yellow;
@@ -34,7 +35,7 @@ const RecommendTitle = styled.div`
     height:1px;
     margin : 0 0 0 1%;
     background-color: #44ADF7;
-    width: 60%;
+    width: 55%;
   }
 `;
 const SpotsWrapper = styled.div`

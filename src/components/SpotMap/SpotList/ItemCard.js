@@ -156,8 +156,12 @@ export default function ItemCard(props) {
   }, []);
 
   const MarkerReset = () => {
-    document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
-    document.getElementById(id).style.transform='scale(1)';
+    if(document.getElementById(`${id}img`)){
+      document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    }
+    if(document.getElementById(id)){
+      document.getElementById(id).style.transform = 'scale(1)';
+    }
   }
 
   useEffect(() => {
