@@ -44,7 +44,6 @@ export default function DataContainer({ Location }) {
     const [search, setSearch] = useState('');
     const [tempSearch, setTempSearch] = useState('');
     const [checkedList, setCheckedList] = useState('');
-    const [tempCheckedList, setTempCheckedList] = useState('');
     const [loading, setLoading] = useState(true);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
@@ -76,9 +75,9 @@ export default function DataContainer({ Location }) {
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         if (checked) {
-            setTempCheckedList([...tempCheckedList, item]);
+            setCheckedList([...checkedList, item]);
         } else if (!checked) {
-            setTempCheckedList(tempCheckedList.filter((el) => el !== item));
+            setCheckedList(checkedList.filter((el) => el !== item));
         }
     };
 
@@ -112,7 +111,6 @@ export default function DataContainer({ Location }) {
             setSearch(tempSearch);
         }
         setFilterToggle(false);
-        setCheckedList(tempCheckedList);
         setLoading(false);
         if (params.place) {
             navigate('/map');
@@ -173,7 +171,7 @@ export default function DataContainer({ Location }) {
                     />
                 </SearchFilterBar>
                 <FilterOptions>
-                    <CategorySelector checkedList={tempCheckedList} onCheckedElement={onCheckedElement}/>
+                    <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement}/>
                 </FilterOptions>
 
                 <SpotList mapList={state.MapList} setTemp={setTemp}></SpotList>
