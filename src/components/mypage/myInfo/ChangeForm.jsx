@@ -82,93 +82,6 @@ const ChangeForm = (props) => {
   return (
     <>
       <>
-        {/* <Section>
-          <MyplaceSection>
-            <ImageBox>
-              <img
-                src={imageUrl ? imageUrl : state.profile_image}
-                alt="profile"
-                height="180px"
-                width="180px"
-              ></img>
-            </ImageBox>
-            <AppStyle>
-              <label htmlFor="ex_file">
-                <div>
-                  <img
-                    src={Edit_profileimage}
-                    alt="edit"
-                    height="30px"
-                    width="30px"
-                  />
-                </div>
-              </label>
-              <input
-                type="file"
-                id="ex_file"
-                accept="image/*"
-                onChange={onChangeImage}
-              />
-            </AppStyle>
-            <form>
-              <InfoBox>
-                <Name>
-                  <p>닉네임</p>
-
-                  <ValueBox>
-                    <InputWithLabel
-                      placeholder={state.nickname}
-                      onChange={(event) => {
-                        setInfo({
-                          ...info,
-                          nickname: event.target.value,
-                        });
-                      }}
-                      name="nickname"
-                    />
-                  </ValueBox>
-                </Name>
-                <Bday>
-                  <p>생년월일</p>
-                  <ValueBox>
-                    <InputWithLabel
-                      type="date"
-                      max="9999-12-31"
-                      placeholder={state.birthdate}
-                      onChange={(event) => {
-                        setInfo({
-                          ...info,
-                          birthdate: event.target.value,
-                        });
-                      }}
-                      name="birthdate"
-                    />
-                  </ValueBox>
-                </Bday>
-                <Email>
-                  <p>이메일</p>
-                  <ValueBox>
-                    <InputWithLabel
-                      value={state.email}
-                      onChange={(event) => {
-                        setInfo({
-                          ...info,
-                          email: event.target.value,
-                        });
-                      }}
-                      name="email"
-                      readOnly
-                    />
-                  </ValueBox>
-                </Email>
-              </InfoBox>
-            </form>
-            <ButtonBox>
-              <ProfileButton onClick={SaveInfo}>저장하기</ProfileButton>
-              <LeftAlignedLink to="./feedback">의견 보내기</LeftAlignedLink>
-            </ButtonBox>
-          </MyplaceSection>
-        </Section> */}
         <Section>
           <form style={{ width: '100%', height: '100%' }}>
             <div style={{ height: '30%', display: 'flex', alignItems: 'center' }}>
@@ -203,12 +116,18 @@ const ChangeForm = (props) => {
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label>닉네임</Label>
-                    <Text type="text" placeholder={state.nickname} onChange={(event) => {
-                      setInfo({
-                        ...info,
-                        nickname: event.target.value,
-                      });
-                    }}
+                    <Text type="text" placeholder={state.nickname}
+                      onKeyDown={(event) => {
+                        if(event.code=="Space") {
+                          event.preventDefault();
+                        }
+                      }}
+                      onChange={(event) => {
+                        setInfo({
+                          ...info,
+                          nickname: event.target.value,
+                        });
+                      }}
                       name="nickname" />
                   </LabelWrapper>
                   <LabelWrapper>

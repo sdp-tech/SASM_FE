@@ -20,12 +20,21 @@ const UserBox = styled.div`
   margin-right: 20px;
   font-size: 1.25rem;
   font-weight: 700;
+  }
+`
+const DateBox = styled.div`
+  @media screen and (max-width: 768px) {
+  }
 `
 const ContentBox = styled.div`
   width: 100%;
   font-size: 1rem;
   font-weight: 500;
   padding-left: 65px;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    font-size: 0.75rem;
+  }
 `
 const ButtonBox = styled.div`
   display: flex;
@@ -34,6 +43,9 @@ const ButtonBox = styled.div`
   right: 0;
   width: 12%;
   box-sizing: border-box;
+  @media screen and (max-width: 768px) {
+    width: auto;
+  }
 `
 const Button = styled.button`
   cursor: pointer;
@@ -43,6 +55,9 @@ const Button = styled.button`
   height: 100%;
   font-size: 1rem;
   font-weight: 600;
+  @media screen and (max-width: 768px) {
+    font-size: 0.75rem;
+  }
 `
 const TextArea = styled.textarea`
     display:block;
@@ -54,18 +69,9 @@ const TextArea = styled.textarea`
     border: 1px rgba(0,0,0,0.3) solid;
     padding: 11px 30px;
     border-radius:1000px;
-    ::placeholder,
-    ::-webkit-input-placeholder {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 5%;
-    }
-    :-ms-input-placeholder {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 5%;
+    @media screen and (max-width: 768px) {
+      height: 3vh;
+      padding: 5px 15px;
     }
 `
 export default function Comment({ data }) {
@@ -103,7 +109,9 @@ export default function Comment({ data }) {
           <img src={data.profile_image} style={{ width: '45px', height: '45px', borderRadius: '50%', marginRight: '20px' }} />
           {data.nickname}
         </UserBox>
-        {date}
+        <DateBox>
+          {date}
+        </DateBox>
         <ButtonBox>
           {isWriter ?
             <>
