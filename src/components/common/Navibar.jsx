@@ -261,7 +261,6 @@ export default function Navibar() {
               <PageTitle navigate={navigate} title="MAP"></PageTitle>
               <PageTitle navigate={navigate} title="STORY"></PageTitle>
               <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
-              <PageTitle navigate={navigate} title="MY PAGE"></PageTitle>
             </PagesBox>
             {/* 로그인 및 회원가입 */}
             <AuthBox>
@@ -285,7 +284,6 @@ export default function Navibar() {
         <PageTitle navigate={navigate} setMenu={setMenu} title="MAP"></PageTitle>
         <PageTitle navigate={navigate} setMenu={setMenu} title="STORY"></PageTitle>
         <PageTitle navigate={navigate} setMenu={setMenu} title="MY PICK"></PageTitle>
-        <PageTitle navigate={navigate} setMenu={setMenu} title="MY PAGE"></PageTitle>
         {!token ? (
           <MobileAuthBox>
             <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="LOG IN"></PageTitle>
