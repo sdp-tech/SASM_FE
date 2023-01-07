@@ -16,9 +16,7 @@ import ZoomMinus from "../../assets/img/Map/ZoomMinus.svg";
 
 const MapSection = styled.div`
   box-sizing: border-box;
-  margin: 1%;
   position: relative;
-  // background-color: yellow;
   grid-area: map;
   outline: none;
 `;

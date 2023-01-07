@@ -16,10 +16,9 @@ import { Pc, Tablet, Mobile } from "../../device"
 const ListWrapper = styled.div`
   display: flex;
   flex-flow: column;
-  margin-top: 15px;
+  margin-top: 10px;
   overflow : hidden;
   @media screen and (min-width: 769px) {
-    margin-left: 15px;
   }
 `
 const SearchFilterBar = styled.div`
