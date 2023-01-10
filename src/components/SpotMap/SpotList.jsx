@@ -77,6 +77,7 @@ export default function SpotList(props){
               item.map((itemdata, index) => {
                 return (
                   <ItemCard
+                    categoryNum={props.categoryNum}
                     setTemp={setTemp}
                     index={index}
                     key={index}
