@@ -12,7 +12,7 @@ import { useCookies } from "react-cookie";
 const StyledList = styled(List)`
   top: 64px;
   height: calc(100vh - 64px);
-  left: 28.6%;
+  left: 28%;
   max-width: 25%;
   @media screen and (max-width : 768px){
     left: 0%;
