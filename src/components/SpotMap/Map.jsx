@@ -49,25 +49,23 @@ const MoveToCenterButton = styled.button`
   justify-content: center;
   cursor: pointer;
   align-items: center;
-  //position: absolute;
   z-index: 3;
   border: none;
   border-radius: 10px;
-  //right: 1vw;
-  //bottom : 12vw;
   box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+  margin-bottom: 10px;
 `
 
 const ZoomSlider = styled.input`
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
 `
 const ZoomSliderWrapper = styled.div`
-  height:40px;
+  width: 100%;
   display: flex;
   z-index: 3;
-  //position: absolute;
+  flex-direction: column;
   background-color: #FFFFFF;
-  //right: 1vw;
-  //bottom: 5vw;
   border-radius: 10px;
   box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
   margin-right: 30px;
@@ -75,13 +73,14 @@ const ZoomSliderWrapper = styled.div`
 const ControllerWrapper = styled.div`
   position: absolute;
   display: flex;
-  transform: rotate(270deg);
+  width: 40px;
   z-index: 3;
-  right: -10%;
-  bottom: 25%;
+  flex-direction: column;
+  right: 3vw;
+  bottom: 5vh;
   @media screen and (max-width: 768px) {
-    right: -29%;
-    bottom: 45%;
+    right: 3vw;
+    bottom: 5vh;
   }
 `
 
@@ -124,35 +123,35 @@ const Markers = (props) => {
   const MarkerReset = () => {
     const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
-    if(img) {
-      img.style.transform='scale(1)';
-      if(!bool) {
+    if (img) {
+      img.style.transform = 'scale(1)';
+      if (!bool) {
         img.setAttribute('src', MarkerDefault);
       }
     }
-    if(text) {
-      text.style.backgroundColor='#FFFFFF';
-      text.style.color="#000000";
-      if(!bool) {
-        text.style.display='none';
+    if (text) {
+      text.style.backgroundColor = '#FFFFFF';
+      text.style.color = "#000000";
+      if (!bool) {
+        text.style.display = 'none';
       }
     }
   }
   const MarkerChange = () => {
     const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
-    if(img) {
-      if(!bool) {
+    if (img) {
+      if (!bool) {
         img.setAttribute('src', MarkerActive);
       }
-      img.style.transform='scale(1.2)';
+      img.style.transform = 'scale(1.2)';
     }
-    if(text) {
-      if(!bool) {
-        text.style.display='block';
+    if (text) {
+      if (!bool) {
+        text.style.display = 'block';
       }
-      text.style.backgroundColor='#44ADF7';
-      text.style.color="#FFFFFF";
+      text.style.backgroundColor = '#44ADF7';
+      text.style.color = "#FFFFFF";
     }
   }
   useEffect(() => {
@@ -202,7 +201,7 @@ const Markers = (props) => {
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="display: ${bool?"block":"none"}; background: #FFFFFF; border-radius: 10px; padding:5px; width: ${width}px; position: absolute; transform: translate(65%, -25%);" id="${id}text">`,
+    `   <div style="display: ${bool ? "block" : "none"}; background: #FFFFFF; border-radius: 10px; padding:5px; width: ${width}px; position: absolute; transform: translate(65%, -25%);" id="${id}text">`,
     `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
     `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem;">${category}</p>`,
     `   </div>`,
@@ -320,20 +319,19 @@ const NaverMapAPI = (props) => {
         지금 지도에서 검색
       </SearchHereButton>
       <ControllerWrapper>
-        <ZoomSliderWrapper>
-          <label htmlFor="zoomRange" style={{ display: 'flex', height: '100%' }} onClick={(e) => {
-            setZoom(zoom - 1);
-          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
-          <ZoomSlider type="range" min="11" max="19" id="zoomRange" value={zoom} onChange={(event) => {
-            setZoom(Number(event.target.value));
-          }} />
-          <label htmlFor="zoomRange" style={{ display: 'flex', height: '100%' }} onClick={(e) => {
-            setZoom(zoom + 1);
-          }}><img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} /></label>
-        </ZoomSliderWrapper>
         <MoveToCenterButton>
           <img src={MoveToCenter} onClick={handleBackToCenter} />
         </MoveToCenterButton>
+        <ZoomSliderWrapper>
+          <label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
+            setZoom(zoom + 1);
+          }}><img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} /></label>
+          <ZoomSlider orient="vertical" type="range" min="11" max="19" id="zoomRange" value={zoom} onChange={(event) => {
+            setZoom(Number(event.target.value));
+          }} /><label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
+            setZoom(zoom - 1);
+          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
+        </ZoomSliderWrapper>
       </ControllerWrapper>
       <NaverMap
         mapDivId={"SASM_map"}
