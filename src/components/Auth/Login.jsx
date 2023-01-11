@@ -37,13 +37,12 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  // 이메일 체크
   const isEmail = (email) => {
     const emailRegex =
       /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     return emailRegex.test(email);
   };
-
-  // 이메일 체크
   var flag = false;
   if (isEmail(info.email) || info.email === "") {
     flag = true;
