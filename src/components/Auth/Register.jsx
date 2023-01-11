@@ -68,14 +68,16 @@ const Register = () => {
     email: "",
     passwordConfirm: "",
   });
-
+  // 이메일 체크
+  const isEmail = (email) => {
+    const emailRegex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    return emailRegex.test(email);
+  };
   // 이메일 체크
   var emailCheck = false;
-  for (const format of emailFormat) {
-    if (info.email.includes(format) || info.email === "") {
-      emailCheck = true;
-      break;
-    }
+  if (isEmail(info.email) || info.email === "") {
+    emailCheck = true;
   }
 
   // 비밀번호 확인 체크

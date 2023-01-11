@@ -98,7 +98,7 @@ export default function ItemCard(props) {
             flexFlow: "column",
           }}
         >
-          <Link to={`/map/${props.place_name}`} style={{ textDecoration: 'none' }}>
+          <Link to={`/story/${props.story_id}`} style={{ textDecoration: 'none' }}>
             <PlacenameBox>
               {props.place_name}
               <div style={{display:'flex', marginRight:'10px'}}>

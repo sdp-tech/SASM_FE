@@ -38,12 +38,14 @@ const Login = () => {
   const navigate = useNavigate();
 
   // 이메일 체크
+  const isEmail = (email) => {
+    const emailRegex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    return emailRegex.test(email);
+  };
   var flag = false;
-  for (const format of emailFormat) {
-    if (info.email.includes(format) || info.email === "") {
-      flag = true;
-      break;
-    }
+  if (isEmail(info.email) || info.email === "") {
+    flag = true;
   }
   const LoginClick = async () => {
     const res = await TryLogin(info);
@@ -66,7 +68,7 @@ const Login = () => {
       });
       localStorage.setItem("nickname", res.data.nickname); //닉네임 따로 저장
       localStorage.setItem("accessTK", res.data.access); //access token 따로 저장
-      localStorage.setItem("email", info.email );
+      localStorage.setItem("email", info.email);
 
       // setCookie("name", access);
       setCookie("name", refresh);
@@ -123,7 +125,7 @@ const Login = () => {
 
         <AuthButton onClick={LoginClick}>로그인하기</AuthButton>
         <SocialLogin />
-        <CenterAlignedLink style={{backgroundColor:'#44ADF7', color:'white', padding:'10px 50px', borderRadius:'10px'}} to="/auth/register">회원가입하기</CenterAlignedLink>
+        <CenterAlignedLink style={{ backgroundColor: '#44ADF7', color: 'white', padding: '10px 50px', borderRadius: '10px' }} to="/auth/register">회원가입하기</CenterAlignedLink>
       </form>
     </AuthContent>
   );
