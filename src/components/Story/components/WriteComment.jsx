@@ -78,10 +78,16 @@ export default function WriteComment({ id }) {
     const navigate = useNavigate();
     const request = new Request(cookies, localStorage, navigate);
     const uploadComment = async (event) => {
-        const response = await request.post("/stories/comments/", {
-            story: id,
-            content: event.target.text.value,
-        });
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/auth');
+        }
+        else {
+            const response = await request.post("/stories/comments/", {
+                story: id,
+                content: event.target.text.value,
+            });
+        }
     }
 
     return (
@@ -90,7 +96,7 @@ export default function WriteComment({ id }) {
                 uploadComment(event);
             }}>
                 <TextWrapper>
-                    <TextArea id='text' placeholder='댓글을 달아주세요.'/>
+                    <TextArea id='text' placeholder='댓글을 달아주세요.' />
                 </TextWrapper>
                 <SubmitBtn type='submit'>제출</SubmitBtn>
             </Form>
