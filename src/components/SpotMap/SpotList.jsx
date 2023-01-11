@@ -10,6 +10,7 @@ const SpotListSection = styled.div`
   flex-direction: column;
   overflow: hidden;
   padding: 0 1.5%;
+  z-index: 101;
 `;
 const NothingSearched = styled.div`
   // background-color: yellow;
@@ -77,6 +78,7 @@ export default function SpotList(props){
               item.map((itemdata, index) => {
                 return (
                   <ItemCard
+                    categoryNum={props.categoryNum}
                     setTemp={setTemp}
                     index={index}
                     key={index}

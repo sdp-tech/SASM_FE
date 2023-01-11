@@ -7,10 +7,11 @@ import styled from 'styled-components';
 const Wrapper = styled.div`
     position:relative;
     width:80%;
-    height: 3vh;
+    height: 7vh;
     margin:10px auto;
     @media screen and (max-width: 768px) {
         width: 100%;
+        height: 50px;
     }
 `
 const Form = styled.form`
@@ -19,17 +20,21 @@ const Form = styled.form`
     display: flex;
     justify-content: space-between;
 `
-
+const TextWrapper = styled.div`
+    width: 100%;
+    margin-right: 3vw;
+    border: 1px black solid;
+    border-radius: 1000px;
+    padding: 10px 20px;
+`
 const TextArea = styled.textarea`
     display:block;
     margin:0;
     width: 100%;
-    margin-right: 3vw;
     height: 100%;
     resize:none;
-    border: 1px rgba(0,0,0,0.3) solid;
-    padding: 15px 30px;
-    border-radius:1000px;
+    border: none;
+    outline: none;
     ::placeholder,
     ::-webkit-input-placeholder {
         font-size: 0.75rem;
@@ -61,7 +66,8 @@ const SubmitBtn = styled.button`
     width: 15%;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     @media screen and (max-width: 768px) {
-        font-size: 0.75rem;
+        font-size: 1rem;
+        width: 30%;
     }
 `
 
@@ -72,10 +78,16 @@ export default function WriteComment({ id }) {
     const navigate = useNavigate();
     const request = new Request(cookies, localStorage, navigate);
     const uploadComment = async (event) => {
-        const response = await request.post("/stories/comments/", {
-            story: id,
-            content: event.target.text.value,
-        });
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            navigate('/auth');
+        }
+        else {
+            const response = await request.post("/stories/comments/", {
+                story: id,
+                content: event.target.text.value,
+            });
+        }
     }
 
     return (
@@ -83,7 +95,9 @@ export default function WriteComment({ id }) {
             <Form onSubmit={(event) => {
                 uploadComment(event);
             }}>
-                <TextArea id='text' placeholder='댓글을 달아주세요.'></TextArea>
+                <TextWrapper>
+                    <TextArea id='text' placeholder='댓글을 달아주세요.' />
+                </TextWrapper>
                 <SubmitBtn type='submit'>제출</SubmitBtn>
             </Form>
         </Wrapper>
