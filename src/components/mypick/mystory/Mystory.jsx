@@ -171,7 +171,7 @@ const Mystory = (props) => {
                             <ItemCard
                               category={info.category}
                               key={index}
-                              id={info.id}
+                              story_id={info.id}
                               rep_pic={info.rep_pic}
                               title={info.title}
                               place_name={info.place_name}
