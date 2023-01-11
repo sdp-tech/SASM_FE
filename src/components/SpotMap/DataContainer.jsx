@@ -34,7 +34,7 @@ const FilterOptions = styled.div`
 `;
 
 export default function DataContainer({ Location }) {
-    const [categoryNum ,setCategoryNum] = useState(0); 
+    const [categoryNum, setCategoryNum] = useState(0);
     const [filterToggle, setFilterToggle] = useState(false);
     const [searchToggle, setSearchToggle] = useState(false);
     const [isSasmAdmin, setIsSasmAdmin] = useState(false);
@@ -122,6 +122,9 @@ export default function DataContainer({ Location }) {
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         setCategoryNum(checkedList.length);
+        if(search!="") {
+            setCategoryNum(7);
+        }
         document.getElementById('wrapper').scrollTo(0, 0);
         getItem(searchHere.center, page, search, checkedList);
     }, [searchHere, page, search, checkedList, params]);
@@ -153,10 +156,19 @@ export default function DataContainer({ Location }) {
         });
         setTotal(response.data.data.count);
         setLoading(false);
+        if (checkedList.length != 0 || search != "") {
+            setTemp({
+                center: {
+                    lat: response.data.data.results[0].latitude,
+                    lng: response.data.data.results[0].longitude,
+                },
+                zoom: 13,
+            });
+        }
     };
 
     return (
-        <>  
+        <>
             <Mobile><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
@@ -172,7 +184,7 @@ export default function DataContainer({ Location }) {
                     />
                 </SearchFilterBar>
                 <FilterOptions>
-                    <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement}/>
+                    <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
 
                 <SpotList categoryNum={categoryNum} mapList={state.MapList} setTemp={setTemp}></SpotList>
