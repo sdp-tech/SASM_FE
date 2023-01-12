@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import picture from "../assets/img/Home/LandingPage.png";
-import map from "../assets/img/Home/map_image.svg";
+import map from "../assets/img/Home/map_image.png";
 import { Pc, Tablet, Mobile } from "../device"
 import sasm_logo from "../assets/img/sasm_logo.png";
 import map_category from "../assets/img/Home/map_category.svg"
-import story from "../assets/img/Home/story_image.svg";
+import story from "../assets/img/Home/story_image.png";
 
 const Wrapper = styled.div`
   overflow: hidden;
