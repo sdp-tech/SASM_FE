@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import picture from "../assets/img/Home/LandingPage.png";
-import map from "../assets/img/Home/map_image.png";
 import { Pc, Tablet, Mobile } from "../device"
 import sasm_logo from "../assets/img/sasm_logo.png";
 import map_category from "../assets/img/Home/map_category.svg"
+import map from "../assets/img/Home/map_image.png";
 import story from "../assets/img/Home/story_image.png";
+import mypick from "../assets/img/Home/mypick_image.png";
+import footer from "../assets/img/Home/footer.svg";
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -245,6 +247,28 @@ const StoryText = styled.div`
   font-size: 1.5rem;
   line-height: 150%;
 `
+const MyPickTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10vh 0;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(246.63deg, #FFFFFF 2.13%, rgba(255, 255, 255, 0) 96.85%), rgba(255, 240, 224, 0.6);
+  position: relative;
+`
+const MyPickSubtitle = styled.div`
+  font-weight: 600;
+  font-size: 2vw;
+`
+const MyPickImage = styled.img`
+  width: 100%;
+  margin: 5vh 0;
+`
+const MyPickText = styled.div`
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+`
 //
 export default function Home() {
   return (
@@ -273,7 +297,7 @@ export default function Home() {
           '지속가능한 공간'으로 정의하고,<br />
           이에 대한 지도화 및 큐레이션을 제공합니다. <br /><br />
           <b>'음식점 및 카페, 녹색공간, 제로웨이스트샵, 전시 및 체험공간,<br />
-          복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
+            복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
           6개의 테마로 분류하여, 다양한 지속가능한 공간을 연결해드립니다.<br /><br />
           <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
             건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
@@ -323,23 +347,38 @@ export default function Home() {
         </div>
       </MapTitle>
       <StoryTitle>
-        <div style={{width:'40%' }} >
+        <div style={{ width: '40%' }} >
           <StorySubtitle>
             공간에 대한 깊은 이해를 원한다면
           </StorySubtitle>
           <StoryText>
             <p style={{ width: '100%', fontSize: '8rem', fontWeight: '700', margin: '0 0 10vh 0', lineHeight: '100%' }}>Story</p>
-            Story에서는 지속가능한 공간에 대한 구체적인 이야기를 들을 수 있어요. <br/>
-            <br/>
-            SASM 서비스를 제작한 SDP 구성원들이 직접 공간을 답사한 작성하는데요, <br/>
-            <br/>
+            Story에서는 지속가능한 공간에 대한 구체적인 이야기를 들을 수 있어요. <br />
+            <br />
+            SASM 서비스를 제작한 SDP 구성원들이 직접 공간을 답사한 작성하는데요, <br />
+            <br />
             <b>공간의 인테리어, 특징, 컨텐츠 등 온라인에서는 확인하기 어려운 다양한 디테일과 알찬 인사이트를 사진과 함께 설명해드려요.</b>
           </StoryText>
         </div>
-        <div style={{width: '60%', padding:'0 3vw'}}>
-        <StoryImage src={story}></StoryImage>
+        <div style={{ width: '100%', padding: '0 3vw' }}>
+          <StoryImage src={story}></StoryImage>
         </div>
       </StoryTitle>
+      <MyPickTitle>
+        <div style={{ display: "flex", flexDirection: 'column', textAlign: 'center' }}>
+          <MyPickSubtitle>
+            나만의 지속가능성
+          </MyPickSubtitle>
+          <p style={{ width: '100%', fontSize: '8rem', fontWeight: '700', margin: '0 0 3vh 0', lineHeight: '100%' }}>My Pick</p>
+        </div>
+        <MyPickImage src={mypick}></MyPickImage>
+        <MyPickText>
+          Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
+          My Pick에서 저장하고 확인할 수 있어요. <br /><br />
+          <span style={{ color: '#843700', fontWeight: '700', fontSize:'2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
+        </MyPickText>
+      </MyPickTitle>
+      <img src={footer}/>
     </Wrapper>
   );
 }
