@@ -94,7 +94,7 @@
     "build": "GENERATE_SOURCEMAP=false node scripts/build.js",
     "test": "node scripts/test.js",
     "sitemap": "babel-node scripts/sitemapGenerator.js",
-    "predeploy": "npm run sitemap"
+    "prebuild": "npm run sitemap"
   },
   "eslintConfig": {
     "extends": [
