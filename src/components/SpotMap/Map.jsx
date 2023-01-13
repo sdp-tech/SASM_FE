@@ -13,6 +13,10 @@ import MarkerActive from "../../assets/img/Map/MarkerActive.svg";
 import MarkerDefault from "../../assets/img/Map/MarkerDefault.svg";
 import ZoomPlus from "../../assets/img/Map/ZoomPlus.svg";
 import ZoomMinus from "../../assets/img/Map/ZoomMinus.svg";
+import MarkerbgDefault from "../../assets/img/Map/MarkerbgDefault.svg";
+import MarkerbgActive from "../../assets/img/Map/MarkerbgActive.svg";
+import MarkerbgSelect from "../../assets/img/Map/MarkerbgSelect.svg";
+import { MatchCategory } from "../common/Category";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -157,7 +161,7 @@ const Markers = (props) => {
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
-      MarkerReset();
+      //MarkerReset();
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
       }
@@ -205,9 +209,9 @@ const Markers = (props) => {
     `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
     `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem;">${category}</p>`,
     `   </div>`,
-    '   <p style="margin-top:0px" > ',
-    `       <img src=${bool ? MarkerActive : MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
-    "   </p>",
+    `   <div style="margin-top:0px; display: flex; align-items: center; justify-content: center; padding: 15px; background:no-repeat url(${bool?MarkerbgActive:MarkerbgDefault}); background-size: cover; border-radius:50%; box-shadow: ${bool?"0px 4px 4px rgba(0, 0, 0, 0.25)":"none"}" > `,
+    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`) } style="width: 20px; height: 20px;" alt="marker" class="thumb" id="${id}img" />`,
+    "   </div>",
     "</div>",
   ].join("");
 

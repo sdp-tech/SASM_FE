@@ -200,7 +200,7 @@ export default function ItemCard(props) {
 
   useEffect(() => {
     const clickOutside = (e) => {
-      MarkerReset();
+      //MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
