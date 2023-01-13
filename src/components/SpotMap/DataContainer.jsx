@@ -16,10 +16,9 @@ import { Pc, Tablet, Mobile } from "../../device"
 const ListWrapper = styled.div`
   display: flex;
   flex-flow: column;
-  margin-top: 15px;
+  margin-top: 10px;
   overflow : hidden;
   @media screen and (min-width: 769px) {
-    margin-left: 15px;
   }
 `
 const SearchFilterBar = styled.div`
@@ -35,7 +34,7 @@ const FilterOptions = styled.div`
 `;
 
 export default function DataContainer({ Location }) {
-
+    const [categoryNum, setCategoryNum] = useState(0);
     const [filterToggle, setFilterToggle] = useState(false);
     const [searchToggle, setSearchToggle] = useState(false);
     const [isSasmAdmin, setIsSasmAdmin] = useState(false);
@@ -44,7 +43,6 @@ export default function DataContainer({ Location }) {
     const [search, setSearch] = useState('');
     const [tempSearch, setTempSearch] = useState('');
     const [checkedList, setCheckedList] = useState('');
-    const [tempCheckedList, setTempCheckedList] = useState('');
     const [loading, setLoading] = useState(true);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
@@ -76,9 +74,9 @@ export default function DataContainer({ Location }) {
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         if (checked) {
-            setTempCheckedList([...tempCheckedList, item]);
+            setCheckedList([...checkedList, item]);
         } else if (!checked) {
-            setTempCheckedList(tempCheckedList.filter((el) => el !== item));
+            setCheckedList(checkedList.filter((el) => el !== item));
         }
     };
 
@@ -112,7 +110,6 @@ export default function DataContainer({ Location }) {
             setSearch(tempSearch);
         }
         setFilterToggle(false);
-        setCheckedList(tempCheckedList);
         setLoading(false);
         if (params.place) {
             navigate('/map');
@@ -124,6 +121,10 @@ export default function DataContainer({ Location }) {
     }, [])
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
+        setCategoryNum(checkedList.length);
+        if(search!="") {
+            setCategoryNum(7);
+        }
         document.getElementById('wrapper').scrollTo(0, 0);
         getItem(searchHere.center, page, search, checkedList);
     }, [searchHere, page, search, checkedList, params]);
@@ -155,10 +156,20 @@ export default function DataContainer({ Location }) {
         });
         setTotal(response.data.data.count);
         setLoading(false);
+        if (checkedList.length != 0 || search != "") {
+            setTemp({
+                center: {
+                    lat: response.data.data.results[0].latitude,
+                    lng: response.data.data.results[0].longitude,
+                },
+                zoom: 13,
+            });
+        }
     };
+
     return (
         <>
-            <Mobile><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Mobile>
+            <Mobile><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
@@ -173,10 +184,10 @@ export default function DataContainer({ Location }) {
                     />
                 </SearchFilterBar>
                 <FilterOptions>
-                    <CategorySelector checkedList={tempCheckedList} onCheckedElement={onCheckedElement}/>
+                    <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
 
-                <SpotList mapList={state.MapList} setTemp={setTemp}></SpotList>
+                <SpotList categoryNum={categoryNum} mapList={state.MapList} setTemp={setTemp}></SpotList>
                 <Pagination
                     total={total}
                     limit={20}
@@ -196,8 +207,8 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Pc><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Pc>
-            <Tablet><Map mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Tablet>
+            <Pc><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Pc>
+            <Tablet><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Tablet>
         </>
     )
 }

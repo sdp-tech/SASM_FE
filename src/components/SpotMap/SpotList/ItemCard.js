@@ -101,6 +101,16 @@ export default function ItemCard(props) {
   const node = useRef();
   const navigate = useNavigate();
   const id = props.id;
+  const categoryNum = props.categoryNum;
+  const [bool, setBool] = useState(false);
+  useEffect(() => {
+    if (categoryNum != 0) {
+      setBool(true);
+    }
+    else {
+      setBool(false);
+    }
+  }, [categoryNum]);
   const request = new Request(cookies, localStorage, navigate);
   const setTemp = (data) => {
     props.setTemp(data);
@@ -126,13 +136,45 @@ export default function ItemCard(props) {
       setLike(!like);
     }
   };
+  const MarkerReset = () => {
+    const img = document.getElementById(`${id}img`);
+    const text = document.getElementById(`${id}text`);
+    if(img) {
+      img.style.transform='scale(1)';
+      if(!bool) {
+        img.setAttribute('src', MarkerDefault);
+      }
+    }
+    if(text) {
+      text.style.backgroundColor='#FFFFFF';
+      text.style.color="#000000";
+      if(!bool) {
+        text.style.display='none';
+      }
+    }
+  }
+  const MarkerChange = () => {
+    const img = document.getElementById(`${id}img`);
+    const text = document.getElementById(`${id}text`);
+    if(img) {
+      if(!bool) {
+        img.setAttribute('src', MarkerActive);
+      }
+      img.style.transform='scale(1.2)';
+    }
+    if(text) {
+      if(!bool) {
+        text.style.display='block';
+      }
+      text.style.backgroundColor='#44ADF7';
+      text.style.color="#FFFFFF";
+    }
+  }
 
   // 상세보기 클릭 이벤트
   const handleClick = async () => {
-    // alert(`${props.id}`);
     setLoading(true);
-    document.getElementById(id).style.transform = 'scale(1.2)';
-    document.getElementById(`${id}img`).setAttribute('src', MarkerActive);
+    MarkerChange();
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -150,19 +192,11 @@ export default function ItemCard(props) {
 
     setLoading(false);
   };
-
+  
+  // params를 통해 들어왔을경우 바로 open하기
   useEffect(() => {
     if (props.modalOpen) handleClick();
   }, []);
-
-  const MarkerReset = () => {
-    if(document.getElementById(`${id}img`)){
-      document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
-    }
-    if(document.getElementById(id)){
-      document.getElementById(id).style.transform = 'scale(1)';
-    }
-  }
 
   useEffect(() => {
     const clickOutside = (e) => {
@@ -179,7 +213,7 @@ export default function ItemCard(props) {
       // Cleanup the event listener
       document.removeEventListener("mousedown", clickOutside);
     };
-  }, [modalOpen]);
+  });
 
   return (
     <div ref={node}>

@@ -16,9 +16,7 @@ import ZoomMinus from "../../assets/img/Map/ZoomMinus.svg";
 
 const MapSection = styled.div`
   box-sizing: border-box;
-  margin: 1%;
   position: relative;
-  // background-color: yellow;
   grid-area: map;
   outline: none;
 `;
@@ -51,25 +49,23 @@ const MoveToCenterButton = styled.button`
   justify-content: center;
   cursor: pointer;
   align-items: center;
-  //position: absolute;
   z-index: 3;
   border: none;
   border-radius: 10px;
-  //right: 1vw;
-  //bottom : 12vw;
   box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+  margin-bottom: 10px;
 `
 
 const ZoomSlider = styled.input`
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* Chromium */
 `
 const ZoomSliderWrapper = styled.div`
-  height:40px;
+  width: 100%;
   display: flex;
   z-index: 3;
-  //position: absolute;
+  flex-direction: column;
   background-color: #FFFFFF;
-  //right: 1vw;
-  //bottom: 5vw;
   border-radius: 10px;
   box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
   margin-right: 30px;
@@ -77,13 +73,14 @@ const ZoomSliderWrapper = styled.div`
 const ControllerWrapper = styled.div`
   position: absolute;
   display: flex;
-  transform: rotate(270deg);
+  width: 40px;
   z-index: 3;
-  right: -10%;
-  bottom: 25%;
+  flex-direction: column;
+  right: 3vw;
+  bottom: 5vh;
   @media screen and (max-width: 768px) {
-    right: -29%;
-    bottom: 45%;
+    right: 3vw;
+    bottom: 5vh;
   }
 `
 
@@ -103,6 +100,16 @@ const Markers = (props) => {
   const id = props.id;
   const category = props.category;
   const key = props.index;
+  const categoryNum = props.categoryNum;
+  const [bool, setBool] = useState(false);
+  useEffect(() => {
+    if (categoryNum != 0) {
+      setBool(true);
+    }
+    else {
+      setBool(false);
+    }
+  }, [categoryNum]);
   const width = Math.max(htmlFontSize * title.length, htmlFontSize * 0.75 * category.length);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
@@ -114,38 +121,59 @@ const Markers = (props) => {
   }
 
   const MarkerReset = () => {
-    if(document.getElementById(`${id}img`)){
-      document.getElementById(`${id}img`).setAttribute('src', MarkerDefault);
+    const img = document.getElementById(`${id}img`);
+    const text = document.getElementById(`${id}text`);
+    if (img) {
+      img.style.transform = 'scale(1)';
+      if (!bool) {
+        img.setAttribute('src', MarkerDefault);
+      }
     }
-    if(document.getElementById(id)){
-      document.getElementById(id).style.transform = 'scale(1)';
+    if (text) {
+      text.style.backgroundColor = '#FFFFFF';
+      text.style.color = "#000000";
+      if (!bool) {
+        text.style.display = 'none';
+      }
     }
   }
-
+  const MarkerChange = () => {
+    const img = document.getElementById(`${id}img`);
+    const text = document.getElementById(`${id}text`);
+    if (img) {
+      if (!bool) {
+        img.setAttribute('src', MarkerActive);
+      }
+      img.style.transform = 'scale(1.2)';
+    }
+    if (text) {
+      if (!bool) {
+        text.style.display = 'block';
+      }
+      text.style.backgroundColor = '#44ADF7';
+      text.style.color = "#FFFFFF";
+    }
+  }
   useEffect(() => {
     const clickOutside = (e) => {
-      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
+      MarkerReset();
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
       }
     };
-
     document.addEventListener("mousedown", clickOutside);
-
     return () => {
       // Cleanup the event listener
       document.removeEventListener("mousedown", clickOutside);
     };
-  }, [modalOpen]);
+  });
+
 
   // 상세보기 클릭 이벤트
   const handleClick = async () => {
-    // alert(`${props.id}`);
     setLoading(true);
-    const id = props.id;
-    document.getElementById(id).style.transform = 'scale(1.2)';
-    document.getElementById(`${id}img`).setAttribute('src', MarkerActive);
+    MarkerChange();
     const response = await request.get("/places/place_detail/", { id: id }, null);
     const response_review = await request.get("/places/place_review/", {
       id: id,
@@ -173,12 +201,12 @@ const Markers = (props) => {
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="background: white; border-radius: 10px; padding:5px; width: ${width}px; height: 50px; position: absolute; transform: translateY(-100%);">`,
+    `   <div style="display: ${bool ? "block" : "none"}; background: #FFFFFF; border:1px #44ADF7 solid; border-radius: 10px; padding:5px; width: ${width}px; position: absolute; transform: translate(65%, -25%);" id="${id}text">`,
     `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
-    `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem; color:#535151;">${category}</p>`,
+    `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem;">${category}</p>`,
     `   </div>`,
     '   <p style="margin-top:0px" > ',
-    `       <img src=${MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
+    `       <img src=${bool ? MarkerActive : MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
     "   </p>",
     "</div>",
   ].join("");
@@ -193,17 +221,7 @@ const Markers = (props) => {
           content: contentString,
           size: new navermaps.Size(80, 800),
           anchor: new navermaps.Point(11, 30),
-          // anchor: new navermaps.Point(11, 33),
-
-          // url: "./img/red_dot.png",
-          // size: new navermaps.Size(20, 20),
-          // origin: new navermaps.Point(190, 190),
-          // anchor: new navermaps.Point(10, 10),
         }}
-        // animation={2}
-        // onClick={() => {
-        //   alert(`여기는 ${id}입니다`);
-        // }}
         onClick={handleClick}
       />
       <DetailBox>
@@ -301,20 +319,19 @@ const NaverMapAPI = (props) => {
         지금 지도에서 검색
       </SearchHereButton>
       <ControllerWrapper>
-        <ZoomSliderWrapper>
-          <label htmlFor="zoomRange" style={{ display: 'flex', height: '100%' }} onClick={(e) => {
-            setZoom(zoom - 1);
-          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
-          <ZoomSlider type="range" min="11" max="19" id="zoomRange" value={zoom} onChange={(event) => {
-            setZoom(Number(event.target.value));
-          }} />
-          <label htmlFor="zoomRange" style={{ display: 'flex', height: '100%' }} onClick={(e) => {
-            setZoom(zoom + 1);
-          }}><img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} /></label>
-        </ZoomSliderWrapper>
         <MoveToCenterButton>
           <img src={MoveToCenter} onClick={handleBackToCenter} />
         </MoveToCenterButton>
+        <ZoomSliderWrapper>
+          <label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
+            setZoom(zoom + 1);
+          }}><img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} /></label>
+          <ZoomSlider orient="vertical" type="range" min="11" max="19" id="zoomRange" value={zoom} onChange={(event) => {
+            setZoom(Number(event.target.value));
+          }} /><label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
+            setZoom(zoom - 1);
+          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
+        </ZoomSliderWrapper>
       </ControllerWrapper>
       <NaverMap
         mapDivId={"SASM_map"}
@@ -344,16 +361,19 @@ const NaverMapAPI = (props) => {
           const category = itemdata[4];
 
           return (
-            <Markers
-              setTemp={setTemp}
-              left={left}
-              right={right}
-              title={title}
-              id={id}
-              category={category}
-              navermaps={navermaps}
-              key={index}
-            />
+            <>
+              <Markers
+                categoryNum={props.categoryNum}
+                setTemp={setTemp}
+                left={left}
+                right={right}
+                title={title}
+                id={id}
+                category={category}
+                navermaps={navermaps}
+                key={index}
+              />
+            </>
           );
         })}
         <Marker
@@ -402,6 +422,7 @@ export default function Map(props) {
   const setPage = (page) => {
     props.setPage(page);
   }
+
   return (
     <MapSection>
       <RenderAfterNavermapsLoaded
@@ -409,7 +430,7 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading…</p>}
       >
-        <NaverMapAPI markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} />
+        <NaverMapAPI categoryNum={props.categoryNum} markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} />
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton

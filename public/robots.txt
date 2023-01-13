@@ -1,3 +1,9 @@
 # https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Disallow:
+User-agent: Googlebot
+User-agent: Yeti
+Disallow: /mypage
+Disallow: /mypick
+Disallow: /auth
+
+
+Sitemap: https://www.sasm.co.kr/sitemap.xml

@@ -244,38 +244,39 @@ export default function Navibar() {
             src={logo}
             onClick={() => {
               setMenu(false);
-              PageRedirection(navigate, "SASM")}}
+              PageRedirection(navigate, "SASM")
+            }}
           ></Logo>
           <LogoWord
             style={{ paddingLeft: "5%" }}
             onClick={() => {
               setMenu(false);
-              PageRedirection(navigate, "SASM")}}
+              PageRedirection(navigate, "SASM")
+            }}
           >SASM</LogoWord>
         </LogoBox>
         {isMobile ?
-          <MobileMenuBox onClick={handleMobileMenu}>{menu ? <img src={MenuOpen} style={{transform:'scale(0.8)'}}/> : <img src={MenuClose} style={{transform:'scale(0.8)'}}/>}</MobileMenuBox>
-            :
+          <MobileMenuBox onClick={handleMobileMenu}>{menu ? <img src={MenuOpen} style={{ transform: 'scale(0.8)' }} /> : <img src={MenuClose} style={{ transform: 'scale(0.8)' }} />}</MobileMenuBox>
+          :
           <>
             <PagesBox>
               <PageTitle navigate={navigate} title="MAP"></PageTitle>
               <PageTitle navigate={navigate} title="STORY"></PageTitle>
               <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
-              <PageTitle navigate={navigate} title="MY PAGE"></PageTitle>
             </PagesBox>
             {/* 로그인 및 회원가입 */}
             <AuthBox>
               {!token ? (
                 <>
                   <PageTitle navigate={navigate} title="LOG IN"></PageTitle>
-                  <div style={{ padding: "5%"}}>|</div>
+                  <div style={{ padding: "5%" }}>|</div>
                   <PageTitle navigate={navigate} title="JOIN"></PageTitle>
                 </>
               ) : (
                 <>
                   <PageTitle navigate={navigate} title={`${setNickname}님`}></PageTitle>
-                  <div style={{ padding: "5%"}}>|</div>
-                  <LoggingOut login={login} setLogin={setLogin} />
+                  <div style={{ padding: "5%" }}>|</div>
+                  <LoggingOut login={login} setLogin={setLogin} setMenu={setMenu} />
                 </>
               )}
             </AuthBox>
@@ -285,16 +286,15 @@ export default function Navibar() {
         <PageTitle navigate={navigate} setMenu={setMenu} title="MAP"></PageTitle>
         <PageTitle navigate={navigate} setMenu={setMenu} title="STORY"></PageTitle>
         <PageTitle navigate={navigate} setMenu={setMenu} title="MY PICK"></PageTitle>
-        <PageTitle navigate={navigate} setMenu={setMenu} title="MY PAGE"></PageTitle>
         {!token ? (
           <MobileAuthBox>
-            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="LOG IN"></PageTitle>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{ border: "none" }} title="LOG IN"></PageTitle>
             <div style={{ padding: "0 5%" }}>|</div>
-            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title="JOIN"></PageTitle>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{ border: "none" }} title="JOIN"></PageTitle>
           </MobileAuthBox>
         ) : (
           <MobileAuthBox>
-            <PageTitle navigate={navigate} setMenu={setMenu} style={{border: "none"}} title={`${setNickname}님`}></PageTitle>
+            <PageTitle navigate={navigate} setMenu={setMenu} style={{ border: "none" }} title={`${setNickname}님`}></PageTitle>
             <div style={{ padding: "0 5%" }}>|</div>
             <LoggingOut login={login} setLogin={setLogin} setMenu={setMenu} />
           </MobileAuthBox>
