@@ -11,7 +11,7 @@ import footer from "../assets/img/Home/footer.svg";
 
 const Wrapper = styled.div`
   overflow: hidden;
-  position: relative
+  position: relative;
 `
 
 const IntroImg = styled.img`
@@ -198,7 +198,7 @@ const MapSubtitle = styled.div`
   width: 20%;
 `
 const MapImage = styled.img`
-  // width: 80%;
+  width: 90%;
   @media screen and (max-width: 768px) {
     bottom: 110vw;
     height: auto;
@@ -378,7 +378,7 @@ export default function Home() {
           <span style={{ color: '#843700', fontWeight: '700', fontSize:'2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
         </MyPickText>
       </MyPickTitle>
-      <img src={footer}/>
+      <img style={{width: '100%'}} src={footer}/>
     </Wrapper>
   );
 }
