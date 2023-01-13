@@ -40,7 +40,8 @@ const SASM = styled.div`
   display: block;
   @media screen and (max-width: 768px) {
     height: auto;
-    margin-left: 10%;
+    width: 100%;
+    margin-left: 0%;
   } 
 `;
 const SASMDescription = styled.div`
@@ -100,6 +101,7 @@ const Tittle = styled.div`
   } 
   @media screen and (max-width: 768px) {
     font-size: 3.5rem;
+    padding-left: 10%;
   } 
 `;
 
@@ -115,6 +117,7 @@ const Content = styled.div`
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
     margin-top: 15vh;
+    margin-left: 5%;
   } 
 `;
 const ContentBox = styled.div`
