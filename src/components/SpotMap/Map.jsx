@@ -114,7 +114,7 @@ const Markers = (props) => {
       setBool(false);
     }
   }, [categoryNum]);
-  const width = htmlFontSize * title.length;
+  const width = Number(htmlFontSize * title.length)+10;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -138,6 +138,7 @@ const Markers = (props) => {
     else{
       document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
     }
+    document.getElementById(id).style.zIndex='1';
   }
   const MarkerChange = () => {
     const text = document.getElementById(`${id}text`);
@@ -148,6 +149,7 @@ const Markers = (props) => {
       }
     }
     document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgSelect})`;
+    document.getElementById(id).style.zIndex='100';
   }
   useEffect(() => {
     const clickOutside = (e) => {
@@ -199,7 +201,7 @@ const Markers = (props) => {
     `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool?MarkerbgActive:MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
     `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`) } style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
     "   </div>",
-    `   <div style="display: ${bool ? "block" : "none"}; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:0; " id="${id}text">`,
+    `   <div style="display: ${bool ? "block" : "none"}; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
     `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
     `   </div>`,
     "</div>",
@@ -324,7 +326,7 @@ const NaverMapAPI = (props) => {
             setZoom(Number(event.target.value));
           }} /><label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
             setZoom(zoom - 1);
-          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
+          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6)' }} /></label>
         </ZoomSliderWrapper>
       </ControllerWrapper>
       <NaverMap

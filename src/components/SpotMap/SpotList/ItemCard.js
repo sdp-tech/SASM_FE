@@ -151,6 +151,7 @@ export default function ItemCard(props) {
     else{
       document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
     }
+    document.getElementById(id).style.zIndex='1';
   }
   const MarkerChange = () => {
     const text = document.getElementById(`${id}text`);
@@ -161,6 +162,7 @@ export default function ItemCard(props) {
       }
     }
     document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgSelect})`;
+    document.getElementById(id).style.zIndex='100';
   }
 
   // 상세보기 클릭 이벤트

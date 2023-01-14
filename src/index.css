@@ -1,6 +1,9 @@
 @font-face {
   font-family: "Pretendard";
-  src:url(./assets//font//PretendardVariable.woff2) format('woff2');
+  src:url(./assets//font//PretendardVariable.woff2) format('woff2'),
+      url(./assets//font/Pretendard-Medium.woff) format('woff'),
+      url(./assets//font//Pretendard-Medium.ttf) format('truetype'),
+      url(./assets//font//Pretendard-Medium.otf) format('opentype')
 }
 
 html {

@@ -23,17 +23,23 @@ export default class Request {
             const response = await body(url, headerValue);
             return response;
         } catch (err) {
-            const refreshtoken = this.cookies.name; // 쿠키에서 id 를 꺼내기
-
-            // access 토큰이 만료된 경우 또는 로그인이 필요한 기능의 경우
-            //만료된 토큰 : "Given token not valid for any token type"
-            //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-            if (
+            console.log(err.response);
+            if (err.response == undefined) {
+                // 백엔드와 통신 자체가 실패(ERR_CONNECTION_REFUSED)
+                console.log(err);
+                alert("ERR_CONNECTION_REFUSED");
+                throw err;
+            }
+            else if (
                 err.response.status == 401
             ) {
+                // access 토큰이 만료된 경우 또는 로그인이 필요한 기능의 경우
+                //만료된 토큰 : "Given token not valid for any token type"
+                //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
                 this.localStorage.removeItem("accessTK"); //기존 access token 삭제
                 //refresh 토큰을 통해 access 토큰 재발급
                 try {
+                    const refreshtoken = this.cookies.name; // 쿠키에서 id 를 꺼내기
                     const response = await axios.post(
                         process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
                         {
@@ -61,7 +67,10 @@ export default class Request {
                 return response;
 
             } else {
-                console.log("Error >>", err);
+                // 백엔드와 통신 자체는 성공, status code가 정상 값 범위 외
+                console.log(err);
+                throw err;
+
             }
         }
     }
