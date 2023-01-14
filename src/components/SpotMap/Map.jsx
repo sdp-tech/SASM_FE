@@ -25,7 +25,7 @@ const MapSection = styled.div`
 const DetailBox = styled.div`
   // boxsizing: border-box;
   position: absolute;
-  z-index: 6;
+  z-index: 102;
   height: 100vh;
 `;
 const SearchHereButton = styled.button`
