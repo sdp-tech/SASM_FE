@@ -9,8 +9,6 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../functions/common/Request";
 import Restart from "../../assets/img/Map/Restart.svg";
 import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
-import MarkerActive from "../../assets/img/Map/MarkerActive.svg";
-import MarkerDefault from "../../assets/img/Map/MarkerDefault.svg";
 import ZoomPlus from "../../assets/img/Map/ZoomPlus.svg";
 import ZoomMinus from "../../assets/img/Map/ZoomMinus.svg";
 import MarkerbgDefault from "../../assets/img/Map/MarkerbgDefault.svg";
@@ -103,6 +101,7 @@ const Markers = (props) => {
   const title = props.title;
   const id = props.id;
   const category = props.category;
+  const url_category = MatchCategory(category);
   const key = props.index;
   const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
@@ -199,7 +198,7 @@ const Markers = (props) => {
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; transform: translateY(-50%); position:relative; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
     `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool?MarkerbgActive:MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
-    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`) } style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
+    `       <img src=${require(`../../assets/img/Category/CategoryWhite${url_category}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
     "   </div>",
     `   <div style="display: ${bool ? "block" : "none"}; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
     `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
