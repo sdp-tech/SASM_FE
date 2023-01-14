@@ -101,6 +101,7 @@ const Markers = (props) => {
   const title = props.title;
   const id = props.id;
   const category = props.category;
+  const url_category = MatchCategory(category);
   const key = props.index;
   const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
