@@ -9,8 +9,9 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
-import MarkerDefault from "../../../assets/img/Map/MarkerDefault.svg";
-import MarkerActive from "../../../assets/img/Map/MarkerActive.svg";
+import MarkerbgActive from "../../../assets/img/Map/MarkerbgActive.svg";
+import MarkerbgDefault from "../../../assets/img/Map/MarkerbgDefault.svg";
+import MarkerbgSelect from "../../../assets/img/Map/MarkerbgSelect.svg";
 
 const StyledCard = styled.div`
   position: relative;
@@ -137,38 +138,29 @@ export default function ItemCard(props) {
     }
   };
   const MarkerReset = () => {
-    const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
-    if(img) {
-      img.style.transform='scale(1)';
-      if(!bool) {
-        img.setAttribute('src', MarkerDefault);
+    if (text) {
+      text.style.transform='none';
+      if (!bool) {
+        text.style.display = 'none';
       }
     }
-    if(text) {
-      text.style.backgroundColor='#FFFFFF';
-      text.style.color="#000000";
-      if(!bool) {
-        text.style.display='none';
-      }
+    if(!bool){
+      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgDefault})`;
+    }
+    else{
+      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
     }
   }
   const MarkerChange = () => {
-    const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
-    if(img) {
-      if(!bool) {
-        img.setAttribute('src', MarkerActive);
+    if (text) {
+      text.style.transform='translateY(100%)';
+      if (!bool) {
+        text.style.display = 'block';
       }
-      img.style.transform='scale(1.2)';
     }
-    if(text) {
-      if(!bool) {
-        text.style.display='block';
-      }
-      text.style.backgroundColor='#44ADF7';
-      text.style.color="#FFFFFF";
-    }
+    document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgSelect})`;
   }
 
   // 상세보기 클릭 이벤트
@@ -200,7 +192,7 @@ export default function ItemCard(props) {
 
   useEffect(() => {
     const clickOutside = (e) => {
-      //MarkerReset();
+      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
