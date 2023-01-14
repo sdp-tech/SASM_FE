@@ -199,7 +199,7 @@ const Markers = (props) => {
     `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool?MarkerbgActive:MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
     `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`) } style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
     "   </div>",
-    `   <div style="display: ${bool ? "block" : "none"}; padding:3px; border: 1px red solid;  width: ${width}px; text-align:center; position: absolute; bottom:0; " id="${id}text">`,
+    `   <div style="display: ${bool ? "block" : "none"}; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:0; " id="${id}text">`,
     `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
     `   </div>`,
     "</div>",
