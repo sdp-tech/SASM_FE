@@ -45,7 +45,7 @@ const PlaceFormPage = (props) => {
         { value: "식당 및 카페", name: "식당 및 카페" },
         { value: "전시 및 체험공간", name: "전시 및 체험공간" },
         { value: "제로웨이스트 샵", name: "제로웨이스트 샵" },
-        { value: "도시 재생 및 친환경 건축물", name: "도시 재생 및 친환경 건물" },
+        { value: "도시 재생 및 친환경 건축물", name: "도시 재생 및 친환경 건축물" },
         { value: "복합 문화 공간", name: "복합 문화 공간" },
         { value: "녹색 공간", name: "녹색 공간" },
         { value: "그 외", name: "그 외" },
