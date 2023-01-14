@@ -65,18 +65,29 @@ const ChangeForm = (props) => {
     for (let key of formData.keys()) {
       console.log(key, "::", formData.get(key));
     }
-
-    const response = await request.post("/users/me/", formData, {
-      "Content-Type": "multipart/form-data",
-    });
-    if ("data" in response.data) {
-      if ("nickname" in response.data.data) {
-        //nickname이 변경된 경우, localStorage에 저장
-        console.log('changed');
-        localStorage.setItem("nickname", response.data.data.nickname);
+    try {
+      const response = await request.post("/users/me/", formData, {
+        "Content-Type": "multipart/form-data",
+      });
+      if ("data" in response.data) {
+        if ("nickname" in response.data.data) {
+          //nickname이 변경된 경우, localStorage에 저장
+          console.log('changed');
+          localStorage.setItem("nickname", response.data.data.nickname);
+        }
+      }
+      alert("변경되었습니다.");
+    }
+    catch (err) {
+      if (
+        err.response.status == 400
+      ) {
+        alert("이미 사용 중인 닉네임입니다.");
+      }
+      else {
+        alert("닉네임 변경 중 오류가 발생하였습니다.");
       }
     }
-    alert("변경되었습니다.");
     navigate("/mypage");
   };
   return (
@@ -118,7 +129,7 @@ const ChangeForm = (props) => {
                     <Label>닉네임</Label>
                     <Text type="text" placeholder={state.nickname}
                       onKeyDown={(event) => {
-                        if(event.code=="Space") {
+                        if (event.code == "Space") {
                           event.preventDefault();
                         }
                       }}
