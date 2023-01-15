@@ -9,10 +9,12 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../functions/common/Request";
 import Restart from "../../assets/img/Map/Restart.svg";
 import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
-import MarkerActive from "../../assets/img/Map/MarkerActive.svg";
-import MarkerDefault from "../../assets/img/Map/MarkerDefault.svg";
 import ZoomPlus from "../../assets/img/Map/ZoomPlus.svg";
 import ZoomMinus from "../../assets/img/Map/ZoomMinus.svg";
+import MarkerbgDefault from "../../assets/img/Map/MarkerbgDefault.svg";
+import MarkerbgActive from "../../assets/img/Map/MarkerbgActive.svg";
+import MarkerbgSelect from "../../assets/img/Map/MarkerbgSelect.svg";
+import { MatchCategory } from "../common/Category";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -23,7 +25,7 @@ const MapSection = styled.div`
 const DetailBox = styled.div`
   // boxsizing: border-box;
   position: absolute;
-  z-index: 6;
+  z-index: 102;
   height: 100vh;
 `;
 const SearchHereButton = styled.button`
@@ -99,6 +101,7 @@ const Markers = (props) => {
   const title = props.title;
   const id = props.id;
   const category = props.category;
+  const url_category = MatchCategory(category);
   const key = props.index;
   const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
@@ -110,7 +113,7 @@ const Markers = (props) => {
       setBool(false);
     }
   }, [categoryNum]);
-  const width = Math.max(htmlFontSize * title.length, htmlFontSize * 0.75 * category.length);
+  const width = Number(htmlFontSize * title.length)+10;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -121,38 +124,31 @@ const Markers = (props) => {
   }
 
   const MarkerReset = () => {
-    const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
-    if (img) {
-      img.style.transform = 'scale(1)';
-      if (!bool) {
-        img.setAttribute('src', MarkerDefault);
-      }
-    }
     if (text) {
-      text.style.backgroundColor = '#FFFFFF';
-      text.style.color = "#000000";
+      text.style.transform='none';
       if (!bool) {
         text.style.display = 'none';
       }
     }
+    if(!bool){
+      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgDefault})`;
+    }
+    else{
+      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
+    }
+    document.getElementById(id).style.zIndex='1';
   }
   const MarkerChange = () => {
-    const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
-    if (img) {
-      if (!bool) {
-        img.setAttribute('src', MarkerActive);
-      }
-      img.style.transform = 'scale(1.2)';
-    }
     if (text) {
+      text.style.transform='translateY(100%)';
       if (!bool) {
         text.style.display = 'block';
       }
-      text.style.backgroundColor = '#44ADF7';
-      text.style.color = "#FFFFFF";
     }
+    document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgSelect})`;
+    document.getElementById(id).style.zIndex='100';
   }
   useEffect(() => {
     const clickOutside = (e) => {
@@ -200,14 +196,13 @@ const Markers = (props) => {
 
   // HTML 마커
   const contentString = [
-    `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="display: ${bool ? "block" : "none"}; background: #FFFFFF; border:1px #44ADF7 solid; border-radius: 10px; padding:5px; width: ${width}px; position: absolute; transform: translate(65%, -25%);" id="${id}text">`,
-    `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
-    `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem;">${category}</p>`,
+    `<div style="display:flex; jusitfy-content:center; align-items:center; transform: translateY(-50%); position:relative; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
+    `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool?MarkerbgActive:MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
+    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
+    "   </div>",
+    `   <div style="display: ${bool ? "block" : "none"}; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
+    `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
     `   </div>`,
-    '   <p style="margin-top:0px" > ',
-    `       <img src=${bool ? MarkerActive : MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
-    "   </p>",
     "</div>",
   ].join("");
 
@@ -330,7 +325,7 @@ const NaverMapAPI = (props) => {
             setZoom(Number(event.target.value));
           }} /><label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
             setZoom(zoom - 1);
-          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
+          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6)' }} /></label>
         </ZoomSliderWrapper>
       </ControllerWrapper>
       <NaverMap
