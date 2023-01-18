@@ -20,6 +20,7 @@ const StyledList = styled(List)`
     height: calc(100vh - (100vh - 64px) * 0.4 - 64px);
     max-width: 100%;
   }
+  z-index: 102;
 `
 
 export default function SpotDetail(props) {
