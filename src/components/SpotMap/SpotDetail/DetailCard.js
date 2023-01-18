@@ -187,31 +187,29 @@ TabPanel.propTypes = {
 };
 
 export default function DetailCard({
-  key,
-  id,
-  MainImage,
-  StoreName,
-  Category,
-  PlaceReview,
-  ShortCur,
-  Address,
-  Mon,
-  Tues,
-  Wed,
-  Thurs,
-  Fri,
-  Sat,
-  Sun,
-  open_hours,
-  Photo0,
-  Photo1,
-  Photo2,
-  story_id,
-  place_like,
+  data,
   reviewInfo,
-  statistics,
-  modalClose
+  modalClose,
 }) {
+  const id = data.id
+  const MainImage = data.rep_pic
+  const StoreName = data.place_name
+  const Category = data.category
+  const PlaceReview = data.place_review
+  const ShortCur = data.short_cur
+  const Address = data.address
+  const Mon = data.mon_hours
+  const Tues = data.tues_hours
+  const Wed = data.wed_hours
+  const Thurs = data.thurs_hours
+  const Fri = data.fri_hours
+  const Sat = data.sat_hours
+  const Sun = data.sun_hours
+  const open_hours = data.open_hours
+  const Photos = data.photos
+  const story_id = data.story_id
+  const place_like = data.place_like
+  const statistics = data.category_statistics
   const [value, setValue] = useState(0);
   const [mode, setMode] = useState('write');
   const [target, setTarget] = useState(null);
@@ -277,8 +275,7 @@ export default function DetailCard({
       break;
   }
   return (
-    <StyledCard className="component component--item_card" key={key}>
-
+    <StyledCard className="component component--item_card">
       <CloseButton>
         <img src={CloseDetail} onClick={modalClose} />
       </CloseButton>
@@ -373,37 +370,23 @@ export default function DetailCard({
               </Collapse>
             </AddressBox>
             <PhotoBox>
-              <a href={Photo0} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
-                <img
-                  style={{ height: "100%", width: "100%" }}
-                  src={Photo0}
-                  className="image--itemcard"
-                  alt="image1"
-                  width="600px"
-                  height="400px"
-                /></a>
-              <a href={Photo1} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
-                <img
-                  style={{ height: "100%", width: "100%" }}
-                  src={Photo1}
-                  className="image--itemcard"
-                  alt="image2"
-                  width="600px"
-                  height="400px"
-                /></a>
-              <a href={Photo2} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
-                <img
-                  style={{ height: "100%", width: "100%" }}
-                  src={Photo2}
-                  className="image--itemcard"
-                  alt="image3"
-                  width="600px"
-                  height="400px"
-                /></a>
+              {
+                Photos.map((data, index) => {
+                  return (
+                    <a href={data.image} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
+                      <img
+                        style={{ height: "100%", width: "100%" }}
+                        src={data.image}
+                        className="image--itemcard"
+                        alt="image"
+                        width="600px"
+                        height="400px"
+                      /></a>
+                  )
+                })
+              }
             </PhotoBox>
-            {/* images */}
             <ShortCurBox>
-              {/* ShortCur */}
               <p>{ShortCur}</p>
             </ShortCurBox></>
         </TabPanel>
