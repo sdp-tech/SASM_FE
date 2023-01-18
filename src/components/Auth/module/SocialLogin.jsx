@@ -9,6 +9,10 @@ import kakaotalk_login from "../../../assets/img/kakaotalk_login.svg";
 
 const Wrapper = styled.div`
   width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   margin: 3rem auto;
   // transform: translate(70%, 20%);
   padding-top: 0.6rem;
@@ -26,6 +30,12 @@ const Wrapper = styled.div`
 `;
 
 const LogoWrapper = styled.div`
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
   margin-top: 1.5rem;
   // background-color: black;
   display: flex;
@@ -34,6 +44,8 @@ const LogoWrapper = styled.div`
 
 const SocialLogo = styled.img`
   border-radius: 50%;
+  width: 44px;
+  height: 44px;
   cursor: pointer;
 `;
 
@@ -43,14 +55,16 @@ const SocialLogin = () => {
       SNS 계정으로 시작하기
       <LogoWrapper>
         <SocialLogo
-          onClick={(e) => TrySocialLogin(e.target.id)}
+          // onClick={(e) => TrySocialLogin(e.target.id)}
           id="google"
           src={google_login}
+          style={{ opacity: "0.4", border: "1px solid #eaeaea" }}
         />
         <SocialLogo
-          onClick={(e) => TrySocialLogin(e.target.id)}
+          // onClick={(e) => TrySocialLogin(e.target.id)}
           id="naver"
           src={naver_login}
+          style={{ opacity: "0.4" }}
         />
         <SocialLogo
           onClick={(e) => TrySocialLogin(e.target.id)}
