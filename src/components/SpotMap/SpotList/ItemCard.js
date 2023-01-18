@@ -88,8 +88,6 @@ const LikeButton = styled(Button)({
 const DetailBox = styled.div`
   // boxsizing: border-box;
   position: absolute;
-  z-index: 6;
-  height: 100vh;
 `;
 
 export default function ItemCard(props) {
