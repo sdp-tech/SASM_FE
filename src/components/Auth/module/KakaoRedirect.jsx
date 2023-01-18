@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Navibar from "../../common/Navibar";
 import axios from "axios";
 import { LoginContext } from "../../../contexts/LoginContexts";
@@ -71,8 +71,10 @@ const KakaoLogin = (code) => {
         // window.location.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
       })
       .catch((err) => {
+        navigate("/login");
         console.log("소셜로그인 에러", err);
         window.alert("로그인에 실패하였습니다.");
+        navigate("/login");
         // history.replace("/users/"); // 로그인 실패하면 로그인화면으로 돌려보냄
       });
   };
@@ -88,19 +90,20 @@ const KakaoRedirect = (props) => {
   let code = new URL(window.location.href).searchParams.get("code");
   console.log(code, n);
 
-  if (n == 0) {
+  useEffect(() => {
     KakaoLogin(code);
-    // console.log("요청넣기");
-  }
+  }, []);
+  // if (n == 0) {
+  //   KakaoLogin(code);
+  //   // console.log("요청넣기");
+  // }
   // React.useEffect(async () => {
   //   await KakaoLogin(code);
   // }, []);
   n = n + 1;
   return (
     <>
-      <Sections>
-        <Navibar />
-      </Sections>
+      <Sections></Sections>
     </>
   );
 };

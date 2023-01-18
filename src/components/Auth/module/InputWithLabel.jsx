@@ -12,7 +12,6 @@ const Wrapper = styled.div`
   justify-content: center;
   // align-items: center;
   flex-grow: 3;
-  
 `;
 
 const Label = styled.div`
@@ -25,24 +24,29 @@ const Label = styled.div`
 `;
 
 const Input = styled.input`
+  width: 400px;
   border: 1px solid ${oc.gray[3]};
   outline: none;
   border-radius: 4px;
   line-height: 2.5rem;
   font-size: 1rem;
-  // padding-left: 10px; 
+  // padding-left: 10px;
   ::placeholder {
     padding: 4px;
     color: rgba(17, 17, 17, 0.48);
   }
   padding: 0.2em;
-  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
+  box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04),
+    0px 4px 16px rgba(51, 51, 51, 0.08);
+  @media screen and (max-width: 768px) {
+    width: auto;
+  }
 `;
 
-const InputWithLabel = ({label, message, ...rest}) => (
+const InputWithLabel = ({ label, message, ...rest }) => (
   <Wrapper>
     <Label>{label}</Label>
-    <Input {...rest}/>
+    <Input {...rest} />
   </Wrapper>
 );
 
