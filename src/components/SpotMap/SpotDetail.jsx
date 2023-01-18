@@ -20,6 +20,7 @@ const StyledList = styled(List)`
     height: calc(100vh - (100vh - 64px) * 0.4 - 64px);
     max-width: 100%;
   }
+  z-index: 102;
 `
 
 export default function SpotDetail(props) {
@@ -51,27 +52,7 @@ export default function SpotDetail(props) {
         }}
       >
         <DetailCard
-          id={data?.id}
-          MainImage={data?.rep_pic}
-          StoreName={data?.place_name}
-          Category={data?.category}
-          PlaceReview={data?.place_review}
-          ShortCur={data?.short_cur}
-          Address={data?.address}
-          Mon={data?.mon_hours}
-          Tues={data?.tues_hours}
-          Wed={data?.wed_hours}
-          Thurs={data?.thurs_hours}
-          Fri={data?.fri_hours}
-          Sat={data?.sat_hours}
-          Sun={data?.sun_hours}
-          open_hours={data?.open_hours}
-          Photo0={data?.photos?.[0].image}
-          Photo1={data?.photos?.[1].image}
-          Photo2={data?.photos?.[2].image}
-          story_id={data?.story_id}
-          place_like={data?.place_like}
-          statistics={data?.category_statistics}
+          data={data}
           reviewInfo={reviewInfo}
           modalClose={modalClose}
         />
