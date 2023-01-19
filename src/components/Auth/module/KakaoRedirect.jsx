@@ -1,5 +1,4 @@
-
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
 import Navibar from "../../common/Navibar";
 import axios from "axios";
@@ -92,16 +91,14 @@ const KakaoRedirect = (props) => {
   let code = new URL(window.location.href).searchParams.get("code");
   console.log(code, n);
 
-  useEffect(() => {
-    KakaoLogin(code);
-  }, []);
-  // if (n == 0) {
+  // useEffect(() => {
   //   KakaoLogin(code);
-  //   // console.log("요청넣기");
-  // }
-  // React.useEffect(async () => {
-  //   await KakaoLogin(code);
   // }, []);
+  if (n == 0) {
+    KakaoLogin(code);
+    // console.log("요청넣기");
+  }
+
   n = n + 1;
   return (
     <>
