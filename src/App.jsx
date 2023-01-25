@@ -20,6 +20,7 @@ import Navibar from "./components/common/Navibar";
 import { device } from "./device"
 import MyPick from "./pages/MyPick";
 import { Pc, Tablet, Mobile } from "./device"
+import SpotCommunity from "./pages/SpotCommunity";
 
 const App = () => {
   const [login, setLogin] = useState({
@@ -53,75 +54,31 @@ const App = () => {
 `;
   return (
     <>
-      <GlobalStyle/>
+      <GlobalStyle />
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
-          <Pc>
-            <BrowserRouter>
-              <Navibar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/users/*" element={<Auth />} />
-                <Route path="/map" element={<SpotMap />} />
-                <Route path="/map/:place" element={<SpotMap />} />
+          <BrowserRouter>
+            <Navibar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/users/*" element={<Auth />} />
+              <Route path="/map" element={<SpotMap />} />
+              <Route path="/map/:place" element={<SpotMap />} />
 
-                <Route path="/mypage/*" element={<MyPage />} />
-                <Route path="/mypick/*" element={<MyPick />} />
-                <Route path="/auth/*" element={<Auth />} />
+              <Route path="/mypage/*" element={<MyPage />} />
+              <Route path="/mypick/*" element={<MyPick />} />
+              <Route path="/auth/*" element={<Auth />} />
 
-                <Route path="/story" element={<StoryList />} />
-                <Route path="/story/:id" element={<StoryDetail />} />
-                <Route path="/admin/place" element={<PlaceAdmin />} />
-                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
-                <Route path="/admin/story" element={<StoryAdmin />} />
-                <Route path="/admin/story/:id" element={<StoryAdmin />} />
-              </Routes>
-            </BrowserRouter>
-          </Pc>
-          <Tablet>
-            <BrowserRouter>
-              <Navibar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/users/*" element={<Auth />} />
-                <Route path="/map" element={<SpotMap />} />
-                <Route path="/map/:place" element={<SpotMap />} />
-
-                <Route path="/mypage/*" element={<MyPage />} />
-                <Route path="/mypick/*" element={<MyPick />} />
-                <Route path="/auth/*" element={<Auth />} />
-
-                <Route path="/story" element={<StoryList />} />
-                <Route path="/story/:id" element={<StoryDetail />} />
-                <Route path="/admin/place" element={<PlaceAdmin />} />
-                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
-                <Route path="/admin/story" element={<StoryAdmin />} />
-                <Route path="/admin/story/:id" element={<StoryAdmin />} />
-              </Routes>
-            </BrowserRouter>
-          </Tablet>
-          <Mobile>
-            <BrowserRouter>
-              <Navibar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/users/*" element={<Auth />} />
-                <Route path="/map" element={<SpotMap />} />
-                <Route path="/map/:place" element={<SpotMap />} />
-
-                <Route path="/mypage/*" element={<MyPage />} />
-                <Route path="/mypick/*" element={<MyPick />} />
-                <Route path="/auth/*" element={<Auth />} />
-
-                <Route path="/story" element={<StoryList />} />
-                <Route path="/story/:id" element={<StoryDetail />} />
-                <Route path="/admin/place" element={<PlaceAdmin />} />
-                <Route path="/admin/place/:id" element={<PlaceAdmin />} />
-                <Route path="/admin/story" element={<StoryAdmin />} />
-                <Route path="/admin/story/:id" element={<StoryAdmin />} />
-              </Routes>
-            </BrowserRouter>
-          </Mobile>
+              <Route path="/story" element={<StoryList />} />
+              <Route path="/story/:id" element={<StoryDetail />} />
+              <Route path="/admin/place" element={<PlaceAdmin />} />
+              <Route path="/admin/place/:id" element={<PlaceAdmin />} />
+              <Route path="/admin/story" element={<StoryAdmin />} />
+              <Route path="/admin/story/:id" element={<StoryAdmin />} />
+              <Route path="/community/" element={<SpotCommunity/>} />
+              <Route path="/community/:id" element={<SpotCommunity/>} />
+            </Routes>
+          </BrowserRouter>
         </LoginProvider>
       </CookiesProvider>
 
