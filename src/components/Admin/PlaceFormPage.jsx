@@ -243,7 +243,10 @@ const PlaceFormPage = (props) => {
             return;
         }
         const ressnsurl = await request.get(`/sdp_admin/snsurl/${id}`, null, null);
-        setSnsData(ressnsurl.data.data);
+        console.log(ressnsurl.data.data);
+        if (ressnsurl.data.data.length !== 0) {
+            setSnsData(ressnsurl.data.data);
+        }
         //몇개를 생성할 지 정해주기 위해
         let newCountArr = [];
         for (var i = 0; i < ressnsurl.data.data.length; i++) {
