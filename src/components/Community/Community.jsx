@@ -8,29 +8,12 @@ import PlaceBoard from './Contents/PlaceBoard/PlaceBoard'
 import PromotionBoard from './Contents/PromotionBoard/PromotionBoard'
 import GroupBoard from './Contents/GroupBoard/GroupBoard'
 
-const CommunitySection = styled.div`
-  border: 1px red solid;
-  height: calc(100vh - 64px);
-  display: grid;
-  grid-template-columns: 0.25fr 0.75fr;
-  grid-template-areas: "menu content";
-`
-const Menu = styled.div`
-  grid-area: menu;
-  padding: 3vh 3vw;
-  border: 1px blue solid;
-`
-const MenuTitle = styled.div`
-  font-Size: 1.5rem;
-  text-align: center;
-  margin-bottom: 20%;
+const Section = styled.div`
+  height: 100%;
 `
 const Content = styled.div`
-  grid-area: content;
-  border: 1px yellow solid;
-  padding: 3vh 3vw;
+  height: 100%;
 `
-
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,49 +41,17 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
 
-export default function Community() {
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+export default function Community({value}) {
 
   return (
-    <CommunitySection>
-      <Menu>
-        <MenuTitle>
-          Community
-        </MenuTitle>
-        <Tabs
-          orientation='vertical'
-          value={value}
-          onChange={handleChange}
-          sx={{
-            borderBottom: '1px rgba(0,0,0,0.5) solid',
-            '& .MuiTabs-indicator': { display: 'none' },
-            '& .MuiTab-root': { borderTop: '1px rgba(0,0,0,0.5) solid' },
-            '& .Mui-selected': {},
-          }}
-        >
-          <Tab label="자유게시판" {...a11yProps(0)} />
-          <Tab label="장소 추천" {...a11yProps(1)} />
-          <Tab label="홍보게시판" {...a11yProps(2)} />
-          <Tab label="모임게시판" {...a11yProps(3)} />
-        </Tabs>
-      </Menu>
+    <Section>
       <Content>
         <TabPanel value={value} index={0}><FreeBoard /></TabPanel>
         <TabPanel value={value} index={1}><PlaceBoard /></TabPanel>
         <TabPanel value={value} index={2}><PromotionBoard /></TabPanel>
         <TabPanel value={value} index={3}><GroupBoard /></TabPanel>
       </Content>
-    </CommunitySection>
+    </Section>
   )
 }

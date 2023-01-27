@@ -40,7 +40,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   cursor: pointer;
 `
-export default function FreeBoardList({ list, handleMode }) {
+export default function GroupBoardList({ list, handleMode }) {
   // const [search, setSearch] = useState('');
   // const [tempSearch, setTempSearch] = useState('');
   // const onChangeSearch = (e) => {

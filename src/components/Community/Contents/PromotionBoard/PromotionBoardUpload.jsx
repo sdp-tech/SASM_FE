@@ -29,14 +29,14 @@ const Button = styled.button`
   width: 15%;
 `
 
-export default function PlaceBoard() {
+export default function PromotionBoardUpload({ handleMode }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   const uploadItem = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('board', '2');
+    formData.append('board', '3');
     formData.append('title', `${event.target.title.value}`);
     formData.append('content', `${event.target.content.value}`)
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
@@ -48,6 +48,7 @@ export default function PlaceBoard() {
         <InputTitle type="text" id="title" placeholder="제목을 입력해주세요." required/>
         <InputContent id="content" placeholder="내용을 입력해주세요." required/>
         <ButtonWrapper>
+          <Button onClick={handleMode}>뒤로가기</Button>
           <Button type="submit">작성하기</Button>
         </ButtonWrapper>
       </StyledForm>

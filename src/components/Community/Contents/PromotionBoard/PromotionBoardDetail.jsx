@@ -79,7 +79,7 @@ const ReportList = styled.div`
   border-bottom: 1px black solid;
   cursor: pointer;
 `
-export default function FreeBoardDetail({ detail }) {
+export default function PromotionBoardDetail({ detail }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
