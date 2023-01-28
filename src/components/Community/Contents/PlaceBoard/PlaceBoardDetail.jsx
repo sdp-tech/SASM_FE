@@ -50,12 +50,6 @@ export default function PlaceBoardDetail({ detail }) {
   const id = params.id;
   const email = localStorage.getItem('email');
   let isWriter = false;
-  // 게시판 성격에 부적절함
-  //   음란물 / 불건전한 만남 및 대화
-  //   사칭 / 사기성 게시글
-  //   욕설 / 비하
-  //   낚시 / 도배성 게시글
-  //   상업적 광고 및 판매
   if (detail.email == email) {
     isWriter = true;
   }
@@ -82,8 +76,8 @@ export default function PlaceBoardDetail({ detail }) {
           작성일 | {detail.updated.slice(0, 10)}
         </Info>
         <Content>{
-          detail.content.split('\n').map( line => {
-            return (<span>{line}<br/></span>)
+          detail.content.split('\n').map( (line, index) => {
+            return (<span key={index}>{line}<br/></span>)
           })
         }
         </Content>

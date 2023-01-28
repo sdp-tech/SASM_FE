@@ -28,6 +28,14 @@ const Content = styled.div`
   font-size: 1rem;
   padding: 2%;
 `
+const ImageWrapper = styled.div`
+
+`
+const Image = styled.img`
+  height: 100px;
+`
+const HashtagWrapper = styled.div`
+`
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -89,12 +97,6 @@ export default function PromotionBoardDetail({ detail }) {
   const id = params.id;
   const email = localStorage.getItem('email');
   let isWriter = false;
-  // 게시판 성격에 부적절함
-  //   음란물 / 불건전한 만남 및 대화
-  //   사칭 / 사기성 게시글
-  //   욕설 / 비하
-  //   낚시 / 도배성 게시글
-  //   상업적 광고 및 판매
   useEffect(() => {
     const clickOutside = (e) => {
       if (report && node.current && !node.current.contains(e.target)) {
@@ -149,7 +151,17 @@ export default function PromotionBoardDetail({ detail }) {
         </Info>
         <Content>
           {detail.content}
+          <ImageWrapper>
+            {detail.photoList.map((data, index)=>(
+              <Image key={index} src={data}></Image>
+            ))}
+          </ImageWrapper>
         </Content>
+        <HashtagWrapper>
+          {detail.hashtagList.map((data, index)=>(
+            <span key={index}>#{data}</span>
+          ))}
+        </HashtagWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {

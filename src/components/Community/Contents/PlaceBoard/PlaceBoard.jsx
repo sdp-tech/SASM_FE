@@ -44,7 +44,6 @@ export default function PlaceBoard() {
       //검색어 있는 경우
       setSearch(tempSearch);
     }
-    console.log(tempSearch);
   };
   const handleMode = () => {
     setMode(!mode);
@@ -58,14 +57,13 @@ export default function PlaceBoard() {
       //page: page,
     }, null);
     setList(response.data.data.results);
-    console.log(response.data.data);
-    //setTotal(response.data.data.conunt);
+    setTotal(response.data.data.count);
     setLoading(false);
   }
 
   useEffect(() => {
     getItem()
-  }, [search])
+  }, [search, page])
   return (
     <div>
       {
@@ -90,7 +88,7 @@ export default function PlaceBoard() {
                     />
                   </SearchFilterBar>
                   <PlaceBoardList list={list} handleMode={handleMode} />
-                  {/* <Pagination total={total} limit="5" page={page} setPage={setPage}/> */}
+                  <Pagination total={total} limit="5" page={page} setPage={setPage}/>
                 </>
             }
           </Contents>
