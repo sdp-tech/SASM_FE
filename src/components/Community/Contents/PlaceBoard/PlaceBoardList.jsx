@@ -35,7 +35,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   cursor: pointer;
 `
-export default function FreeBoardList({ list, handleMode }) {
+export default function PlaceBoardList({ list, handleMode }) {
   return (
     <Section>
       <ListWrapper>
