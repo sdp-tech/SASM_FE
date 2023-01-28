@@ -42,8 +42,13 @@ export default function PromotionBoardUpload({ handleMode }) {
     formData.append('board', '3');
     formData.append('title', `${event.target.title.value}`);
     formData.append('content', `${event.target.content.value}`);
+    formData.append('hashtagList', `${hashtag}`);
+    for (let key of formData.keys()) {
+      console.log(key, ":", formData.get(key));
+    }
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
-    window.location.reload();
+    console.log(response);
+    //window.location.reload();
   }
   const handleHashtag = (event) => {
     let str = event.target.value.split(' ').join('')
@@ -59,7 +64,7 @@ export default function PromotionBoardUpload({ handleMode }) {
         event.target.value = null;
       }
     }
-    setHashtag(filterStr);
+    setHashtag([filterStr]);
   }
   return (
     <>
