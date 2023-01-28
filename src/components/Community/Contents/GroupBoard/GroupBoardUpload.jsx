@@ -39,6 +39,7 @@ const Button = styled.button`
 `
 
 export default function GroupBoardUpload({ handleMode }) {
+  const [hashtag, setHashtag] = useState();
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();
@@ -82,7 +83,7 @@ export default function GroupBoardUpload({ handleMode }) {
         event.target.value = null;
       }
     }
-    setHashtag([filterStr]);
+    setHashtag(filterStr);
   }
   return (
     <>
