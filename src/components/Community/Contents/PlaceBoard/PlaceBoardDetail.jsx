@@ -82,8 +82,8 @@ export default function PlaceBoardDetail({ detail }) {
           작성일 | {detail.updated.slice(0, 10)}
         </Info>
         <Content>{
-          detail.content.split('\n').map( line => {
-            return (<span>{line}<br/></span>)
+          detail.content.split('\n').map( (line, index) => {
+            return (<span key={index}>{line}<br/></span>)
           })
         }
         </Content>

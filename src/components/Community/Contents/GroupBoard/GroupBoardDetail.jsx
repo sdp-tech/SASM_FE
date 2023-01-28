@@ -28,6 +28,14 @@ const Content = styled.div`
   font-size: 1rem;
   padding: 2%;
 `
+const ImageWrapper = styled.div`
+
+`
+const Image = styled.img`
+  height: 100px;
+`
+const HashtagWrapper = styled.div`
+`
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -149,7 +157,17 @@ export default function GroupBoardDetail({ detail }) {
         </Info>
         <Content>
           {detail.content}
+          <ImageWrapper>
+            {detail.photoList.map((data, index)=>(
+              <Image key={index} src={data}></Image>
+            ))}
+          </ImageWrapper>
         </Content>
+        <HashtagWrapper>
+          {detail.hashtagList.map((data, index)=>(
+            <span key={index}>#{data}</span>
+          ))}
+        </HashtagWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {

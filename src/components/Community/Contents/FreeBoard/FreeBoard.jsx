@@ -20,14 +20,14 @@ const SearchFilterBar = styled.div`
   margin: 5vh auto;
 `
 export default function FreeBoard() {
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const navigate = useNavigate()
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const request = new Request(cookies, localStorage, navigate);
   const [list, setList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const [search, setSearch] = useState('');
   const [tempSearch, setTempSearch] = useState('');
   const onChangeSearch = (e) => {
@@ -45,7 +45,6 @@ export default function FreeBoard() {
       //검색어 있는 경우
       setSearch(tempSearch);
     }
-    console.log(tempSearch);
   };
   const handleMode = () => {
     setMode(!mode);
@@ -56,17 +55,16 @@ export default function FreeBoard() {
     const response = await request.get("/community/posts/", {
       board: 1,
       query: search,
-      //page: page,
+      page: page,
     }, null);
     setList(response.data.data.results);
-    console.log(response.data.data);
-    //setTotal(response.data.data.conunt);
+    setTotal(response.data.data.count);
     setLoading(false);
   }
 
   useEffect(() => {
     getItem()
-  }, [search])
+  }, [search, page])
   return (
     <div>
       {
@@ -89,8 +87,9 @@ export default function FreeBoard() {
                       background="#FFFFFF"
                       color="#000000"
                     />
-                  </SearchFilterBar><FreeBoardList list={list} handleMode={handleMode} />
-                  {/* <Pagination total={total} limit="5" page={page} setPage={setPage}/> */}
+                  </SearchFilterBar>
+                  <FreeBoardList list={list} handleMode={handleMode} />
+                  <Pagination total={total} limit="5" page={page} setPage={setPage}/>
                 </>
             }
           </Contents>
