@@ -41,7 +41,7 @@ const Button = styled.button`
   width: 15%;
 `
 
-export default function FreeBoardDetail({ detail }) {
+export default function PlaceBoardDetail({ detail }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -81,8 +81,11 @@ export default function FreeBoardDetail({ detail }) {
           </span>
           작성일 | {detail.updated.slice(0, 10)}
         </Info>
-        <Content>
-          {detail.content}
+        <Content>{
+          detail.content.split('\n').map( line => {
+            return (<span>{line}<br/></span>)
+          })
+        }
         </Content>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>

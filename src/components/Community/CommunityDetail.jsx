@@ -5,6 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../functions/common/Request';
 import Loading from '../common/Loading'
 import FreeBoardDetail from './Contents/FreeBoard/FreeBoardDetail';
+import PlaceBoardDetail from './Contents/PlaceBoard/PlaceBoardDetail';
+import PromotionBoardDetail from "./Contents/PromotionBoard/PromotionBoardDetail";
 import GroupBoardDetail from './Contents/GroupBoard/GroupBoardDetail';
 
 export default function CommunityDetail({id}) {
@@ -34,6 +36,8 @@ export default function CommunityDetail({id}) {
             {
               {
                 "1":<FreeBoardDetail detail={detail}></FreeBoardDetail>,
+                "2":<PlaceBoardDetail detail={detail}></PlaceBoardDetail>,
+                "3":<PromotionBoardDetail detail={detail}></PromotionBoardDetail>,
                 "4":<GroupBoardDetail detail={detail}></GroupBoardDetail>
               }[detail.board]
             }
