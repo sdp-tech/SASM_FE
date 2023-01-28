@@ -30,7 +30,7 @@ export default function PromotionBoard() {
     const response = await request.get("/community/posts/", {
       board: 3,
     }, null);
-    setList(response.data.data);
+    setList(response.data.data.results);
     console.log(response.data.data);
     setLoading(false);
   }

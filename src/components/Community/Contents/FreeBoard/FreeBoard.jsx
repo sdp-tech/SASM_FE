@@ -58,7 +58,7 @@ export default function FreeBoard() {
       query: search,
       //page: page,
     }, null);
-    setList(response.data.data);
+    setList(response.data.data.results);
     console.log(response.data.data);
     //setTotal(response.data.data.conunt);
     setLoading(false);
