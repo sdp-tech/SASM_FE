@@ -20,8 +20,6 @@ const SearchFilterBar = styled.div`
   margin: 5vh auto;
 `
 export default function FreeBoard() {
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState(false);
   const navigate = useNavigate()
