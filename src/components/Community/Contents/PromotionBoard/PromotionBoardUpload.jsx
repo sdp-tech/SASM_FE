@@ -59,22 +59,6 @@ export default function PromotionBoardUpload({ handleMode }) {
     console.log(response);
     //window.location.reload();
   }
-  const handleHashtag = (event) => {
-    let str = event.target.value.split(' ').join('')
-    str = str.split(/[#,]+/)
-    let filterStr = str.filter(function (e) { return e !== '' })
-    if (filterStr.length > 5) {
-      alert('해쉬태그는 최대 5개까지만');
-      event.target.value = null;
-    }
-    for (let i = 0; i < filterStr.length; i++) {
-      if (filterStr[i].length > 9) {
-        alert('해쉬태그는 최대 9글자까지만');
-        event.target.value = null;
-      }
-    }
-    setHashtag([filterStr]);
-  }
   const fileInput = (event) => {
     document.getElementById('filelist').innerHTML = null;
     if (event.target.files.length > 10) {
