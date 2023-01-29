@@ -1,336 +1,605 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import Button from "@mui/material/Button";
-import logo from "../assets/img/sasm_logo.png";
-import picture from "../assets/img/Main/Picture.png";
-import background1 from "../assets/img/Main/Background1.svg";
-import background2 from "../assets/img/Main/Background2.svg";
-import background3 from "../assets/img/Main/Background3.svg";
-import mapimage from "../assets/img/Main/MapImage.svg";
-import Navibar from "../components/common/Navibar";
+import picture from "../assets/img/Home/LandingPage.png";
+import picture_mobile from "../assets/img/Home/LandingPageMobile.png";
 import { Pc, Tablet, Mobile } from "../device"
-const ImageBox = styled.div`
-  
+import sasm_logo from "../assets/img/sasm_logo.png";
+import map_category from "../assets/img/Home/map_category.svg"
+import map_categoryMobile from "../assets/img/Home/map_categoryMobile.svg"
+import map from "../assets/img/Home/map_image.png";
+import map_Mobile from "../assets/img/Home/map_imageMobile.png";
+import story from "../assets/img/Home/story_image.png";
+import mypick from "../assets/img/Home/mypick_image.png";
+import footer from "../assets/img/Home/footer.svg";
+import { useMediaQuery } from "react-responsive";
+import sasm_logo_blackwhite from "../assets/img/Home/sasm_logo_blackwhite.svg";
+import sasm_full_logo_blackwhite from "../assets/img/Home/sasm_full_logo_blackwhite.svg";
+import sdp_logo_blackwhite from "../assets/img/Home/sdp_logo_blackwhite.svg";
+import sdp_full_logo_blackwhite from "../assets/img/Home/sdp_full_logo_blackwhite.svg";
+
+const Wrapper = styled.div`
+  overflow: hidden;
+  position: relative;
 `
+
 const IntroImg = styled.img`
-  width: 100vw;
-  height: auto;
+  float: right;
+  position: absolute;
+  right: 0;
   @media screen and (max-width: 768px) {
-    height: 30vw;
+    width: 95%;
+  } 
+  @media screen and (min-width: 769px) and (max-width: 1023px) {
+    width: 50%;
+  } 
+  @media screen and (min-width: 1920px) {
+    width: 30%;
   }
-`;
-const HomeImg = styled.img`
-  width: 100vw;
-  height: auto;
 `;
 
 //SASM
 const SASM = styled.div`
   width: 60%;
   height: 550px;
-  margin: 5% auto;
+  margin-left: 10%;
+  margin-top: 10%;
   color: black;
   display: block;
   @media screen and (max-width: 768px) {
-    height: 300px;
+    height: auto;
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20vh;
+    padding-left: 6vw;
   } 
 `;
-const SubTitle = styled.div`
-  font-size: 2vw;
-  font-weight: 600;
+const SASMDescription = styled.div`
+  display: flex;
+  width: 100%;
+  padding-left: 10vw;
+  margin-top: 15vh;
+  @media screen and (max-width: 768px) {
+    padding-left: 6vw;
+    margin-top: 5vh;
+  } 
+`
+const SASMLogo = styled.img`
+  position: absolute;
+  width: 1.5vw;
+  @media screen and (max-width: 768px) {
+    width: 4vw;
+  }
+  ${props => props.rotate ? "transform: rotate(180deg) translate(120%, 0%);" : ""};
+`
+
+const SubLogo = styled.div`
+  font-size: 1.5vw;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
-    font-size: 3vw;
+    font-size: 2vw;
   } 
   @media screen and (max-width: 768px) {
-    font-size: 4vw;
+    font-size: 1.5rem;
+  }
+`;
+const SubTitle = styled.div`
+  margin-left: 10%;
+  line-height: 150%;
+  font-size: 1.5vw;
+  @media screen and (min-width: 769px) and (max-width: 1023px) {
+    margin-left: 10%;
+    font-size: 2vw;
+    width: 30%;
+  } 
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 0;
   }
 `
 const TitleBox = styled.div`
   display: flex;
+  margin-bottom : 7%;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 1%;
+  }
 `
 const Tittle = styled.div`
   box-sizing: border-box;
   color: black;
-  font-size: 7vw;
+  font-size: 10vw;
   font-weight: 700;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     font-size: 9vw;
   } 
   @media screen and (max-width: 768px) {
-    font-size: 10.5vw;
+    font-size: 5rem;
   } 
 `;
 
 const Content = styled.div`
   box-sizing: border-box;
-  position: absolute;
-  font-size: 1.5vw;
+  font-size: 2vw;
+  font-weight: 700;
+  line-height: 1.5;
+  position: relative;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     font-size: 3vw;
   } 
   @media screen and (max-width: 768px) {
-    font-size: 3.5vw;
+    font-size: 0.9rem;
+    margin-top: 8%;
   } 
 `;
-//Map
-const Map = styled.div`
-  
-`
-const Background2Box = styled.div`
-  float: right;
+const ContentBox = styled.div`
+  margin-top: 30vh;
+  width: 100%;
+  padding-left: 15vw;
+  font-size: 2vw;
   position: relative;
-  z-index: 2;
-  bottom: 80px;
-`
-const Background1Box = styled.div`
-  position: relative;
-  bottom: 65vw;
-  z-index: 1;
-  @media screen and (max-width: 768px) {
-    bottom: 140vw;
-  }
-  @media screen and (min-width: 769px) and (max-width: 1023px) {
-    bottom: 120vw;
-  }
-`
-
-const MapSubtitle = styled.div`
-  font-size: 3.5vw;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 3%;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     font-size: 3vw;
   } 
   @media screen and (max-width: 768px) {
-    font-size: 4vw;
+    margin-top: 10vh;
+    font-size: 1rem;
+    padding: 0;
+    text-align: center;
+  } 
+`
+//Function SASM 기능 정의
+const Function = styled.div`
+  margin-top: 2.5vh;
+`
+const FunctionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 5vh 0 5vh 15vw;
+  @media screen and (min-width: 769px) and (max-width: 1023px) {
+    width: 50%;
+  } 
+  &: nth-of-type(2) {
+    padding-left: 22vw;
+  }
+  & + & {
+    border-top: 1px rgba(0,0,0,0.5) solid;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 3vh 0;
+    flex-direction: column;
+    align-items: flex-start;
+    &: nth-of-type(1) {
+      padding-left: 10vw;
+    }
+    &: nth-of-type(2) {
+      padding-left: 20vw;
+    }
+    &: nth-of-type(3) {
+      padding-left: 5vw;
+    }
+  } 
+`
+const FunctionBox = styled.div`
+  padding-top: auto;
+  padding-bottom: auto;
+  line-height: 3vw;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15vw;
+  font-weight: 900;
+  background: linear-gradient(102.78deg, rgba(255, 255, 255, 0.7) 4.48%, rgba(255, 255, 255, 0) 90.51%), ${props => props.backgroundColor};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 75px;
+  @media screen and (max-width: 768px) {
+    width: 40vw;
+    height: 5vh;
+
+  } 
+  @media screen and (min-width: 769px) and (max-width: 1023px) {
+    width: 20vw;
+  } 
+`
+const FunctionDescp = styled.div`
+  margin-left: 2vw;
+  font-size: 1rem;
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 3vh 0 0 10vw;
+  }
+`
+const ContentTitle = styled.p`
+  line-height: 100%;
+  margin: 0 0 3vh 0;
+  font-weight: 700;
+  font-size: 8rem;
+  width: 100%;
+  @media screen and (max-width: 768px) {
+    font-size: 4rem;
   }
 `
 const MapTitle = styled.div`
-  font-size: 5vw;
-  font-weight: 700;
+  color: #FFFFFF;
+  background: linear-gradient(222.99deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100.52%), #00613E;
+  padding-top: 10vh;
+  width: 100%;
+  height: auto;
+`
+const MapSubtitle = styled.div`
   text-align: center;
-  letter-spacing: 0.1em;
+  font-size: 1.5vw;
+  line-height: 150%;
+  border-right: 4px solid #FFFFFF;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
-    font-size: 7vw;
+    font-size: 3vw;
   } 
+  width: 20%;
   @media screen and (max-width: 768px) {
-    font-size: 9vw;
-  } 
+    width: 100%;
+    text-align:left;
+    padding-left: 1.5vw;
+    margin-left: 10vw;
+    border: none;
+    font-size: 1rem;
+    padding-top: 1.5vh;
+  }
 `
 const MapImage = styled.div`
-  position: relative;
-  z-index: 3;
-  // top: 25vh;
-  left: 5vw;
-  width: 95vw;
+  display: flex;
+  width: 100%;
   @media screen and (max-width: 768px) {
-    bottom: 110vw;=
-    height: auto;
+    flex-direction: column;
+    padding: 5vh 0;
+    align-items: center;
   }
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     bottom: 80vw;
     height: auto;
   }
 `
-const MapImageBox = styled.img`
-  // box-shadow: 0px 12px 32px 4px rgba(0, 0, 0, 0.2);
-  left: 3%;
-  width: 50%;
-  height: auto;
-`
-const MapWrite = styled.div`
-`
-const Wrapper = styled.div`
-  position: absolute;
-  margin: 0 auto;
-  top: 26%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 10%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  // border: 1px solid RED;
-`;
-//Story
-const Story = styled.div`
-
-`
-const Background3Box = styled.div`
-  position: relative;
-  float: right;
-  bottom: 60vw;
+const MapText = styled.div`
+  line-height: 150%;
+  font-size: 1.5vw;
+  padding-left: 1.5vw;
   @media screen and (max-width: 768px) {
-    bottom: 140vw;
-  }
-  @media screen and (min-width: 769px) and (max-width: 1023px) {
-    bottom: 120vw;
-  }
-`
-const StorySubtitle = styled.div`
-  font-size: 3.5vw;
-  font-weight: 700;
-  margin-bottom: 3%;
-  margin-left: 5%;
-  @media screen and (min-width: 769px) and (max-width: 1023px) {
-    position: relative;
-    font-size: 3vw;
-    bottom: 35vw;
-  } 
-  @media screen and (max-width: 768px) {
-    position: relative;
-    font-size: 4vw;
-    bottom: 50vw;
+    width: 100%;
+    font-size: 0.8rem;
+    margin-left: 10vw;
   }
 `
 const StoryTitle = styled.div`
-  font-size: 5vw;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  margin-left: 5%;
-  @media screen and (min-width: 769px) and (max-width: 1023px) {
-    position: relative;
-    font-size: 7vw;
-    bottom: 35vw;
-  } 
-  @media screen and (max-width: 768px) {
-    position: relative;
-    font-size: 9vw;
-    bottom: 50vw;
-  } 
-`
-const StoryExample = styled.div`
-  width: 90vw;
-  height: 600px;
-  background-color: rgba(255,255,255,0.8);
-  opacity: 0.8;
-  box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
-  border-radius: 54px;
-  border: 1px solid rgba(0, 0, 0, 0.25);
-  margin: 0 auto;
-`
-const NavBtn = styled.button`
-  background: none;
-  padding: 3vw;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  border: none;
-  align-items: center;
-  // border: 1px solid yellow;
-`;
-
-const StyledLink = styled(Link)`
-  box-sizing: border-box;
-  display: block;
-  margin: 0 auto;
-  text-align: center;
-  font-style: normal;
-  font-weight: 40%;
-  // font-size: 3.5vw;
-  // font-size: 30px;
-  // font-size: 5vw;
-  // font-size: 2.8em;
-  font-size: 2rem;
-  line-height: 35px;
-  color: black;
-  text-decoration: none;
-  // border: 1px solid RED;
-`;
-
-// logo
-const LogoBox = styled.div`
-  // position: absolute;
-  height: 15%;
-  width: 15%;
-  margin-left: 10%;
-  margin-top: 1%;
-
-`;
-const Logo = styled.img`
-  display: block;
-  height: 100%;
+  color: #FFFFFF;
+  padding-top: 10vh;
   width: 100%;
-  cursor: pointer;
+  height: auto;
+  background: linear-gradient(119.48deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 96.37%), #03216C;
+  position: relative;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+`
+const StoryImage = styled.img`
+  width: 100%;
+`
+const StorySubtitle = styled.div`
+  margin-top: 20vh;
+  padding: 1vw 0 1vw 3vw;
+  width: 75%;
+  font-size: 2vw;
+  border-bottom: 4px #FFFFFF solid;
+  @media screen and (max-width: 768px) {
+    margin: 0 auto;
+    padding-left: 0;
+    text-align: center;
+    font-size: 1rem;
+    border: none;
+  }
+`
+const StoryText = styled.div`
+  margin: 5vh 5vw;
+  font-size: 1.5rem;
+  line-height: 150%;
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    margin: 5vh 3vw;
+    text-align: center;
+  }
+`
+const MyPickTitle = styled.div`
   display: flex;
-`;
+  flex-direction: column;
+  padding: 10vh 0;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(246.63deg, #FFFFFF 2.13%, rgba(255, 255, 255, 0) 96.85%), rgba(255, 240, 224, 0.6);
+  position: relative;
+`
+const MyPickSubtitle = styled.div`
+  font-weight: 600;
+  font-size: 2vw;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-bottom: 3vh;
+  }
+`
+const MyPickImage = styled.img`
+  width: 100%;
+  margin: 5vh 0;
+`
+const MyPickText = styled.div`
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+`
+const Footer = styled.div`
+  background-color: #000000;
+  padding: 5vh 3vw;
+`
+const Contact = styled.div`
+  display: flex;
+  width: 15%;
+  padding-bottom: 1vh;
+  color: #FFFFFF;
+  justify-content: center;  
+  border-bottom: 1px #FFFFFF solid;
+  font-size: 2rem;
+  @media screen and (max-width: 768px) {
+    width: 23%;
+    padding-bottom: 1vh;
+    margin: 0 auto;
+    font-size: 1.2rem;
+  }
+`
+const ContactText = styled.div`
+  width: 50%;
+  margin-top: 5vh;
+  display: flex;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`
+const ContactTitle = styled.div`
+  color: #FFFFFF;
+  width: 40%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: 900;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+`
+const ContactSection = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 50%;
+  @media screen and (max-width: 768px) {
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+  }
+`
+const ContactLinkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 768px) {
+  }
+`
+const ContactLink = styled.a`
+  color: #FFFFFF;
+  text-decoration: none;
+  margin: 3vh 3vw;
+  cursor: pointer;
+  @media screen and (max-width: 768px) {
+    margin: 0;
+    margin: 3vh;
+    font-size: 1rem;
+  }
+  font-size: 1.3rem;
+`
+const ContactLogo = styled.img`
+  @media screen and (max-width: 768px) {
+    width: 10%;
+    margin-bottom: 3vh;
+  }
+  width: 10%;
+  margin-bottom: 3vh;
+`
+const ContactFullLogo = styled.img`
+  @media screen and (max-width: 768px) {
+    width: 60%;
+  }
+  width: 25%;
+`
+const ContactImage = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+`
 //
 export default function Home() {
+  const isMobile = useMediaQuery({
+    query: "(max-width:768px)"
+  });
   return (
-    <>
-
-      <ImageBox>
-        <IntroImg src={picture}></IntroImg>
-      </ImageBox>
+    <Wrapper>
+      <IntroImg src={isMobile ? picture_mobile : picture}></IntroImg>
       <SASM>
-        <SubTitle>Sustainable Act Space Map</SubTitle>
         <TitleBox>
           <Tittle>SASM</Tittle>
-          <LogoBox>
-            <Logo
-              src={logo}
-            // onClick={() => PageRedirection(navigate, "SASM")}
-            ></Logo>
-          </LogoBox>
         </TitleBox>
+        <Mobile>
+          <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPACE MAP</div>
+        </Mobile>
         <Content>
-          SASM은 지속가능한 공간을 큐레이팅하여, <br /> 한국 도시의 지속가능한
+          <SASMLogo src={sasm_logo} rotate="true" />
+          SASM은 지속가능한 공간을 큐레이팅하여, <br />한국 도시의 지속가능한
           발전을 돕습니다.
+          <SASMLogo src={sasm_logo} />
         </Content>
       </SASM>
-      <Map>
-        <MapSubtitle>Subtitle about map</MapSubtitle>
-        <MapTitle>MAP</MapTitle>
-        <Background2Box>
-          <Pc><img src={background2}></img></Pc>
-          <Tablet><img src={background2}></img></Tablet>
-          <Mobile><HomeImg src={background2}></HomeImg></Mobile>
-        </Background2Box>
+      <SASMDescription>
+        <Pc>
+          <SubLogo>
+            <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
+            <span style={{ color: "#29E48A" }}>A</span>CT<br />
+            <span style={{ color: "#44ADF7" }}>S</span>PACE<br />
+            <span style={{ color: "#29E48A" }}>M</span>AP<br />
+          </SubLogo>
+        </Pc>
+        <Tablet>
+          <SubLogo>
+            <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
+            <span style={{ color: "#29E48A" }}>A</span>CT<br />
+            <span style={{ color: "#44ADF7" }}>S</span>PACE<br />
+            <span style={{ color: "#29E48A" }}>M</span>AP<br />
+          </SubLogo>
+        </Tablet>
+        <SubTitle>
+          SASM은 SDGs 목표 실현에 기여하는 여가 공간을<br />
+          '지속가능한 공간'으로 정의하고,<br />
+          이에 대한 지도화 및 큐레이션을 제공합니다. <br /><br />
+          <b>'음식점 및 카페, 녹색공간, 제로웨이스트샵, 전시 및 체험공간,<br />
+            복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
+          6개의 테마로 분류하여, 다양한 지속가능한 공간을 연결해드립니다.<br /><br />
+          <Pc>
+            <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
+              건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+          </Pc>
+          <Tablet>
+            <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
+              건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+          </Tablet>
+          <Mobile>
+            SASM은 이를 통해<br />
+            <span style={{ color: '#0068A4', fontSize: '1.2rem', fontWeight: '700' }}>
+              지역 커뮤니티를 활성화하고,<br />
+              건강한 생산과 소비 활동을 촉진시켜<br />
+              일상의 지속가능화를 지향합니다.
+            </span>
+          </Mobile>
+        </SubTitle>
+      </SASMDescription>
+      <ContentBox>
+        <SASMLogo src={sasm_logo} rotate="true" />
+        <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
+        크게 <b>세 가지 기능</b>을 제공하고 있습니다.
+        <SASMLogo src={sasm_logo} />
+      </ContentBox>
+      <br />
+      <Function>
+        <FunctionWrapper>
+          <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
+          <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
+        </FunctionWrapper>
+        <FunctionWrapper>
+          <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
+          <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
+        </FunctionWrapper>
+        <FunctionWrapper>
+          <FunctionBox backgroundColor="#FFE9D0">My Pick</FunctionBox>
+          <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
+        </FunctionWrapper>
+      </Function>
+      <br /><br />
+      <MapTitle>
+        <div style={{ display: "flex", flexDirection: isMobile ? 'column' : 'row' }}>
+          <MapSubtitle>
+            SASM 아니면 몰랐을<b>지도</b><br />
+            이렇게나 많은 지속가능성
+          </MapSubtitle>
+          <MapText>
+            <ContentTitle>Map</ContentTitle>
+            <b>식당/카페, 전시/체험, 제로웨이스트<br />
+              건축물, 복합문화, 녹색공간<br /></b>
+            <br />
+            SASM은 총 여섯 종류의 지속가능한 공간을 소개합니다. <br />
+            필터를 선택해서 원하는 유형의 공간을 찾거나,<Mobile><br /></Mobile> 지역이나 장소를 검색할 수 있어요.<br />
+            하트를 클릭하면 My Pick에 해당 공간을 저장할 수 있습니다.<br />
+          </MapText>
+        </div>
         <MapImage>
-          <MapImageBox src={mapimage}></MapImageBox>
-          <MapWrite>방문하고 싶은 장소를 검색하세요. <br />
-            식당, 복합문화공간 등 장소 유형을 선택하거나 <br />
-            지역이나 장소 이름을 검색해도 좋습니다.</MapWrite>
+          <Mobile><img src={isMobile ? map_categoryMobile : map_category} /></Mobile>
+          <img src={isMobile ? map_Mobile : map} style={{ width: '90%' }} />
+          <Pc><img src={isMobile ? map_categoryMobile : map_category} /></Pc>
+          <Tablet><img src={isMobile ? map_categoryMobile : map_category} /></Tablet>
         </MapImage>
-        <Background1Box>
-          <Pc><img src={background1}></img></Pc>
-          <Tablet><img src={background1}></img></Tablet>
-          <Mobile><HomeImg src={background1}></HomeImg></Mobile>
-        </Background1Box>
-      </Map>
-      <Story>
-        <StorySubtitle>Subtitle about Story</StorySubtitle>
-        <StoryTitle>Story</StoryTitle>
-        <Background3Box>
-          <Pc><img src={background3}></img></Pc>
-          <Tablet><HomeImg src={background3}></HomeImg></Tablet>
-          <Mobile><HomeImg src={background3}></HomeImg></Mobile>
-        </Background3Box>
-        <StoryExample>
-        </StoryExample>
-      </Story>
-
-
-      {/* <Wrapper>
-        {/* hover 추가하기 */}
-      {/* <NavBtn>
-        <StyledLink to="/map">MAP</StyledLink>
-      </NavBtn>
-      <NavBtn>
-        <StyledLink to="/story">STORY</StyledLink>
-      </NavBtn>
-      <NavBtn>
-        <StyledLink to="/mypage">MY PAGE</StyledLink>
-      </NavBtn> */}
-
-      {/* <NavBtn>
-          <StyledLink to="/auth">Sign in</StyledLink>
-        </NavBtn> */}
-      {/* </Wrapper> */}
-    </>
+      </MapTitle>
+      <StoryTitle>
+        <div style={{ width: isMobile ? '100%' : '40%' }} >
+          <StorySubtitle>
+            공간에 대한 깊은 이해를 원한다면
+          </StorySubtitle>
+          <StoryText>
+            <ContentTitle style={{ marginBottom: '5vh' }}>Story</ContentTitle>
+            Story에서는 지속가능한 공간에 대한<Mobile><br /></Mobile>  구체적인 이야기를 들을 수 있어요. <br />
+            <br />
+            SASM 서비스를 제작한 SDP 구성원들이<Mobile><br /></Mobile>  직접 공간을 답사한 작성하는데요, <br />
+            <br />
+            <b>공간의 인테리어, 특징, 컨텐츠 등<Mobile><br /></Mobile>  온라인에서는 확인하기 어려운<Mobile><br /></Mobile>  다양한 디테일과 알찬 인사이트를<Mobile><br /></Mobile>  사진과 함께 설명해드려요.</b>
+          </StoryText>
+        </div>
+        <div style={{ width: isMobile ? '100%' : '60%', padding: '0 3vh' }}>
+          <StoryImage src={story}></StoryImage>
+        </div>
+      </StoryTitle>
+      <MyPickTitle>
+        <div style={{ display: "flex", flexDirection: 'column', textAlign: 'center' }}>
+          <MyPickSubtitle>
+            나만의 지속가능성
+          </MyPickSubtitle>
+          <ContentTitle>My Pick</ContentTitle>
+        </div>
+        <MyPickImage src={mypick}></MyPickImage>
+        <MyPickText>
+          Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
+          My Pick에서 저장하고 확인할 수 있어요. <br /><br />
+          <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '1rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
+        </MyPickText>
+      </MyPickTitle>
+      <Footer>
+        <Contact>Contact</Contact>
+        <div style={{ display: 'flex' }}>
+          <ContactText>
+            <ContactSection>
+              <Mobile><ContactLogo src={sdp_logo_blackwhite} /></Mobile>
+              <ContactTitle>SDP</ContactTitle>
+              <ContactLinkWrapper>
+                <ContactLink href="https://blog.naver.com/sdpofficial">Naver Blog</ContactLink>
+                <ContactLink href="https://www.instagram.com/_sdp_official/">Instagram</ContactLink>
+              </ContactLinkWrapper>
+              <Mobile><ContactFullLogo src={sdp_full_logo_blackwhite} /></Mobile>
+            </ContactSection>
+            <ContactSection>
+              <Mobile><ContactLogo src={sasm_logo_blackwhite} /></Mobile>
+              <ContactTitle>SASM</ContactTitle>
+              <ContactLinkWrapper>
+                <ContactLink href="https://sasm.co.kr">Homepage</ContactLink>
+                <ContactLink href="https://www.instagram.com/sasmofficial/">Instagram</ContactLink>
+              </ContactLinkWrapper>
+              <Mobile><ContactFullLogo src={sasm_full_logo_blackwhite} /></Mobile>
+            </ContactSection>
+          </ContactText>
+          <Pc>
+            <ContactImage>
+              <ContactFullLogo src={sdp_full_logo_blackwhite} />
+              <ContactFullLogo src={sasm_full_logo_blackwhite} />
+            </ContactImage>
+          </Pc>
+          <Tablet>
+            <ContactImage>
+              <ContactFullLogo src={sdp_full_logo_blackwhite} />
+              <ContactFullLogo src={sasm_full_logo_blackwhite} />
+            </ContactImage>
+          </Tablet>
+        </div>
+      </Footer>
+    </Wrapper >
   );
 }

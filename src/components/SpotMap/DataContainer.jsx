@@ -73,6 +73,7 @@ export default function DataContainer({ Location }) {
     const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
+        setPage(1);
         if (checked) {
             setCheckedList([...checkedList, item]);
         } else if (!checked) {

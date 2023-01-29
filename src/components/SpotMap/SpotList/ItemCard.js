@@ -9,8 +9,9 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
-import MarkerDefault from "../../../assets/img/Map/MarkerDefault.svg";
-import MarkerActive from "../../../assets/img/Map/MarkerActive.svg";
+import MarkerbgActive from "../../../assets/img/Map/MarkerbgActive.svg";
+import MarkerbgDefault from "../../../assets/img/Map/MarkerbgDefault.svg";
+import MarkerbgSelect from "../../../assets/img/Map/MarkerbgSelect.svg";
 
 const StyledCard = styled.div`
   position: relative;
@@ -87,8 +88,6 @@ const LikeButton = styled(Button)({
 const DetailBox = styled.div`
   // boxsizing: border-box;
   position: absolute;
-  z-index: 6;
-  height: 100vh;
 `;
 
 export default function ItemCard(props) {
@@ -137,6 +136,7 @@ export default function ItemCard(props) {
     }
   };
   const MarkerReset = () => {
+<<<<<<< HEAD
     const img = document.getElementById(`${id}img`);
     const text = document.getElementById(`${id}text`);
     if(img) {
@@ -169,6 +169,33 @@ export default function ItemCard(props) {
       text.style.backgroundColor='#44ADF7';
       text.style.color="#FFFFFF";
     }
+=======
+    const text = document.getElementById(`${id}text`);
+    if (text) {
+      text.style.transform='none';
+      if (!bool) {
+        text.style.display = 'none';
+      }
+    }
+    if(!bool){
+      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgDefault})`;
+    }
+    else{
+      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
+    }
+    document.getElementById(id).style.zIndex='1';
+  }
+  const MarkerChange = () => {
+    const text = document.getElementById(`${id}text`);
+    if (text) {
+      text.style.transform='translateY(100%)';
+      if (!bool) {
+        text.style.display = 'block';
+      }
+    }
+    document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgSelect})`;
+    document.getElementById(id).style.zIndex='100';
+>>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
   }
 
   // 상세보기 클릭 이벤트

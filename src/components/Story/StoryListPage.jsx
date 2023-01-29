@@ -178,7 +178,7 @@ const StoryListPage = () => {
       searched = search;
     }
 
-    const response = await request.get("/stories/story_order/", {
+    const response = await request.get("/stories/story_search/", {
       page: newPage,
       search: searched,
       order: orderList.toString(),

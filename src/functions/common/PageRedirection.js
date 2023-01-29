@@ -6,6 +6,7 @@ export default function PageRedirection(navigate, title) {
     "MY PAGE": "mypage",
     "MY PICK": "mypick",
     "LOG IN": "auth",
+    COMMUNITY: "community",
     JOIN: "auth/register",
   };
 
