@@ -57,7 +57,7 @@ export default function PromotionBoardUpload({ handleMode }) {
     }
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
     console.log(response);
-    //window.location.reload();
+    window.location.reload();
   }
   const fileInput = (event) => {
     document.getElementById('filelist').innerHTML = null;

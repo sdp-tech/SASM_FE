@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie'
 import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
+import Report from '../../Report';
 
 const Section = styled.div`
   position: relative;
@@ -57,36 +58,7 @@ const ReportBg = styled.div`
   justify-content: center;
   align-items: center;
 `
-const Report = styled.div`
-  width: 40%;
-  height: 80%;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`
-const ReportTitle = styled.div`
-  font-size: 1.5rem;
-`
-const ReportMenu = styled.div`
-  width: 100%;
-  height: 90%;
-  background: #E5E5E5;
-  box-shadow: 0px 1px 12px rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-  & : last-child {
-    border: none;
-  }
-`
-const ReportList = styled.div`
-  height: 16.6%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  border-bottom: 1px black solid;
-  cursor: pointer;
-`
+
 export default function GroupBoardDetail({ detail }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
@@ -132,20 +104,7 @@ export default function GroupBoardDetail({ detail }) {
   return (
     <>
       <Section>
-        {report &&
-          <ReportBg>
-            <Report ref={node}>
-              <ReportTitle>게시글 신고</ReportTitle>
-              <ReportMenu>
-                <ReportList>게시판 성격에 부적절함</ReportList>
-                <ReportList>음란물/불건전한 만남 및 대화</ReportList>
-                <ReportList>사칭 / 사기성 게시글</ReportList>
-                <ReportList>욕설 / 비하</ReportList>
-                <ReportList>낚시 / 도배성 게시글</ReportList>
-                <ReportList>상업적 광고 및 판매</ReportList>
-              </ReportMenu>
-            </Report>
-          </ReportBg>}
+        {report && <Report report={report} setReport={setReport}/>}
         <Title>
           {detail.title}
         </Title>

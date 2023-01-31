@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { data } from 'browserslist'
 
 const Section = styled.div`
 
@@ -35,7 +36,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   cursor: pointer;
 `
-export default function GroupBoardList({ list, handleMode }) {
+export default function PromotionBoardList({ list, handleMode }) {
   return (
     <Section>
       <ListWrapper>
@@ -50,6 +51,8 @@ export default function GroupBoardList({ list, handleMode }) {
               <StyledLink to={`/community/${data.id}`}>
                 {data.title}
               </StyledLink>
+
+          {data.likeCount}
               <Writer>{data.nickname}</Writer>
               <CreatedAt>{data.updated.slice(0, 10)}</CreatedAt>
             </List>
