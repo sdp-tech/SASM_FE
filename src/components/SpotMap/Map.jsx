@@ -111,7 +111,11 @@ const Markers = (props) => {
       setBool(false);
     }
   }, [categoryNum]);
+<<<<<<< HEAD
+  const width = Math.max(htmlFontSize * title.length, htmlFontSize * 0.75 * category.length);
+=======
   const width = Number(htmlFontSize * title.length)+10;
+>>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -122,6 +126,39 @@ const Markers = (props) => {
   }
 
   const MarkerReset = () => {
+<<<<<<< HEAD
+    const img = document.getElementById(`${id}img`);
+    const text = document.getElementById(`${id}text`);
+    if (img) {
+      img.style.transform = 'scale(1)';
+      if (!bool) {
+        img.setAttribute('src', MarkerDefault);
+      }
+    }
+    if (text) {
+      text.style.backgroundColor = '#FFFFFF';
+      text.style.color = "#000000";
+      if (!bool) {
+        text.style.display = 'none';
+      }
+    }
+  }
+  const MarkerChange = () => {
+    const img = document.getElementById(`${id}img`);
+    const text = document.getElementById(`${id}text`);
+    if (img) {
+      if (!bool) {
+        img.setAttribute('src', MarkerActive);
+      }
+      img.style.transform = 'scale(1.2)';
+    }
+    if (text) {
+      if (!bool) {
+        text.style.display = 'block';
+      }
+      text.style.backgroundColor = '#44ADF7';
+      text.style.color = "#FFFFFF";
+=======
     const text = document.getElementById(`${id}text`);
     if (text) {
       text.style.transform='none';
@@ -131,6 +168,7 @@ const Markers = (props) => {
     }
     if(!bool){
       document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgDefault})`;
+>>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
     }
     else{
       document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
@@ -194,6 +232,16 @@ const Markers = (props) => {
 
   // HTML 마커
   const contentString = [
+<<<<<<< HEAD
+    `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
+    `   <div style="display: ${bool ? "block" : "none"}; background: #FFFFFF; border:1px #44ADF7 solid; border-radius: 10px; padding:5px; width: ${width}px; position: absolute; transform: translate(65%, -25%);" id="${id}text">`,
+    `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
+    `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem;">${category}</p>`,
+    `   </div>`,
+    '   <p style="margin-top:0px" > ',
+    `       <img src=${bool ? MarkerActive : MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
+    "   </p>",
+=======
     `<div style="display:flex; jusitfy-content:center; align-items:center; transform: translateY(-50%); position:relative; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
     `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool?MarkerbgActive:MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
     `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
@@ -201,6 +249,7 @@ const Markers = (props) => {
     `   <div style="display: ${bool ? "block" : "none"}; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
     `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
     `   </div>`,
+>>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
     "</div>",
   ].join("");
 
@@ -323,7 +372,11 @@ const NaverMapAPI = (props) => {
             setZoom(Number(event.target.value));
           }} /><label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
             setZoom(zoom - 1);
+<<<<<<< HEAD
+          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
+=======
           }}><img src={ZoomMinus} style={{ transform: 'scale(0.6)' }} /></label>
+>>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
         </ZoomSliderWrapper>
       </ControllerWrapper>
       <NaverMap

@@ -3,12 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/cli": "^7.20.7",
     "@babel/core": "^7.16.0",
-    "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/register": "^7.18.9",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@material-ui/core": "^4.12.4",
@@ -68,7 +63,6 @@
     "react-refresh": "^0.11.0",
     "react-responsive": "^9.0.2",
     "react-router-dom": "^6.2.1",
-    "react-router-sitemap": "^1.2.0",
     "react-window": "^1.8.6",
     "redux": "^4.2.0",
     "resolve": "^1.20.0",
@@ -92,9 +86,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "GENERATE_SOURCEMAP=false node scripts/build.js",
-    "test": "node scripts/test.js",
-    "sitemap": "babel-node scripts/sitemapGenerator.js",
-    "prebuild": "npm run sitemap"
+    "test": "node scripts/test.js"
   },
   "eslintConfig": {
     "extends": [
@@ -170,8 +162,7 @@
   },
   "babel": {
     "presets": [
-      "react-app",
-      "@babel/preset-env"
+      "react-app"
     ]
   }
 }
