@@ -31,18 +31,18 @@ const SearchHereButton = styled.button`
   align-items: center;
   padding: 0 20px;
   border: none;
-  background: #44ADF7;
+  background: #44adf7;
   height: 36px;
   border-radius: 15px;
-  color: #FFFFFF;
+  color: #ffffff;
   position: absolute;
   top: 1%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
-`
+`;
 const MoveToCenterButton = styled.button`
-  background: #FFFFFF;
+  background: #ffffff;
   display: flex;
   width: 40px;
   height: 40px;
@@ -52,24 +52,24 @@ const MoveToCenterButton = styled.button`
   z-index: 3;
   border: none;
   border-radius: 10px;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
   margin-bottom: 10px;
-`
+`;
 
 const ZoomSlider = styled.input`
   writing-mode: bt-lr; /* IE */
   -webkit-appearance: slider-vertical; /* Chromium */
-`
+`;
 const ZoomSliderWrapper = styled.div`
   width: 100%;
   display: flex;
   z-index: 3;
   flex-direction: column;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.25);
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
   margin-right: 30px;
-`
+`;
 const ControllerWrapper = styled.div`
   position: absolute;
   display: flex;
@@ -82,11 +82,12 @@ const ControllerWrapper = styled.div`
     right: 3vw;
     bottom: 5vh;
   }
-`
-
+`;
 
 const Markers = (props) => {
-  const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0, 2);
+  const htmlFontSize = getComputedStyle(
+    document.documentElement
+  ).fontSize.slice(0, 2);
   const [modalOpen, setModalOpen] = useState(false);
   const [detailInfo, setDetailInfo] = useState([]);
   const [reviewInfo, setReviewInfo] = useState([]);
@@ -106,16 +107,11 @@ const Markers = (props) => {
   useEffect(() => {
     if (categoryNum != 0) {
       setBool(true);
-    }
-    else {
+    } else {
       setBool(false);
     }
   }, [categoryNum]);
-<<<<<<< HEAD
-  const width = Math.max(htmlFontSize * title.length, htmlFontSize * 0.75 * category.length);
-=======
-  const width = Number(htmlFontSize * title.length)+10;
->>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
+  const width = Number(htmlFontSize * title.length) + 10;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
 
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -123,69 +119,40 @@ const Markers = (props) => {
   const request = new Request(cookies, localStorage, navigate);
   const setTemp = (data) => {
     props.setTemp(data);
-  }
+  };
 
   const MarkerReset = () => {
-<<<<<<< HEAD
-    const img = document.getElementById(`${id}img`);
-    const text = document.getElementById(`${id}text`);
-    if (img) {
-      img.style.transform = 'scale(1)';
-      if (!bool) {
-        img.setAttribute('src', MarkerDefault);
-      }
-    }
-    if (text) {
-      text.style.backgroundColor = '#FFFFFF';
-      text.style.color = "#000000";
-      if (!bool) {
-        text.style.display = 'none';
-      }
-    }
-  }
-  const MarkerChange = () => {
-    const img = document.getElementById(`${id}img`);
-    const text = document.getElementById(`${id}text`);
-    if (img) {
-      if (!bool) {
-        img.setAttribute('src', MarkerActive);
-      }
-      img.style.transform = 'scale(1.2)';
-    }
-    if (text) {
-      if (!bool) {
-        text.style.display = 'block';
-      }
-      text.style.backgroundColor = '#44ADF7';
-      text.style.color = "#FFFFFF";
-=======
     const text = document.getElementById(`${id}text`);
     if (text) {
-      text.style.transform='none';
+      text.style.transform = "none";
       if (!bool) {
-        text.style.display = 'none';
+        text.style.display = "none";
       }
     }
-    if(!bool){
-      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgDefault})`;
->>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
+    if (!bool) {
+      document.getElementById(
+        `${id}bg`
+      ).style.backgroundImage = `url(${MarkerbgDefault})`;
+    } else {
+      document.getElementById(
+        `${id}bg`
+      ).style.backgroundImage = `url(${MarkerbgActive})`;
     }
-    else{
-      document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgActive})`;
-    }
-    document.getElementById(id).style.zIndex='1';
-  }
+    document.getElementById(id).style.zIndex = "1";
+  };
   const MarkerChange = () => {
     const text = document.getElementById(`${id}text`);
     if (text) {
-      text.style.transform='translateY(100%)';
+      text.style.transform = "translateY(100%)";
       if (!bool) {
-        text.style.display = 'block';
+        text.style.display = "block";
       }
     }
-    document.getElementById(`${id}bg`).style.backgroundImage=`url(${MarkerbgSelect})`;
-    document.getElementById(id).style.zIndex='100';
-  }
+    document.getElementById(
+      `${id}bg`
+    ).style.backgroundImage = `url(${MarkerbgSelect})`;
+    document.getElementById(id).style.zIndex = "100";
+  };
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
@@ -201,15 +168,22 @@ const Markers = (props) => {
     };
   });
 
-
   // 상세보기 클릭 이벤트
   const handleClick = async () => {
     setLoading(true);
     MarkerChange();
-    const response = await request.get("/places/place_detail/", { id: id }, null);
-    const response_review = await request.get("/places/place_review/", {
-      id: id,
-    }, null);
+    const response = await request.get(
+      "/places/place_detail/",
+      { id: id },
+      null
+    );
+    const response_review = await request.get(
+      "/places/place_review/",
+      {
+        id: id,
+      },
+      null
+    );
     // console.log("response!!!", response.data);
 
     setReviewInfo(response_review.data.data);
@@ -232,24 +206,19 @@ const Markers = (props) => {
 
   // HTML 마커
   const contentString = [
-<<<<<<< HEAD
-    `<div style="display:flex; jusitfy-content:center; align-items:center; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="display: ${bool ? "block" : "none"}; background: #FFFFFF; border:1px #44ADF7 solid; border-radius: 10px; padding:5px; width: ${width}px; position: absolute; transform: translate(65%, -25%);" id="${id}text">`,
-    `      <p style="margin-top:3px; font-size: 1rem;" >${title}</p>`,
-    `      <p style="margin-top: -15px; margin-bottom: 3px; font-size: 0.75rem;">${category}</p>`,
-    `   </div>`,
-    '   <p style="margin-top:0px" > ',
-    `       <img src=${bool ? MarkerActive : MarkerDefault} width="25" height="25" alt="marker" class="thumb" id="${id}img" />`,
-    "   </p>",
-=======
     `<div style="display:flex; jusitfy-content:center; align-items:center; transform: translateY(-50%); position:relative; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool?MarkerbgActive:MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
-    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
+    `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${
+      bool ? MarkerbgActive : MarkerbgDefault
+    }); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
+    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(
+      category
+    )}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
     "   </div>",
-    `   <div style="display: ${bool ? "block" : "none"}; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
+    `   <div style="display: ${
+      bool ? "block" : "none"
+    }; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
     `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
     `   </div>`,
->>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
     "</div>",
   ].join("");
 
@@ -286,7 +255,7 @@ const NaverMapAPI = (props) => {
   const zoom = props.zoom;
   const setZoom = (zoom) => {
     props.setZoom(zoom);
-  }
+  };
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
   const [state, setState] = useState({
@@ -295,14 +264,14 @@ const NaverMapAPI = (props) => {
       lng: 126.988205,
     },
     zoom: 13,
-  })
+  });
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
-  }
+  };
   const setSearchHere = (data) => {
     props.setSearchHere(data);
-  }
+  };
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
@@ -348,16 +317,18 @@ const NaverMapAPI = (props) => {
       center: {
         lat: data._lat,
         lng: data._lng,
-      }
-    })
-  }
+      },
+    });
+  };
   return (
     <>
-      <SearchHereButton onClick={() => {
-        props.setPage(1);
-        setSearchHere(coor);
-      }}>
-        <img style={{ marginRight: '5px' }} src={Restart} />
+      <SearchHereButton
+        onClick={() => {
+          props.setPage(1);
+          setSearchHere(coor);
+        }}
+      >
+        <img style={{ marginRight: "5px" }} src={Restart} />
         지금 지도에서 검색
       </SearchHereButton>
       <ControllerWrapper>
@@ -365,18 +336,35 @@ const NaverMapAPI = (props) => {
           <img src={MoveToCenter} onClick={handleBackToCenter} />
         </MoveToCenterButton>
         <ZoomSliderWrapper>
-          <label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
-            setZoom(zoom + 1);
-          }}><img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} /></label>
-          <ZoomSlider orient="vertical" type="range" min="11" max="19" id="zoomRange" value={zoom} onChange={(event) => {
-            setZoom(Number(event.target.value));
-          }} /><label htmlFor="zoomRange" style={{ display: 'flex', justifyContent:'center'}} onClick={(e) => {
-            setZoom(zoom - 1);
-<<<<<<< HEAD
-          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6) rotate(90deg)' }} /></label>
-=======
-          }}><img src={ZoomMinus} style={{ transform: 'scale(0.6)' }} /></label>
->>>>>>> 311f41b2bc39ea5b16b2e8dc335febd1fbda4dcc
+          <label
+            htmlFor="zoomRange"
+            style={{ display: "flex", justifyContent: "center" }}
+            onClick={(e) => {
+              setZoom(zoom + 1);
+            }}
+          >
+            <img src={ZoomPlus} style={{ transform: "scale(0.6)" }} />
+          </label>
+          <ZoomSlider
+            orient="vertical"
+            type="range"
+            min="11"
+            max="19"
+            id="zoomRange"
+            value={zoom}
+            onChange={(event) => {
+              setZoom(Number(event.target.value));
+            }}
+          />
+          <label
+            htmlFor="zoomRange"
+            style={{ display: "flex", justifyContent: "center" }}
+            onClick={(e) => {
+              setZoom(zoom - 1);
+            }}
+          >
+            <img src={ZoomMinus} style={{ transform: "scale(0.6)" }} />
+          </label>
         </ZoomSliderWrapper>
       </ControllerWrapper>
       <NaverMap
@@ -457,17 +445,17 @@ export default function Map(props) {
   const zoom = props.zoom;
   const setZoom = (zoom) => {
     props.setZoom(zoom);
-  }
+  };
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
-  }
+  };
   const setSearchHere = (data) => {
     props.setSearchHere(data);
-  }
+  };
   const setPage = (page) => {
     props.setPage(page);
-  }
+  };
 
   return (
     <MapSection>
@@ -476,7 +464,16 @@ export default function Map(props) {
         error={<p>Maps Load Error</p>}
         loading={<p>Maps Loading…</p>}
       >
-        <NaverMapAPI categoryNum={props.categoryNum} markerInfo={markerInfo} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} />
+        <NaverMapAPI
+          categoryNum={props.categoryNum}
+          markerInfo={markerInfo}
+          temp={temp}
+          setTemp={setTemp}
+          setSearchHere={setSearchHere}
+          setPage={setPage}
+          zoom={zoom}
+          setZoom={setZoom}
+        />
       </RenderAfterNavermapsLoaded>
 
       {/* <SearchAgainButton
