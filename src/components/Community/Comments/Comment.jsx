@@ -45,7 +45,7 @@ export default function Comment({ data, id }) {
   }
   return (
     <CommentWrapper>
-      <Content isParent={data.isParent}>{data.content}</Content>
+      <Content isParent={data.isParent}>{data.nickname} - {data.content}</Content>
       <ButtonWrapper>
         {isWriter && <Button onClick={deleteComment}>삭제</Button>}
         {data.isParent&&<Button onClick={handleMode}>댓글</Button>}

@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie'
 import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
-import Report from '../../Report';
+import Report from '../../Reports/Report';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../Comments/Comment';
 
@@ -30,6 +30,7 @@ const Content = styled.div`
   width: 100%;
   font-size: 1rem;
   padding: 2%;
+  height: 40vh;
 `
 const ImageWrapper = styled.div`
 
@@ -119,11 +120,6 @@ export default function PromotionBoardDetail({ detail, review }) {
             <span key={index}>#{data}</span>
           ))}
         </HashtagWrapper>
-        <WriteComment id={id} isParent={true}></WriteComment>
-        <CommentsWrapper>{review.map((data, index) => (
-          <Comment id={id} data={data} />
-        ))}
-        </CommentsWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {
@@ -133,6 +129,11 @@ export default function PromotionBoardDetail({ detail, review }) {
             isWriter && <Button onClick={updateItem}>수정하기</Button>
           }
         </ButtonWrapper>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment id={id} data={data} />
+        ))}
+        </CommentsWrapper>
       </Section>
     </>
   )

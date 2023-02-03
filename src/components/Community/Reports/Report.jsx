@@ -2,13 +2,13 @@ import React, { useEffect, useRef } from 'react'
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import Request from '../../functions/common/Request'
-import { CATEGORY_LIST } from '../common/Category'
+import Request from '../../../functions/common/Request'
+import { CATEGORY_LIST } from '../../common/Category'
 
 
 const ReportBg = styled.div`
   width: 100%;
-  height: 100%;
+  height: 60vh;
   background-color: rgba(255,255,255,0.6);
   position: absolute;
   z-index: 5;
@@ -63,11 +63,10 @@ export default function Report({ report, setReport, id }) {
   const request = new Request(cookies, localStorage, navigate);
 
   const reportItem = async (category) => {
-    console.log(id, category);
-    const response = await request.post(`/community/post_reports/create`,{
-      post: id,
-      category: category
-    })
+    const formData = new FormData()
+    formData.append('post', id)
+    formData.append('category', category)
+    const response = await request.post(`/community/post_reports/create/`, formData, { "Content-Type": "multipart/form-data" })
   }
   useEffect(() => {
     const clickOutside = (e) => {
@@ -85,8 +84,8 @@ export default function Report({ report, setReport, id }) {
       <ReportBox ref={node}>
         <ReportTitle>게시글 신고</ReportTitle>
         <ReportMenu>
-          {REPORT_LIST.map((data, index)=>(
-            <ReportList onClick={()=>{reportItem(data.name)}} id={data.id}>{data.name}</ReportList>
+          {REPORT_LIST.map((data, index) => (
+            <ReportList onClick={() => { reportItem(data.name) }} id={data.id}>{data.name}</ReportList>
           ))}
         </ReportMenu>
       </ReportBox>

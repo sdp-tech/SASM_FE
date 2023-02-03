@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie'
 import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
-import Report from '../../Report';
+import Report from '../../Reports/Report';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../Comments/Comment';
 
@@ -29,7 +29,7 @@ const Content = styled.div`
   width: 100%;
   font-size: 1rem;
   padding: 2%;
-  border: 1px red solid;
+  height: 40vh;
 `
 const ButtonWrapper = styled.div`
   width: 100%;
@@ -52,13 +52,6 @@ export default function FreeBoardDetail({ detail, review }) {
   const id = params.id;
   const email = localStorage.getItem('email');
   let isWriter = false;
-  console.log(id);
-  // 게시판 성격에 부적절함
-  //   음란물 / 불건전한 만남 및 대화
-  //   사칭 / 사기성 게시글
-  //   욕설 / 비하
-  //   낚시 / 도배성 게시글
-  //   상업적 광고 및 판매
   if (detail.email == email) {
     isWriter = true;
   }
@@ -87,11 +80,6 @@ export default function FreeBoardDetail({ detail, review }) {
         <Content>
           {detail.content}
         </Content>
-        <WriteComment id={id} isParent={true}></WriteComment>
-        <CommentsWrapper>{review.map((data, index) => (
-          <Comment id={id} data={data} />
-        ))}
-        </CommentsWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {
@@ -101,6 +89,11 @@ export default function FreeBoardDetail({ detail, review }) {
             isWriter && <Button onClick={updateItem}>수정하기</Button>
           }
         </ButtonWrapper>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment id={id} data={data} />
+        ))}
+        </CommentsWrapper>
       </Section>
     </>
   )
