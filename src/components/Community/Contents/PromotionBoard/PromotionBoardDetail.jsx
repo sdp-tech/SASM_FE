@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
 import Report from '../../Report';
+import WriteComment from '../../Comments/WriteComment';
+import Comment from '../../Comments/Comment';
 const Section = styled.div`
   position: relative;
   width: 100%;
@@ -47,8 +49,10 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
   width: 15%;
 `
-
-export default function PromotionBoardDetail({ detail }) {
+const CommentsWrapper = styled.div`
+  width: 100%;
+`
+export default function PromotionBoardDetail({ detail, review }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -90,7 +94,7 @@ export default function PromotionBoardDetail({ detail }) {
   return (
     <>
       <Section>
-        {report && <Report report={report} setReport={setReport} />}
+        {report && <Report id={id} report={report} setReport={setReport} />}
         <Title>
           {detail.title}
           <div onClick={likeItem}>좋아요</div>
@@ -114,6 +118,11 @@ export default function PromotionBoardDetail({ detail }) {
             <span key={index}>#{data}</span>
           ))}
         </HashtagWrapper>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment id={id} data={data} />
+        ))}
+        </CommentsWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {

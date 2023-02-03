@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
 import Report from '../../Report';
+import WriteComment from '../../Comments/WriteComment';
+import Comment from '../../../Story/components/Comment';
 
 const Section = styled.div`
   position: relative;
@@ -48,18 +50,11 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
   width: 15%;
 `
-const ReportBg = styled.div`
+const CommentsWrapper = styled.div`
   width: 100%;
-  height: 100%;
-  background-color: rgba(255,255,255,0.6);
-  position: absolute;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
-export default function GroupBoardDetail({ detail }) {
+export default function GroupBoardDetail({ detail, review }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -104,7 +99,7 @@ export default function GroupBoardDetail({ detail }) {
   return (
     <>
       <Section>
-        {report && <Report report={report} setReport={setReport}/>}
+        {report && <Report id={id} report={report} setReport={setReport}/>}
         <Title>
           {detail.title}
         </Title>
@@ -127,6 +122,11 @@ export default function GroupBoardDetail({ detail }) {
             <span key={index}>#{data}</span>
           ))}
         </HashtagWrapper>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment id={id} data={data} />
+        ))}
+        </CommentsWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {

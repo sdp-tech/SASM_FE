@@ -4,11 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
 import Report from '../../Report';
+import WriteComment from '../../Comments/WriteComment';
+import Comment from '../../Comments/Comment';
 
 const Section = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
 `
 
 const Title = styled.div`
@@ -28,20 +29,21 @@ const Content = styled.div`
   width: 100%;
   font-size: 1rem;
   padding: 2%;
+  border: 1px red solid;
 `
 const ButtonWrapper = styled.div`
   width: 100%;
+  height: 5%;
   display: flex;
   justify-content: flex-end;
-  position: absolute;
-  bottom: 0;
-  right: 0;
 `
 const Button = styled.button`
   width: 15%;
 `
-
-export default function FreeBoardDetail({ detail }) {
+const CommentsWrapper = styled.div`
+  width: 100%;
+`
+export default function FreeBoardDetail({ detail, review }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -50,6 +52,7 @@ export default function FreeBoardDetail({ detail }) {
   const id = params.id;
   const email = localStorage.getItem('email');
   let isWriter = false;
+  console.log(id);
   // 게시판 성격에 부적절함
   //   음란물 / 불건전한 만남 및 대화
   //   사칭 / 사기성 게시글
@@ -71,7 +74,7 @@ export default function FreeBoardDetail({ detail }) {
   return (
     <>
       <Section>
-        {report && <Report report={report} setReport={setReport}/>}
+        {report && <Report id={id} report={report} setReport={setReport} />}
         <Title>
           {detail.title}
         </Title>
@@ -84,6 +87,11 @@ export default function FreeBoardDetail({ detail }) {
         <Content>
           {detail.content}
         </Content>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment id={id} data={data} />
+        ))}
+        </CommentsWrapper>
         <ButtonWrapper>
           <Button onClick={() => { setReport(true) }}>신고하기</Button>
           {
