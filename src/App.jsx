@@ -17,11 +17,11 @@ import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
 import Navibar from "./components/common/Navibar";
-import { device } from "./device"
+import { device } from "./device";
 import MyPick from "./pages/MyPick";
-import { Pc, Tablet, Mobile } from "./device"
+import { Pc, Tablet, Mobile } from "./device";
 import SpotCommunity from "./pages/SpotCommunity";
-
+import GoogleRedirect from "./components/Auth/module/GoogleRedirect";
 const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
@@ -62,6 +62,10 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
+              <Route
+                path="/googleredirect"
+                element={<GoogleRedirect />}
+              ></Route>
               <Route path="/map" element={<SpotMap />} />
               <Route path="/map/:place" element={<SpotMap />} />
 
@@ -75,16 +79,14 @@ const App = () => {
               <Route path="/admin/place/:id" element={<PlaceAdmin />} />
               <Route path="/admin/story" element={<StoryAdmin />} />
               <Route path="/admin/story/:id" element={<StoryAdmin />} />
-              <Route path="/community/" element={<SpotCommunity/>} />
-              <Route path="/community/:id" element={<SpotCommunity/>} />
+              <Route path="/community/" element={<SpotCommunity />} />
+              <Route path="/community/:id" element={<SpotCommunity />} />
             </Routes>
           </BrowserRouter>
         </LoginProvider>
       </CookiesProvider>
-
     </>
   );
 };
 
 export default App;
-

@@ -44,8 +44,8 @@ const LogoWrapper = styled.div`
 
 const SocialLogo = styled.img`
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
 `;
 
@@ -55,11 +55,12 @@ const SocialLogin = () => {
       SNS 계정으로 시작하기
       <LogoWrapper>
         <SocialLogo
-          // onClick={(e) => TrySocialLogin(e.target.id)}
+          onClick={(e) => TrySocialLogin(e.target.id)}
           id="google"
           src={google_login}
-          style={{ opacity: "0.4", border: "1px solid #eaeaea" }}
+          style={{ border: "1px solid #eaeaea" }}
         />
+
         <SocialLogo
           // onClick={(e) => TrySocialLogin(e.target.id)}
           id="naver"

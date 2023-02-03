@@ -5,12 +5,18 @@ axios.defaults.withCredentials = true;
 
 export default async function TrySocialLogin(site) {
   var url = "";
-  if (site === "google")
-    url = process.env.REACT_APP_SASM_API_URL + "/users/google/login/";
-  // url = '/o/oauth2/v2/auth/oauthchooseaccount?client_id=1037934278190-17b3othcsdmik8im5e1occ4u4kfpko2f.apps.googleusercontent.com&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Fgoogle%2Fcallback%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&flowName=GeneralOAuthFlow'
-  // url = 'https://accounts.google.com'
-  // url = '/'
 
+  const CLIENT_ID =
+    "331125329639-06aq4tbiph820egb15e305gj16ds5avb.apps.googleusercontent.com";
+
+  if (site === "google") {
+    window.location.href =
+      "https://accounts.google.com/o/oauth2/auth?" +
+      `client_id=${CLIENT_ID}&` +
+      `redirect_uri=${"https://www.sasm.co.kr/googleredirect"}&` +
+      "response_type=token&" +
+      "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
+  }
   if (site === "naver")
     // url = 'naver_url'
     url = "http://www.naver.com";

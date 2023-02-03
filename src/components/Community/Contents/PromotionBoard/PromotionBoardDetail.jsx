@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Report from '../../Report';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../Comments/Comment';
+
 const Section = styled.div`
   position: relative;
   width: 100%;
