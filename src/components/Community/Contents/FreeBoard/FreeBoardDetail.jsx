@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie'
 import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
-import Report from '../../Reports/Report';
+import ReportPost from '../../Reports/ReportPost';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../Comments/Comment';
 
@@ -67,7 +67,7 @@ export default function FreeBoardDetail({ detail, review }) {
   return (
     <>
       <Section>
-        {report && <Report id={id} report={report} setReport={setReport} />}
+        {report && <ReportPost id={id} report={report} setReport={setReport} />}
         <Title>
           {detail.title}
         </Title>
@@ -91,7 +91,7 @@ export default function FreeBoardDetail({ detail, review }) {
         </ButtonWrapper>
         <WriteComment id={id} isParent={true}></WriteComment>
         <CommentsWrapper>{review.map((data, index) => (
-          <Comment id={id} data={data} />
+          <Comment key={index} id={id} data={data} />
         ))}
         </CommentsWrapper>
       </Section>
