@@ -1,5 +1,9 @@
 import React, { useEffect, useRef } from 'react'
+import { useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import Request from '../../functions/common/Request'
+import { CATEGORY_LIST } from '../common/Category'
 
 
 const ReportBg = styled.div`
@@ -43,8 +47,28 @@ const ReportList = styled.div`
   cursor: pointer;
 `
 
-export default function Report({report, setReport}) {
+export const REPORT_LIST = [
+  { id: 0, name: "게시판 성격에 부적절함" },
+  { id: 1, name: "음란물/불건전한 만남 및 대화" },
+  { id: 2, name: "사칭 / 사기성 게시글" },
+  { id: 3, name: "욕설 / 비하" },
+  { id: 4, name: "낚시 / 도배성 게시글" },
+  { id: 5, name: "상업적 광고 및 판매" },
+];
+
+export default function Report({ report, setReport, id }) {
   const node = useRef();
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const navigate = useNavigate();
+  const request = new Request(cookies, localStorage, navigate);
+
+  const reportItem = async (category) => {
+    console.log(id, category);
+    const response = await request.post(`/community/post_reports/create`,{
+      post: id,
+      category: category
+    })
+  }
   useEffect(() => {
     const clickOutside = (e) => {
       if (report && node.current && !node.current.contains(e.target)) {
@@ -61,12 +85,9 @@ export default function Report({report, setReport}) {
       <ReportBox ref={node}>
         <ReportTitle>게시글 신고</ReportTitle>
         <ReportMenu>
-          <ReportList>게시판 성격에 부적절함</ReportList>
-          <ReportList>음란물/불건전한 만남 및 대화</ReportList>
-          <ReportList>사칭 / 사기성 게시글</ReportList>
-          <ReportList>욕설 / 비하</ReportList>
-          <ReportList>낚시 / 도배성 게시글</ReportList>
-          <ReportList>상업적 광고 및 판매</ReportList>
+          {REPORT_LIST.map((data, index)=>(
+            <ReportList onClick={()=>{reportItem(data.name)}} id={data.id}>{data.name}</ReportList>
+          ))}
         </ReportMenu>
       </ReportBox>
     </ReportBg>
