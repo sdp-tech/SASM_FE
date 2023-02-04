@@ -13,7 +13,7 @@ export default async function TrySocialLogin(site) {
     window.location.href =
       "https://accounts.google.com/o/oauth2/auth?" +
       `client_id=${CLIENT_ID}&` +
-      `redirect_uri=${"https://www.sasm.co.kr/googleredirect"}&` +
+      `redirect_uri=${"https://www.sasm.co.kr/googleredirect/"}&` +
       "response_type=token&" +
       "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
   }
