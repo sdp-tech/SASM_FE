@@ -57,7 +57,7 @@ export default function WriteReview(props) {
         document.getElementById('filelist').innerHTML = null;
         if (event.target.files.length > 3) {
             alert('사진은 최대 3장까지 업로드 할 수 있습니다.');
-            event.target.files = null;
+            event.target.value = null;
         }
         else for (let i = 0; i < event.target.files.length; i++) {
             document.getElementById('filelist').innerHTML += `<p style='margin:0px; '>${event.target.files[i].name}</p>`;
