@@ -3,7 +3,10 @@ import { useCookies } from 'react-cookie'
 import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
-import Report from '../../Report';
+import ReportPost from '../../Reports/ReportPost';
+import WriteComment from '../../Comments/WriteComment';
+import Comment from '../../../Story/components/Comment';
+
 
 const Section = styled.div`
   position: relative;
@@ -28,6 +31,7 @@ const Content = styled.div`
   width: 100%;
   font-size: 1rem;
   padding: 2%;
+  height: 40vh;
 `
 const ImageWrapper = styled.div`
 
@@ -48,18 +52,11 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
   width: 15%;
 `
-const ReportBg = styled.div`
+const CommentsWrapper = styled.div`
   width: 100%;
-  height: 100%;
-  background-color: rgba(255,255,255,0.6);
-  position: absolute;
-  z-index: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `
 
-export default function GroupBoardDetail({ detail }) {
+export default function GroupBoardDetail({ detail, review }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -104,7 +101,7 @@ export default function GroupBoardDetail({ detail }) {
   return (
     <>
       <Section>
-        {report && <Report report={report} setReport={setReport}/>}
+        {report && <ReportPost id={id} report={report} setReport={setReport}/>}
         <Title>
           {detail.title}
         </Title>
@@ -136,6 +133,11 @@ export default function GroupBoardDetail({ detail }) {
             isWriter && <Button onClick={updateItem}>수정하기</Button>
           }
         </ButtonWrapper>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment key={index} id={id} data={data} />
+        ))}
+        </CommentsWrapper>
       </Section>
     </>
   )

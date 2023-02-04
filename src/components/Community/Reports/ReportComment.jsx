@@ -1,12 +1,18 @@
 import React, { useEffect, useRef } from 'react'
+import { useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import Request from '../../../functions/common/Request'
+import { REPORT_LIST } from './ReportPost'
 
 
 const ReportBg = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 64px);
+  position: fixed;
+  top: 64px;
+  left: 0;
   background-color: rgba(255,255,255,0.6);
-  position: absolute;
   z-index: 5;
   display: flex;
   justify-content: center;
@@ -43,8 +49,19 @@ const ReportList = styled.div`
   cursor: pointer;
 `
 
-export default function Report({report, setReport}) {
+
+export default function ReportComment({ report, setReport, id }) {
   const node = useRef();
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const navigate = useNavigate();
+  const request = new Request(cookies, localStorage, navigate);
+
+  const reportItem = async (category) => {
+    const formData = new FormData()
+    formData.append('comment', id)
+    formData.append('category', category)
+    const response = await request.post(`/community/post_comment_reports/create/`, formData, { "Content-Type": "multipart/form-data" })
+  }
   useEffect(() => {
     const clickOutside = (e) => {
       if (report && node.current && !node.current.contains(e.target)) {
@@ -59,14 +76,11 @@ export default function Report({report, setReport}) {
   return (
     <ReportBg>
       <ReportBox ref={node}>
-        <ReportTitle>게시글 신고</ReportTitle>
+        <ReportTitle>댓글 신고</ReportTitle>
         <ReportMenu>
-          <ReportList>게시판 성격에 부적절함</ReportList>
-          <ReportList>음란물/불건전한 만남 및 대화</ReportList>
-          <ReportList>사칭 / 사기성 게시글</ReportList>
-          <ReportList>욕설 / 비하</ReportList>
-          <ReportList>낚시 / 도배성 게시글</ReportList>
-          <ReportList>상업적 광고 및 판매</ReportList>
+          {REPORT_LIST.map((data, index) => (
+            <ReportList key={index} onClick={() => { reportItem(data.name) }} id={data.id}>{data.name}</ReportList>
+          ))}
         </ReportMenu>
       </ReportBox>
     </ReportBg>

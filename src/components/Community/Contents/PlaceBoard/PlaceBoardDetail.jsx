@@ -3,8 +3,9 @@ import { useCookies } from 'react-cookie'
 import { useNavigate, useParams } from 'react-router-dom';
 import Request from '../../../../functions/common/Request';
 import styled from 'styled-components';
-import Report from '../../Report';
-
+import ReportPost from '../../Reports/ReportPost';
+import WriteComment from '../../Comments/WriteComment';
+import Comment from '../../../Story/components/Comment';
 const Section = styled.div`
   position: relative;
   width: 100%;
@@ -28,6 +29,7 @@ const Content = styled.div`
   width: 100%;
   font-size: 1rem;
   padding: 2%;
+  height: 40vh;
 `
 const ButtonWrapper = styled.div`
   width: 100%;
@@ -40,8 +42,11 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
   width: 15%;
 `
+const CommentsWrapper = styled.div`
+  width: 100%;
+`
 
-export default function PlaceBoardDetail({ detail }) {
+export default function PlaceBoardDetail({ detail, review }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -65,7 +70,7 @@ export default function PlaceBoardDetail({ detail }) {
   return (
     <>
       <Section>
-        {report && <Report report={report} setReport={setReport}/>}
+        {report && <ReportPost id={id} report={report} setReport={setReport} />}
         <Title>
           {detail.title}
         </Title>
@@ -76,8 +81,8 @@ export default function PlaceBoardDetail({ detail }) {
           작성일 | {detail.updated.slice(0, 10)}
         </Info>
         <Content>{
-          detail.content.split('\n').map( (line, index) => {
-            return (<span key={index}>{line}<br/></span>)
+          detail.content.split('\n').map((line, index) => {
+            return (<span key={index}>{line}<br /></span>)
           })
         }
         </Content>
@@ -90,6 +95,11 @@ export default function PlaceBoardDetail({ detail }) {
             isWriter && <Button onClick={updateItem}>수정하기</Button>
           }
         </ButtonWrapper>
+        <WriteComment id={id} isParent={true}></WriteComment>
+        <CommentsWrapper>{review.map((data, index) => (
+          <Comment key={index} id={id} data={data} />
+        ))}
+        </CommentsWrapper>
       </Section>
     </>
   )

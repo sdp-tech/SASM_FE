@@ -43,7 +43,7 @@ const MenuTitle = styled.div`
   grid-area: title;
   font-Size: 1.5rem;
   text-align: center;
-  height: 100%;
+  min-height: calc((100vh - 64px) * 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
