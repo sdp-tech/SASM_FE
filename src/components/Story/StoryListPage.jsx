@@ -183,6 +183,7 @@ const StoryListPage = () => {
       search: searched,
       order: orderList.toString(),
     }, null);
+
     // console.log("response??", response);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
