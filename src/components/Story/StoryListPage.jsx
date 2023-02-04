@@ -178,11 +178,12 @@ const StoryListPage = () => {
       searched = search;
     }
 
-    const response = await request.get("/stories/story_order/", {
+    const response = await request.get("/stories/story_search/", {
       page: newPage,
       search: searched,
       order: orderList.toString(),
     }, null);
+
     // console.log("response??", response);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);

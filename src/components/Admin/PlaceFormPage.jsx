@@ -39,7 +39,7 @@ const PlaceFormPage = (props) => {
     const [snsData, setSnsData] = useState([0]);
     const [snsselect, setSnsselect] = useState([]);
     const request = new Request(cookies, localStorage, navigate);
-
+    const openHourArray = ['mon_hours', 'tues_hours', 'wed_hours', 'thurs_hours', 'fri_hours', 'sat_hours', 'sun_hours'];
     //장소 카테고리
     const PlaceCategory = [
         { value: "식당 및 카페", name: "식당 및 카페" },
@@ -74,12 +74,19 @@ const PlaceFormPage = (props) => {
     }
     //text문자열에 check가 포함되는지 확인
     const checkInclude = (type, text, check) => {
-        console.log(text);
         if (text)
             if (!text.includes(check)) {
                 alert(type + " 표시는 " + check + " 로 해주세요");
                 return 1;
             }
+    }
+    const checkOpenHours = (openHours) => {
+        if (openHours.includes("~"))
+            if (!openHours.includes(" ~ "))
+                alert("영업시간의 ~ 앞 뒤로 빈칸을 넣어주세요");
+        if (openHours.includes("휴무"))
+            if (openHours.includes("정기휴무"))
+                alert("가게가 쉬는 날은 휴무라고 적어주세요");
     }
     //장소 중복 체크
     const CheckPlaceRepetition = async () => {
@@ -264,6 +271,9 @@ const PlaceFormPage = (props) => {
         if (checkInclude('장소한줄평', info['place_review'], '"')
             || checkInclude('연락처', info['phone_num'], '-')) {
             return;
+        }
+        for (var i = 0; i < openHourArray.length; i++) {
+            checkOpenHours(info[openHourArray[i]]);
         }
         info['longitude'] = 0;
         info['latitude'] = 0;
