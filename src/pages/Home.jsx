@@ -437,7 +437,7 @@ export default function Home() {
           <Tittle>SASM</Tittle>
         </TitleBox>
         <Mobile>
-          <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPACE MAP</div>
+          <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPATIAL MAP</div>
         </Mobile>
         <Content>
           <SASMLogo src={sasm_logo} rotate="true" />
@@ -451,7 +451,7 @@ export default function Home() {
           <SubLogo>
             <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
             <span style={{ color: "#29E48A" }}>A</span>CT<br />
-            <span style={{ color: "#44ADF7" }}>S</span>PACE<br />
+            <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
             <span style={{ color: "#29E48A" }}>M</span>AP<br />
           </SubLogo>
         </Pc>
@@ -459,7 +459,7 @@ export default function Home() {
           <SubLogo>
             <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
             <span style={{ color: "#29E48A" }}>A</span>CT<br />
-            <span style={{ color: "#44ADF7" }}>S</span>PACE<br />
+            <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
             <span style={{ color: "#29E48A" }}>M</span>AP<br />
           </SubLogo>
         </Tablet>
