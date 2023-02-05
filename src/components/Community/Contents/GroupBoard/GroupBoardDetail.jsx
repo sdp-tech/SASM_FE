@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ReportPost from '../../Reports/ReportPost';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../../Story/components/Comment';
+import HeartButton from '../../../common/Heart';
 
 
 const Section = styled.div`
@@ -20,6 +21,9 @@ const Title = styled.div`
   border-bottom: 1px rgba(0,0,0,0.5) solid;
   padding: 2%;
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 const Info = styled.div`
   width: 100%;
@@ -57,6 +61,7 @@ const CommentsWrapper = styled.div`
 `
 
 export default function GroupBoardDetail({ detail, review }) {
+  const [like, setLike] = useState(detail.likes);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -66,12 +71,7 @@ export default function GroupBoardDetail({ detail, review }) {
   const id = params.id;
   const email = localStorage.getItem('email');
   let isWriter = false;
-  // 게시판 성격에 부적절함
-  //   음란물 / 불건전한 만남 및 대화
-  //   사칭 / 사기성 게시글
-  //   욕설 / 비하
-  //   낚시 / 도배성 게시글
-  //   상업적 광고 및 판매
+
   useEffect(() => {
     const clickOutside = (e) => {
       if (report && node.current && !node.current.contains(e.target)) {
@@ -94,8 +94,9 @@ export default function GroupBoardDetail({ detail, review }) {
     const formData = new FormData();
     const response = await request.put(`/community/posts/${id}/update`);
   }
-  const reportItem = async () => {
-    const response = await request.put(`/community/posts/${id}/update`);
+  const likeItem = async () => {
+    const response = await request.post(`/community/posts/${id}/like/`);
+    setLike(!like);
   }
 
   return (
@@ -104,6 +105,7 @@ export default function GroupBoardDetail({ detail, review }) {
         {report && <ReportPost id={id} report={report} setReport={setReport}/>}
         <Title>
           {detail.title}
+          <HeartButton like={like} onClick={likeItem}/>
         </Title>
         <Info>
           <span style={{ margin: '0 5% 0 0' }}>

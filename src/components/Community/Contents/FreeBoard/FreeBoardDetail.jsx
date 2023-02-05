@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ReportPost from '../../Reports/ReportPost';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../Comments/Comment';
+import HeartButton from '../../../common/Heart';
 
 const Section = styled.div`
   position: relative;
@@ -18,6 +19,9 @@ const Title = styled.div`
   border-bottom: 1px rgba(0,0,0,0.5) solid;
   padding: 2%;
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 const Info = styled.div`
   width: 100%;
@@ -44,6 +48,7 @@ const CommentsWrapper = styled.div`
   width: 100%;
 `
 export default function FreeBoardDetail({ detail, review }) {
+  const [like, setLike] = useState(detail.likes);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
@@ -63,13 +68,17 @@ export default function FreeBoardDetail({ detail, review }) {
     const formData = new FormData();
     const response = await request.put(`/community/posts/${id}/update`);
   }
-
+  const likeItem = async () => {
+    const response = await request.post(`/community/posts/${id}/like/`);
+    setLike(!like);
+  }
   return (
     <>
       <Section>
         {report && <ReportPost id={id} report={report} setReport={setReport} />}
         <Title>
           {detail.title}
+          <HeartButton like={like} onClick={likeItem} />
         </Title>
         <Info>
           <span style={{ margin: '0 5% 0 0' }}>
