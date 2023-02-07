@@ -16,6 +16,7 @@ import sasm_logo_blackwhite from "../assets/img/Home/sasm_logo_blackwhite.svg";
 import sasm_full_logo_blackwhite from "../assets/img/Home/sasm_full_logo_blackwhite.svg";
 import sdp_logo_blackwhite from "../assets/img/Home/sdp_logo_blackwhite.svg";
 import sdp_full_logo_blackwhite from "../assets/img/Home/sdp_full_logo_blackwhite.svg";
+import { Link } from "react-router-dom";
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -178,6 +179,7 @@ const FunctionWrapper = styled.div`
   } 
 `
 const FunctionBox = styled.div`
+  color: black;
   padding-top: auto;
   padding-bottom: auto;
   line-height: 3vw;
@@ -435,7 +437,7 @@ export default function Home() {
           <Tittle>SASM</Tittle>
         </TitleBox>
         <Mobile>
-          <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPACE MAP</div>
+          <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPATIAL MAP</div>
         </Mobile>
         <Content>
           <SASMLogo src={sasm_logo} rotate="true" />
@@ -449,7 +451,7 @@ export default function Home() {
           <SubLogo>
             <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
             <span style={{ color: "#29E48A" }}>A</span>CT<br />
-            <span style={{ color: "#44ADF7" }}>S</span>PACE<br />
+            <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
             <span style={{ color: "#29E48A" }}>M</span>AP<br />
           </SubLogo>
         </Pc>
@@ -457,7 +459,7 @@ export default function Home() {
           <SubLogo>
             <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
             <span style={{ color: "#29E48A" }}>A</span>CT<br />
-            <span style={{ color: "#44ADF7" }}>S</span>PACE<br />
+            <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
             <span style={{ color: "#29E48A" }}>M</span>AP<br />
           </SubLogo>
         </Tablet>
@@ -495,15 +497,21 @@ export default function Home() {
       <br />
       <Function>
         <FunctionWrapper>
-          <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
+          <Link to={'/map'} style={{ textDecoration: 'none' }}>
+            <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
+          </Link>
           <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
         </FunctionWrapper>
         <FunctionWrapper>
-          <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
+          <Link to={'/story'} style={{ textDecoration: 'none' }}>
+            <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
+          </Link>
           <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
         </FunctionWrapper>
         <FunctionWrapper>
-          <FunctionBox backgroundColor="#FFE9D0">My Pick</FunctionBox>
+          <Link to={'/mypick'} style={{ textDecoration: 'none' }}>
+            <FunctionBox backgroundColor="#FFE9D0">My Pick</FunctionBox>
+          </Link>
           <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
         </FunctionWrapper>
       </Function>

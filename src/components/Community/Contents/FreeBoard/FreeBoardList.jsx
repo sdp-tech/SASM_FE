@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { data } from 'browserslist'
 
 const Section = styled.div`
 
@@ -15,7 +16,10 @@ const List = styled.div`
   border-bottom: 1px rgba(0,0,0,0.5) solid;
 `
 const Title = styled.div`
-  width: 60%;
+  width: 50%;
+`
+const Info = styled.div`
+  width: 10%;
 `
 const Writer = styled.div`
   width: 20%;
@@ -30,7 +34,7 @@ const UploadButton = styled.div`
   display: flex;
 `
 const StyledLink = styled(Link)`
-  width: 60%;
+  width: 50%;
   color: #000000;
   text-decoration: none;
   cursor: pointer;
@@ -41,6 +45,7 @@ export default function FreeBoardList({ list, handleMode }) {
       <ListWrapper>
         <List>
           <Title>제목</Title>
+          <Info>좋아요/댓글</Info>
           <Writer>작성자</Writer>
           <CreatedAt>등록일</CreatedAt>
         </List>
@@ -50,6 +55,10 @@ export default function FreeBoardList({ list, handleMode }) {
               <StyledLink to={`/community/${data.id}`}>
                 {data.title}
               </StyledLink>
+              <Info>
+              {data.likeCount}
+              -
+              {data.commentCount}</Info>
               <Writer>{data.nickname}</Writer>
               <CreatedAt>{data.updated.slice(0, 10)}</CreatedAt>
             </List>

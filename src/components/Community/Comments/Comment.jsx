@@ -17,6 +17,9 @@ const Content = styled.div(({ isParent }) => ({
   width: '80%',
   paddingLeft: isParent ? '0' : '5%',
 }))
+const Photos = styled.div`
+  width: 100%;
+`
 const ButtonWrapper = styled.div`
   width: 20%;
   display: flex; 
@@ -50,12 +53,17 @@ export default function Comment({ data, id }) {
   }
   return (
     <CommentWrapper>
-      <Content isParent={data.isParent}>{data.nickname} - {data.content}</Content>
+      <Content isParent={data.isParent}>{data.nickname} - {data.content} -{data.created.slice(0,10)} {data.created.slice(12, 19)}</Content>
       <ButtonWrapper>
         {isWriter && <Button onClick={deleteComment}>삭제</Button>}
         {data.isParent&&<Button onClick={handleMode}>댓글</Button>}
         <Button onClick={reportComment}>신고</Button>
       </ButtonWrapper>
+      <Photos>
+        {data.photoList?.map((data, index)=>(
+          <img src={data} key={index}></img>
+        ))}
+      </Photos>
       {mode && <WriteComment id={id} isParent={false} parentId={data.id} />}
       {report && <ReportComment id={data.id} report={report} setReport={setReport}></ReportComment>}
     </CommentWrapper>
