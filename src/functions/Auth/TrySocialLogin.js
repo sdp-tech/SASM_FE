@@ -7,7 +7,7 @@ export default async function TrySocialLogin(site) {
   var url = "";
 
   const CLIENT_ID =
-    "331125329639-06aq4tbiph820egb15e305gj16ds5avb.apps.googleusercontent.com";
+    "1037934278190-17b3othcsdmik8im5e1occ4u4kfpko2f.apps.googleusercontent.com";
 
   if (site === "google") {
     window.location.href =
