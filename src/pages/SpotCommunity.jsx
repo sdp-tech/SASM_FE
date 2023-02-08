@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Tab, Tabs } from '@mui/material';
 import { useCookies } from 'react-cookie';
 import CommunityDetail from '../components/Community/CommunityDetail';
+import Request from '../functions/common/Request';
 
 const CommunitySection = styled.div`
   height: calc(100vh - 64px);
@@ -65,6 +66,15 @@ export default function SpotCommunity() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const request = new Request(cookies, localStorage, navigate);
+  const [format, setFormat] = useState();
+  const getFormat = async () => {
+    const response = await request.get(`/community/boards/${value + 1}/`);
+    setFormat(response.data);
+  }
+  useEffect(() => {
+    getFormat();
+  }, [value]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   return (
@@ -105,9 +115,9 @@ export default function SpotCommunity() {
       <Content>
         {
           params.id ?
-            <CommunityDetail id={params.id}></CommunityDetail>
+            <CommunityDetail format={format} id={params.id}></CommunityDetail>
             :
-            <Community value={value}></Community>
+            <Community format={format} value={value}></Community>
         }
       </Content>
     </CommunitySection>

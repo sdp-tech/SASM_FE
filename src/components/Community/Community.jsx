@@ -40,19 +40,11 @@ TabPanel.propTypes = {
 };
 
 
-export default function Community({value}) {
+export default function Community({value, format}) {
   const [loading, setLoading] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-  const [format, setFormat] = useState();
-  const getFormat = async () => {
-    const response = await request.get(`/community/boards/${value + 1}/`);
-    setFormat(response.data);
-  }
-  useEffect(() => {
-    getFormat();
-  }, [value]);
   return (
     <Section>
       <Content>
