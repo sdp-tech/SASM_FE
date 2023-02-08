@@ -43,7 +43,6 @@ TabPanel.propTypes = {
 
 
 export default function Community({value}) {
-
   return (
     <Section>
       <Content>

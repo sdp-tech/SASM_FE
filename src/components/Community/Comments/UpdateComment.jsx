@@ -33,9 +33,7 @@ export default function UpdateComment({ data }) {
   const request = new Request(cookies, localStorage, navigate);
 
   const handleFileInput = (data) => {
-    console.log(data);
     setPhotoList(photoList.filter((el) => el !== data));
-    console.log(photoList);
   }
   const updateComment = async (event) => {
     event.preventDefault();
@@ -49,10 +47,6 @@ export default function UpdateComment({ data }) {
       formData.append('imageList', event.target.image_update.files[i]);
     }
     formData.append('content', event.target.text.value);
-
-    for (let key of formData.keys()) {
-      console.log(key, ":", formData.get(key));
-    }
     const response = await request.put(`/community/post_comments/${data.id}/update`, formData, { "Content-Type": "multipart/form-data" })
     window.location.reload()
   }

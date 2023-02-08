@@ -7,6 +7,7 @@ import ReportPost from '../../Reports/ReportPost';
 import WriteComment from '../../Comments/WriteComment';
 import Comment from '../../Comments/Comment';
 import HeartButton from '../../../common/Heart';
+import CommunityUpdate from '../../CommunityUpdate';
 
 const Section = styled.div`
   position: relative;
@@ -48,6 +49,8 @@ const CommentsWrapper = styled.div`
   width: 100%;
 `
 export default function FreeBoardDetail({ detail, review }) {
+  //mode false->detail / true->update
+  const [mode, setMode] = useState(false);
   const [like, setLike] = useState(detail.likes);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
@@ -64,46 +67,43 @@ export default function FreeBoardDetail({ detail, review }) {
     const response = await request.delete(`/community/posts/${id}/delete/`);
     navigate('/community');
   }
-  const updateItem = async () => {
-    const formData = new FormData();
-    const response = await request.put(`/community/posts/${id}/update`);
-  }
   const likeItem = async () => {
     const response = await request.post(`/community/posts/${id}/like/`);
     setLike(!like);
   }
   return (
     <>
-      <Section>
-        {report && <ReportPost id={id} report={report} setReport={setReport} />}
-        <Title>
-          {detail.title}
-          <HeartButton like={like} onClick={likeItem} />
-        </Title>
-        <Info>
-          <span style={{ margin: '0 5% 0 0' }}>
-            작성자 | {detail.nickname}
-          </span>
-          작성일 | {detail.updated.slice(0, 10)}
-        </Info>
-        <Content>
-          {detail.content}
-        </Content>
-        <ButtonWrapper>
-          <Button onClick={() => { setReport(true) }}>신고하기</Button>
-          {
-            isWriter && <Button onClick={deleteItem}>삭제하기</Button>
-          }
-          {
-            isWriter && <Button onClick={updateItem}>수정하기</Button>
-          }
-        </ButtonWrapper>
-        <WriteComment id={id} isParent={true}></WriteComment>
-        <CommentsWrapper>{review.map((data, index) => (
-          <Comment key={index} id={id} data={data} />
-        ))}
-        </CommentsWrapper>
-      </Section>
+      {mode ? <CommunityUpdate setMode={setMode} detail={detail} id={id} option={false}></CommunityUpdate> :
+        <Section>
+          {report && <ReportPost id={id} report={report} setReport={setReport} />}
+          <Title>
+            {detail.title}
+            <HeartButton like={like} onClick={likeItem} />
+          </Title>
+          <Info>
+            <span style={{ margin: '0 5% 0 0' }}>
+              작성자 | {detail.nickname}
+            </span>
+            작성일 | {detail.updated.slice(0, 10)}
+          </Info>
+          <Content>
+            {detail.content}
+          </Content>
+          <ButtonWrapper>
+            <Button onClick={() => { setReport(true) }}>신고하기</Button>
+            {
+              isWriter && <Button onClick={deleteItem}>삭제하기</Button>
+            }
+            {
+              isWriter && <Button onClick={() => { setMode(true) }}>수정하기</Button>
+            }
+          </ButtonWrapper>
+          <WriteComment id={id} isParent={true}></WriteComment>
+          <CommentsWrapper>{review.map((data, index) => (
+            <Comment key={index} id={id} data={data} />
+          ))}
+          </CommentsWrapper>
+        </Section>}
     </>
   )
 }

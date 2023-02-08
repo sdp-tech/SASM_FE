@@ -103,7 +103,7 @@ export default function SpotCommunity() {
           }[value]
         }
         {
-          params.id && <BackButton onClick={handleBack}>뒤로가기</BackButton>
+          params.id && <BackButton onClick={handleBack}>목록보기</BackButton>
         }
       </Board>
       <Content>
