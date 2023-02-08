@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
-import Request from '../../../../functions/common/Request';
+import Request from '../../functions/common/Request';
 import styled from 'styled-components';
+import { border } from '@mui/system';
+import Loading from '../common/Loading';
 
 const StyledForm = styled.form`
   width: 100%;
@@ -20,14 +22,14 @@ const InputContent = styled.textarea`
   margin: 5vh 0;
   padding: 0 auto;
 `
-const InputHashtag = styled.input`
-`
 const InputImage = styled.input`
   display: none;
 `
 const ImageList = styled.div`
   display: flex;
   flex-flow: row wrap;
+`
+const InputHashtag = styled.input`
 `
 const ButtonWrapper = styled.div`
   width: 100%;
@@ -38,7 +40,8 @@ const Button = styled.button`
   width: 15%;
 `
 
-export default function GroupBoardUpload({ handleMode }) {
+export default function CommunityUpload({ setMode, board, format }) {
+  console.log(format);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();
@@ -46,9 +49,9 @@ export default function GroupBoardUpload({ handleMode }) {
   const uploadItem = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('board', '4');
-    formData.append('title', `${event.target.title.value}`);
-    formData.append('content', `${event.target.content.value}`);
+    formData.append('board', board + 1);
+    formData.append('title', event.target.title.value);
+    formData.append('content', event.target.content.value);
     for (let i = 0; i < event.target.file.files.length; i++) {
       formData.append('imageList', event.target.file.files[i]);
     }
@@ -56,6 +59,7 @@ export default function GroupBoardUpload({ handleMode }) {
       formData.append('hashtagList', hashtag[i]);
     }
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
+    console.log(response);
     window.location.reload();
   }
   const fileInput = (event) => {
@@ -88,14 +92,24 @@ export default function GroupBoardUpload({ handleMode }) {
     <>
       <StyledForm onSubmit={uploadItem}>
         <InputTitle type="text" id="title" placeholder="제목을 입력해주세요." required />
-        <InputContent id="content" placeholder="내용을 입력해주세요." required />
-        <label htmlFor='file'>사진</label>
-        <InputImage type="file" id="file" onChange={fileInput} accept='image/*' multiple></InputImage>
-        <ImageList id="filelist"></ImageList>
-        <label htmlFor='hashtag'>해쉬태그</label>
-        <InputHashtag type="text" id="hashtag" placeholder='해쉬태그는 최대 5개, 최대 9글자' onChange={handleHashtag} />
+        <InputContent id="content" placeholder="내용을 입력해주세요." defaultValue={format.postContentStyle} required />
+        {
+          format.supportsPostPhotos &&
+          <>
+            <label htmlFor='file'>사진</label>
+            <InputImage type="file" id="file" onChange={fileInput} accept='image/*' multiple></InputImage>
+            <ImageList id="filelist"></ImageList>
+          </>
+        }
+        {
+          format.supportsHashtags &&
+          <>
+            <label htmlFor='hashtag'>해쉬태그</label>
+            <InputHashtag type="text" id="hashtag" placeholder='해쉬태그는 최대 5개, 최대 9글자' onChange={handleHashtag} />
+          </>
+        }
         <ButtonWrapper>
-          <Button onClick={handleMode}>뒤로가기</Button>
+          <Button onClick={() => { setMode(false) }}>뒤로가기</Button>
           <Button type="submit">작성하기</Button>
         </ButtonWrapper>
       </StyledForm>
