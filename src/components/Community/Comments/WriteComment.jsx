@@ -41,8 +41,8 @@ export default function WriteComment({id, isParent, parentId}) {
       <form onSubmit={uploadComment}>
         <input type="text" id="text"></input>
         <button type='submit'>제출</button>
-        <input type="file" accept='image/*' id="image" onChange={fileInput} multiple style={{display:'none'}}></input>
-        <label htmlFor="image" style={{ display: 'block' }}>사진 업로드</label>
+        <input type="file" accept='image/*' id="image_write" onChange={fileInput} multiple style={{display:'none'}}></input>
+        <label htmlFor="image_write" style={{ display: 'block' }}>사진 업로드</label>
         <div id="filelist">
         </div>
       </form>
