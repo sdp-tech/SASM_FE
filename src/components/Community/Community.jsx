@@ -1,12 +1,10 @@
-import { Tab, Tabs } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from "prop-types"
 import styled from 'styled-components'
-import { margin } from '@mui/system'
-import FreeBoard from './Contents/FreeBoard/FreeBoard'
-import PlaceBoard from './Contents/PlaceBoard/PlaceBoard'
-import PromotionBoard from './Contents/PromotionBoard/PromotionBoard'
-import GroupBoard from './Contents/GroupBoard/GroupBoard'
+import CommunityList from './CommunityList'
+import { useCookies } from 'react-cookie'
+import { useNavigate } from 'react-router-dom'
+import Request from '../../functions/common/Request'
 
 const Section = styled.div`
   height: 100%;
@@ -43,13 +41,25 @@ TabPanel.propTypes = {
 
 
 export default function Community({value}) {
+  const [loading, setLoading] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const navigate = useNavigate();
+  const request = new Request(cookies, localStorage, navigate);
+  const [format, setFormat] = useState();
+  const getFormat = async () => {
+    const response = await request.get(`/community/boards/${value + 1}/`);
+    setFormat(response.data);
+  }
+  useEffect(() => {
+    getFormat();
+  }, [value]);
   return (
     <Section>
       <Content>
-        <TabPanel value={value} index={0}><FreeBoard /></TabPanel>
-        <TabPanel value={value} index={1}><PlaceBoard /></TabPanel>
-        <TabPanel value={value} index={2}><PromotionBoard /></TabPanel>
-        <TabPanel value={value} index={3}><GroupBoard /></TabPanel>
+        <TabPanel value={value} index={0}><CommunityList format={format} board={value}/></TabPanel>
+        <TabPanel value={value} index={1}><CommunityList format={format} board={value}/></TabPanel>
+        <TabPanel value={value} index={2}><CommunityList format={format} board={value}/></TabPanel>
+        <TabPanel value={value} index={3}><CommunityList format={format} board={value}/></TabPanel>
       </Content>
     </Section>
   )

@@ -18,8 +18,6 @@ const CommunitySection = styled.div`
 `
 const Menu = styled.div`
   grid-area: menu;
-  border-left: 1px black solid;
-  border-right: 1px black solid;
 `
 const Content = styled.div`
   gird-area: content;
@@ -36,10 +34,8 @@ const Board = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px black solid;
 `
 const MenuTitle = styled.div`
-  border: 1px black solid;
   grid-area: title;
   font-Size: 1.5rem;
   text-align: center;
@@ -83,8 +79,8 @@ export default function SpotCommunity() {
           onChange={handleChange}
           sx={{
             '& .MuiTabs-indicator': { display: 'none' },
-            '& .MuiTab-root': { borderBottom: '1px rgba(0,0,0,0.5) solid' },
-            '& .Mui-selected': {},
+            '& .MuiTab-root': { borderBottom: '1px rgba(0,0,0,0.5) solid', width:'100%',margin:'0 auto' },
+            '& .Mui-selected': { color:'#FFFFFF',backgroundColor:"#44ADF7" },
           }}
         >
           <Tab onClick={handleBack} label="자유게시판" {...a11yProps(0)} />

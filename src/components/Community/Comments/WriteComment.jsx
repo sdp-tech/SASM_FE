@@ -28,8 +28,8 @@ export default function WriteComment({id, isParent, parentId}) {
       formData.append('isParent', 'False');
       formData.append('parent', parentId);
     }
-    for(let i=0; i<event.target.image.files.length; i++){
-      formData.append('imageList', event.target.image.files[i])
+    for(let i=0; i<event.target.image_write.files.length; i++){
+      formData.append('imageList', event.target.image_write.files[i])
     }
     formData.append('content', event.target.text.value);
     const response = await request.post('/community/post_comments/create/', formData, { "Content-Type": "multipart/form-data" });
