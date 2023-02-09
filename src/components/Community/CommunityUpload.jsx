@@ -41,7 +41,6 @@ const Button = styled.button`
 `
 
 export default function CommunityUpload({ setMode, board, format }) {
-  console.log(format);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();

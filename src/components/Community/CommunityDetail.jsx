@@ -109,8 +109,6 @@ export default function CommunityDetail({ id, format }) {
     const response = await request.post(`/community/posts/${id}/like/`);
     setLike(!like);
   }
-
-
   return (
     <>
       {
@@ -144,12 +142,15 @@ export default function CommunityDetail({ id, format }) {
                     <>{detail.content}</>
                   }
                   {
-                  format.supportsPostPhotos &&
-                  <ImageWrapper>
-                    {detail.photoList.map((data, index) => (
-                      <Image key={index} src={data}></Image>
-                    ))}
-                  </ImageWrapper>
+                    format.supportsPostPhotos &&
+                    <ImageWrapper>
+                      {
+                        detail.photoList && <>
+                          {detail.photoList.map((data, index) => (
+                            <Image key={index} src={data}></Image>
+                          ))}</>
+                      }
+                    </ImageWrapper>
                   }
                 </Content>
                 {

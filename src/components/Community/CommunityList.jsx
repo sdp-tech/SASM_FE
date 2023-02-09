@@ -84,8 +84,9 @@ export default function CommunityList({ board, format }) {
     setTotal(response.data.data.count);
     setLoading(false);
   }
+
   const onChangeSearch = (e) => {
-    if (board == '2' || board == '3') {
+    if (format.supportsHashtags) {
       if (e.target.value[0] == '#') {
         if (e.target.value.slice(1).length == 0) {
           setListHashtag([]);
@@ -112,7 +113,7 @@ export default function CommunityList({ board, format }) {
 
   const getHashTag = async (search) => {
     const response = await request.get("/community/post_hashtags", {
-      board: 3,
+      board: board+1,
       query: search,
     })
     setListHashtag(response.data.data.results);
@@ -121,7 +122,7 @@ export default function CommunityList({ board, format }) {
     setListHashtag([]);
     setLoading(true);
     const response = await request.get("/community/posts/", {
-      board: 3,
+      board: board+1,
       query: search,
       query_type: 'hashtag',
       page: page,
