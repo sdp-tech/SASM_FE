@@ -3,7 +3,6 @@ import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Request from '../../../functions/common/Request'
-import { REPORT_LIST } from './ReportPost'
 
 
 const ReportBg = styled.div`
@@ -48,8 +47,13 @@ const ReportList = styled.div`
   border-bottom: 1px black solid;
   cursor: pointer;
 `
-
-
+export const REPORT_LIST = [
+  { id: 0, name: "음란물/불건전한 만남 및 대화" },
+  { id: 1, name: "사칭/사기성 게시글" },
+  { id: 2, name: "욕설/비하" },
+  { id: 3, name: "낚시/도배성 게시글" },
+  { id: 4, name: "상업적 광고 및 판매" },
+];
 export default function ReportComment({ report, setReport, id }) {
   const node = useRef();
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
