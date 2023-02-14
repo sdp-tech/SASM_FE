@@ -44,11 +44,13 @@ const ImageList = styled.div`
   margin-top: 3vh;
   flex-flow: row wrap;
 `
+
 export default function WriteComment({ id, isParent, parentId, format }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [imageUrl, setImageUrl] = useState();
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
+  console.log(format);
   const fileInput = (event) => {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
