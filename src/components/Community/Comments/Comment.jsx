@@ -14,23 +14,39 @@ const CommentWrapper = styled.div`
   align-items: center;
   padding: 1% 0;
 `
-const Content = styled.div(({ isParent }) => ({
-  width: '80%',
+const Contents = styled.div(({ isParent }) => ({
+  width: '100%',
   paddingLeft: isParent ? '0' : '5%',
+
 }))
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+`
+const Content = styled.div`
+  width: 100%;
+  margin: 1vh 0;
+`
 const Photos = styled.div`
   width: 100%;
 `
 const ButtonWrapper = styled.div`
-  width: 20%;
   display: flex; 
 `
 const Button = styled.button`
-  width: 50%;
+  border: none;
+  outline: none;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  & + & {
+    border-left: 1px black solid;
+  }
+  padding: 0.5vh 1vw;
 `
 
 
-export default function Comment({ data, id }) {
+export default function Comment({ data, id, format }) {
   //reply의 default는 대댓글을 작성하지 않는 false
   const [reply, setReply] = useState(false);
   //update의 default는 댓글을 수정하지 않느 false
@@ -60,22 +76,33 @@ export default function Comment({ data, id }) {
     isWriter = true;
   }
   return (
-    <CommentWrapper>
-      <Content isParent={data.isParent}>{data.nickname} - {data.content} -{data.created.slice(0, 10)} {data.created.slice(12, 19)}</Content>
-      <ButtonWrapper>
-        {isWriter && <Button onClick={deleteComment}>삭제</Button>}
-        {isWriter && <Button onClick={handleUpdate}>수정</Button>}
-        {data.isParent && <Button onClick={handleReply}>댓글</Button>}
-        <Button onClick={reportComment}>신고</Button>
-      </ButtonWrapper>
-      <Photos>
-        {data.photoList?.map((data, index) => (
-          <img src={data} key={index} style={{width:'50px', height:'50px'}}></img>
-        ))}
-      </Photos>
-      {reply && <WriteComment id={id} isParent={false} parentId={data.id} />}
-      {update && <UpdateComment data={data} />}
-      {report && <ReportComment id={data.id} report={report} setReport={setReport}></ReportComment>}
-    </CommentWrapper>
+    <>
+      {update ? 
+      <UpdateComment data={data} setUpdate={setUpdate} /> : 
+      <CommentWrapper>
+        <Contents isParent={data.isParent}>
+          <Title>
+            {data.nickname}
+            <ButtonWrapper>
+              {isWriter && <Button onClick={deleteComment}>삭제</Button>}
+              {isWriter && <Button onClick={handleUpdate}>수정</Button>}
+              {data.isParent && <Button onClick={handleReply}>댓글</Button>}
+              {!isWriter && <Button onClick={reportComment}>신고</Button>}
+            </ButtonWrapper>
+          </Title>
+          <Content>
+            {data.content}
+            <Photos>
+              {data.photoList?.map((data, index) => (
+                <img src={data} key={index} style={{ width: '50px', height: '50px' }}></img>
+              ))}
+            </Photos>
+          </Content>
+          {data.created.slice(0, 10)} {data.created.slice(11, 19)}
+        </Contents>
+        {reply && <WriteComment id={id} isParent={false} parentId={data.id} format={format} />}
+        {report && <ReportComment id={data.id} report={report} setReport={setReport}></ReportComment>}
+      </CommentWrapper>}
+    </>
   )
 }

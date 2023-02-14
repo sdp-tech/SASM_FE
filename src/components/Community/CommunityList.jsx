@@ -8,7 +8,8 @@ import Pagination from '../common/Pagination';
 import SearchBlack from "../../assets/img/search_black.svg";
 import CommunityUpload from "./CommunityUpload";
 const Section = styled.div`
-
+  height: 53vh;
+  position: relative;
 `
 const ListWrapper = styled.div`
   border-top: 1px rgba(0,0,0,0.5) solid;
@@ -16,6 +17,8 @@ const ListWrapper = styled.div`
 const List = styled.div`
   display: flex;
   text-align: center;
+  height: 8vh;
+  align-items: center;
   padding: 2% 0;
   border-bottom: 1px rgba(0,0,0,0.5) solid;
 `
@@ -33,9 +36,16 @@ const CreatedAt = styled.div`
 `
 const UploadButton = styled.div`
   width: 10%;
-  position: absolute;
-  right: 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5vh 0;
+  background-color: #9DF4CD;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  position: absolute;
+  right:0;
+  bottom: 0;
 `
 const StyledLink = styled(Link)`
   width: 50%;
@@ -79,13 +89,15 @@ export default function CommunityList({ board, format }) {
       query: search,
       query_type: 'default',
       page: page,
+      latest: 'true',
     }, null);
     setList(response.data.data.results);
     setTotal(response.data.data.count);
     setLoading(false);
   }
+
   const onChangeSearch = (e) => {
-    if (board == '2' || board == '3') {
+    if (format.supportsHashtags) {
       if (e.target.value[0] == '#') {
         if (e.target.value.slice(1).length == 0) {
           setListHashtag([]);
@@ -112,7 +124,7 @@ export default function CommunityList({ board, format }) {
 
   const getHashTag = async (search) => {
     const response = await request.get("/community/post_hashtags", {
-      board: 3,
+      board: board+1,
       query: search,
     })
     setListHashtag(response.data.data.results);
@@ -121,7 +133,7 @@ export default function CommunityList({ board, format }) {
     setListHashtag([]);
     setLoading(true);
     const response = await request.get("/community/posts/", {
-      board: 3,
+      board: board+1,
       query: search,
       query_type: 'hashtag',
       page: page,
@@ -132,7 +144,7 @@ export default function CommunityList({ board, format }) {
   }
   useEffect(() => {
     getItem();
-  }, [])
+  }, [page, search]);
   return (
     <>
       {mode ?

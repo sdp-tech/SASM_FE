@@ -23,6 +23,7 @@ const Menu = styled.div`
 const Content = styled.div`
   gird-area: content;
   padding: 3vh 3vw;
+  position: relative;
 `
 const BackButton = styled.div`
   font-size: 1.2rem;

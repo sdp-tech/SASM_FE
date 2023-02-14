@@ -51,9 +51,17 @@ const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  margin-top: 5%;
+  height: 5%;
 `
 const Button = styled.button`
-  width: 15%;
+  width: 10%;
+  outline:none;
+  border:none;
+  background-color: #FFFFFF;
+  & + & {
+    border-left: 1px #000000 solid;
+  }
 `
 const CommentsWrapper = styled.div`
   width: 100%;
@@ -109,8 +117,6 @@ export default function CommunityDetail({ id, format }) {
     const response = await request.post(`/community/posts/${id}/like/`);
     setLike(!like);
   }
-
-
   return (
     <>
       {
@@ -119,7 +125,7 @@ export default function CommunityDetail({ id, format }) {
           :
           <>
             {mode ?
-              <CommunityUpdate setMode={setMode} detail={detail} id={id} option={true}></CommunityUpdate> :
+              <CommunityUpdate setMode={setMode} detail={detail} id={id} format={format}></CommunityUpdate> :
               <Section>
                 {report && <ReportPost id={id} report={report} setReport={setReport} />}
                 <Title>
@@ -144,12 +150,15 @@ export default function CommunityDetail({ id, format }) {
                     <>{detail.content}</>
                   }
                   {
-                  format.supportsPostPhotos &&
-                  <ImageWrapper>
-                    {detail.photoList.map((data, index) => (
-                      <Image key={index} src={data}></Image>
-                    ))}
-                  </ImageWrapper>
+                    format.supportsPostPhotos &&
+                    <ImageWrapper>
+                      {
+                        detail.photoList && <>
+                          {detail.photoList.map((data, index) => (
+                            <Image key={index} src={data}></Image>
+                          ))}</>
+                      }
+                    </ImageWrapper>
                   }
                 </Content>
                 {
