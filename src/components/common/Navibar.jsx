@@ -262,7 +262,7 @@ export default function Navibar() {
             <PagesBox>
               <PageTitle navigate={navigate} title="MAP"></PageTitle>
               <PageTitle navigate={navigate} title="STORY"></PageTitle>
-              {/* <PageTitle navigate={navigate} title="COMMUNITY"></PageTitle> */}
+              <PageTitle navigate={navigate} title="COMMUNITY"></PageTitle>
               <PageTitle navigate={navigate} title="MY PICK"></PageTitle>
             </PagesBox>
             {/* 로그인 및 회원가입 */}
@@ -286,6 +286,7 @@ export default function Navibar() {
       {menu ? <MobileMenuList>
         <PageTitle navigate={navigate} setMenu={setMenu} title="MAP"></PageTitle>
         <PageTitle navigate={navigate} setMenu={setMenu} title="STORY"></PageTitle>
+        <PageTitle navigate={navigate} setMenu={setMenu} title="COMMUNITY"></PageTitle>
         <PageTitle navigate={navigate} setMenu={setMenu} title="MY PICK"></PageTitle>
         {!token ? (
           <MobileAuthBox>

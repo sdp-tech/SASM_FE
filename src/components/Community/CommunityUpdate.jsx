@@ -82,6 +82,7 @@ const Button = styled.button`
   font-size: 0.8rem;
   border-radius: 7px;
   box-shadow: 2px 4px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
 `
 const LabelWrapper = styled.div`
   display: flex;

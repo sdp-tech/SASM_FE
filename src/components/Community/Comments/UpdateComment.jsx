@@ -25,6 +25,7 @@ const DeleteButton = styled.div`
   justify-content: center;
   align-items: center;
   height: 20%;
+  cursor: pointer;
 `
 const StyledForm = styled.form`
   width: 100%;
@@ -49,10 +50,12 @@ const SubmitButton = styled.button`
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   border: none;
+  cursor: pointer;
   outline: none;
 `
 const ImageUpload = styled.img`
   height: 100%;
+  cursor:pointer;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   margin-bottom: 3vh;

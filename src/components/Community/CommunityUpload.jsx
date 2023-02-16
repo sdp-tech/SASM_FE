@@ -66,6 +66,7 @@ const Button = styled.button`
   font-size: 0.8rem;
   border-radius: 7px;
   box-shadow: 2px 4px 4px rgba(0,0,0,0.2);
+  cursor: pointer;
 `
 const LabelWrapper = styled.div`
   display: flex;
@@ -87,6 +88,7 @@ const FileWrapper = styled.label`
   height: 5vh;
   box-shadow: 2px 4px 4px rgba(0,0,0,0.2);
   display: flex;
+  cursor: pointer;
   margin-right: 3vw;
 `
 
@@ -110,7 +112,7 @@ export default function CommunityUpload({ setMode, board, format }) {
       formData.append('hashtagList', hashtag[i]);
     }
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
-    //window.location.reload();
+    window.location.reload();
   }
 
   const fileInput = (event) => {

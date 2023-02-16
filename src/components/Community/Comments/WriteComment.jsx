@@ -32,11 +32,13 @@ const SubmitButton = styled.button`
   border-radius: 7px;
   border: none;
   outline: none;
+  cursor: pointer;
 `
 const ImageUpload = styled.img`
   height: 100%;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
+  cursor: pointer;
 `
 const ImageList = styled.div`
   display: flex;
