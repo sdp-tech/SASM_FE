@@ -61,8 +61,11 @@ const SearchFilterBar = styled.div`
 const HashtagListWrapper = styled.div`
   position: absolute;
   width: 100%;
+  z-index:3;
 `
 const HashtagList = styled.div`
+  width: 95%;
+  margin: 0 auto;
   background-color: rgba(0,0,0,0.5);
   color: #FFFFFF;
   padding: 5%;
@@ -124,7 +127,7 @@ export default function CommunityList({ board, format }) {
 
   const getHashTag = async (search) => {
     const response = await request.get("/community/post_hashtags", {
-      board: board+1,
+      board: board + 1,
       query: search,
     })
     setListHashtag(response.data.data.results);
@@ -133,7 +136,7 @@ export default function CommunityList({ board, format }) {
     setListHashtag([]);
     setLoading(true);
     const response = await request.get("/community/posts/", {
-      board: board+1,
+      board: board + 1,
       query: search,
       query_type: 'hashtag',
       page: page,
@@ -162,7 +165,7 @@ export default function CommunityList({ board, format }) {
             />
             <HashtagListWrapper>
               {listHashtag.map((data, index) => (
-                <HashtagList onClick={() => { getItemHashtag(data.name) }} key={index}>{data.name} {data.postCount}</HashtagList>
+                <HashtagList onClick={()=>{getItemHashtag(data.name)}} key={index}><span>{data.name}</span><span>{data.postCount}</span></HashtagList>
               ))}
             </HashtagListWrapper>
           </SearchFilterBar>
