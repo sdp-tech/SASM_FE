@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
 import Community from "../components/Community/Community"
 import checkSasmAdmin from '../components/Admin/Common';
@@ -69,12 +69,20 @@ export default function SpotCommunity() {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const request = new Request(cookies, localStorage, navigate);
   const [format, setFormat] = useState();
+  const [tabStyle, setTabStyle] = useState();
+
   const getFormat = async () => {
     const response = await request.get(`/community/boards/${value + 1}/`);
     setFormat(response.data);
   }
   useEffect(() => {
     getFormat();
+    setTabStyle({
+      '& .MuiTabs-indicator': { display: 'none' },
+      '& .MuiTab-root': { borderBottom: '1px rgba(0,0,0,0.5) solid', width: '100%', margin: '0 auto' },
+      '& .Mui-selected': { color: '#FFFFFF', backgroundColor: "#44ADF7" },
+    });
+
   }, [value]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -88,11 +96,7 @@ export default function SpotCommunity() {
           orientation='vertical'
           value={value}
           onChange={handleChange}
-          sx={{
-            '& .MuiTabs-indicator': { display: 'none' },
-            '& .MuiTab-root': { borderBottom: '1px rgba(0,0,0,0.5) solid', width:'100%',margin:'0 auto' },
-            '& .Mui-selected': { color:'#FFFFFF',backgroundColor:"#44ADF7" },
-          }}
+          sx={tabStyle}
         >
           <Tab onClick={handleBack} label="자유게시판" {...a11yProps(0)} />
           <Tab onClick={handleBack} label="장소 추천" {...a11yProps(1)} />
