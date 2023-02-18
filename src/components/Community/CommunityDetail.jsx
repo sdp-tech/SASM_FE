@@ -73,6 +73,12 @@ export default function CommunityDetail({ id, format }) {
   const [detail, setDetail] = useState({});
   const [review, setReview] = useState({});
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  //mode false -> detail / true -> update
+  const [mode, setMode] = useState(false);
+  const [like, setLike] = useState(false);
+  const [report, setReport] = useState(false);
+  const node = useRef();
+  const email = localStorage.getItem('email');
   const navigate = useNavigate()
   const request = new Request(cookies, localStorage, navigate);
   const getDetail = async () => {
@@ -82,19 +88,13 @@ export default function CommunityDetail({ id, format }) {
     })
     setReview(response_review.data.data.results);
     setDetail(response_detail.data);
+    setLike(response_detail.data.likes);
     setLoading(false);
   }
 
   useEffect(() => {
-    getDetail()
-  }, [])
-
-  //mode false -> detail / true -> update
-  const [mode, setMode] = useState(false);
-  const [like, setLike] = useState(detail.likes);
-  const [report, setReport] = useState(false);
-  const node = useRef();
-  const email = localStorage.getItem('email');
+    getDetail();
+  }, [like])
   let isWriter = false;
   useEffect(() => {
     const clickOutside = (e) => {
