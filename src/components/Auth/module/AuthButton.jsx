@@ -19,14 +19,14 @@ const Wrapper = styled.div`
   translation: .2s all;
 
   &:hover {
-    background: rgba(180, 227, 182, 1);
+    background: rgba(68, 173, 247, 1);
   }
   &:active {
     background: rgba(180, 199, 244, 1);
   }
 `;
 
-const AuthButton = ({children, style, onClick}) => (
+const AuthButton = ({ children, style, onClick }) => (
   <Wrapper style={style} onClick={onClick}>
     {children}
   </Wrapper>
