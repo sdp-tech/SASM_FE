@@ -99,17 +99,22 @@ export default function CommunityUpload({ setMode, board, format }) {
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
+  console.log(format);
   const uploadItem = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('board', board + 1);
     formData.append('title', event.target.title.value);
     formData.append('content', event.target.content.value);
-    for (let i = 0; i < event.target.file.files.length; i++) {
-      formData.append('imageList', event.target.file.files[i]);
+    if(format.supportsPostPhotos) {
+      for (let i = 0; i < event.target.file.files.length; i++) {
+        formData.append('imageList', event.target.file.files[i]);
+      }
     }
-    for (let i = 0; i < hashtag.length; i++) {
-      formData.append('hashtagList', hashtag[i]);
+    if(format.supportsHashtags) {
+      for (let i = 0; i < hashtag.length; i++) {
+        formData.append('hashtagList', hashtag[i]);
+      }
     }
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
     window.location.reload();
