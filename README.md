@@ -4,7 +4,7 @@ SDGs 17개 목표 실현에 기여하는 공간을 지속가능한 공간으로 
 
 URL 
 ------
-https://main.d2hps9gsgzjxq.amplifyapp.com/
+https://www.sasm.co.kr/
 
 
 ## Design Prototype
