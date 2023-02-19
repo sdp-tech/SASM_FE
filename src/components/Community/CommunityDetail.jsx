@@ -68,7 +68,7 @@ const CommentsWrapper = styled.div`
   width: 100%;
 `
 
-export default function CommunityDetail({ id, format }) {
+export default function CommunityDetail({ board, id, format }) {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState({});
   const [review, setReview] = useState({});
@@ -113,7 +113,7 @@ export default function CommunityDetail({ id, format }) {
   const deleteItem = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       const response = await request.delete(`/community/posts/${id}/delete/`);
-      navigate('/community');
+      navigate(`/community/${board}`);
       alert('삭제되었습니다.');
     }
   }
