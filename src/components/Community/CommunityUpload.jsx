@@ -99,11 +99,10 @@ export default function CommunityUpload({ setMode, board, format }) {
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-  console.log(format);
   const uploadItem = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('board', board + 1);
+    formData.append('board', board);
     formData.append('title', event.target.title.value);
     formData.append('content', event.target.content.value);
     if(format.supportsPostPhotos) {
