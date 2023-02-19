@@ -111,8 +111,11 @@ export default function CommunityDetail({ id, format }) {
     isWriter = true;
   }
   const deleteItem = async () => {
-    const response = await request.delete(`/community/posts/${id}/delete/`);
-    navigate('/community');
+    if (window.confirm('삭제하시겠습니까?')) {
+      const response = await request.delete(`/community/posts/${id}/delete/`);
+      navigate('/community');
+      alert('삭제되었습니다.');
+    }
   }
   const likeItem = async () => {
     const response = await request.post(`/community/posts/${id}/like/`);
