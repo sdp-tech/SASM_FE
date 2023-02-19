@@ -145,8 +145,10 @@ export default function CommunityList({ board, format }) {
     setTotal(response.data.data.count);
     setLoading(false);
   }
+
   useEffect(() => {
     getItem();
+    setMode(false);
   }, [page, search, board]);
   return (
     <>
