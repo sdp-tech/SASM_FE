@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
-import Community from "../components/Community/Community"
-import checkSasmAdmin from '../components/Admin/Common';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Tab, Tabs } from '@mui/material';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import CommunityDetail from '../components/Community/CommunityDetail';
 import Request from '../functions/common/Request';
+import CommunityList from '../components/Community/CommunityList';
+import Loading from '../components/common/Loading';
 
 const CommunitySection = styled.div`
   height: calc(100vh - 64px);
@@ -25,9 +24,11 @@ const Content = styled.div`
   padding: 3vh 3vw;
   position: relative;
 `
-const BackButton = styled.div`
+const BackButton = styled(NavLink)`
   font-size: 1.2rem;
   cursor: pointer;
+  color: #000000;
+  text-decoration: none;
 `
 const Board = styled.div`
   grid-area: header;
@@ -46,85 +47,73 @@ const MenuTitle = styled.div`
   align-items: center;
   justify-content: center;
 `
-function a11yProps(index) {
-  return {
-    id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
-  };
-}
-
+const StyledLink = styled(NavLink)`
+  display: 'block';
+  textDecoration: 'none';
+  width: '100%';
+  padding: '3%';
+  textAlign: 'center';
+  color: #000000;
+  &.selected {
+    color: #FFFFFF;
+    background-color: #44ADF7;
+	}
+`
 export default function SpotCommunity() {
-  const [value, setValue] = useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-  const handleBack = () => {
-    if (params.id) {
-      navigate('/community');
-    }
-  }
+  const [loading, setLoading] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const request = new Request(cookies, localStorage, navigate);
   const [format, setFormat] = useState();
-  const [tabStyle, setTabStyle] = useState();
-
   const getFormat = async () => {
-    const response = await request.get(`/community/boards/${value + 1}/`);
+    const response = await request.get(`/community/boards/${params.board}/`);
     setFormat(response.data);
+    setLoading(false);
+  }
+  const ActiveStyle = (isActive) => {
+    
   }
   useEffect(() => {
     getFormat();
-    setTabStyle({
-      '& .MuiTabs-indicator': { display: 'none' },
-      '& .MuiTab-root': { borderBottom: '1px rgba(0,0,0,0.5) solid', width: '100%', margin: '0 auto' },
-      '& .Mui-selected': { color: '#FFFFFF', backgroundColor: "#44ADF7" },
-    });
-
-  }, [value]);
-  // const token = cookies.name;
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+  }, [params.board]);
   return (
-    <CommunitySection>
-      <MenuTitle>
-        Community
-      </MenuTitle>
-      <Menu>
-        <Tabs
-          orientation='vertical'
-          value={value}
-          onChange={handleChange}
-          sx={tabStyle}
-        >
-          <Tab onClick={handleBack} label="자유게시판" {...a11yProps(0)} />
-          <Tab onClick={handleBack} label="장소 추천" {...a11yProps(1)} />
-          <Tab onClick={handleBack} label="홍보게시판" {...a11yProps(2)} />
-          <Tab onClick={handleBack} label="모임게시판" {...a11yProps(3)} />
-        </Tabs>
-      </Menu>
-      <Board>
-        {
-          {
-            "0": "자유게시판",
-            "1": "장소 추천",
-            "2": "홍보게시판",
-            "3": "모임게시판"
-          }[value]
-        }
-        {
-          params.id && <BackButton onClick={handleBack}>목록보기</BackButton>
-        }
-      </Board>
-      <Content>
-        {
-          params.id ?
-            <CommunityDetail format={format} id={params.id}></CommunityDetail>
-            :
-            <Community format={format} value={value}></Community>
-        }
-      </Content>
-    </CommunitySection>
+    <>
+      {loading ?
+        <Loading /> : <CommunitySection>
+          <MenuTitle>
+            Community
+          </MenuTitle>
+          <Menu>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF' })} to='/community/1'>자유게시판</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to='/community/2'>장소 추천</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to='/community/3'>홍보게시판</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to='/community/4'>모임게시판</NavLink>
+          </Menu>
+          <Board>
+            {
+              {
+                "1": "자유게시판",
+                "2": "장소 추천",
+                "3": "홍보게시판",
+                "4": "모임게시판"
+              }[params.board]
+            }
+            {
+              params.id && <BackButton to={`/community/${params.board}`}>목록 보기</BackButton>
+            }
+          </Board>
+          <Content>
+            {
+              params.id ?
+                <CommunityDetail format={format} board={params.board} id={params.id}></CommunityDetail>
+                :
+                <CommunityList format={format} board={params.board}></CommunityList>
+            }
+          </Content>
+        </CommunitySection>
+
+      }
+    </>
   )
 }

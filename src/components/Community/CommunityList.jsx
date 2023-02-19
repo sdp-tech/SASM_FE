@@ -88,7 +88,7 @@ export default function CommunityList({ board, format }) {
   const getItem = async () => {
     setLoading(true);
     const response = await request.get("/community/posts/", {
-      board: board + 1,
+      board: board,
       query: search,
       query_type: 'default',
       page: page,
@@ -147,7 +147,7 @@ export default function CommunityList({ board, format }) {
   }
   useEffect(() => {
     getItem();
-  }, [page, search]);
+  }, [page, search, board]);
   return (
     <>
       {mode ?
@@ -180,7 +180,7 @@ export default function CommunityList({ board, format }) {
               {
                 list.map((data, index) => (
                   <List key={index}>
-                    <StyledLink to={`/community/${data.id}`}>
+                    <StyledLink to={`/community/${board}/${data.id}`}>
                       {data.title}
                     </StyledLink>
                     <Info>
