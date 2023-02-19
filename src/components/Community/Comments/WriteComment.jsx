@@ -72,7 +72,10 @@ export default function WriteComment({ id, isParent, parentId, format }) {
       formData.append('parent', parentId);
     }
     if (format.supportsPostCommentPhotos) {
-      formData.append('imageList', event.target.image_write.files[0]);
+      if (event.target.image_write.length > 0) {
+        // 업로드 가능한 댓글 사진 개수는 최대 1개
+        formData.append('imageList', event.target.image_write.files[0]);
+      }
     }
     formData.append('content', event.target.text.value);
     const response = await request.post('/community/post_comments/create/', formData, { "Content-Type": "multipart/form-data" });
@@ -90,7 +93,7 @@ export default function WriteComment({ id, isParent, parentId, format }) {
       <InputText type="text" id="text" />
       <SubmitButton type='submit'>제출</SubmitButton>
       <ImageList id="filelist">
-        <img src={imageUrl} style={{ height: '100%' }} />
+        <img src={imageUrl} style={{ height: '100%', maxHeight: '200px' }} />
       </ImageList>
     </StlyedForm>
   )
