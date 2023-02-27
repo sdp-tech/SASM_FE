@@ -17,31 +17,31 @@ const NaverCallback = (props) => {
         // 인가코드
         const code = new URL(window.location.href).searchParams.get("code");
         console.log(code);
-        await axios({
-            method: "GET",
-            url:
-                process.env.REACT_APP_SASM_API_URL +
-                `/users/naver/callback/?code=${code}`,
-        })
-            .then((res) => {
-                setLogin({
-                    ...login,
-                    loggedIn: true,
-                    // token :res.token
-                    refresh: res.data.data.refresh,
-                    access: res.data.data.access,
-                    nickname: res.data.data.nickname,
-                });
-                localStorage.setItem("nickname", res.data.data.nickname);
-                localStorage.setItem("accessTK", res.data.data.access);
-                setCookie("name", res.data.data.refresh);
+//         await axios({
+//             method: "GET",
+//             url:
+//                 process.env.REACT_APP_SASM_API_URL +
+//                 `/users/naver/callback/?code=${code}`,
+//         })
+//             .then((res) => {
+//                 setLogin({
+//                     ...login,
+//                     loggedIn: true,
+//                     // token :res.token
+//                     refresh: res.data.data.refresh,
+//                     access: res.data.data.access,
+//                     nickname: res.data.data.nickname,
+//                 });
+//                 localStorage.setItem("nickname", res.data.data.nickname);
+//                 localStorage.setItem("accessTK", res.data.data.access);
+//                 setCookie("name", res.data.data.refresh);
 
-                navigate("/map");
-            })
-            .catch((err) => {
-                navigate("/login");
-                window.alert("로그인에 실패하였습니다.");
-            });
+//                 navigate("/map");
+//             })
+//             .catch((err) => {
+//                 navigate("/login");
+//                 window.alert("로그인에 실패하였습니다.");
+//             });
     }, []);
 
     return (
