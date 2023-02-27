@@ -17,24 +17,14 @@ export default async function TrySocialLogin(site) {
       "response_type=token&" +
       "scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
   }
-  if (site === "naver")
-    // url = 'naver_url'
-    url = "http://www.naver.com";
-  if (site === "kakaotalk") {
-    window.location.href = KAKAO_AUTH_URL; //OAuth.js에 url 가져오기
-  }
+  if (site === "naver") {
+    const NAVER_CLIENT_ID = "MPnY9ztwWhnUTEk5HXdO";
+    const NAVER_REDIRECT_URI = "http://sasm.co.kr/auth/naver/callback";
+    const NAVER_STATE = "test";
+    window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}&state=${NAVER_STATE}`;
 
-  // console.log(url);
-  // await axios
-  //   .get(url, {
-  //     header: {
-  //       "Access-Control-Allow-Origin": "https://accounts.google.com",
-  //     },
-  //   })
-  //   .then(function (res) {
-  //     console.log(res);
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
+  }
+  if (site === "kakaotalk") {
+    window.location.href = KAKAO_AUTH_URL;
+  }
 }
