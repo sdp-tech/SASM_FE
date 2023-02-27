@@ -19,7 +19,7 @@ export default async function TrySocialLogin(site) {
   }
   if (site === "naver") {
     const NAVER_CLIENT_ID = "MPnY9ztwWhnUTEk5HXdO";
-    const NAVER_REDIRECT_URI = "http://sasm.co.kr/auth/naver/callback";
+    const NAVER_REDIRECT_URI = "https://sasm.co.kr/auth/naver/callback";
     const NAVER_STATE = "test";
     window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}&state=${NAVER_STATE}`;
 
