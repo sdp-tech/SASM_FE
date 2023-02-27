@@ -62,15 +62,16 @@ const SocialLogin = () => {
         />
 
         <SocialLogo
-          // onClick={(e) => TrySocialLogin(e.target.id)}
+          onClick={(e) => TrySocialLogin(e.target.id)}
           id="naver"
           src={naver_login}
-          style={{ opacity: "0.4" }}
+          style={{ border: "1px solid #eaeaea" }}
         />
         <SocialLogo
           onClick={(e) => TrySocialLogin(e.target.id)}
           id="kakaotalk"
           src={kakaotalk_login}
+          style={{ border: "1px solid #eaeaea" }}
         />
       </LogoWrapper>
     </Wrapper>
