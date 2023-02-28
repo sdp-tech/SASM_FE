@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 
-import Navibar from "../../common/Navibar";
 import axios from "axios";
 import { LoginContext } from "../../../contexts/LoginContexts";
 import { useNavigate } from "react-router";
@@ -16,7 +15,6 @@ const NaverCallback = (props) => {
     useEffect(async () => {
         // 인가코드
         const code = new URL(window.location.href).searchParams.get("code");
-        console.log(code);
         await axios({
             method: "GET",
             url:
@@ -27,7 +25,6 @@ const NaverCallback = (props) => {
                 setLogin({
                     ...login,
                     loggedIn: true,
-                    // token :res.token
                     refresh: res.data.data.refresh,
                     access: res.data.data.access,
                     nickname: res.data.data.nickname,
@@ -39,8 +36,8 @@ const NaverCallback = (props) => {
                 navigate("/map");
             })
             .catch((err) => {
-                navigate("/login");
                 window.alert("로그인에 실패하였습니다.");
+                navigate("/auth");
             });
     }, []);
 

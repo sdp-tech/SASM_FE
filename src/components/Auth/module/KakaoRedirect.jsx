@@ -72,10 +72,9 @@ const KakaoLogin = (code) => {
         // window.location.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
       })
       .catch((err) => {
-        navigate("/login");
         console.log("소셜로그인 에러", err);
         window.alert("로그인에 실패하였습니다.");
-        navigate("/login");
+        navigate("/auth");
         // history.replace("/users/"); // 로그인 실패하면 로그인화면으로 돌려보냄
       });
   };
