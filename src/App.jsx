@@ -62,10 +62,6 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
-              <Route
-                path="/googleredirect"
-                element={<GoogleRedirect />}
-              ></Route>
               <Route path="/map" element={<SpotMap />} />
               <Route path="/map/:place" element={<SpotMap />} />
 
