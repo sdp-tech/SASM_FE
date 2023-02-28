@@ -98,7 +98,7 @@ export default function WriteReview(props) {
             }
 
             if (props.mode == 'write') {
-                const response = await request.post("/places/place_review/", formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.post("/places/place_review/create/", formData, { "Content-Type": "multipart/form-data" });
             }
             else if (props.mode == 'update') {
                 const response = await request.put(`/places/place_review/${props.target}/`, formData, { "Content-Type": "multipart/form-data" });
