@@ -49,7 +49,6 @@ export default function DataContainer({ Location }) {
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [total, setTotal] = useState(0);
-    const [zoom, setZoom] = useState(14);
     const [state, setState] = useState({
         loading: false,
         ItemList: [],
@@ -170,7 +169,7 @@ export default function DataContainer({ Location }) {
 
     return (
         <>
-            <Mobile><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Mobile>
+            <Mobile><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
@@ -208,8 +207,8 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Pc><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Pc>
-            <Tablet><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} zoom={zoom} setZoom={setZoom} /></Tablet>
+            <Pc><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Pc>
+            <Tablet><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Tablet>
         </>
     )
 }
