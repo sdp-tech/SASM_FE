@@ -83,7 +83,7 @@ export default function WriteComment({ id }) {
             navigate('/auth');
         }
         else {
-            const response = await request.post("/stories/comments/create/", {
+            const response = await request.post("/stories/comments/", {
                 story: id,
                 content: event.target.text.value,
             });
