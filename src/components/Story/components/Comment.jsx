@@ -89,11 +89,11 @@ export default function Comment({ data }) {
     setUpdate(!update);
   }
   const deleteComment = async () => {
-    const response = await request.delete(`/stories/comments/delete/${data.id}`, {});
+    const response = await request.delete(`/stories/comments/${data.id}`, {});
     window.location.reload();
   }
   const updateComment = async () => {
-    const response = await request.patch(`/stories/comments/update/${data.id}`, {
+    const response = await request.patch(`/stories/comments/${data.id}`, {
       content: document.getElementById('textarea').value,
     });
     window.location.reload();
