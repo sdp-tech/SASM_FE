@@ -1,3 +1,5 @@
+import React from "react";
+import {NavLink} from "react-router-dom";
 import styled from "styled-components";
 
 function Pagination({ total, limit, page, setPage }) {
@@ -9,31 +11,27 @@ function Pagination({ total, limit, page, setPage }) {
         ""
       ) : (
         <Nav>
-          <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+          <StyledLink to='#' onClick={() => setPage(page - 1)} disabled={page === 1}>
             &lt;
-          </Button>
+          </StyledLink>
           {Array(numPages)
             .fill()
             .map((_, i) => (
-              <Button
-                key={i + 1}
-                onClick={() => setPage(i + 1)}
-                aria-current={page === i + 1 ? "page" : null}
-              >
+              <StyledLink to='#' key={i+1} onClick={()=>setPage(i+1)} aria-current={page===i+1?"page":null}>
                 {i + 1}
-              </Button>
-            ))}
-          <Button
+              </StyledLink>))}
+          <StyledLink to='#' 
             onClick={() => setPage(page + 1)}
             disabled={page === numPages}
           >
             &gt;
-          </Button>
+          </StyledLink>
         </Nav>
       )}
     </>
   );
 }
+
 
 const Nav = styled.nav`
   display: flex;
@@ -41,11 +39,12 @@ const Nav = styled.nav`
   align-items: center;
 `;
 
-const Button = styled.button`
+const StyledLink = styled(NavLink)`
   border: none;
   border-radius: 8px;
   padding: 8px;
   margin: 0;
+  text-decoration: none;
   background: white;
   color: #808080;
   // color: black;
