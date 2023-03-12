@@ -51,7 +51,7 @@ const Login = () => {
     const res = await TryLogin(info);
 
     if (res === undefined) {
-      alert("로그인 실패");
+      alert("서버로부터의 응답이 없습니다.");
     } else if ("success" === res.status) {
       const access = res.data.access;
       // alert(access);
@@ -76,7 +76,7 @@ const Login = () => {
       navigate("/map");
       // window.location.href = "/map";
     } else {
-      alert("로그인 실패");
+      alert("아이디 또는 비밀번호가 일치하지 않습니다.");
     }
   };
   const onKeyPress = (e) => {

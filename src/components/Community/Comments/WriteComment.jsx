@@ -72,7 +72,7 @@ export default function WriteComment({ id, isParent, parentId, format }) {
       formData.append('parent', parentId);
     }
     if (format.supportsPostCommentPhotos) {
-      if (event.target.image_write.length > 0) {
+      if (event.target.image_write.files.length > 0) {
         // 업로드 가능한 댓글 사진 개수는 최대 1개
         formData.append('imageList', event.target.image_write.files[0]);
       }
