@@ -8,7 +8,6 @@ import { useNavigate } from "react-router";
 import DataContainer from "../components/SpotMap/DataContainer";
 
 export default function SpotMap() {
-  const [page, setPage] = useState(1);
   const [login, setLogin] = useContext(LoginContext);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -47,7 +46,7 @@ export default function SpotMap() {
         <Loading />
       ) : (
         <>
-          <DataContainer Location={location} page={page} />
+          <DataContainer Location={location}/>
         </>
       )}
     </Sections>
