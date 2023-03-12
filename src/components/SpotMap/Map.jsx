@@ -252,10 +252,7 @@ const Markers = (props) => {
 const NaverMapAPI = (props) => {
   const Item = props.markerInfo;
   const navermaps = window.naver.maps;
-  const zoom = props.zoom;
-  const setZoom = (zoom) => {
-    props.setZoom(zoom);
-  };
+  const [zoom ,setZoom] = useState(14);
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
   const [state, setState] = useState({
@@ -442,10 +439,6 @@ export default function Map(props) {
       itemdata.category,
     ];
   });
-  const zoom = props.zoom;
-  const setZoom = (zoom) => {
-    props.setZoom(zoom);
-  };
   const temp = props.temp;
   const setTemp = (data) => {
     props.setTemp(data);
@@ -471,8 +464,6 @@ export default function Map(props) {
           setTemp={setTemp}
           setSearchHere={setSearchHere}
           setPage={setPage}
-          zoom={zoom}
-          setZoom={setZoom}
         />
       </RenderAfterNavermapsLoaded>
 
