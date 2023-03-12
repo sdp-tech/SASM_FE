@@ -35,8 +35,6 @@ const FilterOptions = styled.div`
 
 export default function DataContainer({ Location }) {
     const [categoryNum, setCategoryNum] = useState(0);
-    const [filterToggle, setFilterToggle] = useState(false);
-    const [searchToggle, setSearchToggle] = useState(false);
     const [isSasmAdmin, setIsSasmAdmin] = useState(false);
     const [page, setPage] = useState(1);
     //tempSearch, tempCheckedList 검색 버튼을 누르기 전에 적용 방지 
@@ -48,10 +46,8 @@ export default function DataContainer({ Location }) {
     const navigate = useNavigate();
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
-    const [total, setTotal] = useState(0);
-    const [state, setState] = useState({
-        loading: false,
-        ItemList: [],
+    const [placeData, setPlaceData] = useState({
+        total:0,
         MapList: [],
     });
     //지도의 현재 위치 고정
@@ -80,36 +76,16 @@ export default function DataContainer({ Location }) {
         }
     };
 
-    const handleFilterToggle = () => {
-        setFilterToggle(!filterToggle);
+    const onChangeSearch = (event) => {
+        setTempSearch(event.target.value);
     };
-
-    const onChangeSearch = (e) => {
-        e.preventDefault();
-        setTempSearch(e.target.value);
-    };
-    const handleSearchToggle = async (e) => {
+    const handleSearchToggle = (event) => {
         setPage(1);
-        if (e) {
-            e.preventDefault();
+        if (event) {
+            event.preventDefault();
         } //초기화 방지
-        setSearchToggle(true);
         setLoading(true);
-
-        let headerValue;
-        if (token === null || undefined) {
-            headerValue = `No Auth`;
-        } else {
-            headerValue = `Bearer ${token}`;
-        }
-        if (tempSearch === null || tempSearch === "") {
-            //검색어 없을 경우 전체 리스트 반환
-            setSearch('');
-        } else {
-            //검색어 있는 경우
-            setSearch(tempSearch);
-        }
-        setFilterToggle(false);
+        setSearch(tempSearch);
         setLoading(false);
         if (params.place) {
             navigate('/map');
@@ -150,11 +126,10 @@ export default function DataContainer({ Location }) {
                 filter: checkedList
             }, null);
         }
-        setState({
-            loading: true,
+        setPlaceData({
+            total: response.data.data.count,
             MapList: response.data.data.results,
         });
-        setTotal(response.data.data.count);
         setLoading(false);
         if (checkedList.length != 0 || search != "") {
             setTemp({
@@ -169,13 +144,12 @@ export default function DataContainer({ Location }) {
 
     return (
         <>
-            <Mobile><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Mobile>
+            <Mobile><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
                         search={tempSearch}
                         onChangeSearch={onChangeSearch}
-                        handleFilterToggle={handleFilterToggle}
                         handleSearchToggle={handleSearchToggle}
                         placeholder="지속가능한 장소를 검색해보세요!"
                         searchIcon={SearchWhite}
@@ -187,9 +161,9 @@ export default function DataContainer({ Location }) {
                     <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
 
-                <SpotList categoryNum={categoryNum} mapList={state.MapList} setTemp={setTemp}></SpotList>
+                <SpotList categoryNum={categoryNum} placeData={placeData.MapList} setTemp={setTemp}></SpotList>
                 <Pagination
-                    total={total}
+                    total={placeData.total}
                     limit={20}
                     page={page}
                     setPage={setPage}
@@ -207,8 +181,8 @@ export default function DataContainer({ Location }) {
                     <></>
                 )}
             </ListWrapper>
-            <Pc><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Pc>
-            <Tablet><Map categoryNum={categoryNum} mapList={state.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Tablet>
+            <Pc><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Pc>
+            <Tablet><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Tablet>
         </>
     )
 }

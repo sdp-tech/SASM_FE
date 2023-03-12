@@ -90,17 +90,15 @@ const DetailBox = styled.div`
   position: absolute;
 `;
 
-export default function ItemCard(props) {
+export default function ItemCard({ placeData, categoryNum, setTemp }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [detailInfo, setDetailInfo] = useState([]);
-  const [reviewInfo, setReviewInfo] = useState([]);
+  const [detailData, setDetailData] = useState([]);
+  const [reviewData, setReviewData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
-  const id = props.id;
-  const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
   useEffect(() => {
     if (categoryNum != 0) {
@@ -110,36 +108,27 @@ export default function ItemCard(props) {
     }
   }, [categoryNum]);
   const request = new Request(cookies, localStorage, navigate);
-  const setTemp = (data) => {
-    props.setTemp(data);
-  };
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
   };
 
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
-    // alert(`${props.id}`);
     if (!token) {
       alert("로그인이 필요합니다.");
-    } else {
-      const response = await request.post(
-        "/places/place_like/",
-        { id: id },
-        null
-      );
-      // console.log("response", response);
-
+    }
+    else {
+      const response = await request.post("/places/place_like/",{ id: placeData.id });
       //색상 채우기
       setLike(!like);
     }
   };
+  // 마커 전부 초기화
   const MarkerReset = () => {
-    const text = document.getElementById(`${id}text`);
+    const text = document.getElementById(`${placeData.id}text`);
     if (text) {
       text.style.transform = "none";
       if (!bool) {
@@ -147,53 +136,38 @@ export default function ItemCard(props) {
       }
     }
     if (!bool) {
-      document.getElementById(
-        `${id}bg`
-      ).style.backgroundImage = `url(${MarkerbgDefault})`;
+      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgDefault})`;
     } else {
-      document.getElementById(
-        `${id}bg`
-      ).style.backgroundImage = `url(${MarkerbgActive})`;
+      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgActive})`;
     }
-    document.getElementById(id).style.zIndex = "1";
+    document.getElementById(placeData.id).style.zIndex = "1";
   };
+  // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
-    const text = document.getElementById(`${id}text`);
+    const text = document.getElementById(`${placeData.id}text`);
     if (text) {
       text.style.transform = "translateY(100%)";
       if (!bool) {
         text.style.display = "block";
       }
     }
-    document.getElementById(
-      `${id}bg`
-    ).style.backgroundImage = `url(${MarkerbgSelect})`;
-    document.getElementById(id).style.zIndex = "100";
+    document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
+    document.getElementById(placeData.id).style.zIndex = "100";
   };
 
   // 상세보기 클릭 이벤트
   const handleClick = async () => {
     setLoading(true);
     MarkerChange();
-    const response = await request.get(
-      "/places/place_detail/",
-      { id: id },
-      null
-    );
-    const response_review = await request.get(
-      "/places/place_review/",
-      {
-        id: id,
-      },
-      null
-    );
-    setDetailInfo(response.data.data);
-    setReviewInfo(response_review.data.data);
+    const response_detail = await request.get("/places/place_detail/", { id: placeData.id });
+    const response_review = await request.get("/places/place_review/", { id: placeData.id });
+    setDetailData(response_detail.data.data);
+    setReviewData(response_review.data.data);
     setModalOpen(true);
     setTemp({
       center: {
-        lat: response.data.data.latitude,
-        lng: response.data.data.longitude,
+        lat: response_detail.data.data.latitude,
+        lng: response_detail.data.data.longitude,
       },
       zoom: 13,
     });
@@ -201,10 +175,10 @@ export default function ItemCard(props) {
     setLoading(false);
   };
 
-  // params를 통해 들어왔을경우 바로 open하기
-  useEffect(() => {
-    if (props.modalOpen) handleClick();
-  }, []);
+  // // params를 통해 들어왔을경우 바로 open하기
+  // useEffect(() => {
+  //   if (props.modalOpen) handleClick();
+  // }, []);
 
   useEffect(() => {
     const clickOutside = (e) => {
@@ -228,7 +202,7 @@ export default function ItemCard(props) {
       <StyledCard key={Date.now()}>
         <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
           <img
-            src={props.ImageURL}
+            src={placeData.rep_pic}
             className="image--itemcard"
             alt="placeImage"
             width="100%"
@@ -241,26 +215,24 @@ export default function ItemCard(props) {
               style={{ width: "100%", cursor: "pointer" }}
               onClick={handleClick}
             >
-              {props.StoreName}
+              {placeData.place_name}
             </div>
-            <LikeButton
-              style={{ position: "absolute", right: "5%", bottom: "2%" }}
-            >
-              {props.place_like === "ok" ? (
+            <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
+              {placeData.place_like === "ok" ? (
                 <HeartButton like={!like} onClick={toggleLike} />
               ) : (
                 <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
             <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem" }}>
-              {props.StoreType}
+              {placeData.category}
             </div>
           </TitleBox>
 
           <ContentBox>
-            <div style={{ color: "#999999" }}>{props.place_review}</div>
-            <div>{props.Address}</div>
-            <div>{props.open_hours}</div>
+            <div style={{ color: "#999999" }}>{placeData.place_review}</div>
+            <div>{placeData.address}</div>
+            <div>{placeData.open_hours}</div>
           </ContentBox>
         </TextBox>
       </StyledCard>
@@ -268,9 +240,9 @@ export default function ItemCard(props) {
         {modalOpen && (
           <SpotDetail
             modalClose={modalClose}
-            id={props.id}
-            detailInfo={detailInfo}
-            reviewInfo={reviewInfo}
+            id={placeData.id}
+            detailData={detailData}
+            reviewData={reviewData}
           ></SpotDetail>
         )}
       </DetailBox>

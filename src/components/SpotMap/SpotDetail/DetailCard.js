@@ -186,32 +186,8 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function DetailCard({
-  data,
-  reviewInfo,
-  modalClose,
-}) {
-  const id = data.id
-  const MainImage = data.rep_pic
-  const StoreName = data.place_name
-  const Category = data.category
-  const PlaceReview = data.place_review
-  const ShortCur = data.short_cur
-  const Address = data.address
-  const Mon = data.mon_hours
-  const Tues = data.tues_hours
-  const Wed = data.wed_hours
-  const Thurs = data.thurs_hours
-  const Fri = data.fri_hours
-  const Sat = data.sat_hours
-  const Sun = data.sun_hours
-  const open_hours = data.open_hours
-  const Photos = data.photos
-  const story_id = data.story_id
-  const place_like = data.place_like
-  const statistics = data.category_statistics
+export default function DetailCard({ reviewData, detailData, modalClose }) {
   const [value, setValue] = useState(0);
-  const [mode, setMode] = useState('write');
   const [target, setTarget] = useState(null);
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -219,6 +195,7 @@ export default function DetailCard({
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const email = localStorage.getItem('email');
   const handleClick = () => {
     setOpen(!open);
   };
@@ -233,7 +210,7 @@ export default function DetailCard({
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      const response = await request.post("/places/place_like/", { id: id }, null);
+      const response = await request.post("/places/place_like/", { id: detailData.id }, null);
       console.log("response", response);
       //색상 채우기
       setLike(!like);
@@ -242,13 +219,13 @@ export default function DetailCard({
   const handleTab = (event, value) => {
     setValue(value);
   }
-  let target_info;
-  for (let i = 0; i < reviewInfo.results.length; i++) {
-    if (reviewInfo.results[i].id == target) {
-      target_info = reviewInfo.results[i];
+  let targetData;
+  for (let i = 0; i < reviewData.results.length; i++) {
+    if (reviewData.results[i].id == target) {
+      targetData = reviewData.results[i];
     }
   }
-  let keywords = [
+  let keywordList = [
     ['분위기가 좋다', '1'],
     ['혼자 가기 좋다', '2'],
     ['함께 가기 좋다', '3'],
@@ -257,21 +234,21 @@ export default function DetailCard({
     ['뷰가 좋다', '6'],
     ['지속가능성의 필요성을 느낄 수가 있다', '7']
   ]
-  switch (Category) {
+  switch (detailData.category) {
     case '식당 및 카페':
-      keywords.push(['음식이 맛있다', '8'], ['양이 많다', '9'], ['직원분이 친절하시다', '10'])
+      keywordList.push(['음식이 맛있다', '8'], ['양이 많다', '9'], ['직원분이 친절하시다', '10'])
       break;
     case '전시 및 체험공간':
-      keywords.push(['전시가 멋지다', '11'], ['아이와 함께 가기 좋다', '12'], ['부모님과 함께 가기 좋다', '13'])
+      keywordList.push(['전시가 멋지다', '11'], ['아이와 함께 가기 좋다', '12'], ['부모님과 함께 가기 좋다', '13'])
       break;
     case '도시 재생 및 친환경 건축물':
-      keywords.push(['특색 있다', '14'])
+      keywordList.push(['특색 있다', '14'])
       break;
     case '제로웨이스트 샵':
-      keywords.push(['물건 종류가 다양하다', '15'])
+      keywordList.push(['물건 종류가 다양하다', '15'])
       break;
     case '녹색 공간':
-      keywords.push(['관리가 잘 되어 있다', '16'])
+      keywordList.push(['관리가 잘 되어 있다', '16'])
       break;
   }
   return (
@@ -281,7 +258,7 @@ export default function DetailCard({
       </CloseButton>
       <ImgBox>
         <img
-          src={MainImage}
+          src={detailData.rep_pic}
           className="image--itemcard"
           alt="main image"
           width="600px"
@@ -290,13 +267,13 @@ export default function DetailCard({
       </ImgBox>
       <TextBox>
         <InfoBox>
-          <p style={{ fontSize: "1.5rem", fontWeight: "700", marginBottom: '-1%' }}>{StoreName}</p>
-          <p style={{ fontSize: "1.25rem", fontWeight: "400" }}>{Category}</p>
+          <p style={{ fontSize: "1.5rem", fontWeight: "700", marginBottom: '-1%' }}>{detailData.place_name}</p>
+          <p style={{ fontSize: "1.25rem", fontWeight: "400" }}>{detailData.category}</p>
           <ButtonBox>
             {/* 스토리가 있는 경우에만 버튼 띄우기 */}
-            {story_id ? (
+            {detailData.story_id ? (
               <Link
-                to={`/story/${story_id}`}
+                to={`/story/${detailData.story_id}`}
                 style={{ textDecoration: "none" }}
               >
                 <MapButton>Go To Story</MapButton>
@@ -305,7 +282,7 @@ export default function DetailCard({
               ""
             )}
             <LikeButton>
-              {place_like === "ok" ? (
+              {detailData.place_like === "ok" ? (
                 <HeartButton like={!like} onClick={toggleLike} />
               ) : (
                 <HeartButton like={like} onClick={toggleLike} />
@@ -320,23 +297,19 @@ export default function DetailCard({
         <TabPanel value={value} index={0}>
           <>
             <ReviewBox>
-              {/* PlaceReview */}
-              <p>{PlaceReview}</p>
+              <p>{detailData.place_review}</p>
             </ReviewBox>
             <AddressBox>
-              {/* address */}
               <div style={{ display: 'flex', width: '100%' }}>
                 <img style={{ width: '25px' }} src={PlaceImg} />
-                <p style={{ marginLeft: '3%' }}>{Address}</p>
+                <p style={{ marginLeft: '3%' }}>{detailData.address}</p>
               </div>
-              {/* openingHours */}
 
               <ListButton onClick={handleClick}>
                 <div style={{ display: 'flex', width: '100%' }}>
                   <img style={{ width: '25px' }} src={OpenTimeImg} />
-                  <p style={{ marginLeft: '3%' }}>{open_hours}</p>
+                  <p style={{ marginLeft: '3%' }}>{detailData.open_hours}</p>
                 </div>
-                {/* {open ? "∧" : "∨"} */}
                 {open ? (
                   <>
                     <img src={toggleOpen} style={{ transform: "rotate(180deg)" }} />
@@ -358,22 +331,22 @@ export default function DetailCard({
                       height: "100%",
                     }}
                   >
-                    <p>월 : {Mon}</p>
-                    <p>화 : {Tues}</p>
-                    <p>수 : {Wed}</p>
-                    <p>목 : {Thurs}</p>
-                    <p>금 : {Fri}</p>
-                    <p>토 : {Sat}</p>
-                    <p>일 : {Sun}</p>
+                    <p>월 : {detailData.mon_hours}</p>
+                    <p>화 : {detailData.tues_hours}</p>
+                    <p>수 : {detailData.wed_hours}</p>
+                    <p>목 : {detailData.thurs_hours}</p>
+                    <p>금 : {detailData.fri_hours}</p>
+                    <p>토 : {detailData.sat_hours}</p>
+                    <p>일 : {detailData.sun_hours}</p>
                   </div>
                 </List>
               </Collapse>
             </AddressBox>
             <PhotoBox>
               {
-                Photos.map((data, index) => {
+                detailData.photos.map((data, index) => {
                   return (
-                    <a href={data.image} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
+                    <a href={data.image} key={`${detailData.id}_photo_${index}`} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
                       <img
                         style={{ height: "100%", width: "100%" }}
                         src={data.image}
@@ -387,15 +360,15 @@ export default function DetailCard({
               }
             </PhotoBox>
             <ShortCurBox>
-              <p>{ShortCur}</p>
+              <p>{detailData.short_cur}</p>
             </ShortCurBox></>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <>
             {
-              statistics.map((data, index) => {
+              detailData.category_statistics.map((data, index) => {
                 return (
-                  <StatisticWrapper key={index}>
+                  <StatisticWrapper key={`${detailData.id}_statistics_${index}`}>
                     <StatisticText>{data[0]}</StatisticText>
                     <PercentageBar width={data[1]} />
                     <StatisticText>{data[1]}%</StatisticText>
@@ -404,10 +377,17 @@ export default function DetailCard({
               })
             }
             <ReviewBox>
-              {reviewOpen ? <WriteReview keywords={keywords} id={id} mode={mode} target={target} target_info={target_info}></WriteReview> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
-
+              {reviewOpen ? <WriteReview keywordList={keywordList} id={detailData.id} target={target} targetData={targetData}/> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
             </ReviewBox>
-            <UserReview reviewInfo={reviewInfo.results} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}></UserReview></>
+            {
+              reviewData.results.map((data)=>{
+                const isWriter = (data.writer==email);
+                return(
+                  <UserReview reviewData={data} setReviewOpen={setReviewOpen} setTarget={setTarget} writer={isWriter}/>
+                )
+              })
+            }
+          </>
         </TabPanel>
       </TextBox>
     </StyledCard >
