@@ -257,7 +257,7 @@ const StoryDetailBox = (props) => {
     const response_detail = await request.get("/stories/story_detail/", { id: id }, null);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
     const recommend_story = await request.get("/stories/recommend_story/", { id: id }, null);
-    // console.log("data", response.data);.
+
     setData(response_detail.data.data[0]);
     setComment(response_comment.data.data);
     setRecommend(recommend_story.data.data);
@@ -300,7 +300,7 @@ const StoryDetailBox = (props) => {
                 {data.place_name}
                 <LikeIconBox>
                   <LikeButton>
-                    {data.story_like === "ok" ? (
+                    {data.story_like === true ? (
                       <HeartButton like={!like} onClick={toggleLike} />
                     ) : (
                       <HeartButton like={like} onClick={toggleLike} />
