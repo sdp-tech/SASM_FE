@@ -76,9 +76,8 @@ export default function SpotList({ setTemp, placeData, categoryNum }) {
                   <ItemCard
                     categoryNum={categoryNum}
                     setTemp={setTemp}
-                    key={`itemcard_${placeData.id}`}
+                    key={`itemcard_${itemdata.id}`}
                     placeData={itemdata}
-                    // modalOpen={modalOpen}
                   />
                 );
               })
