@@ -28,6 +28,7 @@ const FormWrapper = styled.div`
 const EachKeyWord = styled.div`
     margin:10px;
 `
+
 const PhotoBox = styled.div`
   width: 100px;
   height: 100px;
@@ -44,12 +45,14 @@ const DeleteButton = styled.div`
   right: 0;
   top:0;
 `
+
 export default function WriteReview({ targetData, keywordList, id, target }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   const token = localStorage.getItem('accessTK');
   const [Keyword, setKeyword] = useState([]);
+
   const [photoList, setPhotoList] = useState([]);
   useEffect(() => {
     if (targetData) {
