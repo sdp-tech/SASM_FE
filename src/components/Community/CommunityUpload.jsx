@@ -41,8 +41,15 @@ const InputImage = styled.input`
 const ImageList = styled.div`
   display: flex;
   margin-top: 3vh;
-  width: 50%;
   flex-flow: row wrap;
+  min-height: 100px;
+`
+const ImageBox = styled.div`
+  width: 20%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  position: relative;
 `
 const InputHashtag = styled.input`
   width: 46vw;
@@ -88,7 +95,6 @@ const FileWrapper = styled.label`
   height: 5vh;
   box-shadow: 2px 4px 4px rgba(0,0,0,0.2);
   display: flex;
-  cursor: pointer;
   margin-right: 3vw;
 `
 
@@ -98,19 +104,21 @@ export default function CommunityUpload({ setMode, board, format }) {
   const [images, setImages] = useState([]);
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();
+  const [imageList, setImageList] = useState([]);
   const request = new Request(cookies, localStorage, navigate);
-  const uploadItem = async (event) => {
+
+  const uploadPost = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('board', board);
     formData.append('title', event.target.title.value);
     formData.append('content', event.target.content.value);
-    if(format.supportsPostPhotos) {
+    if (format.supportsPostPhotos) {
       for (let i = 0; i < event.target.file.files.length; i++) {
         formData.append('imageList', event.target.file.files[i]);
       }
     }
-    if(format.supportsHashtags) {
+    if (format.supportsHashtags) {
       for (let i = 0; i < hashtag.length; i++) {
         formData.append('hashtagList', hashtag[i]);
       }
@@ -118,26 +126,23 @@ export default function CommunityUpload({ setMode, board, format }) {
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
     window.location.reload();
   }
-
-  const fileInput = (event) => {
-    // const temp = []
-    // for (let i = 0; i < event.target.files.length; i++) {
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(event.target.files[i]);
-    //   reader.onloadend = () => {
-    //     temp.push(reader.result);
-    //   }
-    // }
-    // setImages(temp);
-
-
-    document.getElementById('filelist').innerHTML = null;
+  const deletePhoto = (data, state, setState) => {
+    setState(state.filter((el) => el !== data));
+  }
+  const selectFile = (file) => {
+    //각각의 파일을 FileReader로 읽어옴
+    const fileReader = new FileReader();
+    fileReader.onload = () => { setImageList(prev => [...prev, fileReader.result]) };
+    fileReader.readAsDataURL(file)
+  }
+  const inputFile = (event) => {
+    //파일 입력 시 개수 제한
     if (event.target.files.length > 10) {
       alert('사진은 최대 10장까지 업로드 할 수 있습니다.');
       event.target.files = null;
     }
     else for (let i = 0; i < event.target.files.length; i++) {
-      document.getElementById('filelist').innerHTML += `<p style='margin:0px; width:50%;'>${event.target.files[i].name}</p>`;
+      selectFile(event.target.files[i]);
     }
   }
   const handleHashtag = (event) => {
@@ -158,7 +163,7 @@ export default function CommunityUpload({ setMode, board, format }) {
   }
   return (
     <>
-      <StyledForm onSubmit={uploadItem}>
+      <StyledForm onSubmit={uploadPost}>
         <InputTitle type="text" id="title" placeholder="제목을 입력해주세요." required />
         <InputContent id="content" placeholder="내용을 입력해주세요." defaultValue={format.postContentStyle} required />
         <div style={{ display: 'flex' }}>
@@ -168,10 +173,10 @@ export default function CommunityUpload({ setMode, board, format }) {
               <LabelWrapper>
                 <Label>사진 첨부</Label>
                 <FileWrapper htmlFor='file'>
-                  <img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} />
+                  <img src={ZoomPlus} style={{ transform: 'scale(0.6)', cursor: 'pointer' }} />
                 </FileWrapper>
               </LabelWrapper>
-              <InputImage type="file" id="file" onChange={fileInput} accept='image/*' multiple></InputImage>
+              <InputImage type="file" id="file" onChange={inputFile} accept='image/*' multiple></InputImage>
             </>
           }
           {
@@ -185,14 +190,13 @@ export default function CommunityUpload({ setMode, board, format }) {
           }
         </div>
         <ImageList id="filelist">
-          {/* {
-                  console.log(images)
-                }
-                {
-                  images.map((data, index) => {return (
-                    <img src={data}/>
-                  )})
-                } */}
+          {
+            imageList.map((data, index) => (
+              <ImageBox key={index}>
+                <img src={data} style={{ width: '90px', height: '90px', margin: '5px' }} onClick={() => { deletePhoto(data, imageList, setImageList) }} />
+              </ImageBox>
+            ))
+          }
         </ImageList>
         <ButtonWrapper>
           <Button onClick={() => { setMode(false) }}>뒤로가기</Button>
