@@ -111,6 +111,10 @@ export default function Comment({ data }) {
         </UserBox>
         <DateBox>
           {date}
+
+          <span style={{color:'#999999', marginLeft:'10px'}}>
+              {date.slice(0, 19) != date.slice(0, 19) ? '수정됨' : null}
+          </span>
         </DateBox>
         <ButtonBox>
           {isWriter ?

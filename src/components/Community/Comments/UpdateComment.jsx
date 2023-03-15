@@ -94,7 +94,7 @@ export default function UpdateComment({ data, setUpdate }) {
       formData.append('imageList', event.target.image_update.files[i]);
     }
     formData.append('content', event.target.text.value);
-    if (photoList.length + event.target.image_update.files.length > 1) {
+    if (photoList?.length + event.target.image_update.files.length > 1) {
       alert('사진은 두 개까지만');
     }
     else {
@@ -111,19 +111,23 @@ export default function UpdateComment({ data, setUpdate }) {
         <InputText type="text" id="text" defaultValue={data.content} />
         <SubmitButton type='submit'>수정</SubmitButton>
         <PhotoList id="filelist">
-        {imageUrl.map((data, index) => (
-            <PhotoBox key={index}>
-              <img src={data} style={{ width: '100%', height: '100%'}} />
-            </PhotoBox>
-          ))}
-          {photoList.map((data, index) => (
-            <PhotoBox key={index}>
-              <img src={data} style={{ width: '100%', height: '100%'}} />
-              <DeleteButton onClick={() => {
-                deleteFile(data)
-              }}>X</DeleteButton>
-            </PhotoBox>
-          ))}
+          {
+            imageUrl.map((data, index) => (
+              <PhotoBox key={index}>
+                <img src={data} style={{ width: '100%', height: '100%' }} />
+              </PhotoBox>
+            ))
+          }
+          {
+            photoList?.map((data, index) => (
+              <PhotoBox key={index}>
+                <img src={data} style={{ width: '100%', height: '100%' }} />
+                <DeleteButton onClick={() => {
+                  deleteFile(data)
+                }}>X</DeleteButton>
+              </PhotoBox>
+            ))
+          }
         </PhotoList>
       </StyledForm>
       <SubmitButton onClick={() => { setUpdate(false) }}>뒤로가기</SubmitButton>

@@ -77,32 +77,35 @@ export default function Comment({ data, id, format }) {
   }
   return (
     <>
-      {update ? 
-      <UpdateComment data={data} setUpdate={setUpdate} /> : 
-      <CommentWrapper>
-        <Contents isParent={data.isParent}>
-          <Title>
-            {data.nickname}
-            <ButtonWrapper>
-              {isWriter && <Button onClick={deleteComment}>삭제</Button>}
-              {isWriter && <Button onClick={handleUpdate}>수정</Button>}
-              {data.isParent && <Button onClick={handleReply}>댓글</Button>}
-              {!isWriter && <Button onClick={reportComment}>신고</Button>}
-            </ButtonWrapper>
-          </Title>
-          <Content>
-            {data.content}
-            <Photos>
-              {data.photoList?.map((data, index) => (
-                <img src={data} key={index} style={{ width: '50px', height: '50px' }}></img>
-              ))}
-            </Photos>
-          </Content>
-          {data.created.slice(0, 10)} {data.created.slice(11, 19)}
-        </Contents>
-        {reply && <WriteComment id={id} isParent={false} parentId={data.id} format={format} />}
-        {report && <ReportComment id={data.id} report={report} setReport={setReport}></ReportComment>}
-      </CommentWrapper>}
+      {update ?
+        <UpdateComment data={data} setUpdate={setUpdate} /> :
+        <CommentWrapper>
+          <Contents isParent={data.isParent}>
+            <Title>
+              {data.nickname}
+              <ButtonWrapper>
+                {isWriter && <Button onClick={deleteComment}>삭제</Button>}
+                {isWriter && <Button onClick={handleUpdate}>수정</Button>}
+                {data.isParent && <Button onClick={handleReply}>댓글</Button>}
+                {!isWriter && <Button onClick={reportComment}>신고</Button>}
+              </ButtonWrapper>
+            </Title>
+            <Content>
+              {data.content}
+              <Photos>
+                {data.photoList?.map((data, index) => (
+                  <img src={data} key={index} style={{ width: '50px', height: '50px' }}></img>
+                ))}
+              </Photos>
+            </Content>
+            {data.updated.slice(0, 10)} {data.updated.slice(11, 19)}
+            <span style={{color:'#999999', marginLeft:'10px'}}>
+              {data.created.slice(0, 19) != data.updated.slice(0, 19) ? '수정됨' : null}
+            </span>
+          </Contents>
+          {reply && <WriteComment id={id} isParent={false} parentId={data.id} format={format} />}
+          {report && <ReportComment id={data.id} report={report} setReport={setReport}></ReportComment>}
+        </CommentWrapper>}
     </>
   )
 }
