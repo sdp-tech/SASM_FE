@@ -258,7 +258,7 @@ const StoryDetailBox = (props) => {
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
     const recommend_story = await request.get("/stories/recommend_story/", { id: id }, null);
 
-    setData(response_detail.data.data[0]);
+    setData(response_detail.data.data);
     setComment(response_comment.data.data);
     setRecommend(recommend_story.data.data);
     setLoading(false);
@@ -285,7 +285,7 @@ const StoryDetailBox = (props) => {
           </Mobile>
           <TopBox>
             <CategoryOptionBox>
-              <Category>{data.category}</Category>
+              <Category>{data?.category}</Category>
               <Options>{data.semi_category}</Options>
             </CategoryOptionBox>
           </TopBox>
