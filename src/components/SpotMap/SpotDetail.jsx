@@ -23,11 +23,7 @@ const StyledList = styled(List)`
   z-index: 102;
 `
 
-export default function SpotDetail(props) {
-  const { modalClose } = props;
-  const data = props.detailInfo;
-  const reviewInfo = props.reviewInfo;
-  const id = props.id;
+export default function SpotDetail({ modalClose, id, detailData, reviewData }) {
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
@@ -41,8 +37,9 @@ export default function SpotDetail(props) {
   return (
     <>
       <StyledList
-        style={{ overflow: "scroll",
-        position: "fixed",
+        style={{
+          overflow: "scroll",
+          position: "fixed",
         }}
         sx={{
           padding: "0",
@@ -52,8 +49,8 @@ export default function SpotDetail(props) {
         }}
       >
         <DetailCard
-          data={data}
-          reviewInfo={reviewInfo}
+          detailData={detailData}
+          reviewData={reviewData}
           modalClose={modalClose}
         />
         {isSasmAdmin ? (

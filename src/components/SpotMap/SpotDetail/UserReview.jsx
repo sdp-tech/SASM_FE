@@ -1,38 +1,107 @@
 import React from 'react'
 import { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
+import Request from '../../../functions/common/Request';
+import WriteReview from './WriteReview'
 import styled from 'styled-components';
-import ReviewBox from './ReviewBox';
 
-const ShortReview = styled.div`
-    text-overflow: ellipsis;
-    height: 100px;
-    overflow: hidden;
+const TextBox = styled.div`
     white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    height: 100px;
 `
 
-export default function UserReview(props) {
-  const setMode = (mode) =>{
-    props.setMode(mode);
-  }
-  const setReviewOpen = (mode) =>{
-    props.setReviewOpen(mode);
-  }
-  const setTarget=(target)=> {
-    props.setTarget(target);
-  }
-  const reviewInfo = props.reviewInfo;
-  const email = localStorage.getItem("email");
-  const [toggle, setToggle] = useState(false);
-  const handleToggle = () => {
-    setToggle(!toggle);
-  }
-  let review = [];
-  for (let i = 0; i < reviewInfo.length; i++) {
-    if (email == reviewInfo[i].writer) { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={true} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}/>) }
-    else { review.push(<ReviewBox data={reviewInfo[i]} id={props.id} writer={false} setMode={setMode} setReviewOpen={setReviewOpen} setTarget={setTarget}/>) }
-  }
+const Button = styled.button`
+    border: none;
+    background: none;
+`
 
-  return (
-    <div style={{borderTop:'1px black solid'}}>{review}</div>
-  )
+export default function UserReview({reviewData, setReviewOpen, setTarget, writer}) {
+    const [toggle, setToggle] = useState(false);
+    const [overflow, setOverflow] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+    const navigate = useNavigate();
+    const request = new Request(cookies, localStorage, navigate);
+    const date = reviewData.created.substr(0, 10);
+    const handleToggle = () => {
+        setToggle(!toggle);
+    }
+
+    const reviewDelete = async () => {
+        const response = await request.delete(`/places/place_review/${reviewData.id}/`, null, null);
+        window.location.reload();
+        console.log(response);
+    }
+    const confirmDelete = () => {
+        if(window.confirm('삭제하시겠습니까?')) {
+            reviewDelete();
+        }
+        else {
+        }
+    }
+    if(reviewData.contents.length>148) {
+        return (
+            <div style={{ padding: '5px', borderBottom: '1px black solid', position: 'relative' }}>
+                <>
+                    <div>{reviewData.nickname}</div>
+                    <div>{date}</div>
+                    <div>
+                        {
+                            toggle ?
+                                <div style={{ display: 'flex' }}>{reviewData.contents}</div> :
+                                <TextBox>{reviewData.contents}</TextBox>
+                        }
+                        <div onClick={handleToggle} style={{ position: 'absolute', right: '5px', top: '5px' }}>{toggle ? "∧" : "∨"}</div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <img src={reviewData.photos[0]?.imgfile} style={{ width: '150px' }}></img>
+                        <img src={reviewData.photos[1]?.imgfile} style={{ width: '150px' }}></img>
+                        <img src={reviewData.photos[2]?.imgfile} style={{ width: '150px' }}></img>
+                    </div>
+                </>
+                {writer ?
+                    <>
+                        <Button onClick={confirmDelete}>삭제</Button>
+                        <Button onClick={() => {
+                            setReviewOpen(true);
+                            setTarget(reviewData.id);
+                        }}>수정</Button>
+                    </> : null}
+            </div>
+        )
+    }
+    else {
+        return (
+        <div style={{ padding: '5px', borderBottom: '1px black solid', position: 'relative' }}>
+            <>
+                <div>{reviewData.nickname}</div>
+                <div>{date}</div>
+                <div>
+                    {
+                        toggle ?
+                            <div style={{ display: 'flex' }}>{reviewData.contents}</div> :
+                            <div>{reviewData.contents}</div>
+                    }
+                    <div onClick={handleToggle} style={{ position: 'absolute', right: '5px', top: '5px' }}>{toggle ? "∧" : "∨"}</div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <img src={reviewData.photos[0]?.imgfile} style={{ width: '150px' }}></img>
+                    <img src={reviewData.photos[1]?.imgfile} style={{ width: '150px' }}></img>
+                    <img src={reviewData.photos[2]?.imgfile} style={{ width: '150px' }}></img>
+                </div>
+            </>
+            {writer ?
+                <>
+                    <Button onClick={confirmDelete}>삭제</Button>
+                    <Button onClick={() => {
+                        setReviewOpen(true);
+                        setTarget(reviewData.id);
+                    }}>수정</Button>
+                </> : null}
+        </div>
+    )
+    }
 }

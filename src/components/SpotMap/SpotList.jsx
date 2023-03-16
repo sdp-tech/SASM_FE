@@ -57,40 +57,27 @@ const SpotsWrapper = styled.div`
   }
 `;
 
-export default function SpotList(props){
-  const setTemp = (data) => {
-    props.setTemp(data);
-  }
-  const item = props.mapList;
+export default function SpotList({ setTemp, placeData, categoryNum }) {
   let modalOpen = false;
-  if(item.length==1) modalOpen=true;
+  if (placeData.length == 1) modalOpen = true;
   return (
         <SpotListSection>
           {/* 데이터 없을때 장소가 없습니다 띄우기 */}
           <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
           <SpotsWrapper id="wrapper">
-            {item.length === 0 ? (
+            {placeData.length === 0 ? (
               <NothingSearched>
                 <img src={nothingIcon} style={{ marginBottom: "10px" }} />
                 해당하는 장소가 없습니다
               </NothingSearched>
             ) : (
-              item.map((itemdata, index) => {
+              placeData.map((itemdata, index) => {
                 return (
                   <ItemCard
-                    categoryNum={props.categoryNum}
+                    categoryNum={categoryNum}
                     setTemp={setTemp}
-                    index={index}
-                    key={index}
-                    id={itemdata.id}
-                    ImageURL={itemdata.rep_pic}
-                    StoreName={itemdata.place_name}
-                    StoreType={itemdata.category}
-                    open_hours={itemdata.open_hours}
-                    Address={itemdata.address}
-                    place_review={itemdata.place_review}
-                    place_like={itemdata.place_like}
-                    modalOpen={modalOpen}
+                    key={`itemcard_${itemdata.id}`}
+                    placeData={itemdata}
                   />
                 );
               })
