@@ -129,7 +129,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
     }
     else {
       const response = await request.post("/places/place_like/",{ id: placeData.id });
-      //색상 채우기
+      //색상 채우기 
       setLike(!like);
     }
   };
