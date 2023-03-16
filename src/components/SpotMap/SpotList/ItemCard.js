@@ -3,7 +3,6 @@ import styled from "styled-components";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 import { NavLink } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 // import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
@@ -100,12 +99,14 @@ const DetailBox = styled.div`
 export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [detailData, setDetailData] = useState([]);
-  const [reviewData, setReviewData] = useState([]);
+  const [detailInfo, setDetailInfo] = useState([]);
+  const [reviewInfo, setReviewInfo] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
+  const id = props.id;
+  const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
   useEffect(() => {
     if (categoryNum != 0) {
@@ -115,27 +116,36 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
     }
   }, [categoryNum]);
   const request = new Request(cookies, localStorage, navigate);
+  const setTemp = (data) => {
+    props.setTemp(data);
+  };
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
   };
 
+  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
+    // alert(`${props.id}`);
     if (!token) {
       alert("로그인이 필요합니다.");
-    }
-    else {
-      const response = await request.post("/places/place_like/",{ id: placeData.id });
+    } else {
+      const response = await request.post(
+        "/places/place_like/",
+        { id: id },
+        null
+      );
+      // console.log("response", response);
+
       //색상 채우기
       setLike(!like);
     }
   };
-  // 마커 전부 초기화
   const MarkerReset = () => {
-    const text = document.getElementById(`${placeData.id}text`);
+    const text = document.getElementById(`${id}text`);
     if (text) {
       text.style.transform = "none";
       if (!bool) {
@@ -143,38 +153,53 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
       }
     }
     if (!bool) {
-      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgDefault})`;
+      document.getElementById(
+        `${id}bg`
+      ).style.backgroundImage = `url(${MarkerbgDefault})`;
     } else {
-      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgActive})`;
+      document.getElementById(
+        `${id}bg`
+      ).style.backgroundImage = `url(${MarkerbgActive})`;
     }
-    document.getElementById(placeData.id).style.zIndex = "1";
+    document.getElementById(id).style.zIndex = "1";
   };
-  // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
-    const text = document.getElementById(`${placeData.id}text`);
+    const text = document.getElementById(`${id}text`);
     if (text) {
       text.style.transform = "translateY(100%)";
       if (!bool) {
         text.style.display = "block";
       }
     }
-    document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
-    document.getElementById(placeData.id).style.zIndex = "100";
+    document.getElementById(
+      `${id}bg`
+    ).style.backgroundImage = `url(${MarkerbgSelect})`;
+    document.getElementById(id).style.zIndex = "100";
   };
 
   // 상세보기 클릭 이벤트
   const handleClick = async () => {
     setLoading(true);
     MarkerChange();
-    const response_detail = await request.get("/places/place_detail/", { id: placeData.id });
-    const response_review = await request.get("/places/place_review/", { id: placeData.id });
-    setDetailData(response_detail.data.data);
-    setReviewData(response_review.data.data);
+    const response = await request.get(
+      "/places/place_detail/",
+      { id: id },
+      null
+    );
+    const response_review = await request.get(
+      "/places/place_review/",
+      {
+        id: id,
+      },
+      null
+    );
+    setDetailInfo(response.data.data);
+    setReviewInfo(response_review.data.data);
     setModalOpen(true);
     setTemp({
       center: {
-        lat: response_detail.data.data.latitude,
-        lng: response_detail.data.data.longitude,
+        lat: response.data.data.latitude,
+        lng: response.data.data.longitude,
       },
       zoom: 13,
     });
@@ -182,10 +207,10 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
     setLoading(false);
   };
 
-  // // params를 통해 들어왔을경우 바로 open하기
-  // useEffect(() => {
-  //   if (props.modalOpen) handleClick();
-  // }, []);
+  // params를 통해 들어왔을경우 바로 open하기
+  useEffect(() => {
+    if (props.modalOpen) handleClick();
+  }, []);
 
   useEffect(() => {
     const clickOutside = (e) => {
@@ -209,7 +234,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
       <StyledCard key={Date.now()}>
         <StyledLink to={`/map/${placeData.id}`} onClick={handleClick}>
           <img
-            src={placeData.rep_pic}
+            src={props.ImageURL}
             className="image--itemcard"
             alt="placeImage"
             width="100%"
@@ -237,9 +262,9 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
           </StyledBox>
 
           <ContentBox>
-            <div style={{ color: "#999999" }}>{placeData.place_review}</div>
-            <div>{placeData.address}</div>
-            <div>{placeData.open_hours}</div>
+            <div style={{ color: "#999999" }}>{props.place_review}</div>
+            <div>{props.Address}</div>
+            <div>{props.open_hours}</div>
           </ContentBox>
         </TextBox>
       </StyledCard>
@@ -247,9 +272,9 @@ export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
         {modalOpen && (
           <SpotDetail
             modalClose={modalClose}
-            id={placeData.id}
-            detailData={detailData}
-            reviewData={reviewData}
+            id={props.id}
+            detailInfo={detailInfo}
+            reviewInfo={reviewInfo}
           ></SpotDetail>
         )}
       </DetailBox>
