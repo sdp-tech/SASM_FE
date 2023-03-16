@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
+import { NavLink } from "react-router-dom";
 
 // import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
@@ -27,12 +28,13 @@ const StyledCard = styled.div`
   overflow: hidden;
 `;
 
-const ImgBox = styled.div`
+const StyledLink = styled(NavLink)`
   border: 1px black solid;
   min-width: 15vmin;
   min-height: 15vmin;
   max-width: 15vmin;
   max-height: 15vmin;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     min-width: 25vmin;
     min-height: 25vmin;
@@ -46,15 +48,20 @@ const TextBox = styled.div`
   flex-flow: row wrap;
   margin: 0 0 0 3%;
 `;
-const TitleBox = styled.div`
+const StyledBox = styled(NavLink)`
   font-size: 1.25rem;
   font-weight: 700;
   border-bottom: 1px solid #999999;
   width: 100%;
   position: relative;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-flow: row wrap;
+  flex-flow: row wrap;
+  width: 100%;
+  cursor: pointer;
+  text-decoration : none;
+  color: inherit;
 `;
 const ContentBox = styled.div`
   font-size: 0.75rem;
@@ -90,7 +97,7 @@ const DetailBox = styled.div`
   position: absolute;
 `;
 
-export default function ItemCard({ placeData, categoryNum, setTemp }) {
+export default function ItemCard({ placeData, categoryNum, setTemp, id }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [detailData, setDetailData] = useState([]);
@@ -122,7 +129,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
     }
     else {
       const response = await request.post("/places/place_like/",{ id: placeData.id });
-      //색상 채우기
+      //색상 채우기 
       setLike(!like);
     }
   };
@@ -200,7 +207,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   return (
     <div ref={node}>
       <StyledCard key={Date.now()}>
-        <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
+        <StyledLink to={`/map/${placeData.id}`} onClick={handleClick}>
           <img
             src={placeData.rep_pic}
             className="image--itemcard"
@@ -208,9 +215,9 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
             width="100%"
             height="100%"
           />
-        </ImgBox>
+        </StyledLink>
         <TextBox>
-          <TitleBox>
+          <StyledBox to={`/map/${placeData.id}`}>
             <div
               style={{ width: "100%", cursor: "pointer" }}
               onClick={handleClick}
@@ -227,7 +234,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
             <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem" }}>
               {placeData.category}
             </div>
-          </TitleBox>
+          </StyledBox>
 
           <ContentBox>
             <div style={{ color: "#999999" }}>{placeData.place_review}</div>
