@@ -60,6 +60,7 @@ const App = () => {
           <BrowserRouter>
             <Navibar />
             <Routes>
+              <Route path="/map/:id" element={<SpotMap />} />
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
               <Route path="/map" element={<SpotMap />} />
