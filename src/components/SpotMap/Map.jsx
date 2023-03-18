@@ -86,7 +86,6 @@ const ControllerWrapper = styled.div`
 `;
 
 const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp }) => {
-  const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0, 2);
   const [modalOpen, setModalOpen] = useState(false);
   const [detailData, setDetailData] = useState([]);
   const [reviewData, setReviewData] = useState([]);
@@ -101,7 +100,6 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
       setBool(false);
     }
   }, [categoryNum]);
-  const width = Number(htmlFontSize * title.length) + 10;
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   // 마커 전부 초기화
@@ -151,17 +149,14 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   const handleClick = async () => {
     setLoading(true);
     MarkerChange();
-    const response = await request.get("/places/place_detail/", { id: id });
+    const response_detail = await request.get("/places/place_detail/", { id: id });
     const response_review = await request.get("/places/place_review/", { id: id });
     setReviewData(response_review.data.data);
-    setDetailData(response.data.data);
+    setDetailData(response_detail.data.data);
     setModalOpen(true);
     setTemp({
-      center: {
-        lat: response.data.data.latitude,
-        lng: response.data.data.longitude,
-      },
-      zoom: 13,
+      lat: response_detail.data.data.latitude,
+      lng: response_detail.data.data.longitude,
     });
     setLoading(false);
   };
@@ -171,6 +166,9 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
     setModalOpen(!modalOpen);
   };
 
+  //마커의 텍스트 사이즈 고정하기
+  const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0, 2);
+  const width = Number(htmlFontSize * title.length) + 10;
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; transform: translateY(-50%); position:relative; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
@@ -215,12 +213,10 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
   const [zoom, setZoom] = useState(14);
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
+  //User의 현재 위치
   const [state, setState] = useState({
-    center: {
-      lat: 37.551229,
-      lng: 126.988205,
-    },
-    zoom: 13,
+    lat: 37.551229,
+    lng: 126.988205,
   });
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
@@ -228,18 +224,13 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
       async (position) => {
         //현재 위치 고정
         setTemp({
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-          zoom: zoom,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         });
+        //User의 현재 위치
         setState({
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-          zoom: zoom,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         });
       },
       (error) => {
@@ -264,10 +255,8 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
   };
   const handleCenterChanged = (data) => {
     setCoor({
-      center: {
-        lat: data._lat,
-        lng: data._lng,
-      },
+      lat: data._lat,
+      lng: data._lng,
     });
   };
   return (
@@ -318,7 +307,7 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
           height: "100%",
           outline: "none",
         }}
-        center={temp.center}
+        center={temp}
         zoom={zoom}
         minZoom={11}
         maxZoom={19}
@@ -351,7 +340,7 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
         })}
         <Marker
           key={0}
-          position={state.center}
+          position={state}
           clickable={false}
           title={"현재 위치"}
           icon={{

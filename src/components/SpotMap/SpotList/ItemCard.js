@@ -121,7 +121,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       alert("로그인이 필요합니다.");
     }
     else {
-      const response = await request.post("/places/place_like/",{ id: placeData.id });
+      const response = await request.post("/places/place_like/", { id: placeData.id });
       //색상 채우기
       setLike(!like);
     }
@@ -165,20 +165,12 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
     setReviewData(response_review.data.data);
     setModalOpen(true);
     setTemp({
-      center: {
-        lat: response_detail.data.data.latitude,
-        lng: response_detail.data.data.longitude,
-      },
-      zoom: 13,
+      lat: response_detail.data.data.latitude,
+      lng: response_detail.data.data.longitude,
     });
 
     setLoading(false);
   };
-
-  // // params를 통해 들어왔을경우 바로 open하기
-  // useEffect(() => {
-  //   if (props.modalOpen) handleClick();
-  // }, []);
 
   useEffect(() => {
     const clickOutside = (e) => {
@@ -218,11 +210,13 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
               {placeData.place_name}
             </div>
             <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
-              {placeData.place_like === "ok" ? (
-                <HeartButton like={!like} onClick={toggleLike} />
-              ) : (
-                <HeartButton like={like} onClick={toggleLike} />
-              )}
+              {
+                placeData.place_like === "ok" ? (
+                  <HeartButton like={!like} onClick={toggleLike} />
+                ) : (
+                  <HeartButton like={like} onClick={toggleLike} />
+                )
+              }
             </LikeButton>
             <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem" }}>
               {placeData.category}
@@ -237,14 +231,15 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
         </TextBox>
       </StyledCard>
       <DetailBox>
-        {modalOpen && (
-          <SpotDetail
-            modalClose={modalClose}
-            id={placeData.id}
-            detailData={detailData}
-            reviewData={reviewData}
-          ></SpotDetail>
-        )}
+        {
+          modalOpen && (
+            <SpotDetail
+              modalClose={modalClose}
+              id={placeData.id}
+              detailData={detailData}
+              reviewData={reviewData}
+            />
+          )}
       </DetailBox>
     </div>
   );
