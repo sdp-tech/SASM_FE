@@ -300,7 +300,7 @@ const StoryDetailBox = (props) => {
                 {data.place_name}
                 <LikeIconBox>
                   <LikeButton>
-                    {data.story_like === "ok" ? (
+                    {data.story_like === true ? (
                       <HeartButton like={!like} onClick={toggleLike} />
                     ) : (
                       <HeartButton like={like} onClick={toggleLike} />
