@@ -89,11 +89,11 @@ export default function Comment({ data }) {
     setUpdate(!update);
   }
   const deleteComment = async () => {
-    const response = await request.delete(`/stories/comments/${data.id}`, {});
+    const response = await request.delete(`/stories/comments/${data.id}/`, {});
     window.location.reload();
   }
   const updateComment = async () => {
-    const response = await request.patch(`/stories/comments/${data.id}`, {
+    const response = await request.patch(`/stories/comments/${data.id}/`, {
       content: document.getElementById('textarea').value,
     });
     window.location.reload();
@@ -134,7 +134,7 @@ export default function Comment({ data }) {
         </ButtonBox>
       </InfoBox>
       <ContentBox>
-        {update ? <><TextArea autoFocus id="textarea" value={updatetext} onChange={(event)=>{
+        {update ? <><TextArea autoFocus id="textarea" value={updatetext} onChange={(event) => {
           setUpdateText(event.target.value);
         }}></TextArea></> : <>{data.content}</>}
       </ContentBox>

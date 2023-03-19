@@ -181,7 +181,7 @@ const StoryListPage = () => {
     const response = await request.get("/stories/story_search/", {
       page: newPage,
       search: searched,
-      order: orderList.toString(),
+      latest: orderList.toString(),
     }, null);
 
     // console.log("response??", response);
