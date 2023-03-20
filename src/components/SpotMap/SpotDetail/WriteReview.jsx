@@ -34,16 +34,12 @@ const PhotoBox = styled.div`
   height: 100px;
   position: relative;
 `
-const DeleteButton = styled.div`
-  width: 20%;
-  height: 20%;
-  border: 1px black solid;
+const FileList = styled.div`
   display: flex;
-  justify-content: center;
+  margin-top: 10px;
+  justify-content: space-around;
   align-items: center;
-  position: absolute;
-  right: 0;
-  top:0;
+  min-height: 120px;
 `
 
 export default function WriteReview({ targetData, keywordList, id, target }) {
@@ -52,10 +48,11 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
   const request = new Request(cookies, localStorage, navigate);
   const token = localStorage.getItem('accessTK');
   const [Keyword, setKeyword] = useState([]);
-
+  const [photos, setPhotos] = useState([]);
   const [photoList, setPhotoList] = useState([]);
   useEffect(() => {
     if (targetData) {
+      // 수정을 위해 기존에 업로드한 사진 저장
       setPhotoList(targetData.photos);
       // 수정을 위해 기존에 선택한 카테고리를 보여주기
       let targetCategory = [];
@@ -66,14 +63,21 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
       setKeyword(targetCategory);
     }
   }, [targetData]);
+  const selectFile = (file) => {
+    //각각의 파일을 FileReader로 읽어옴
+    const fileReader = new FileReader();
+    fileReader.onload = () => { setPhotos(prev => [...prev, fileReader.result]) };
+    fileReader.readAsDataURL(file)
+  }
   const inputFile = (event) => {
-    document.getElementById('filelist').innerHTML = null;
-    if (event.target.files.length > 3) {
+    //파일 입력시 개수 제한
+    if (photoList.length + event.target.files.length > 3) {
       alert('사진은 최대 3장까지 업로드 할 수 있습니다.');
       event.target.value = null;
     }
     else for (let i = 0; i < event.target.files.length; i++) {
-      document.getElementById('filelist').innerHTML += `<p style='margin:0px; '>${event.target.files[i].name}</p>`;
+      setPhotos([]);
+      selectFile(event.target.files[i]);
     }
   }
   const handleCheck = (event, keyword) => {
@@ -91,8 +95,9 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
       setKeyword(Keyword.filter((el) => el !== keyword[1]));
     }
   }
-  const deletePhoto = (data) => {
-    setPhotoList(photoList.filter((el) => el !== data));
+  const deletePhoto = (data, state, setState) => {
+    //각각의 photoList와 photos를 위해 state를 props로 전달
+    setState(state.filter((el) => el !== data));
   }
   const uploadReview = async (event) => {
     if (!token) {
@@ -104,16 +109,14 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
       const formData = new FormData();
       formData.append('place', id);
       formData.append('contents', event.target.text.value)
-      console.log('photos: ', event.target.file.files);
-      console.log('photoList: ', photoList);
       for (let i = 0; i < event.target.file.files.length; i++) {
         formData.append('photos', event.target.file.files[i]);
       }
-      for(let i =0; i<photoList.length; i++) {
+      for (let i = 0; i < photoList.length; i++) {
         formData.append('photoList', photoList[i].imgfile);
       }
       formData.append('category', Array(Keyword).toString());
-      for(let item of formData) {
+      for (let item of formData) {
         console.log(item);
       }
       if (targetData) {
@@ -125,7 +128,7 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
       //window.location.reload();
     }
   }
-
+  useEffect(() => { console.log(photos) }, [photos]);
   return (
     <FormWrapper>
       <form onSubmit={uploadReview}>
@@ -145,18 +148,26 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
         </KeywordBox>
         <input type="file" id="file" accept='image/*' onChange={inputFile} style={{ display: 'none' }} multiple></input>
         <label htmlFor="file" style={{ display: 'block' }}>사진 업로드</label>
-        <div id="filelist">
+        <FileList id="filelist">
           {
             photoList.map((data, index) => {
               return (
                 <PhotoBox key={index}>
-                  <img src={data.imgfile} style={{ width: '100px', height: '100px' }} />
-                  <DeleteButton onClick={() => { deletePhoto(data) }}>X </DeleteButton>
+                  <img src={data.imgfile} style={{ width: '90px', height: '90px', margin:'5px' }} onClick={() => { deletePhoto(data, photoList, setPhotoList) }}/>
                 </PhotoBox>
               )
             })
           }
-        </div>
+          {
+            photos.map((data, index) => {
+              return (
+                <PhotoBox key={index}>
+                  <img src={data} style={{ width: '90px', height: '90px', margin:'5px' }} onClick={() => { deletePhoto(data, photos, setPhotos) }}/>
+                </PhotoBox>
+              )
+            })
+          }
+        </FileList>
         <button type='submit' id="submit" style={{ position: 'absolute', right: '5px', bottom: '5px' }}>제출</button>
       </form>
     </FormWrapper>

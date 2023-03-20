@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
+import { Link } from "react-router-dom";
 
 // import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
@@ -27,12 +28,13 @@ const StyledCard = styled.div`
   overflow: hidden;
 `;
 
-const ImgBox = styled.div`
+const ImgLink = styled(Link)`
   border: 1px black solid;
   min-width: 15vmin;
   min-height: 15vmin;
   max-width: 15vmin;
   max-height: 15vmin;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     min-width: 25vmin;
     min-height: 25vmin;
@@ -56,6 +58,14 @@ const TitleBox = styled.div`
   justify-content: space-around;
   flex-flow: row wrap;
 `;
+
+const TitleLink = styled(Link)`
+  width: 100%;
+  cursor: "pointer";
+  text-decoration : none;
+  color: inherit;
+`;
+
 const ContentBox = styled.div`
   font-size: 0.75rem;
   min-height: 60%;
@@ -181,7 +191,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   return (
     <div ref={node}>
       <StyledCard key={Date.now()}>
-        <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
+        <ImgLink to={`/map/${placeData.id}`} onClick={handleClick}>
           <img
             src={placeData.rep_pic}
             className="image--itemcard"
@@ -189,15 +199,12 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
             width="100%"
             height="100%"
           />
-        </ImgBox>
+        </ImgLink>
         <TextBox>
           <TitleBox>
-            <div
-              style={{ width: "100%", cursor: "pointer" }}
-              onClick={handleClick}
-            >
+            <TitleLink to={`/map/${placeData.id}`} onClick={handleClick}>
               {placeData.place_name}
-            </div>
+            </TitleLink>
             <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
               {
                 placeData.place_like === "ok" ? (

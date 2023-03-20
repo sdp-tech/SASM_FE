@@ -43,22 +43,15 @@ const ImageList = styled.div`
 const PhotoList = styled.div`
   display: flex;
   margin-top: 3vh;
+  flex-flow: row wrap;
+  min-height: 100px;
 `
 const PhotoBox = styled.div`
-  width: 100px;
-  height: 100px;
-  position: relative;
-`
-const DeleteButton = styled.div`
   width: 20%;
-  height: 20%;
-  border: 1px black solid;
+  height: 100px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  top:0;
+  position: relative;
 `
 const InputHashtag = styled.input`
   width: 46vw;
@@ -109,31 +102,27 @@ const FileWrapper = styled.label`
 export default function CommunityUpdate({ setMode, detail, id, format }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [photoList, setPhotoList] = useState(detail.photoList);
+  const [imageList, setImageList] = useState([]);
   const [hashtag, setHashtag] = useState(detail.hashtagList);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-  const fileInput = (event) => {
-    // const temp = []
-    // for (let i = 0; i < event.target.files.length; i++) {
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(event.target.files[i]);
-    //   reader.onloadend = () => {
-    //     temp.push(reader.result);
-    //   }
-    // }
-    // setImages(temp);
-
-
-    document.getElementById('filelist').innerHTML = null;
+  const selectFile = (file) => {
+    //각각의 파일을 FileReader로 읽어옴
+    const fileReader = new FileReader();
+    fileReader.onload = () => { setImageList(prev => [...prev, fileReader.result]) };
+    fileReader.readAsDataURL(file)
+  }
+  const inputFile = (event) => {
+    //파일 입력 시 개수 제한
     if (event.target.files.length > 10) {
       alert('사진은 최대 10장까지 업로드 할 수 있습니다.');
       event.target.files = null;
     }
     else for (let i = 0; i < event.target.files.length; i++) {
-      document.getElementById('filelist').innerHTML += `<p style='margin:0px; width:50%;'>${event.target.files[i].name}</p>`;
+      selectFile(event.target.files[i]);
     }
   }
-  const updateItem = async (event) => {
+  const updatePost = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('title', event.target.title.value);
@@ -149,16 +138,11 @@ export default function CommunityUpdate({ setMode, detail, id, format }) {
     for (let i = 0; i < event.target.file.files.length; i++) {
       formData.append('imageList', event.target.file.files[i]);
     }
-    if (photoList.length + event.target.file.files.length > 10) { 
-      alert('사진은 최대 10개 까지만');
-    }
-    else {
-      const response = await request.put(`/community/posts/${id}/update/`, formData, { "Content-Type": "multipart/form-data" });
-      window.location.reload();
-    }
+    const response_update = await request.put(`/community/posts/${id}/update/`, formData, { "Content-Type": "multipart/form-data" });
+    window.location.reload();
   }
-  const handleFileInput = (data) => {
-    setPhotoList(photoList.filter((el) => el !== data));
+  const deletePhoto = (data, state, setState) => {
+    setState(state.filter((el) => el !== data));
   }
   const handleHashtag = (event) => {
     let str = event.target.value.split(' ').join('')
@@ -177,7 +161,7 @@ export default function CommunityUpdate({ setMode, detail, id, format }) {
     setHashtag(filterStr);
   }
   return (
-    <StyledForm onSubmit={updateItem}>
+    <StyledForm onSubmit={updatePost}>
       <InputTitle type="text" id="title" defaultValue={detail.title} required />
       <InputContent id="content" defaultValue={detail.content} required />
       <div style={{ display: 'flex' }}>
@@ -190,7 +174,7 @@ export default function CommunityUpdate({ setMode, detail, id, format }) {
                 <img src={ZoomPlus} style={{ transform: 'scale(0.6)' }} />
               </FileWrapper>
             </LabelWrapper>
-            <InputImage type="file" id="file" onChange={fileInput} accept='image/*' multiple></InputImage>
+            <InputImage type="file" id="file" onChange={inputFile} accept='image/*' multiple />
           </>
         }
         {
@@ -204,12 +188,20 @@ export default function CommunityUpdate({ setMode, detail, id, format }) {
         }
       </div>
       <PhotoList>
-        {photoList.map((data, index) => (
-          <PhotoBox key={index}>
-            <img src={data} style={{ width: '100px', height: '100px' }} />
-            <DeleteButton onClick={() => { handleFileInput(data) }}>X </DeleteButton>
-          </PhotoBox>
-        ))}
+        {
+          photoList.map((data, index) => (
+            <PhotoBox key={index}>
+              <img src={data} style={{ width: '90px', height: '90px', margin:'5px' }} onClick={() => { deletePhoto(data, photoList, setPhotoList) }} />
+            </PhotoBox>
+          ))
+        }
+        {
+          imageList.map((data, index) => (
+            <PhotoBox key={index}>
+              <img src={data} style={{ width: '90px', height: '90px', margin:'5px' }} onClick={() => { deletePhoto(data, imageList, setImageList) }} />
+            </PhotoBox>
+          ))
+        }
       </PhotoList>
       <ImageList id="filelist">
       </ImageList>

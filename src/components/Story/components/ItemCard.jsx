@@ -190,7 +190,7 @@ export default function ItemCard(props) {
               </Typography>
             </Link>
             <LikeButton>
-              {props.story_like === "ok" ? (
+              {props.story_like === true ? (
                 <HeartButton like={!like} onClick={toggleLike} />
               ) : (
                 <HeartButton like={like} onClick={toggleLike} />
