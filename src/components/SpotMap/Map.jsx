@@ -87,8 +87,6 @@ const ControllerWrapper = styled.div`
 
 const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [detailData, setDetailData] = useState([]);
-  const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const node = useRef();
@@ -146,19 +144,9 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   });
 
   // 상세보기 클릭 이벤트
-  const handleClick = async () => {
-    setLoading(true);
+  const handleClick = () => {
     MarkerChange();
-    const response_detail = await request.get("/places/place_detail/", { id: id });
-    const response_review = await request.get("/places/place_review/", { id: id });
-    setReviewData(response_review.data.data);
-    setDetailData(response_detail.data.data);
     setModalOpen(true);
-    setTemp({
-      lat: response_detail.data.data.latitude,
-      lng: response_detail.data.data.longitude,
-    });
-    setLoading(false);
   };
 
   // 상세보기 모달 닫기 이벤트
@@ -199,8 +187,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
           <SpotDetail
             modalClose={modalClose}
             id={id}
-            detailData={detailData}
-            reviewData={reviewData}
+            setTemp={setTemp}
           ></SpotDetail>
         )}
       </DetailBox>

@@ -156,20 +156,9 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   };
 
   // 상세보기 클릭 이벤트
-  const handleClick = async () => {
-    setLoading(true);
+  const handleClick = () => {
     MarkerChange();
-    const response_detail = await request.get("/places/place_detail/", { id: placeData.id });
-    const response_review = await request.get("/places/place_review/", { id: placeData.id });
-    setDetailData(response_detail.data.data);
-    setReviewData(response_review.data.data);
     setModalOpen(true);
-    setTemp({
-      lat: response_detail.data.data.latitude,
-      lng: response_detail.data.data.longitude,
-    });
-
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -234,10 +223,9 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
         {
           modalOpen && (
             <SpotDetail
+              setTemp={setTemp}
               modalClose={modalClose}
               id={placeData.id}
-              detailData={detailData}
-              reviewData={reviewData}
             />
           )}
       </DetailBox>
