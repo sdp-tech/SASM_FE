@@ -47,23 +47,18 @@ export default function DataContainer({ Location }) {
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [placeData, setPlaceData] = useState({
-        total:0,
+        total: 0,
         MapList: [],
     });
     //지도의 현재 위치 고정
     const [temp, setTemp] = useState({
-        center: {
-            lat: 37.551229,
-            lng: 126.988205,
-        },
-        zoom: 14,
+        lat: 37.551229,
+        lng: 126.988205,
     });
+    //현재 위치에서 검색 
     const [searchHere, setSearchHere] = useState({
-        center: {
-            lat: Location.latitude,
-            lng: Location.longitude,
-        },
-        zoom: 14,
+        lat: Location.latitude,
+        lng: Location.longitude,
     });
     const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
@@ -98,11 +93,11 @@ export default function DataContainer({ Location }) {
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         setCategoryNum(checkedList.length);
-        if(search!="") {
+        if (search != "") {
             setCategoryNum(7);
         }
         document.getElementById('wrapper').scrollTo(0, 0);
-        getItem(searchHere.center, page, search, checkedList);
+        getItem(searchHere, page, search, checkedList);
     }, [searchHere, page, search, checkedList, params]);
     //초기 map 데이터 가져오기
     const getItem = async (location, page, search, checkedList) => {
@@ -133,11 +128,8 @@ export default function DataContainer({ Location }) {
         setLoading(false);
         if (checkedList.length != 0 || search != "") {
             setTemp({
-                center: {
-                    lat: response.data.data.results[0].latitude,
-                    lng: response.data.data.results[0].longitude,
-                },
-                zoom: 13,
+                lat: response.data.data.results[0].latitude,
+                lng: response.data.data.results[0].longitude,
             });
         }
     };

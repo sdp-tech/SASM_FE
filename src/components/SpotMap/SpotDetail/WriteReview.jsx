@@ -125,7 +125,7 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
       else {
         const response_upload = await request.post("/places/place_review/create/", formData, { "Content-Type": "multipart/form-data" });
       }
-      window.location.reload();
+      //window.location.reload();
     }
   }
   useEffect(() => { console.log(photos) }, [photos]);
