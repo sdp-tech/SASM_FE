@@ -1,15 +1,13 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { List } from "@mui/material";
-import DetailCard from "./SpotDetail/DetailCard.js";
+import DetailCard from "./SpotDetail/DetailCard";
 import styled from "styled-components";
 import AdminButton from "../../components/Admin/components/AdminButton";
 import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Request from "../../functions/common/Request.js";
-import Loading from "../common/Loading.js";
 
 const StyledList = styled(List)`
   top: 64px;

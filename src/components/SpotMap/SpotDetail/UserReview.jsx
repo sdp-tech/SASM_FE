@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import Request from '../../../functions/common/Request';
-import WriteReview from './WriteReview'
 import styled from 'styled-components';
 
 const TextBox = styled.div`
@@ -13,7 +12,6 @@ const TextBox = styled.div`
     width: 100%;
     height: 100px;
 `
-
 const Button = styled.button`
     border: none;
     background: none;
@@ -21,11 +19,9 @@ const Button = styled.button`
 
 export default function UserReview({ reviewData, setReviewOpen, setTargetData, writer, setValue }) {
     const [toggle, setToggle] = useState(false);
-    const [overflow, setOverflow] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
     const request = new Request(cookies, localStorage, navigate);
-    const date = reviewData.created.substr(0, 10);
     const handleToggle = () => {
         setToggle(!toggle);
     }
@@ -34,11 +30,10 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
         const response = await request.delete(`/places/place_review/${reviewData.id}/`, null, null);
         setValue(0);
     }
+
     const confirmDelete = () => {
         if (window.confirm('삭제하시겠습니까?')) {
             reviewDelete();
-        }
-        else {
         }
     }
     return (
@@ -73,10 +68,7 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
                 writer &&
                 <>
                     <Button onClick={confirmDelete}>삭제</Button>
-                    <Button onClick={() => {
-                        setReviewOpen(true);
-                        setTargetData(reviewData);
-                    }}>수정</Button>
+                    <Button onClick={() => { setReviewOpen(true); setTargetData(reviewData); }}>수정</Button>
                 </>
             }
         </div>

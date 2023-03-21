@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ItemCard from "./SpotList/ItemCard.js";
+import ItemCard from "./SpotList/ItemCard";
 import nothingIcon from "../../assets/img/nothing.svg";
 
 const SpotListSection = styled.div`
@@ -58,31 +58,25 @@ const SpotsWrapper = styled.div`
 `;
 
 export default function SpotList({ setTemp, placeData, categoryNum }) {
-  let modalOpen = false;
-  if (placeData.length == 1) modalOpen = true;
   return (
-        <SpotListSection>
-          {/* 데이터 없을때 장소가 없습니다 띄우기 */}
-          <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
-          <SpotsWrapper id="wrapper">
-            {placeData.length === 0 ? (
-              <NothingSearched>
-                <img src={nothingIcon} style={{ marginBottom: "10px" }} />
-                해당하는 장소가 없습니다
-              </NothingSearched>
-            ) : (
-              placeData.map((itemdata, index) => {
-                return (
-                  <ItemCard
-                    categoryNum={categoryNum}
-                    setTemp={setTemp}
-                    key={`itemcard_${itemdata.id}`}
-                    placeData={itemdata}
-                  />
-                );
-              })
-            )}
-          </SpotsWrapper>
-        </SpotListSection>
+    <SpotListSection>
+      {/* 데이터 없을때 장소가 없습니다 띄우기 */}
+      <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
+      <SpotsWrapper id="wrapper">
+        {
+          placeData.length === 0 ?
+            <NothingSearched>
+              <img src={nothingIcon} style={{ marginBottom: "10px" }} />
+              해당하는 장소가 없습니다
+            </NothingSearched>
+            :
+            placeData.map((itemdata) => {
+              return (
+                <ItemCard categoryNum={categoryNum} setTemp={setTemp} key={`itemcard_${itemdata.id}`} placeData={itemdata} />
+              );
+            })
+        }
+      </SpotsWrapper>
+    </SpotListSection>
   );
 };
