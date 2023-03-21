@@ -3,11 +3,7 @@ import styled from "styled-components";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 import { Link } from "react-router-dom";
-
-// import { getCookie } from "../../common/Cookie";
 import { useCookies } from "react-cookie";
-import axios from "axios";
-import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import MarkerbgActive from "../../../assets/img/Map/MarkerbgActive.svg";
@@ -103,8 +99,6 @@ const DetailBox = styled.div`
 export default function ItemCard({ placeData, categoryNum, setTemp }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [detailData, setDetailData] = useState([]);
-  const [reviewData, setReviewData] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const node = useRef();
@@ -179,9 +173,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
         setModalOpen(false);
       }
     };
-
     document.addEventListener("mousedown", clickOutside);
-
     return () => {
       // Cleanup the event listener
       document.removeEventListener("mousedown", clickOutside);
@@ -192,13 +184,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
     <div ref={node}>
       <StyledCard key={Date.now()}>
         <ImgLink to={`/map/${placeData.id}`} onClick={handleClick}>
-          <img
-            src={placeData.rep_pic}
-            className="image--itemcard"
-            alt="placeImage"
-            width="100%"
-            height="100%"
-          />
+          <img src={placeData.rep_pic} className="itemcard_image" alt="placeImage" width="100%" height="100%" />
         </ImgLink>
         <TextBox>
           <TitleBox>
@@ -228,13 +214,8 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       </StyledCard>
       <DetailBox>
         {
-          modalOpen && (
-            <SpotDetail
-              setTemp={setTemp}
-              modalClose={modalClose}
-              id={placeData.id}
-            />
-          )}
+          modalOpen && <SpotDetail setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
+        }
       </DetailBox>
     </div>
   );

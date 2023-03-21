@@ -42,7 +42,7 @@ const FileList = styled.div`
   min-height: 120px;
 `
 
-export default function WriteReview({ targetData, keywordList, id, target }) {
+export default function WriteReview({ targetData, keywordList, id, setValue }) {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
@@ -116,16 +116,13 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
         formData.append('photoList', photoList[i].imgfile);
       }
       formData.append('category', Array(Keyword).toString());
-      for (let item of formData) {
-        console.log(item);
-      }
       if (targetData) {
-        const response_update = await request.put(`/places/place_review/${target}/update`, formData, { "Content-Type": "multipart/form-data" });
+        const response_update = await request.put(`/places/place_review/${targetData.id}/update`, formData, { "Content-Type": "multipart/form-data" });
       }
       else {
         const response_upload = await request.post("/places/place_review/create/", formData, { "Content-Type": "multipart/form-data" });
       }
-      //window.location.reload();
+      setValue(0);
     }
   }
   useEffect(() => { console.log(photos) }, [photos]);
@@ -153,7 +150,7 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
             photoList.map((data, index) => {
               return (
                 <PhotoBox key={index}>
-                  <img src={data.imgfile} style={{ width: '90px', height: '90px', margin:'5px' }} onClick={() => { deletePhoto(data, photoList, setPhotoList) }}/>
+                  <img src={data.imgfile} style={{ width: '90px', height: '90px', margin: '5px' }} onClick={() => { deletePhoto(data, photoList, setPhotoList) }} />
                 </PhotoBox>
               )
             })
@@ -162,7 +159,7 @@ export default function WriteReview({ targetData, keywordList, id, target }) {
             photos.map((data, index) => {
               return (
                 <PhotoBox key={index}>
-                  <img src={data} style={{ width: '90px', height: '90px', margin:'5px' }} onClick={() => { deletePhoto(data, photos, setPhotos) }}/>
+                  <img src={data} style={{ width: '90px', height: '90px', margin: '5px' }} onClick={() => { deletePhoto(data, photos, setPhotos) }} />
                 </PhotoBox>
               )
             })

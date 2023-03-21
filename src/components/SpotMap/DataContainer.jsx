@@ -10,7 +10,7 @@ import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
-import CategorySelector, { CATEGORY_LIST, MatchCategory } from '../common/Category'
+import CategorySelector from '../common/Category'
 import { Pc, Tablet, Mobile } from "../../device"
 
 const ListWrapper = styled.div`
@@ -44,7 +44,7 @@ export default function DataContainer({ Location }) {
     const [loading, setLoading] = useState(true);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
-    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
+    const token = localStorage.getList("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [placeData, setPlaceData] = useState({
         total: 0,
@@ -77,11 +77,10 @@ export default function DataContainer({ Location }) {
     const handleSearchToggle = (event) => {
         setPage(1);
         if (event) {
+            //초기화 방지
             event.preventDefault();
-        } //초기화 방지
-        setLoading(true);
+        }
         setSearch(tempSearch);
-        setLoading(false);
         if (params.place) {
             navigate('/map');
         }
@@ -97,42 +96,28 @@ export default function DataContainer({ Location }) {
             setCategoryNum(7);
         }
         document.getElementById('wrapper').scrollTo(0, 0);
-        getItem(searchHere, page, search, checkedList);
+        getList();
     }, [searchHere, page, search, checkedList, params]);
     //초기 map 데이터 가져오기
-    const getItem = async (location, page, search, checkedList) => {
-        setLoading(true);
-        let response;
-        if (params.place) {
-            response = await request.get("/places/place_search/", {
-                left: location.lat, //현재 위치
-                right: location.lng, //현재 위치
-                page: page,
-                search: params.place,
-                filter: checkedList
-            }, null);
-        }
-        else {
-            response = await request.get("/places/place_search/", {
-                left: location.lat, //현재 위치
-                right: location.lng, //현재 위치
-                page: page,
-                search: search,
-                filter: checkedList
-            }, null);
-        }
-        setPlaceData({
-            total: response.data.data.count,
-            MapList: response.data.data.results,
+    const getList = async () => {
+        const response_list = await request.get("/places/place_search/", {
+            left: searchHere.lat, //현재 위치
+            right: searchHere.lng, //현재 위치
+            page: page,
+            search: search,
+            filter: checkedList
         });
-        setLoading(false);
+        setPlaceData({
+            total: response_list.data.data.count,
+            MapList: response_list.data.data.results,
+        });
         if (checkedList.length != 0 || search != "") {
             setTemp({
-                lat: response.data.data.results[0].latitude,
-                lng: response.data.data.results[0].longitude,
+                lat: response_list.data.data.results[0].latitude,
+                lng: response_list.data.data.results[0].longitude,
             });
         }
-    };
+    }; 
 
     return (
         <>
@@ -152,15 +137,10 @@ export default function DataContainer({ Location }) {
                 <FilterOptions>
                     <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
-
                 <SpotList categoryNum={categoryNum} placeData={placeData.MapList} setTemp={setTemp}></SpotList>
-                <Pagination
-                    total={placeData.total}
-                    limit={20}
-                    page={page}
-                    setPage={setPage}
-                />
-                {isSasmAdmin ? (
+                <Pagination total={placeData.total} limit={20} page={page} setPage={setPage} />
+                {
+                    isSasmAdmin &&
                     <AdminButton
                         style={{ margin: "auto", width: "20%" }}
                         onClick={() => {
@@ -169,9 +149,7 @@ export default function DataContainer({ Location }) {
                     >
                         장소 생성
                     </AdminButton>
-                ) : (
-                    <></>
-                )}
+                }
             </ListWrapper>
             <Pc><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Pc>
             <Tablet><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Tablet>
