@@ -131,7 +131,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       alert("로그인이 필요합니다.");
     }
     else {
-      const response = await request.post("/places/place_like/",{ id: placeData.id });
+      const response = await request.post("/places/place_like/", { id: placeData.id });
       //색상 채우기
       setLike(!like);
     }
@@ -166,29 +166,10 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   };
 
   // 상세보기 클릭 이벤트
-  const handleClick = async () => {
-    setLoading(true);
+  const handleClick = () => {
     MarkerChange();
-    const response_detail = await request.get("/places/place_detail/", { id: placeData.id });
-    const response_review = await request.get("/places/place_review/", { id: placeData.id });
-    setDetailData(response_detail.data.data);
-    setReviewData(response_review.data.data);
     setModalOpen(true);
-    setTemp({
-      center: {
-        lat: response_detail.data.data.latitude,
-        lng: response_detail.data.data.longitude,
-      },
-      zoom: 13,
-    });
-
-    setLoading(false);
   };
-
-  // // params를 통해 들어왔을경우 바로 open하기
-  // useEffect(() => {
-  //   if (props.modalOpen) handleClick();
-  // }, []);
 
   useEffect(() => {
     const clickOutside = (e) => {
@@ -225,11 +206,13 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
               {placeData.place_name}
             </TitleLink>
             <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
-              {placeData.place_like === "ok" ? (
-                <HeartButton like={!like} onClick={toggleLike} />
-              ) : (
-                <HeartButton like={like} onClick={toggleLike} />
-              )}
+              {
+                placeData.place_like === "ok" ? (
+                  <HeartButton like={!like} onClick={toggleLike} />
+                ) : (
+                  <HeartButton like={like} onClick={toggleLike} />
+                )
+              }
             </LikeButton>
             <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem" }}>
               {placeData.category}
@@ -244,14 +227,14 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
         </TextBox>
       </StyledCard>
       <DetailBox>
-        {modalOpen && (
-          <SpotDetail
-            modalClose={modalClose}
-            id={placeData.id}
-            detailData={detailData}
-            reviewData={reviewData}
-          ></SpotDetail>
-        )}
+        {
+          modalOpen && (
+            <SpotDetail
+              setTemp={setTemp}
+              modalClose={modalClose}
+              id={placeData.id}
+            />
+          )}
       </DetailBox>
     </div>
   );

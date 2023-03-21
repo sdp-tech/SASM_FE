@@ -8,6 +8,8 @@ import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Request from "../../functions/common/Request.js";
+import Loading from "../common/Loading.js";
 
 const StyledList = styled(List)`
   top: 64px;
@@ -23,20 +25,38 @@ const StyledList = styled(List)`
   z-index: 102;
 `
 
-export default function SpotDetail({ modalClose, id, detailData, reviewData }) {
+export default function SpotDetail({ modalClose, id, setTemp}) {
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
+  const [detailData, setDetailData] = useState([]);
+  const [reviewData, setReviewData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   useEffect(() => {
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page]);
+  }, []);
+  const request = new Request(cookies, localStorage, navigate);
+  const getItem = async () => {
+    setDataLoading(true);
+    const response_detail = await request.get("/places/place_detail/", { id: id });
+    const response_review = await request.get("/places/place_review/", { id: id });
+    setReviewData(response_review.data.data);
+    setDetailData(response_detail.data.data);
+    setDataLoading(false);
+    setTemp({
+      lat: response_detail.data.data.latitude,
+      lng: response_detail.data.data.longitude,
+    });
+  }
+  useEffect(()=>{
+    getItem();
+  }, [])
   return (
     <>
-      <StyledList
+      {dataLoading ? <></>: <StyledList
         style={{
           overflow: "scroll",
           position: "fixed",
@@ -65,7 +85,7 @@ export default function SpotDetail({ modalClose, id, detailData, reviewData }) {
         ) : (
           <></>
         )}
-      </StyledList>
+      </StyledList>}
     </>
   );
 }
