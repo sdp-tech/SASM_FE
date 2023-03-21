@@ -44,7 +44,7 @@ export default function DataContainer({ Location }) {
     const [loading, setLoading] = useState(true);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
-    const token = localStorage.getList("accessTK"); //localStorage에서 accesstoken꺼내기
+    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = new Request(cookies, localStorage, navigate);
     const [placeData, setPlaceData] = useState({
         total: 0,
