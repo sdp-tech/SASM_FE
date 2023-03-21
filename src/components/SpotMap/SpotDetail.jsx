@@ -23,10 +23,9 @@ const StyledList = styled(List)`
   z-index: 102;
 `
 
-export default function SpotDetail({ modalClose, id, setTemp }) {
+export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
-  const [page, setPage] = useState(1);
   const [detailData, setDetailData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
@@ -48,41 +47,24 @@ export default function SpotDetail({ modalClose, id, setTemp }) {
   }
   useEffect(() => {
     getDetail();
-  }, [page])
+  }, [])
   return (
     <>
       {
         dataLoading ? <></> :
           <StyledList
-            style={{
-              overflow: "scroll",
-              position: "fixed",
-            }}
-            sx={{
-              padding: "0",
-              boxSizing: "border-box",
-              width: "100%",
-              bgcolor: "#FFFFFF",
-            }}
+            style={{ overflow: "scroll", position: "fixed" }}
+            sx={{ padding: "0", boxSizing: "border-box", width: "100%", bgcolor: "#FFFFFF" }}
           >
-            <DetailCard
-              detailData={detailData}
-              modalClose={modalClose}
-              setPage={setPage}
-              page={page}
-            />
+            <DetailCard detailData={detailData} modalClose={modalClose} like={like} setLike={setLike} />
             {
               isSasmAdmin &&
-              <AdminButton
-                style={{ margin: "auto", width: "20%" }}
-                onClick={() => {
-                  navigate(`/admin/place/${id}`);
-                }}
-              >
+              <AdminButton style={{ margin: "auto", width: "20%" }} onClick={() => { navigate(`/admin/place/${id}`); }}  >
                 장소 수정
               </AdminButton>
             }
-          </StyledList>}
+          </StyledList>
+      }
     </>
   );
 }

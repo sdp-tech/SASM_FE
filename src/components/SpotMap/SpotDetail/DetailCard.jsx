@@ -163,9 +163,8 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function DetailCard({ detailData, modalClose, page, setPage }) {
+export default function DetailCard({ detailData, modalClose, like, setLike }) {
   const [value, setValue] = useState(0);
-  const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -203,10 +202,7 @@ export default function DetailCard({ detailData, modalClose, page, setPage }) {
           <ButtonBox>
             {/* 스토리가 있는 경우에만 버튼 띄우기 */}
             {detailData.story_id ? (
-              <Link
-                to={`/story/${detailData.story_id}`}
-                style={{ textDecoration: "none" }}
-              >
+              <Link to={`/story/${detailData.story_id}`} style={{ textDecoration: "none" }} >
                 <MapButton>Go To Story</MapButton>
               </Link>
             ) : (
@@ -244,12 +240,7 @@ export default function DetailCard({ detailData, modalClose, page, setPage }) {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <div
-                  style={{
-                    fontSize: "1em",
-                    fontWeight: "500",
-                    color: "black",
-                    height: "100%",
-                  }}
+                  style={{ fontSize: "0.8rem", fontWeight: "500" }}
                 >
                   <p>월 : {detailData.mon_hours}</p>
                   <p>화 : {detailData.tues_hours}</p>
