@@ -254,10 +254,9 @@ const StoryDetailBox = (props) => {
 
   const loadItem = async () => {
     setLoading(true);
-    const response_detail = await request.get("/stories/story_detail/", { id: id }, null);
+    const response_detail = await request.get(`/stories/story_detail/${id}/`);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
     const recommend_story = await request.get("/stories/recommend_story/", { id: id }, null);
-
     setData(response_detail.data.data);
     setComment(response_comment.data.data);
     setRecommend(recommend_story.data.data);
