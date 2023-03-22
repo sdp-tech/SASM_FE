@@ -11,7 +11,7 @@ function Pagination({ total, limit, page, setPage }) {
         ""
       ) : (
         <Nav>
-          <StyledLink to='#' onClick={() => setPage(page - 1)} disabled={page === 1}>
+          <StyledLink to='#' onClick={() => setPage(page - 1)} style={page === 1? {display: 'none'} : {display:'inline'}}>
             &lt;
           </StyledLink>
           {Array(numPages)
@@ -27,7 +27,7 @@ function Pagination({ total, limit, page, setPage }) {
             ))}
           <StyledLink to='#'
             onClick={() => setPage(page + 1)}
-            disabled={page === numPages}
+            style={page === numPages? {display: 'none'} : {display:'inline'}}
           >
             &gt;
           </StyledLink>
