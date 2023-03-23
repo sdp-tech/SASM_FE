@@ -56,9 +56,9 @@ export default function WriteReview({ targetData, keywordList, id, setValue }) {
       setPhotoList(targetData.photos);
       // 수정을 위해 기존에 선택한 카테고리를 보여주기
       let targetCategory = [];
-      for (let i = 0; i < targetData.category.length; i++) {
-        targetCategory.push(`${targetData.category[i].category}`);
-        document.getElementById(`keyword_input_${targetData.category[i].category}`).checked = true;
+      for (let i = 0; i < targetData.categoryList.length; i++) {
+        targetCategory.push(`${targetData.categoryList[i].category}`);
+        document.getElementById(`keyword_input_${targetData.categoryList[i].category}`).checked = true;
       }
       setKeyword(targetCategory);
     }

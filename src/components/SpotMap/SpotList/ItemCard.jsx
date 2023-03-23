@@ -214,7 +214,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       </StyledCard>
       <DetailBox>
         {
-          modalOpen && <SpotDetail setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
+          modalOpen && <SpotDetail like={like} setLike={setLike} setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
         }
       </DetailBox>
     </div>

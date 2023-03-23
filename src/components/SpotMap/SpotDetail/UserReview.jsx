@@ -25,15 +25,13 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
     const handleToggle = () => {
         setToggle(!toggle);
     }
-
-    const reviewDelete = async () => {
-        const response = await request.delete(`/places/place_review/${reviewData.id}/`, null, null);
+    const deleteReview = async () => {
+        const response_delete = await request.delete(`/places/place_review/${reviewData.id}/`);
         setValue(0);
     }
-
     const confirmDelete = () => {
         if (window.confirm('삭제하시겠습니까?')) {
-            reviewDelete();
+            deleteReview();
         }
     }
     return (
@@ -57,7 +55,7 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                 {
-                    reviewData.photos.map((data, index) => {
+                    reviewData.photoList?.map((data, index) => {
                         return (
                             <img src={data.imgfile} key={`review_photos_${reviewData.id}_${index}`} alt="review photos" style={{ width: '100px', height: '100px' }} />
                         )
