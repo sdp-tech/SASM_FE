@@ -77,7 +77,7 @@ export default function Reviews({ id, category, setValue }) {
   }
   const getReview = async () => {
     setLoading(true);
-    const response_review = await request.get("/places/place_review/", { id: id, page: page });
+    const response_review = await request.get("/places/place_reviews/", { place_id: id, page: page});
     setReviewData(response_review.data.data);
     setLoading(false);
   }
@@ -89,17 +89,17 @@ export default function Reviews({ id, category, setValue }) {
       {loading ?
         <Loading /> :
         <>
-          {/* {
-        detailData.category_statistics.map((data, index) => {
-          return (
-            <StatisticWrapper key={`${detailData.id}_statistics_${index}`}>
-              <StatisticText>{data[0]}</StatisticText>
-              <PercentageBar width={data[1]} />
-              <StatisticText>{data[1]}%</StatisticText>
-            </StatisticWrapper>
-          );
-        })
-      } */}
+          {
+            reviewData.statistics.map((data, index) => {
+              return (
+                <StatisticWrapper key={`${reviewData.id}_statistics_${index}`}>
+                  <StatisticText>{data[0]}</StatisticText>
+                  <PercentageBar width={data[1]} />
+                  <StatisticText>{data[1]}%</StatisticText>
+                </StatisticWrapper>
+              );
+            })
+          }
           <ReviewBox>
             {reviewOpen ? <WriteReview setValue={setValue} keywordList={keywordList} id={id} targetData={targetData} /> : <div onClick={handleReviewOpen}>리뷰를 작성해보세요.</div>}
           </ReviewBox>
