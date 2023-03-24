@@ -58,7 +58,7 @@ const Sections = styled.div`
   display: grid;
   position: relative;
   height: calc(100vh - 64px);
-  @media screen and (max-width : 768px){
+  @media screen and (max-width : 1024px){
   grid-template-rows: 0.4fr 0.6fr; 
   grid-template-columns: 1fr;
   grid-template-areas:

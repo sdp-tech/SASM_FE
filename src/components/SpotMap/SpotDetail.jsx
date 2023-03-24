@@ -14,7 +14,7 @@ const StyledList = styled(List)`
   height: calc(100vh - 64px);
   left: 28%;
   max-width: 25%;
-  @media screen and (max-width : 768px){
+  @media screen and (max-width : 1024px){
     left: 0%;
     top: calc((100vh - 64px) * 0.4 + 64px);
     height: calc(100vh - (100vh - 64px) * 0.4 - 64px);
