@@ -131,9 +131,9 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
-      MarkerReset();
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
+        MarkerReset();
       }
     };
     document.addEventListener("mousedown", clickOutside);
