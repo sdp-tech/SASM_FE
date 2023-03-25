@@ -127,7 +127,7 @@ export default function CommunityList({ board, format }) {
 
   const getHashTag = async (search) => {
     const response = await request.get("/community/post_hashtags", {
-      board: board + 1,
+      board: board,
       query: search,
     })
     setListHashtag(response.data.data.results);
@@ -136,7 +136,7 @@ export default function CommunityList({ board, format }) {
     setListHashtag([]);
     setLoading(true);
     const response = await request.get("/community/posts/", {
-      board: board + 1,
+      board: board,
       query: search,
       query_type: 'hashtag',
       page: page,
