@@ -40,6 +40,7 @@ const SearchHereButton = styled.button`
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
+  cursor: pointer;
 `;
 const MoveToCenterButton = styled.button`
   background: #ffffff;
@@ -84,25 +85,11 @@ const ControllerWrapper = styled.div`
   }
 `;
 
-const Markers = (props) => {
-  const htmlFontSize = getComputedStyle(
-    document.documentElement
-  ).fontSize.slice(0, 2);
+const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [detailInfo, setDetailInfo] = useState([]);
-  const [reviewInfo, setReviewInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const node = useRef();
-  const navermaps = props.navermaps;
-  const left = props.left;
-  const right = props.right;
-  const title = props.title;
-  const id = props.id;
-  const category = props.category;
-  const url_category = MatchCategory(category);
-  const key = props.index;
-  const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
   useEffect(() => {
     if (categoryNum != 0) {
@@ -111,16 +98,9 @@ const Markers = (props) => {
       setBool(false);
     }
   }, [categoryNum]);
-  const width = Number(htmlFontSize * title.length) + 10;
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
-  const setTemp = (data) => {
-    props.setTemp(data);
-  };
-
+  // 마커 전부 초기화
   const MarkerReset = () => {
     const text = document.getElementById(`${id}text`);
     if (text) {
@@ -130,16 +110,13 @@ const Markers = (props) => {
       }
     }
     if (!bool) {
-      document.getElementById(
-        `${id}bg`
-      ).style.backgroundImage = `url(${MarkerbgDefault})`;
+      document.getElementById(`${id}bg`).style.backgroundImage = `url(${MarkerbgDefault})`;
     } else {
-      document.getElementById(
-        `${id}bg`
-      ).style.backgroundImage = `url(${MarkerbgActive})`;
+      document.getElementById(`${id}bg`).style.backgroundImage = `url(${MarkerbgActive})`;
     }
     document.getElementById(id).style.zIndex = "1";
   };
+  // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
     const text = document.getElementById(`${id}text`);
     if (text) {
@@ -148,17 +125,15 @@ const Markers = (props) => {
         text.style.display = "block";
       }
     }
-    document.getElementById(
-      `${id}bg`
-    ).style.backgroundImage = `url(${MarkerbgSelect})`;
+    document.getElementById(`${id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
     document.getElementById(id).style.zIndex = "100";
   };
   useEffect(() => {
     const clickOutside = (e) => {
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
-      MarkerReset();
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
+        MarkerReset();
       }
     };
     document.addEventListener("mousedown", clickOutside);
@@ -169,34 +144,9 @@ const Markers = (props) => {
   });
 
   // 상세보기 클릭 이벤트
-  const handleClick = async () => {
-    setLoading(true);
+  const handleClick = () => {
     MarkerChange();
-    const response = await request.get(
-      "/places/place_detail/",
-      { id: id },
-      null
-    );
-    const response_review = await request.get(
-      "/places/place_review/",
-      {
-        id: id,
-      },
-      null
-    );
-    // console.log("response!!!", response.data);
-
-    setReviewInfo(response_review.data.data);
-    setDetailInfo(response.data.data);
     setModalOpen(true);
-    setTemp({
-      center: {
-        lat: response.data.data.latitude,
-        lng: response.data.data.longitude,
-      },
-      zoom: 13,
-    });
-    setLoading(false);
   };
 
   // 상세보기 모달 닫기 이벤트
@@ -204,19 +154,16 @@ const Markers = (props) => {
     setModalOpen(!modalOpen);
   };
 
+  //마커의 텍스트 사이즈 고정하기
+  const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0, 2);
+  const width = Number(htmlFontSize * title.length) + 10;
   // HTML 마커
   const contentString = [
     `<div style="display:flex; jusitfy-content:center; align-items:center; transform: translateY(-50%); position:relative; flex-direction:column; cursor: pointer;" class="iw_inner" id=${id} >`,
-    `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${
-      bool ? MarkerbgActive : MarkerbgDefault
-    }); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
-    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(
-      category
-    )}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
+    `   <div style="margin-top:0px; display: flex; width:45px; height: 67.5px; align-items: flex-start; justify-content: center; padding: 10px; background-image: url(${bool ? MarkerbgActive : MarkerbgDefault}); background-repeat: no-repeat; background-position: top; background-size: contain;" id="${id}bg" > `,
+    `       <img src=${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`)} style="width: 25px; height: 25px; border: 1px red;" alt="marker" class="thumb" id="${id}img" />`,
     "   </div>",
-    `   <div style="display: ${
-      bool ? "block" : "none"
-    }; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
+    `   <div style="display: ${bool ? "block" : "none"}; background:#FFFFFF; border-radius:8px; border: 1px #ADEFC2 solid; padding:3px; width: ${width}px; text-align:center; position: absolute; bottom:-5px;" id="${id}text">`,
     `      <p style="margin:0; font-size: 1rem;" >${title}</p>`,
     `   </div>`,
     "</div>",
@@ -225,7 +172,7 @@ const Markers = (props) => {
   return (
     <div ref={node}>
       <Marker
-        key={key}
+        key={`marker_${id}`}
         position={new navermaps.LatLng(left, right)}
         title={title}
         icon={{
@@ -239,9 +186,8 @@ const Markers = (props) => {
         {modalOpen && (
           <SpotDetail
             modalClose={modalClose}
-            id={props.id}
-            detailInfo={detailInfo}
-            reviewInfo={reviewInfo}
+            id={id}
+            setTemp={setTemp}
           ></SpotDetail>
         )}
       </DetailBox>
@@ -249,47 +195,29 @@ const Markers = (props) => {
   );
 };
 
-const NaverMapAPI = (props) => {
-  const Item = props.markerInfo;
+const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, categoryNum }) => {
   const navermaps = window.naver.maps;
-  const zoom = props.zoom;
-  const setZoom = (zoom) => {
-    props.setZoom(zoom);
-  };
+  const [zoom, setZoom] = useState(14);
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
   const [coor, setCoor] = useState(null);
+  //User의 현재 위치
   const [state, setState] = useState({
-    center: {
-      lat: 37.551229,
-      lng: 126.988205,
-    },
-    zoom: 13,
+    lat: 37.551229,
+    lng: 126.988205,
   });
-  const temp = props.temp;
-  const setTemp = (data) => {
-    props.setTemp(data);
-  };
-  const setSearchHere = (data) => {
-    props.setSearchHere(data);
-  };
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         //현재 위치 고정
         setTemp({
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-          zoom: zoom,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         });
+        //User의 현재 위치
         setState({
-          center: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          },
-          zoom: zoom,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         });
       },
       (error) => {
@@ -314,17 +242,15 @@ const NaverMapAPI = (props) => {
   };
   const handleCenterChanged = (data) => {
     setCoor({
-      center: {
-        lat: data._lat,
-        lng: data._lng,
-      },
+      lat: data._lat,
+      lng: data._lng,
     });
   };
   return (
     <>
       <SearchHereButton
         onClick={() => {
-          props.setPage(1);
+          setPage(1);
           setSearchHere(coor);
         }}
       >
@@ -339,9 +265,7 @@ const NaverMapAPI = (props) => {
           <label
             htmlFor="zoomRange"
             style={{ display: "flex", justifyContent: "center" }}
-            onClick={(e) => {
-              setZoom(zoom + 1);
-            }}
+            onClick={() => { setZoom(zoom + 1) }}
           >
             <img src={ZoomPlus} style={{ transform: "scale(0.6)" }} />
           </label>
@@ -352,16 +276,12 @@ const NaverMapAPI = (props) => {
             max="19"
             id="zoomRange"
             value={zoom}
-            onChange={(event) => {
-              setZoom(Number(event.target.value));
-            }}
+            onChange={(event) => { setZoom(Number(event.target.value)); }}
           />
           <label
             htmlFor="zoomRange"
             style={{ display: "flex", justifyContent: "center" }}
-            onClick={(e) => {
-              setZoom(zoom - 1);
-            }}
+            onClick={() => { setZoom(zoom - 1) }}
           >
             <img src={ZoomMinus} style={{ transform: "scale(0.6)" }} />
           </label>
@@ -374,30 +294,25 @@ const NaverMapAPI = (props) => {
           height: "100%",
           outline: "none",
         }}
-        center={temp.center}
+        center={temp}
         zoom={zoom}
         minZoom={11}
         maxZoom={19}
-        onZoomChanged={(zoom) => {
-          setZoom(zoom);
-        }}
+        onZoomChanged={(zoom) => { setZoom(zoom) }}
         zoomControl={false}
-        onCenterChanged={(center) => {
-          handleCenterChanged(center);
-        }}
+        onCenterChanged={(center) => { handleCenterChanged(center) }}
       >
         {/* markers */}
-        {Item.map((itemdata, index) => {
+        {markerData.map((itemdata) => {
           const left = itemdata[0];
           const right = itemdata[1];
           const title = itemdata[2];
           const id = itemdata[3];
           const category = itemdata[4];
-
           return (
             <>
               <Markers
-                categoryNum={props.categoryNum}
+                categoryNum={categoryNum}
                 setTemp={setTemp}
                 left={left}
                 right={right}
@@ -405,14 +320,14 @@ const NaverMapAPI = (props) => {
                 id={id}
                 category={category}
                 navermaps={navermaps}
-                key={index}
+                key={`marker_${id}`}
               />
             </>
           );
         })}
         <Marker
-          key={3}
-          position={state.center}
+          key={0}
+          position={state}
           clickable={false}
           title={"현재 위치"}
           icon={{
@@ -421,19 +336,14 @@ const NaverMapAPI = (props) => {
             origin: new navermaps.Point(190, 190),
             anchor: new navermaps.Point(10, 10),
           }}
-          // animation={2}
-          onClick={() => {
-            alert("여기는 현재 위치입니다.");
-          }}
         />
       </NaverMap>
     </>
   );
 };
 
-export default function Map(props) {
-  const Item = props.mapList;
-  const markerInfo = Item.map((itemdata, index, source) => {
+export default function Map({ placeData, temp, setTemp, setSearchHere, setPage, categoryNum }) {
+  const markerData = placeData.map((itemdata, index, source) => {
     return [
       itemdata.latitude,
       itemdata.longitude,
@@ -442,20 +352,6 @@ export default function Map(props) {
       itemdata.category,
     ];
   });
-  const zoom = props.zoom;
-  const setZoom = (zoom) => {
-    props.setZoom(zoom);
-  };
-  const temp = props.temp;
-  const setTemp = (data) => {
-    props.setTemp(data);
-  };
-  const setSearchHere = (data) => {
-    props.setSearchHere(data);
-  };
-  const setPage = (page) => {
-    props.setPage(page);
-  };
 
   return (
     <MapSection>
@@ -465,22 +361,14 @@ export default function Map(props) {
         loading={<p>Maps Loading…</p>}
       >
         <NaverMapAPI
-          categoryNum={props.categoryNum}
-          markerInfo={markerInfo}
+          categoryNum={categoryNum}
+          markerData={markerData}
           temp={temp}
           setTemp={setTemp}
           setSearchHere={setSearchHere}
           setPage={setPage}
-          zoom={zoom}
-          setZoom={setZoom}
         />
       </RenderAfterNavermapsLoaded>
-
-      {/* <SearchAgainButton
-      // onClick={handleBackToCenter}
-      >
-        지금 지도에서 검색
-      </SearchAgainButton> */}
     </MapSection>
   );
 }

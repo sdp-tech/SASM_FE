@@ -60,12 +60,9 @@ const App = () => {
           <BrowserRouter>
             <Navibar />
             <Routes>
+              <Route path="/map/:id" element={<SpotMap />} />
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
-              <Route
-                path="/googleredirect"
-                element={<GoogleRedirect />}
-              ></Route>
               <Route path="/map" element={<SpotMap />} />
               <Route path="/map/:place" element={<SpotMap />} />
 

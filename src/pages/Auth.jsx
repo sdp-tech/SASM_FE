@@ -8,6 +8,8 @@ import Register from "../components/Auth/Register";
 import Navibar from "../components/common/Navibar";
 import FindIDnPW from "../components/Auth/FindIDnPW";
 import KakaoRedirect from "../components/Auth/module/KakaoRedirect";
+import NaverRedirect from "../components/Auth/module/NaverRedirect";
+import GoogleRedirect from "../components/Auth/module/GoogleRedirect";
 import { useCookies } from "react-cookie";
 import { LoginContext } from "../contexts/LoginContexts";
 
@@ -26,6 +28,8 @@ export default function Auth() {
           <Route path="/register" element={<Register />} />
           <Route path="/find/*" element={<FindIDnPW />} />
           <Route path="/kakao/callback/" element={<KakaoRedirect />} />
+          <Route path="/naver/callback/" element={<NaverRedirect />} />
+          <Route path="/google/callback/" element={<GoogleRedirect />} />
         </Routes>
       </AuthWrapper>
     </Sections>

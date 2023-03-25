@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import ItemCard from "./SpotList/ItemCard.js";
+import ItemCard from "./SpotList/ItemCard";
 import nothingIcon from "../../assets/img/nothing.svg";
 
 const SpotListSection = styled.div`
@@ -57,45 +57,26 @@ const SpotsWrapper = styled.div`
   }
 `;
 
-export default function SpotList(props){
-  const setTemp = (data) => {
-    props.setTemp(data);
-  }
-  const item = props.mapList;
-  let modalOpen = false;
-  if(item.length==1) modalOpen=true;
+export default function SpotList({ setTemp, placeData, categoryNum }) {
   return (
-        <SpotListSection>
-          {/* 데이터 없을때 장소가 없습니다 띄우기 */}
-          <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
-          <SpotsWrapper id="wrapper">
-            {item.length === 0 ? (
-              <NothingSearched>
-                <img src={nothingIcon} style={{ marginBottom: "10px" }} />
-                해당하는 장소가 없습니다
-              </NothingSearched>
-            ) : (
-              item.map((itemdata, index) => {
-                return (
-                  <ItemCard
-                    categoryNum={props.categoryNum}
-                    setTemp={setTemp}
-                    index={index}
-                    key={index}
-                    id={itemdata.id}
-                    ImageURL={itemdata.rep_pic}
-                    StoreName={itemdata.place_name}
-                    StoreType={itemdata.category}
-                    open_hours={itemdata.open_hours}
-                    Address={itemdata.address}
-                    place_review={itemdata.place_review}
-                    place_like={itemdata.place_like}
-                    modalOpen={modalOpen}
-                  />
-                );
-              })
-            )}
-          </SpotsWrapper>
-        </SpotListSection>
+    <SpotListSection>
+      {/* 데이터 없을때 장소가 없습니다 띄우기 */}
+      <RecommendTitle><b>이런 장소</b>는 어떠세요?</RecommendTitle>
+      <SpotsWrapper id="wrapper">
+        {
+          placeData.length === 0 ?
+            <NothingSearched>
+              <img src={nothingIcon} style={{ marginBottom: "10px" }} />
+              해당하는 장소가 없습니다
+            </NothingSearched>
+            :
+            placeData.map((itemdata) => {
+              return (
+                <ItemCard categoryNum={categoryNum} setTemp={setTemp} key={`itemcard_${itemdata.id}`} placeData={itemdata} />
+              );
+            })
+        }
+      </SpotsWrapper>
+    </SpotListSection>
   );
 };

@@ -2,11 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
-
-// import { getCookie } from "../../common/Cookie";
+import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
-import Loading from "../../common/Loading";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import MarkerbgActive from "../../../assets/img/Map/MarkerbgActive.svg";
@@ -27,12 +24,13 @@ const StyledCard = styled.div`
   overflow: hidden;
 `;
 
-const ImgBox = styled.div`
+const ImgLink = styled(Link)`
   border: 1px black solid;
   min-width: 15vmin;
   min-height: 15vmin;
   max-width: 15vmin;
   max-height: 15vmin;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     min-width: 25vmin;
     min-height: 25vmin;
@@ -56,6 +54,14 @@ const TitleBox = styled.div`
   justify-content: space-around;
   flex-flow: row wrap;
 `;
+
+const TitleLink = styled(Link)`
+  width: 100%;
+  cursor: "pointer";
+  text-decoration : none;
+  color: inherit;
+`;
+
 const ContentBox = styled.div`
   font-size: 0.75rem;
   min-height: 60%;
@@ -90,17 +96,13 @@ const DetailBox = styled.div`
   position: absolute;
 `;
 
-export default function ItemCard(props) {
+export default function ItemCard({ placeData, categoryNum, setTemp }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [detailInfo, setDetailInfo] = useState([]);
-  const [reviewInfo, setReviewInfo] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
-  const id = props.id;
-  const categoryNum = props.categoryNum;
   const [bool, setBool] = useState(false);
   useEffect(() => {
     if (categoryNum != 0) {
@@ -110,36 +112,27 @@ export default function ItemCard(props) {
     }
   }, [categoryNum]);
   const request = new Request(cookies, localStorage, navigate);
-  const setTemp = (data) => {
-    props.setTemp(data);
-  };
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
   };
 
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
-    // alert(`${props.id}`);
     if (!token) {
       alert("로그인이 필요합니다.");
-    } else {
-      const response = await request.post(
-        "/places/place_like/",
-        { id: id },
-        null
-      );
-      // console.log("response", response);
-
+    }
+    else {
+      const response = await request.post("/places/place_like/", { id: placeData.id });
       //색상 채우기
       setLike(!like);
     }
   };
+  // 마커 전부 초기화
   const MarkerReset = () => {
-    const text = document.getElementById(`${id}text`);
+    const text = document.getElementById(`${placeData.id}text`);
     if (text) {
       text.style.transform = "none";
       if (!bool) {
@@ -147,76 +140,40 @@ export default function ItemCard(props) {
       }
     }
     if (!bool) {
-      document.getElementById(
-        `${id}bg`
-      ).style.backgroundImage = `url(${MarkerbgDefault})`;
+      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgDefault})`;
     } else {
-      document.getElementById(
-        `${id}bg`
-      ).style.backgroundImage = `url(${MarkerbgActive})`;
+      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgActive})`;
     }
-    document.getElementById(id).style.zIndex = "1";
+    document.getElementById(placeData.id).style.zIndex = "1";
   };
+  // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
-    const text = document.getElementById(`${id}text`);
+    const text = document.getElementById(`${placeData.id}text`);
     if (text) {
       text.style.transform = "translateY(100%)";
       if (!bool) {
         text.style.display = "block";
       }
     }
-    document.getElementById(
-      `${id}bg`
-    ).style.backgroundImage = `url(${MarkerbgSelect})`;
-    document.getElementById(id).style.zIndex = "100";
+    document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
+    document.getElementById(placeData.id).style.zIndex = "100";
   };
 
   // 상세보기 클릭 이벤트
-  const handleClick = async () => {
-    setLoading(true);
+  const handleClick = () => {
     MarkerChange();
-    const response = await request.get(
-      "/places/place_detail/",
-      { id: id },
-      null
-    );
-    const response_review = await request.get(
-      "/places/place_review/",
-      {
-        id: id,
-      },
-      null
-    );
-    setDetailInfo(response.data.data);
-    setReviewInfo(response_review.data.data);
     setModalOpen(true);
-    setTemp({
-      center: {
-        lat: response.data.data.latitude,
-        lng: response.data.data.longitude,
-      },
-      zoom: 13,
-    });
-
-    setLoading(false);
   };
-
-  // params를 통해 들어왔을경우 바로 open하기
-  useEffect(() => {
-    if (props.modalOpen) handleClick();
-  }, []);
 
   useEffect(() => {
     const clickOutside = (e) => {
-      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
+        MarkerReset();
       }
     };
-
     document.addEventListener("mousedown", clickOutside);
-
     return () => {
       // Cleanup the event listener
       document.removeEventListener("mousedown", clickOutside);
@@ -226,53 +183,39 @@ export default function ItemCard(props) {
   return (
     <div ref={node}>
       <StyledCard key={Date.now()}>
-        <ImgBox style={{ cursor: "pointer" }} onClick={handleClick}>
-          <img
-            src={props.ImageURL}
-            className="image--itemcard"
-            alt="placeImage"
-            width="100%"
-            height="100%"
-          />
-        </ImgBox>
+        <ImgLink to={`/map/${placeData.id}`} onClick={handleClick}>
+          <img src={placeData.rep_pic} className="itemcard_image" alt="placeImage" width="100%" height="100%" />
+        </ImgLink>
         <TextBox>
           <TitleBox>
-            <div
-              style={{ width: "100%", cursor: "pointer" }}
-              onClick={handleClick}
-            >
-              {props.StoreName}
-            </div>
-            <LikeButton
-              style={{ position: "absolute", right: "5%", bottom: "2%" }}
-            >
-              {props.place_like === "ok" ? (
-                <HeartButton like={!like} onClick={toggleLike} />
-              ) : (
-                <HeartButton like={like} onClick={toggleLike} />
-              )}
+            <TitleLink to={`/map/${placeData.id}`} onClick={handleClick}>
+              {placeData.place_name}
+            </TitleLink>
+            <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
+              {
+                placeData.place_like === "ok" ? (
+                  <HeartButton like={!like} onClick={toggleLike} />
+                ) : (
+                  <HeartButton like={like} onClick={toggleLike} />
+                )
+              }
             </LikeButton>
             <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem" }}>
-              {props.StoreType}
+              {placeData.category}
             </div>
           </TitleBox>
 
           <ContentBox>
-            <div style={{ color: "#999999" }}>{props.place_review}</div>
-            <div>{props.Address}</div>
-            <div>{props.open_hours}</div>
+            <div style={{ color: "#999999" }}>{placeData.place_review}</div>
+            <div>{placeData.address}</div>
+            <div>{placeData.open_hours}</div>
           </ContentBox>
         </TextBox>
       </StyledCard>
       <DetailBox>
-        {modalOpen && (
-          <SpotDetail
-            modalClose={modalClose}
-            id={props.id}
-            detailInfo={detailInfo}
-            reviewInfo={reviewInfo}
-          ></SpotDetail>
-        )}
+        {
+          modalOpen && <SpotDetail like={like} setLike={setLike} setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
+        }
       </DetailBox>
     </div>
   );

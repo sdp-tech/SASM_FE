@@ -29,122 +29,144 @@ const EachKeyWord = styled.div`
     margin:10px;
 `
 
-export default function WriteReview(props) {
-    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-    const navigate = useNavigate();
-    const request = new Request(cookies, localStorage, navigate);
-    const token = localStorage.getItem('accessTK');
-    const [Keyword, setKeyword] = useState([]);
-    useEffect(() => {
-        if (props.target_info) {
-            document.getElementById('filelist').innerHTML = null;
-            console.log(props.target_info);
-            let targetCategory = [];
-            for (let i = 0; i < props.target_info.category.length; i++) {
-                targetCategory.push(`${props.target_info.category[i].category}`);
-                for (let j = 0; j < props.keywords.length; j++) {
-                    if (props.keywords[j][1] == props.target_info.category[i].category) {
-                        document.getElementById(props.keywords[j]).getElementsByTagName('input')[0].checked = true;
-                        document.getElementById(props.keywords[j]).style.color = 'red';
-                        break;
-                    }
-                }
-            }
-            setKeyword(targetCategory);
-        }
-    }, []);
-    const fileInput = (event) => {
-        document.getElementById('filelist').innerHTML = null;
-        if (event.target.files.length > 3) {
-            alert('사진은 최대 3장까지 업로드 할 수 있습니다.');
-            event.target.value = null;
-        }
-        else for (let i = 0; i < event.target.files.length; i++) {
-            document.getElementById('filelist').innerHTML += `<p style='margin:0px; '>${event.target.files[i].name}</p>`;
-        }
-    }
-    const handleCheck = (event, keyword) => {
-        if (event.target.checked) {
-            if (Keyword.length > 2) {
-                alert('3개까지만 선택 가능합니다');
-                setKeyword(Keyword.filter((el) => el !== keyword[1]));
-                event.target.checked = false;
-            }
-            else {
-                setKeyword([...Keyword, keyword[1]]);
-                document.getElementById(keyword).style.color = 'red';
-            }
-        }
-        else if (!event.target.checked) {
-            setKeyword(Keyword.filter((el) => el !== keyword[1]));
-            document.getElementById(keyword).style.color = 'black';
-        }
-    }
-    const reviewUpload = async (event) => {
-        if (!token) {
-            alert('로그인이 필요합니다.');
-            navigate('/auth');
-        }
-        else {
-            const formData = new FormData();
-            formData.append('place', `${props.id}`);
-            formData.append('contents', `${event.target.text.value}`)
-            for (let i = 0; i < event.target.file.files.length; i++) {
-                formData.append('photos', event.target.file.files[i]);
-            }
-            formData.append('category', `${Keyword}`);
-            for (let item of formData) {
-                console.log(item);
-            }
+const PhotoBox = styled.div`
+  width: 100px;
+  height: 100px;
+  position: relative;
+`
+const FileList = styled.div`
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 120px;
+`
 
-            if (props.mode == 'write') {
-                const response = await request.post("/places/place_review/", formData, { "Content-Type": "multipart/form-data" });
-            }
-            else if (props.mode == 'update') {
-                const response = await request.put(`/places/place_review/${props.target}/`, formData, { "Content-Type": "multipart/form-data" });
-            }
-        }
+export default function WriteReview({ targetData, keywordList, id, setValue }) {
+  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const navigate = useNavigate();
+  const request = new Request(cookies, localStorage, navigate);
+  const token = localStorage.getItem('accessTK');
+  const [Keyword, setKeyword] = useState([]);
+  const [photos, setPhotos] = useState([]);
+  const [photoList, setPhotoList] = useState([]);
+  useEffect(() => {
+    if (targetData) {
+      // 수정을 위해 기존에 업로드한 사진 저장
+      setPhotoList(targetData.photos);
+      // 수정을 위해 기존에 선택한 카테고리를 보여주기
+      let targetCategory = [];
+      for (let i = 0; i < targetData.categoryList?.length; i++) {
+        targetCategory.push(`${targetData.categoryList[i]}`);
+        document.getElementById(`keyword_input_${targetData.categoryList[i]}`).checked = true;
+      }
+      setKeyword(targetCategory);
     }
-    let keyword = [];
-    for (let i = 0; i < props.keywords.length; i++) {
-        keyword.push(
-            <EachKeyWord id={props.keywords[i]} key={i}>
-                <label htmlFor={i}>{props.keywords[i][0]}</label>
-                <input type="checkbox" id={i} name="keyword" key={i} onChange={(event) => {
-                    handleCheck(event, props.keywords[i])
-                }} style={{ display: 'none' }}></input>
-            </EachKeyWord>)
+  }, [targetData]);
+  const selectFile = (file) => {
+    //각각의 파일을 FileReader로 읽어옴
+    const fileReader = new FileReader();
+    fileReader.onload = () => { setPhotos(prev => [...prev, fileReader.result]) };
+    fileReader.readAsDataURL(file)
+  }
+  const inputFile = (event) => {
+    //파일 입력시 개수 제한
+    if (photoList?.length + event.target.files.length > 3) {
+      alert('사진은 최대 3장까지 업로드 할 수 있습니다.');
+      event.target.value = null;
     }
-
-    if (props.mode == "write") {
-        return (
-            <FormWrapper>
-                <form onSubmit={reviewUpload}>
-                    <textarea placeholder='리뷰를 작성해보세요' id='text' style={{ width: '99%', border: 'none' }} cols='5' autoFocus required></textarea>
-                    <label style={{ display: 'block' }}>키워드를 선택해주세요. (최대 3개)</label>
-                    <KeywordBox>{keyword}</KeywordBox>
-                    <input type="file" id="file" accept='image/*' onChange={fileInput} style={{ display: 'none' }} multiple></input>
-                    <label htmlFor="file" style={{ display: 'block' }}>사진 업로드</label>
-                    <div id="filelist"></div>
-                    <button type='submit' id="submit" style={{ position: 'absolute', right: '5px', bottom: '5px' }}>제출</button>
-                </form>
-            </FormWrapper>
-        )
+    else for (let i = 0; i < event.target.files.length; i++) {
+      setPhotos([]);
+      selectFile(event.target.files[i]);
     }
-    else if (props.mode == "update") {
-        return (
-            <FormWrapper>
-                <form onSubmit={reviewUpload}>
-                    <textarea placeholder={props.target_info.contents} id='text' style={{ width: '99%', border: 'none' }} cols='5' autoFocus required></textarea>
-                    <label style={{ display: 'block' }}>키워드를 선택해주세요. (최대 3개)</label>
-                    <KeywordBox>{keyword}</KeywordBox>
-                    <input type="file" id="file" accept='image/*' onChange={fileInput} style={{ display: 'none' }} multiple></input>
-                    <label htmlFor="file" style={{ display: 'block' }}>사진 업로드</label>
-                    <div id="filelist">
-                    </div>
-                    <button type='submit' id="submit" style={{ position: 'absolute', right: '5px', bottom: '5px' }}>제출</button>
-                </form>
-            </FormWrapper>
-        )
+  }
+  const handleCheck = (event, keyword) => {
+    if (event.target.checked) {
+      if (Keyword.length >= 3) {
+        alert('3개까지만 선택 가능합니다');
+        setKeyword(Keyword.filter((el) => el !== keyword[1]));
+        event.target.checked = false;
+      }
+      else {
+        setKeyword([...Keyword, keyword[1]]);
+      }
     }
-} 
+    else if (!event.target.checked) {
+      setKeyword(Keyword.filter((el) => el !== keyword[1]));
+    }
+  }
+  const deletePhoto = (data, state, setState) => {
+    //각각의 photoList와 photos를 위해 state를 props로 전달
+    setState(state.filter((el) => el !== data));
+  }
+  const uploadReview = async (event) => {
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      navigate('/auth');
+    }
+    else {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append('place', id);
+      formData.append('contents', event.target.text.value)
+      for (let i = 0; i < event.target.file.files.length; i++) {
+        formData.append('photos', event.target.file.files[i]);
+      }
+      for (let i = 0; i < photoList?.length; i++) {
+        formData.append('photoList', photoList[i].imgfile);
+      }
+      formData.append('category', Array(Keyword).toString());
+      if (targetData) {
+        const response_update = await request.put(`/places/place_review/${targetData.id}/update`, formData, { "Content-Type": "multipart/form-data" });
+      }
+      else {
+        const response_upload = await request.post("/places/place_review/create/", formData, { "Content-Type": "multipart/form-data" });
+      }
+      setValue(0);
+    }
+  }
+  useEffect(() => { console.log(photos) }, [photos]);
+  return (
+    <FormWrapper>
+      <form onSubmit={uploadReview}>
+        <textarea placeholder={targetData ? targetData.contents : '리뷰를 작성해주세요'} id='text' style={{ width: '99%', border: 'none' }} cols='5' autoFocus required></textarea>
+        <label style={{ display: 'block' }}>키워드를 선택해주세요. (최대 3개)</label>
+        <KeywordBox>
+          {
+            keywordList.map((data, index) => {
+              return (
+                <EachKeyWord key={data[1]}>
+                  <label style={{ color: Keyword.includes(data[1]) ? 'red' : 'black' }} htmlFor={`keyword_input_${data[1]}`} id={`keyword_text_${data[1]}`}>{data[0]}</label>
+                  <input type="checkbox" id={`keyword_input_${data[1]}`} name="keyword" onChange={(event) => { handleCheck(event, data) }} style={{ display: 'none' }}></input>
+                </EachKeyWord>
+              )
+            })
+          }
+        </KeywordBox>
+        <input type="file" id="file" accept='image/*' onChange={inputFile} style={{ display: 'none' }} multiple></input>
+        <label htmlFor="file" style={{ display: 'block' }}>사진 업로드</label>
+        <FileList id="filelist">
+          {
+            photoList?.map((data, index) => {
+              return (
+                <PhotoBox key={index}>
+                  <img src={data.imgfile} style={{ width: '90px', height: '90px', margin: '5px' }} onClick={() => { deletePhoto(data, photoList, setPhotoList) }} />
+                </PhotoBox>
+              )
+            })
+          }
+          {
+            photos.map((data, index) => {
+              return (
+                <PhotoBox key={index}>
+                  <img src={data} style={{ width: '90px', height: '90px', margin: '5px' }} onClick={() => { deletePhoto(data, photos, setPhotos) }} />
+                </PhotoBox>
+              )
+            })
+          }
+        </FileList>
+        <button type='submit' id="submit" style={{ position: 'absolute', right: '5px', bottom: '5px' }}>제출</button>
+      </form>
+    </FormWrapper>
+  )
+}
