@@ -167,10 +167,10 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
 
   useEffect(() => {
     const clickOutside = (e) => {
-      MarkerReset();
       // 모달이 열려 있고 모달의 바깥쪽을 눌렀을 때 창 닫기
       if (modalOpen && node.current && !node.current.contains(e.target)) {
         setModalOpen(false);
+        MarkerReset();
       }
     };
     document.addEventListener("mousedown", clickOutside);
@@ -214,7 +214,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       </StyledCard>
       <DetailBox>
         {
-          modalOpen && <SpotDetail setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
+          modalOpen && <SpotDetail like={like} setLike={setLike} setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
         }
       </DetailBox>
     </div>

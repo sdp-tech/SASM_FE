@@ -56,9 +56,9 @@ export default function WriteReview({ targetData, keywordList, id, setValue }) {
       setPhotoList(targetData.photos);
       // 수정을 위해 기존에 선택한 카테고리를 보여주기
       let targetCategory = [];
-      for (let i = 0; i < targetData.category.length; i++) {
-        targetCategory.push(`${targetData.category[i].category}`);
-        document.getElementById(`keyword_input_${targetData.category[i].category}`).checked = true;
+      for (let i = 0; i < targetData.categoryList?.length; i++) {
+        targetCategory.push(`${targetData.categoryList[i]}`);
+        document.getElementById(`keyword_input_${targetData.categoryList[i]}`).checked = true;
       }
       setKeyword(targetCategory);
     }
@@ -71,7 +71,7 @@ export default function WriteReview({ targetData, keywordList, id, setValue }) {
   }
   const inputFile = (event) => {
     //파일 입력시 개수 제한
-    if (photoList.length + event.target.files.length > 3) {
+    if (photoList?.length + event.target.files.length > 3) {
       alert('사진은 최대 3장까지 업로드 할 수 있습니다.');
       event.target.value = null;
     }
@@ -112,7 +112,7 @@ export default function WriteReview({ targetData, keywordList, id, setValue }) {
       for (let i = 0; i < event.target.file.files.length; i++) {
         formData.append('photos', event.target.file.files[i]);
       }
-      for (let i = 0; i < photoList.length; i++) {
+      for (let i = 0; i < photoList?.length; i++) {
         formData.append('photoList', photoList[i].imgfile);
       }
       formData.append('category', Array(Keyword).toString());
@@ -147,7 +147,7 @@ export default function WriteReview({ targetData, keywordList, id, setValue }) {
         <label htmlFor="file" style={{ display: 'block' }}>사진 업로드</label>
         <FileList id="filelist">
           {
-            photoList.map((data, index) => {
+            photoList?.map((data, index) => {
               return (
                 <PhotoBox key={index}>
                   <img src={data.imgfile} style={{ width: '90px', height: '90px', margin: '5px' }} onClick={() => { deletePhoto(data, photoList, setPhotoList) }} />
