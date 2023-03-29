@@ -9,14 +9,14 @@ export default async function CheckRepetition(type, data) {
   if (type === 'email') {
     new_data = {
       type: type,
-      email: data
+      value: data
     }
   }
 
   if (type === 'nickname') {
     new_data = {
       type: type,
-      nickname: data
+      value: data
     }
   }
 
