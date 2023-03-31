@@ -3,7 +3,7 @@ import { AuthButton, InputWithLabel } from "../module";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageRedirection from "../../../functions/common/PageRedirection";
-import ChangePw from "../../../functions/Auth/ChangePw";
+import ResetPw from "../../../functions/Auth/ResetPw";
 import { AltRoute } from "@mui/icons-material";
 const Wrapper = styled.div`
   width: 100%;
@@ -120,7 +120,7 @@ const SetNewPassword = () => {
               color: 'white',
             }}
             onClick={async () => {
-              const res = await ChangePw(info);
+              const res = await ResetPw(info);
               console.log("res!!!!!", res);
               if (res.data.status === "success") {
                 alert(
