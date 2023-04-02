@@ -7,7 +7,7 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category"
@@ -64,12 +64,13 @@ const NothingSearched = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const ChangeModeButton = styled.div`
+const ChangeModeButton = styled(Link)`
   width: 30%;
   text-align: center;
   font-size: 1.25rem;
   z-index: 3;
-  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
   @media screen and (max-width: 768px) {
     position: absolute;
     left: 0;
@@ -137,7 +138,7 @@ const Mystory = (props) => {
         <>
           <MyplaceSection>
             <HeaderSection>
-              <ChangeModeButton onClick={props.handleMode}>
+              <ChangeModeButton to={`/mypick/myplace?page=1`}>
                 <img src={ChangeMode} style={{ marginRight: '10px' }} />
                 PLACE
               </ChangeModeButton>

@@ -64,12 +64,13 @@ const NothingSearched = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const ChangeModeButton = styled.div`
+const ChangeModeButton = styled(Link)`
   width: 30%;
   text-align: center;
   font-size: 1.25rem;
   z-index: 3;
-  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
   @media screen and (max-width: 768px) {
     position: absolute;
     left: 0;
@@ -140,7 +141,7 @@ const Myplace = (props) => {
         <>
           <MyplaceSection>
             <HeaderSection>
-              <ChangeModeButton onClick={props.handleMode}>
+              <ChangeModeButton to={`/mypick/mystory?page=1`}>
                 <img src={ChangeMode} style={{ marginRight: '10px' }} />
                 STORY
               </ChangeModeButton>
