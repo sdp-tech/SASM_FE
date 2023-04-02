@@ -69,7 +69,7 @@ const App = () => {
               <Route path="/map/:place" element={<SpotMap />} />
 
               <Route path="/mypage/*" element={<MyPage />} />
-              <Route path="/mypick/*" element={<MyPick />} />
+              {/* <Route path="/mypick/*" element={<MyPick />} /> */}
               <Route path="/mypick/myplace" element={<Myplace />} />
               <Route path="/mypick/mystory" element={<Mystory />} />
               <Route path="/auth/*" element={<Auth />} />
