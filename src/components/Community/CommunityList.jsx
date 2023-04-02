@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Request from '../../functions/common/Request';
 import SearchBar from '../common/SearchBar';
 import Pagination from '../common/Pagination';
 import SearchBlack from "../../assets/img/search_black.svg";
 import CommunityUpload from "./CommunityUpload";
+import qs from 'qs';
 const Section = styled.div`
   height: 53vh;
   position: relative;
@@ -81,7 +82,10 @@ export default function CommunityList({ board, format }) {
   const [mode, setMode] = useState(false);
   const [list, setList] = useState([]);
   const [listHashtag, setListHashtag] = useState([]);
-  const [page, setPage] = useState(1);
+  const _page = useLocation();
+  const query = qs.parse(_page.search, {
+    ignoreQueryPrefix: true
+  });
   const [total, setTotal] = useState(0);
   const [search, setSearch] = useState('');
   const [tempSearch, setTempSearch] = useState('');
@@ -91,7 +95,7 @@ export default function CommunityList({ board, format }) {
       board: board,
       query: search,
       query_type: 'default',
-      page: page,
+      page: query.page,
       latest: 'true',
     }, null);
     setList(response.data.data.results);
@@ -139,7 +143,7 @@ export default function CommunityList({ board, format }) {
       board: board,
       query: search,
       query_type: 'hashtag',
-      page: page,
+      page: query.page,
     }, null);
     setList(response.data.data.results);
     setTotal(response.data.data.count);
@@ -149,7 +153,7 @@ export default function CommunityList({ board, format }) {
   useEffect(() => {
     getItem();
     setMode(false);
-  }, [page, search, board]);
+  }, [query.page, search, board]);
   return (
     <>
       {mode ?
@@ -201,7 +205,7 @@ export default function CommunityList({ board, format }) {
               글쓰기
             </UploadButton>
           </Section>
-          <Pagination total={total} limit="5" page={page} setPage={setPage} />
+          <Pagination total={total} limit="5" page={query.page} />
         </>
       }
     </>

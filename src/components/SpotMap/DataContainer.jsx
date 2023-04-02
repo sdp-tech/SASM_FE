@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Request from '../../functions/common/Request';
 import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router";
+import { useLocation } from "react-router-dom";
 import Map from './Map';
 import styled from 'styled-components';
 import SearchBar from '../common/SearchBar';
@@ -10,8 +11,9 @@ import Pagination from '../common/Pagination';
 import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
-import CategorySelector from '../common/Category'
-import { Pc, Tablet, Mobile } from "../../device"
+import CategorySelector from '../common/Category';
+import { Pc, Tablet, Mobile } from "../../device";
+import qs from 'qs';
 
 const ListWrapper = styled.div`
   display: flex;
@@ -35,8 +37,13 @@ const FilterOptions = styled.div`
 
 export default function DataContainer({ Location }) {
     const [categoryNum, setCategoryNum] = useState(0);
+    const _page = useLocation();
+    const query = qs.parse(_page.search, {
+        ignoreQueryPrefix: true
+      });
+    const [detail, setDetail] = useState({});
+    const [like, setLike] = useState(false);
     const [isSasmAdmin, setIsSasmAdmin] = useState(false);
-    const [page, setPage] = useState(1);
     //tempSearch, tempCheckedList 검색 버튼을 누르기 전에 적용 방지 
     const [search, setSearch] = useState('');
     const [tempSearch, setTempSearch] = useState('');
@@ -63,7 +70,6 @@ export default function DataContainer({ Location }) {
     const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
-        setPage(1);
         if (checked) {
             setCheckedList([...checkedList, item]);
         } else if (!checked) {
@@ -75,7 +81,6 @@ export default function DataContainer({ Location }) {
         setTempSearch(event.target.value);
     };
     const handleSearchToggle = (event) => {
-        setPage(1);
         if (event) {
             //초기화 방지
             event.preventDefault();
@@ -97,13 +102,13 @@ export default function DataContainer({ Location }) {
         }
         document.getElementById('wrapper').scrollTo(0, 0);
         getList();
-    }, [searchHere, page, search, checkedList, params]);
+    }, [searchHere, search, checkedList, params]);
     //초기 map 데이터 가져오기
     const getList = async () => {
         const response_list = await request.get("/places/place_search/", {
             left: searchHere.lat, //현재 위치
             right: searchHere.lng, //현재 위치
-            page: page,
+            page: query.page,
             search: search,
             filter: checkedList
         });
@@ -121,7 +126,7 @@ export default function DataContainer({ Location }) {
 
     return (
         <>
-            <Mobile><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Mobile>
+            <Mobile><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere}/></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
@@ -138,7 +143,7 @@ export default function DataContainer({ Location }) {
                     <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
                 <SpotList categoryNum={categoryNum} placeData={placeData.MapList} setTemp={setTemp}></SpotList>
-                <Pagination total={placeData.total} limit={20} page={page} setPage={setPage} />
+                <Pagination total={placeData.total} limit={20} page={query.page}/>
                 {
                     isSasmAdmin &&
                     <AdminButton
@@ -151,8 +156,8 @@ export default function DataContainer({ Location }) {
                     </AdminButton>
                 }
             </ListWrapper>
-            <Pc><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Pc>
-            <Tablet><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} setPage={setPage} /></Tablet>
+            <Pc><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} /></Pc>
+            <Tablet><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} /></Tablet>
         </>
     )
 }

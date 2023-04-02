@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import Request from '../../functions/common/Request';
 import Loading from '../common/Loading'
 import styled from 'styled-components';
@@ -11,6 +11,7 @@ import WriteComment from './Comments/WriteComment';
 import Comment from './Comments/Comment';
 import CommunityUpdate from './CommunityUpdate';
 import Pagination from "../common/Pagination";
+import qs from 'qs';
 
 const Section = styled.div`
   position: relative;
@@ -81,7 +82,10 @@ export default function CommunityDetail({ board, id, format }) {
   const [mode, setMode] = useState(false);
   const [like, setLike] = useState(false);
   const [report, setReport] = useState(false);
-  const [page, setPage] = useState(1);
+  const _page = useLocation();
+  const query = qs.parse(_page.search, {
+    ignoreQueryPrefix: true
+  });
   const node = useRef();
   const email = localStorage.getItem('email');
   const navigate = useNavigate()
@@ -95,7 +99,7 @@ export default function CommunityDetail({ board, id, format }) {
   const getReview = async () => {
     const response_review = await request.get(`/community/post_comments/`, {
       post: id,
-      page: page,
+      page: query.page,
     })
     setReview({total:response_review.data.data.count, data:response_review.data.data.results});
   }
@@ -105,7 +109,7 @@ export default function CommunityDetail({ board, id, format }) {
   }, [like]);
   useEffect(()=>{
     getReview();
-  }, [page])
+  }, [query.page])
   let isWriter = false;
   useEffect(() => {
     const clickOutside = (e) => {
@@ -124,7 +128,7 @@ export default function CommunityDetail({ board, id, format }) {
   const deleteItem = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       const response = await request.delete(`/community/posts/${id}/delete/`);
-      navigate(`/community/${board}`);
+      navigate(`/community/${board}?page=1`);
       alert('삭제되었습니다.');
     }
   }
@@ -204,7 +208,7 @@ export default function CommunityDetail({ board, id, format }) {
                     ))
                   }
                 </CommentsWrapper>
-                <Pagination page={page} setPage={setPage} total={review.total} limit={20}/>
+                <Pagination page={query.page} total={review.total} limit={20}/>
               </Section>
             }
           </>

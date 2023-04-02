@@ -7,10 +7,11 @@ import axios from "axios";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category"
+import qs from 'qs';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -68,6 +69,7 @@ const ChangeModeButton = styled.div`
   text-align: center;
   font-size: 1.25rem;
   z-index: 3;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     position: absolute;
     left: 0;
@@ -86,9 +88,13 @@ const Mystory = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(4);
-  const [page, setPage] = useState(1);
+  const _page = useLocation();
+  const query = qs.parse(_page.search, {
+      ignoreQueryPrefix: true
+    });
+  const intPage = parseInt(query.page);
   const [loading, setLoading] = useState(true);
-  const offset = (page - 1) * limit;
+  const offset = (intPage - 1) * limit;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
@@ -103,10 +109,10 @@ const Mystory = (props) => {
   };
   const pageMystory = async () => {
     let newPage;
-    if (page === 1) {
+    if (intPage === 1) {
       newPage = null;
     } else {
-      newPage = page;
+      newPage = intPage;
     }
 
     setLoading(true);
@@ -122,7 +128,7 @@ const Mystory = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMystory();
-  }, [page, checkedList]);
+  }, [intPage, checkedList]);
   return (
     <>
       {loading ? (
@@ -191,8 +197,7 @@ const Mystory = (props) => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={page}
-              setPage={setPage}
+              page={intPage}
             />
           </FooterSection>
         </>

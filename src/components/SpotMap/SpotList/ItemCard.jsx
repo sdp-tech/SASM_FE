@@ -4,11 +4,12 @@ import SpotDetail from "../SpotDetail";
 import HeartButton from "../../common/Heart";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import MarkerbgActive from "../../../assets/img/Map/MarkerbgActive.svg";
 import MarkerbgDefault from "../../../assets/img/Map/MarkerbgDefault.svg";
 import MarkerbgSelect from "../../../assets/img/Map/MarkerbgSelect.svg";
+import qs from "qs";
 
 const StyledCard = styled.div`
   position: relative;
@@ -99,6 +100,10 @@ const DetailBox = styled.div`
 export default function ItemCard({ placeData, categoryNum, setTemp }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const _page = useLocation();
+  const query = qs.parse(_page.search, {
+    ignoreQueryPrefix: true
+  });
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const node = useRef();
@@ -183,12 +188,12 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   return (
     <div ref={node}>
       <StyledCard key={Date.now()}>
-        <ImgLink to={`/map/${placeData.id}`} onClick={handleClick}>
+        <ImgLink to={`/map?page=${query.page}&place=${placeData.id}`} onClick={handleClick}>
           <img src={placeData.rep_pic} className="itemcard_image" alt="placeImage" width="100%" height="100%" />
         </ImgLink>
         <TextBox>
           <TitleBox>
-            <TitleLink to={`/map/${placeData.id}`} onClick={handleClick}>
+            <TitleLink to={`/map?page=${query.page}&place=${placeData.id}`} onClick={handleClick}>
               {placeData.place_name}
             </TitleLink>
             <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
