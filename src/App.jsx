@@ -19,6 +19,8 @@ import "./index.css";
 import Navibar from "./components/common/Navibar";
 import { device } from "./device";
 import MyPick from "./pages/MyPick";
+import Myplace from "./components/mypick/myplace/Myplace";
+import Mystory from "./components/mypick/mystory/Mystory";
 import { Pc, Tablet, Mobile } from "./device";
 import SpotCommunity from "./pages/SpotCommunity";
 import GoogleRedirect from "./components/Auth/module/GoogleRedirect";
@@ -67,7 +69,9 @@ const App = () => {
               <Route path="/map/:place" element={<SpotMap />} />
 
               <Route path="/mypage/*" element={<MyPage />} />
-              <Route path="/mypick/*" element={<MyPick />} />
+              {/* <Route path="/mypick/*" element={<MyPick />} /> */}
+              <Route path="/mypick/myplace" element={<Myplace />} />
+              <Route path="/mypick/mystory" element={<Mystory />} />
               <Route path="/auth/*" element={<Auth />} />
 
               <Route path="/story" element={<StoryList />} />

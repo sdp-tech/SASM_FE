@@ -215,6 +215,7 @@ const FooterBox = styled.div`
 `;
 const BackToList = styled.div`
   color: black;
+  cursor : pointer;
   font-size: 1rem;
   @media screen and (max-width: 768px) {
   }
@@ -279,7 +280,7 @@ const StoryDetailBox = (props) => {
                 <ButtonText>Go To Map</ButtonText>
               </MapButton>
               <BackToList
-                onClick={() => { navigate(`/story`); }}>&#60; Back To List</BackToList>
+                onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList>
             </ButtonDiv>
           </Mobile>
           <TopBox>
@@ -291,8 +292,8 @@ const StoryDetailBox = (props) => {
           <MainTitleNStoreNameBox>
             <MainTitleBox>
               <MainTitle>{data.title}</MainTitle>
-              <Pc><BackToList onClick={() => { navigate(`/story`); }}>&#60; Back To List</BackToList></Pc>
-              <Tablet><BackToList onClick={() => { navigate(`/story`); }}>&#60; Back To List</BackToList></Tablet>
+              <Pc><BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList></Pc>
+              <Tablet><BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList></Tablet>
             </MainTitleBox>
             <StoreNameBox>
               <StoreName>

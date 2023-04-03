@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import CommunityDetail from '../components/Community/CommunityDetail';
 import Request from '../functions/common/Request';
 import CommunityList from '../components/Community/CommunityList';
 import Loading from '../components/common/Loading';
+import qs from 'qs';
 
 const CommunitySection = styled.div`
   height: calc(100vh - 64px);
@@ -63,6 +64,10 @@ export default function SpotCommunity() {
   const [loading, setLoading] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
+  const _page = useLocation();
+  const query = qs.parse(_page.search, {
+    ignoreQueryPrefix: true
+  });
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const request = new Request(cookies, localStorage, navigate);
   const [format, setFormat] = useState();
@@ -85,10 +90,10 @@ export default function SpotCommunity() {
             Community
           </MenuTitle>
           <Menu>
-            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF' })} to='/community/1'>자유게시판</NavLink>
-            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to='/community/2'>장소 추천</NavLink>
-            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to='/community/3'>홍보게시판</NavLink>
-            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to='/community/4'>모임게시판</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF' })} to={`/community/1?page=1`}>자유게시판</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to={`/community/2?page=1`}>장소 추천</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to={`/community/3?page=1`}>홍보게시판</NavLink>
+            <NavLink style={({ isActive }) => ({ color: isActive ? '#FFFFFF' : '#000000', display: 'block', textDecoration: 'none', width: '100%', padding: '3%', textAlign: 'center', backgroundColor: isActive ? '#44ADF7' : '#FFFFFF', borderTop: '1px rgba(0,0,0,0.5) solid' })} to={`/community/4?page=1`}>모임게시판</NavLink>
           </Menu>
           <Board>
             {

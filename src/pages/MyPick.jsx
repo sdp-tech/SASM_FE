@@ -17,7 +17,7 @@ export default function MyPick() {
     if (!token) {
       navigate("/auth");
     } else {
-      navigate("/mypick");
+      navigate("/mypick/myplace?page=1");
     }
   }, []);
 

@@ -6,10 +6,11 @@ import { useCookies } from "react-cookie";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category";
+import qs from 'qs';
 
 const Container = styled.div`
   margin: 0 auto;
@@ -63,11 +64,13 @@ const NothingSearched = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const ChangeModeButton = styled.div`
+const ChangeModeButton = styled(Link)`
   width: 30%;
   text-align: center;
   font-size: 1.25rem;
   z-index: 3;
+  color: inherit;
+  text-decoration: none;
   @media screen and (max-width: 768px) {
     position: absolute;
     left: 0;
@@ -86,10 +89,13 @@ const Myplace = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(6);
-  const [page, setPage] = useState(1);
+  const _page = useLocation();
+  const query = qs.parse(_page.search, {
+      ignoreQueryPrefix: true
+    });
   const [loading, setLoading] = useState(true);
   const [checkedList, setCheckedList] = useState('');
-  const offset = (page - 1) * limit;
+  const offset = (parseInt(query.page) - 1) * limit;
   //console.log("pageInfo", page, offset); 현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -105,10 +111,10 @@ const Myplace = (props) => {
   };
   const pageMyplace = async () => {
     let newPage;
-    if (page == 1) {
+    if (query.page == 1) {
       newPage = null;
     } else {
-      newPage = page;
+      newPage = query.page;
     }
 
     setLoading(true);
@@ -126,7 +132,7 @@ const Myplace = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
-  }, [page, checkedList]);
+  }, [query.page, checkedList]);
   return (
     <>
       {loading ? (
@@ -135,7 +141,7 @@ const Myplace = (props) => {
         <>
           <MyplaceSection>
             <HeaderSection>
-              <ChangeModeButton onClick={props.handleMode}>
+              <ChangeModeButton to={`/mypick/mystory?page=1`}>
                 <img src={ChangeMode} style={{ marginRight: '10px' }} />
                 STORY
               </ChangeModeButton>
@@ -181,8 +187,7 @@ const Myplace = (props) => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={page}
-              setPage={setPage}
+              page={query.page}
             />
           </FooterSection>
         </>
