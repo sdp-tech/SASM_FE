@@ -9,7 +9,7 @@ export default async function checkSasmAdmin(token, setLoading, cookies, localSt
         const request = new Request(cookies, localStorage, navigate);
         setLoading(true);
         const response = await request.get("/users/me/", null, null);
-        return response.data.data.is_sdp;
+        return response.data.data.is_sdp_admin;
     } catch (err) {
         console.log("Error >>", err);
         return false;
