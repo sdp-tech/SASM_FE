@@ -159,7 +159,7 @@ export default function InfoForm(props) {
                   <LabelWrapper>
                     <Label onClick={EditProfile} style={{fontSize: '0.75rem', cursor: 'pointer'}}>프로필 편집</Label>
                     <Label style={{fontSize: '0.75rem'}}>
-                      <Link to='/auth/find/SetNewPassword' style={{color:'#000000', textDecoration: 'none'}}>비밀번호 변경</Link>
+                      <Link to='/mypage/changepassword' style={{color:'#000000', textDecoration: 'none'}}>비밀번호 변경</Link>
                     </Label>
                     <Label style={{fontSize: '0.75rem'}}>
                       <Link to='./feedback' style={{color:'#000000', textDecoration: 'none'}}>의견 보내기</Link>
