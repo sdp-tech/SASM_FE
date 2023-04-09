@@ -10,6 +10,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import InfoForm from "./myInfo/InfoForm";
 import ChangeForm from "./myInfo/ChangeForm";
 import SendFeedback from "./myInfo/SendFeedback";
+import ChangePassword from "../Auth/FindIDnPW/ChangePassword";
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
@@ -31,6 +32,7 @@ export default function Mypage() {
         <Routes>
           <Route path="/" element={<InfoForm />} />
           <Route path="/change" element={<ChangeForm />} />
+          <Route path="/changepassword" element={<ChangePassword />}/>
           <Route path="/feedback" element={<SendFeedback />} />
           <Route path="/*" element={<div>Nothing</div>} />
         </Routes>
