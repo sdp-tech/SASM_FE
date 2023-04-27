@@ -196,6 +196,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
 };
 
 const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, categoryNum }) => {
+  const navigate = useNavigate();
   const navermaps = window.naver.maps;
   const [zoom, setZoom] = useState(14);
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
@@ -250,8 +251,8 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
     <>
       <SearchHereButton
         onClick={() => {
-          setPage(1);
           setSearchHere(coor);
+          navigate("/map?page=1");
         }}
       >
         <img style={{ marginRight: "5px" }} src={Restart} />
