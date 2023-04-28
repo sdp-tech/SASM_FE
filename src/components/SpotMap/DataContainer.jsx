@@ -102,7 +102,7 @@ export default function DataContainer({ Location }) {
         }
         document.getElementById('wrapper').scrollTo(0, 0);
         getList();
-    }, [searchHere, search, checkedList, params]);
+    }, [searchHere, search, checkedList]);
     //초기 map 데이터 가져오기
     const getList = async () => {
         const response_list = await request.get("/places/place_search/", {
@@ -123,7 +123,6 @@ export default function DataContainer({ Location }) {
             });
         }
     }; 
-
     return (
         <>
             <Mobile><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere}/></Mobile>
