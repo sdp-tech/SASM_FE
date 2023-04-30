@@ -37,8 +37,7 @@ const FilterOptions = styled.div`
 
 export default function DataContainer({ Location }) {
     const [categoryNum, setCategoryNum] = useState(0);
-    const _page = useLocation();
-    const query = qs.parse(_page.search, {
+    const queryString = qs.parse(useLocation().search, {
         ignoreQueryPrefix: true
       });
     const [detail, setDetail] = useState({});
@@ -70,6 +69,7 @@ export default function DataContainer({ Location }) {
     const params = useParams();
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
+        navigate('/map?page=1');
         if (checked) {
             setCheckedList([...checkedList, item]);
         } else if (!checked) {
@@ -102,13 +102,13 @@ export default function DataContainer({ Location }) {
         }
         document.getElementById('wrapper').scrollTo(0, 0);
         getList();
-    }, [searchHere, search, checkedList]);
+    }, [searchHere, search, checkedList, queryString.page]);
     //초기 map 데이터 가져오기
     const getList = async () => {
         const response_list = await request.get("/places/place_search/", {
             left: searchHere.lat, //현재 위치
             right: searchHere.lng, //현재 위치
-            page: query.page,
+            page: queryString.page,
             search: search,
             filter: checkedList
         });
@@ -142,7 +142,7 @@ export default function DataContainer({ Location }) {
                     <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
                 <SpotList categoryNum={categoryNum} placeData={placeData.MapList} setTemp={setTemp}></SpotList>
-                <Pagination total={placeData.total} limit={20} page={query.page}/>
+                <Pagination total={placeData.total} limit={20} page={queryString.page}/>
                 {
                     isSasmAdmin &&
                     <AdminButton
