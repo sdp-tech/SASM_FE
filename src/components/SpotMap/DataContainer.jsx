@@ -85,6 +85,11 @@ export default function DataContainer({ Location }) {
             //초기화 방지
             event.preventDefault();
         }
+        if(tempSearch == '') {
+            navigate('/map?page=1');
+        } else {
+        navigate(`/map?page=1&search=${tempSearch}`);
+        }
         setSearch(tempSearch);
         if (params.place) {
             navigate('/map');
