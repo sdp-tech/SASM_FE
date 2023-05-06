@@ -5,7 +5,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import Loading from "../common/Loading";
 import SpotDetail from "./SpotDetail";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Request from "../../functions/common/Request";
 import Restart from "../../assets/img/Map/Restart.svg";
 import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
@@ -15,6 +15,7 @@ import MarkerbgDefault from "../../assets/img/Map/MarkerbgDefault.svg";
 import MarkerbgActive from "../../assets/img/Map/MarkerbgActive.svg";
 import MarkerbgSelect from "../../assets/img/Map/MarkerbgSelect.svg";
 import { MatchCategory } from "../common/Category";
+import qs from 'qs';
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -88,6 +89,10 @@ const ControllerWrapper = styled.div`
 const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const node = useRef();
   const [bool, setBool] = useState(false);
@@ -142,11 +147,17 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
       document.removeEventListener("mousedown", clickOutside);
     };
   });
-
+  useEffect(() => {
+      if(location.state?.name) {
+        MarkerChange();
+        setModalOpen(true);
+      }
+  },[]);
   // 상세보기 클릭 이벤트
   const handleClick = () => {
     MarkerChange();
     setModalOpen(true);
+    navigate(`/map?page=${queryString.page}&place=${title}`);
   };
 
   // 상세보기 모달 닫기 이벤트
