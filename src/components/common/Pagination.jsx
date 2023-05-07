@@ -6,12 +6,12 @@ import qs from 'qs';
 
 function Pagination({ total, limit }) {
   const numPages = Math.ceil(total / limit);
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
-  const previousPage = (parseInt(query.page) -1);
-  const nextPage = (parseInt(query.page) +1);
+  const previousPage = (parseInt(queryString.page) -1);
+  const nextPage = (parseInt(queryString.page) +1);
 
   return (
     <>
@@ -26,7 +26,7 @@ function Pagination({ total, limit }) {
             .fill()
             .map((_, i) => (
               <StyledLink to={`?page=${i+1}`}
-              aria-current={parseInt(query.page) === i + 1 ? "page" : null}
+              aria-current={parseInt(queryString.page) === i + 1 ? "page" : null}
               >
                 {i + 1}
               </StyledLink>

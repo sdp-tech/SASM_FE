@@ -82,8 +82,8 @@ export default function CommunityDetail({ board, id, format }) {
   const [mode, setMode] = useState(false);
   const [like, setLike] = useState(false);
   const [report, setReport] = useState(false);
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
   const node = useRef();
@@ -99,7 +99,7 @@ export default function CommunityDetail({ board, id, format }) {
   const getReview = async () => {
     const response_review = await request.get(`/community/post_comments/`, {
       post: id,
-      page: query.page,
+      page: queryString.page,
     })
     setReview({total:response_review.data.data.count, data:response_review.data.data.results});
   }
@@ -109,7 +109,7 @@ export default function CommunityDetail({ board, id, format }) {
   }, [like]);
   useEffect(()=>{
     getReview();
-  }, [query.page])
+  }, [queryString.page])
   let isWriter = false;
   useEffect(() => {
     const clickOutside = (e) => {
@@ -202,13 +202,13 @@ export default function CommunityDetail({ board, id, format }) {
                 </ButtonWrapper>
                 <WriteComment format={format} id={id} isParent={true}></WriteComment>
                 <CommentsWrapper>
-                  {
+                  { review.data &&
                     review.data.map((data, index) => (
                       <Comment format={format} key={index} id={id} data={data} />
                     ))
                   }
                 </CommentsWrapper>
-                <Pagination page={query.page} total={review.total} limit={20}/>
+                <Pagination page={queryString.page} total={review.total} limit={20}/>
               </Section>
             }
           </>
