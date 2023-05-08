@@ -6,7 +6,6 @@ import CommunityDetail from '../components/Community/CommunityDetail';
 import Request from '../functions/common/Request';
 import CommunityList from '../components/Community/CommunityList';
 import Loading from '../components/common/Loading';
-import qs from 'qs';
 
 const CommunitySection = styled.div`
   height: calc(100vh - 64px);
@@ -64,10 +63,6 @@ export default function SpotCommunity() {
   const [loading, setLoading] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
-    ignoreQueryPrefix: true
-  });
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const request = new Request(cookies, localStorage, navigate);
   const [format, setFormat] = useState();
@@ -105,7 +100,7 @@ export default function SpotCommunity() {
               }[params.board]
             }
             {
-              params.id && <BackButton to={`/community/${params.board}`}>목록 보기</BackButton>
+              params.id && <BackButton to={`/community/${params.board}?page=1`}>목록 보기</BackButton>
             }
           </Board>
           <Content>

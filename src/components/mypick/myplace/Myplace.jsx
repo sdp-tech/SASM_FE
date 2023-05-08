@@ -89,13 +89,13 @@ const Myplace = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(6);
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
   const [loading, setLoading] = useState(true);
   const [checkedList, setCheckedList] = useState('');
-  const offset = (parseInt(query.page) - 1) * limit;
+  const offset = (parseInt(queryString.page) - 1) * limit;
   //console.log("pageInfo", page, offset); 현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -111,10 +111,10 @@ const Myplace = (props) => {
   };
   const pageMyplace = async () => {
     let newPage;
-    if (query.page == 1) {
+    if (queryString.page == 1) {
       newPage = null;
     } else {
-      newPage = query.page;
+      newPage = queryString.page;
     }
 
     setLoading(true);
@@ -132,7 +132,7 @@ const Myplace = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
-  }, [query.page, checkedList]);
+  }, [queryString.page, checkedList]);
   return (
     <>
       {loading ? (
@@ -187,7 +187,7 @@ const Myplace = (props) => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={query.page}
+              page={queryString.page}
             />
           </FooterSection>
         </>

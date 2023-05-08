@@ -124,8 +124,8 @@ const StoryListPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [searchToggle, setSearchToggle] = useState(false);
   const [limit, setLimit] = useState(4);
-  const _page = useLocation();
-    const query = qs.parse(_page.search, {
+  const location = useLocation();
+    const queryString = qs.parse(location.search, {
         ignoreQueryPrefix: true
       });
   const [loading, setLoading] = useState(true);
@@ -152,7 +152,7 @@ const StoryListPage = () => {
   useEffect(() => {
     handleSearchToggle();
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
-  }, [query.page, orderList]);
+  }, [queryString.page, orderList]);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
@@ -162,10 +162,10 @@ const StoryListPage = () => {
     setSearchToggle(true);
     setLoading(true);
     let newPage;
-    if (query.page == 1) {
+    if (queryString.page == 1) {
       newPage = null;
     } else {
-      newPage = query.page;
+      newPage = queryString.page;
     }
     let headerValue;
     if (token === null || undefined) {
@@ -256,7 +256,7 @@ const StoryListPage = () => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={query.page}
+              page={queryString.page}
             />
             {isSasmAdmin ? (
               <AdminButton

@@ -89,11 +89,11 @@ const Mystory = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(4);
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-  const intPage = parseInt(query.page);
+  const intPage = parseInt(queryString.page);
   const [loading, setLoading] = useState(true);
   const offset = (intPage - 1) * limit;
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
