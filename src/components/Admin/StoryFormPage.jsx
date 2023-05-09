@@ -12,7 +12,7 @@ import Request from "../../functions/common/Request";
 
 const StoryFormPage = (props) => {
     const id = props.id;
-    const [story, setStory] = useState({ title: "", tag: "", preview: "", place: 0, story_review: "", html_content: "", rep_pic: "" });
+    const [story, setStory] = useState({ title: "", tag: "", preview: "", address: 0, story_review: "", html_content: "", rep_pic: "" });
     const [places, setPlaces] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const [loading, setLoading] = useState(true);
@@ -26,8 +26,8 @@ const StoryFormPage = (props) => {
         formData.append('file', file);
         for (const place of places) {
             console.log(place);
-            if (place.id == story.place) {
-                formData.append('place_id', place.id);
+            if (place.id == story.address) {
+                formData.append('place_name', place.place_name);
                 formData.append('caption', place.place_name);
                 break;
             }
@@ -46,10 +46,10 @@ const StoryFormPage = (props) => {
         const response = await request.get(`/sdp_admin/stories/${id}/`, null, null);
 
         console.log("data", response.data.data);
-        const { title, tag, preview, place, story_review, html_content, rep_pic } = response.data.data
+        const { title, tag, preview, address, story_review, html_content, rep_pic } = response.data.data
         setStory({
             ...story,
-            title: title, tag: tag, preview: preview, place: place, story_review: story_review,
+            title: title, tag: tag, preview: preview, address: address, story_review: story_review,
             html_content: html_content, rep_pic: rep_pic,
         });
         setLoading(false);
@@ -148,7 +148,7 @@ const StoryFormPage = (props) => {
                                 onChange={(event) => {
                                     setStory({
                                         ...story,
-                                        place: event.target.value,
+                                        address: event.target.value,
                                     });
                                 }}
                                 disabled={id}
@@ -158,7 +158,7 @@ const StoryFormPage = (props) => {
                                     return <option
                                         key={index}
                                         value={place.id}
-                                        selected={place.id == story.place}
+                                        selected={place.id == story.address}
                                     >
                                         {place.place_name}
                                     </option>
@@ -223,7 +223,7 @@ const StoryFormPage = (props) => {
 
                         <Wrapper>
                             <Label>본문</Label>
-                            {story.place == 0 ? "장소를 선택하세요." :
+                            {story.address == 0 ? "장소를 선택하세요." :
                                 <Editor
                                     value={story.html_content}
                                     onInit={(event, editor) => {
