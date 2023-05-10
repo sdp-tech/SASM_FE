@@ -101,7 +101,8 @@ const StoryFormPage = (props) => {
                 const response = await request.put(`/sdp_admin/stories/${id}/`, formData, { "Content-Type": "multipart/form-data" });
                 console.log(response)
             }
-            navigate("/story");
+            alert('스토리 생성 완료');
+            navigate("/story?page=1");
         } catch (err) {
             console.log("Error >>", err.response.data.message);
             alert("스토리 생성 실패", err.response.data.message);
