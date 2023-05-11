@@ -72,8 +72,7 @@ const Login = () => {
 
       // setCookie("name", access);
       setCookie("name", refresh);
-
-      navigate(-1);
+      navigate("/map?page=1");
       // window.location.href = "/map";
     } else {
       alert("아이디 또는 비밀번호가 일치하지 않습니다.");
