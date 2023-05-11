@@ -82,8 +82,8 @@ export default function CommunityList({ board, format }) {
   const [mode, setMode] = useState(false);
   const [list, setList] = useState([]);
   const [listHashtag, setListHashtag] = useState([]);
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
   const [total, setTotal] = useState(0);
@@ -95,7 +95,7 @@ export default function CommunityList({ board, format }) {
       board: board,
       query: search,
       query_type: 'default',
-      page: query.page,
+      page: queryString.page,
       latest: 'true',
     }, null);
     setList(response.data.data.results);
@@ -143,7 +143,7 @@ export default function CommunityList({ board, format }) {
       board: board,
       query: search,
       query_type: 'hashtag',
-      page: query.page,
+      page: queryString.page,
     }, null);
     setList(response.data.data.results);
     setTotal(response.data.data.count);
@@ -153,7 +153,8 @@ export default function CommunityList({ board, format }) {
   useEffect(() => {
     getItem();
     setMode(false);
-  }, [query.page, search, board]);
+    return () => setLoading(false);
+  }, [queryString.page, search, board]);
   return (
     <>
       {mode ?
@@ -186,7 +187,7 @@ export default function CommunityList({ board, format }) {
               {
                 list.map((data, index) => (
                   <List key={index}>
-                    <StyledLink to={`/community/${board}/${data.id}`}>
+                    <StyledLink to={`/community/${board}/${data.id}?page=1`}>
                       {data.title}
                     </StyledLink>
                     <Info>
@@ -205,7 +206,7 @@ export default function CommunityList({ board, format }) {
               글쓰기
             </UploadButton>
           </Section>
-          <Pagination total={total} limit="5" page={query.page} />
+          <Pagination total={total} limit="5" page={queryString.page} />
         </>
       }
     </>

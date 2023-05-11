@@ -100,8 +100,8 @@ const DetailBox = styled.div`
 export default function ItemCard({ placeData, categoryNum, setTemp }) {
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const _page = useLocation();
-  const query = qs.parse(_page.search, {
+  const location = useLocation();
+  const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
   const [modalOpen, setModalOpen] = useState(false);
@@ -188,12 +188,12 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   return (
     <div ref={node}>
       <StyledCard key={Date.now()}>
-        <ImgLink to={`/map?page=${query.page}&place=${placeData.id}`} onClick={handleClick}>
+        <ImgLink to={`/map?page=${queryString.page}&place=${placeData.place_name}`} onClick={handleClick}>
           <img src={placeData.rep_pic} className="itemcard_image" alt="placeImage" width="100%" height="100%" />
         </ImgLink>
         <TextBox>
           <TitleBox>
-            <TitleLink to={`/map?page=${query.page}&place=${placeData.id}`} onClick={handleClick}>
+            <TitleLink to={`/map?page=${queryString.page}&place=${placeData.place_name}`} onClick={handleClick}>
               {placeData.place_name}
             </TitleLink>
             <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>

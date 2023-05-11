@@ -67,13 +67,10 @@ const App = () => {
               <Route path="/users/*" element={<Auth />} />
               <Route path="/map" element={<SpotMap />} />
               <Route path="/map/:place" element={<SpotMap />} />
-
               <Route path="/mypage/*" element={<MyPage />} />
-              {/* <Route path="/mypick/*" element={<MyPick />} /> */}
               <Route path="/mypick/myplace" element={<Myplace />} />
               <Route path="/mypick/mystory" element={<Mystory />} />
               <Route path="/auth/*" element={<Auth />} />
-
               <Route path="/story" element={<StoryList />} />
               <Route path="/story/:id" element={<StoryDetail />} />
               <Route path="/admin/place" element={<PlaceAdmin />} />
@@ -82,7 +79,7 @@ const App = () => {
               <Route path="/admin/story/:id" element={<StoryAdmin />} />
               <Route path="/community/" element={<SpotCommunity />} />
               <Route path="/community/:board" element={<SpotCommunity />} />
-              <Route path="/community/:board/:id" element={<SpotCommunity />} />
+              <Route path="/community/:board/:id/*" element={<SpotCommunity />} />
             </Routes>
           </BrowserRouter>
         </LoginProvider>

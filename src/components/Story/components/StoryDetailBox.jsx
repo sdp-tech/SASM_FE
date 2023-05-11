@@ -222,7 +222,7 @@ const BackToList = styled.div`
 `;
 const StoryDetailBox = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
-  const id = props.id;
+  const id = props.id; 
   const [data, setData] = useState([]);
   const [comment, setComment] = useState([]);
   const [recommend, setRecommend] = useState([]);
@@ -233,7 +233,7 @@ const StoryDetailBox = (props) => {
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   const handlePageGoToMap = (place_name) => {
-    window.location.href = `/map/${place_name}`
+    navigate(`/map?page=1&place=${place_name}`, { state: { name : place_name }})
   };
 
   // 좋아요 클릭 이벤트

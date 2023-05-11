@@ -37,7 +37,8 @@ const FilterOptions = styled.div`
 
 export default function DataContainer({ Location }) {
     const [categoryNum, setCategoryNum] = useState(0);
-    const queryString = qs.parse(useLocation().search, {
+    const location = useLocation();
+    const queryString = qs.parse(location.search, {
         ignoreQueryPrefix: true
       });
     const [detail, setDetail] = useState({});
@@ -85,6 +86,15 @@ export default function DataContainer({ Location }) {
             //초기화 방지
             event.preventDefault();
         }
+        if(tempSearch === '') {
+            navigate('/map?page=1');
+            if (location.state?.name) {
+                window.location.reload();
+            }
+        }
+        else {
+            navigate(`/map?page=1&search=${tempSearch}`);
+        }
         setSearch(tempSearch);
         if (params.place) {
             navigate('/map');
@@ -105,13 +115,25 @@ export default function DataContainer({ Location }) {
     }, [searchHere, search, checkedList, queryString.page]);
     //초기 map 데이터 가져오기
     const getList = async () => {
-        const response_list = await request.get("/places/place_search/", {
-            left: searchHere.lat, //현재 위치
-            right: searchHere.lng, //현재 위치
-            page: queryString.page,
-            search: search,
-            filter: checkedList
+        let response_list;
+        if(location.state?.name) {
+            response_list = await request.get("/places/place_search/", {
+                left: searchHere.lat, //현재 위치
+                right: searchHere.lng, //현재 위치
+                page: queryString.page,
+                search: location.state.name, // gotomap으로 넘어왔을 때
+                filter: checkedList
+            });
+        }
+        else{
+            response_list = await request.get("/places/place_search/", {
+                left: searchHere.lat, //현재 위치
+                right: searchHere.lng, //현재 위치
+                page: queryString.page,
+                search: search,
+                filter: checkedList
         });
+    }
         setPlaceData({
             total: response_list.data.data.count,
             MapList: response_list.data.data.results,
