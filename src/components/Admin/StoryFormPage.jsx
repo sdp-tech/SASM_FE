@@ -12,7 +12,8 @@ import Request from "../../functions/common/Request";
 
 const StoryFormPage = (props) => {
     const id = props.id;
-    const [story, setStory] = useState({ title: "", tag: "", preview: "", place: 0, story_review: "", html_content: "", rep_pic: "" });
+    const [story, setStory] = useState({ title: "", tag: "", preview: "", place: 0, story_review: "", html_content: "", rep_pic: "", place_name: "" });
+    const [photoList, setPhotoList] = useState([]);
     const [places, setPlaces] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const [loading, setLoading] = useState(true);
@@ -23,18 +24,19 @@ const StoryFormPage = (props) => {
 
     const uploadImage = async (file) => {
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('image', file);
         for (const place of places) {
             console.log(place);
-            if (place.id == story.place) {
+            if (place.id == story.place || story.place_name == place.place_name) {
                 formData.append('place_id', place.id);
                 formData.append('caption', place.place_name);
                 break;
             }
         }
 
-        const response = await request.post("/sdp_admin/stories/photos/", formData, { "Content-Type": "multipart/form-data" });
+        const response = await request.post("/stories/story_photos/create/", formData, { "Content-Type": "multipart/form-data" });
         const location = response.data.data.location;
+        setPhotoList(prev => [...prev, location]);
         return location;
     };
 
@@ -43,14 +45,13 @@ const StoryFormPage = (props) => {
             return;
         }
         setLoading(true);
-        const response = await request.get(`/sdp_admin/stories/${id}/`, null, null);
-
+        const response = await request.get(`/stories/story_detail/${id}/`);
         console.log("data", response.data.data);
-        const { title, tag, preview, place, story_review, html_content, rep_pic } = response.data.data
+        const { title, tag, preview, place, story_review, html_content, rep_pic, place_name } = response.data.data
         setStory({
             ...story,
             title: title, tag: tag, preview: preview, place: place, story_review: story_review,
-            html_content: html_content, rep_pic: rep_pic,
+            html_content: html_content, rep_pic: rep_pic, place_name: place_name,
         });
         setLoading(false);
     };
@@ -75,16 +76,13 @@ const StoryFormPage = (props) => {
         const formData = new FormData();
 
         for (let [key, value] of Object.entries(story)) {
-            if (key === "rep_pic") {
-                // PUT: 새로 업로드된 rep_pic이 없으면 rep_pic는 업데이트 대상이 아니므로 제외
-                if (imageUrl == null)
-                    continue;
-                //파일의 경우 value 자체
-                formData.append(`${key}`, value);
-            } else {
-                //문자열의 경우 변환
-                formData.append(`${key}`, `${value}`);
-            }
+            if (id && key == 'place') continue;
+            if (key == 'place_name') continue;
+            if (key == 'rep_pic' && typeof (story.rep_pic) == 'string') continue;
+            formData.append(key, value);
+        }
+        for (let extra of photoList) {
+            formData.append('photoList', extra);
         }
 
         // fordata 확인용!!
@@ -94,18 +92,17 @@ const StoryFormPage = (props) => {
 
         try {
             if (!id) {
-                const response = await request.post("/sdp_admin/stories/", formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.post("/stories/create/", formData, { "Content-Type": "multipart/form-data" });
                 console.log(response);
             }
             else {
-                const response = await request.put(`/sdp_admin/stories/${id}/`, formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.put(`/stories/${id}/update/`, formData, { "Content-Type": "multipart/form-data" });
                 console.log(response)
             }
             alert('스토리 생성 완료');
             navigate("/story?page=1");
         } catch (err) {
-            console.log("Error >>", err.response.data.message);
-            alert("스토리 생성 실패", err.response.data.message);
+            alert(`스토리 생성 실패 => ${err.response.data.detail}`);
         }
     };
 
@@ -124,6 +121,7 @@ const StoryFormPage = (props) => {
         }
     };
 
+    // useEffect(() => { console.log(typeof (story.rep_pic)) }, [story])
 
     return (
         <>
