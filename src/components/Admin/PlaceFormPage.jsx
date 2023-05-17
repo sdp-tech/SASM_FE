@@ -319,16 +319,23 @@ const PlaceFormPage = (props) => {
         for (let key of formData.keys()) {
             console.log(key, "::", formData.get(key));
         }
-        if (!id) {
-            const response = await request.post("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
-            console.log(response);
+        try {
+            if (!id) {
+                const response = await request.post("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
+                console.log(response);
+            }
+            else {
+                console.log(formData);
+                const response = await request.put("/sdp_admin/places/update_place/", formData, { "Content-Type": "multipart/form-data" });
+                console.log(response);
+            }
+            alert('장소 생성 성공');
+            navigate("/map?page=1");
         }
-        else {
-            console.log(formData);
-            const response = await request.put("/sdp_admin/places/update_place/", formData, { "Content-Type": "multipart/form-data" });
-            console.log(response);
+        catch (err) {
+            console.log("Error >>", err.response.data.message);
+            alert("장소 생성 실패", err.response.data.message);
         }
-        navigate("/map");
     };
     useEffect(async () => {
         setInfo({
