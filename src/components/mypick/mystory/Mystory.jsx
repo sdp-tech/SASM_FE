@@ -83,12 +83,12 @@ const FilterOptions = styled.div`
     width: 100%;
   }
 `
-const Mystory = (props) => {
+const Mystory = () => {
   const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
-  const [limit, setLimit] = useState(4);
+  const [limit, setLimit] = useState(6);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
       ignoreQueryPrefix: true
