@@ -24,7 +24,11 @@ const PlacenameBox = styled.div`
   margin-top: -2%;
   margin-bottom: 5%;
   justify-content: space-between;
-  
+`;
+
+const Placename = styled(Link)`
+  width: 100%;
+  color: inherit;
 `;
 
 // 기존에 존재하는 버튼에 재스타일
@@ -57,8 +61,8 @@ export default function ItemCard(props) {
   const navigate = useNavigate();
   const request = new Request(cookies, localStorage, navigate);
   // 좋아요 클릭 이벤트
-  const toggleLike = async (id) => {
-    const response = await request.post("/places/place_like/", { id: id }, null);
+  const toggleLike = async () => {
+    const response = await request.post("/stories/story_like/", { id: props.id }, null);
     console.log("response", response);
 
     //색상 채우기
@@ -98,17 +102,17 @@ export default function ItemCard(props) {
             flexFlow: "column",
           }}
         >
-          <Link to={`/story/${props.story_id}`} style={{ textDecoration: 'none' }}>
-            <PlacenameBox>
+          <PlacenameBox>
+            <Placename to={`/story/${props.story_id}`} style={{ textDecoration: 'none' }}>
               {props.place_name}
-              <div style={{display:'flex', marginRight:'10px'}}>
-              <img src={require(`../../../assets/img/Category/Category${MatchCategory(props.category)}.svg`)} />
-                <LikeButton>
-                  <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
-                </LikeButton>
-              </div>
-            </PlacenameBox>
-          </Link>
+            </Placename>
+          <div style={{display:'flex', marginRight:'10px'}}>
+          <img src={require(`../../../assets/img/Category/Category${MatchCategory(props.category)}.svg`)} />
+            <LikeButton>
+              <HeartButton like={!like} onClick={() => toggleLike(props.id)} />
+            </LikeButton>
+          </div>
+        </PlacenameBox>
           <div style={{borderBottom:"2px #44ADF7 solid" ,paddingBottom:'10px'}}>
             {props.title}
           </div>
