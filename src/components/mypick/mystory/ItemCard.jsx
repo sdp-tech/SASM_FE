@@ -62,7 +62,7 @@ export default function ItemCard(props) {
   const request = new Request(cookies, localStorage, navigate);
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
-    const response = await request.post("/stories/story_like/", { id: props.id }, null);
+    const response = await request.post("/stories/story_like/", { id: props.story_id }, null);
     console.log("response", response);
 
     //색상 채우기
