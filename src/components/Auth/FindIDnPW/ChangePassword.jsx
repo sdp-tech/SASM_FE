@@ -117,21 +117,21 @@ const ChangePassword = () => {
                 color: 'white',
               }}
               onClick={async () => {
-                const response = await request.put('/users/pw_change/', {
-                  password: password
-                });
-                console.log("res!!!!!", response);
-                if (response.data.status === "success") {
-                  alert(
-                    "비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요"
-                  );
-                  removeCookie("name"); // 쿠키 삭제
-                  localStorage.removeItem("accessTK"); //access token 삭제
-                  localStorage.removeItem("nickname"); //nickname 삭제
-                  localStorage.removeItem("email"); //email 삭제
-        
-                  PageRedirection(navigate, "LOG IN");
-                  
+                if (password === passwordConfirm) {
+                  const response = await request.put('/users/pw_change/', {
+                    password: password,
+                    password_confirm: passwordConfirm,
+                  });
+                  if (response.data.status === "success") {
+                    alert("비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요");
+                    removeCookie("name"); // 쿠키 삭제
+                    localStorage.removeItem("accessTK"); //access token 삭제
+                    localStorage.removeItem("nickname"); //nickname 삭제
+                    localStorage.removeItem("email"); //email 삭제
+                    PageRedirection(navigate, "LOG IN");
+                  }
+                } else {
+                  alert( "입력한 비밀번호와 일치하지 않습니다.");
                 }
               }}
             >
