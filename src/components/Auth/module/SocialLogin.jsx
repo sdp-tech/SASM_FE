@@ -69,7 +69,7 @@ const SocialLogin = () => {
         />
         <SocialLogo
           onClick={(e) => TrySocialLogin(e.target.id)}
-          id="kakaotalk"
+          id="kakao"
           src={kakaotalk_login}
           style={{ border: "1px solid #eaeaea" }}
         />
