@@ -66,7 +66,7 @@ const ChangeForm = (props) => {
       console.log(key, "::", formData.get(key));
     }
     try {
-      const response = await request.post("/users/me/", formData, {
+      const response = await request.patch("/mypage/me/update/", formData, {
         "Content-Type": "multipart/form-data",
       });
       if ("data" in response.data) {

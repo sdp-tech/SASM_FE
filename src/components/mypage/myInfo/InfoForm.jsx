@@ -114,7 +114,7 @@ export default function InfoForm(props) {
   //   초기에 mypage data 불러오기
   const updateMypage = useCallback(async () => {
     setLoading(true);
-    const response = await request.get("/users/me/", null, null);
+    const response = await request.get("/mypage/me/", null, null);
     //   setPageCount(response.data.count);
     setInfo(response.data.data);
     setLoading(false);
@@ -139,7 +139,7 @@ export default function InfoForm(props) {
         <>
           <Section>
             <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
-              <ImageBox profile={profile_image}/>
+              <ImageBox profile={profile_image} />
             </div>
             <Grid container sx={{ height: '70%' }} >
               <Grid item xs={12} sm={12} md={5} lg={5}>
@@ -157,12 +157,12 @@ export default function InfoForm(props) {
                     <Text>{birthdate}</Text>
                   </LabelWrapper>
                   <LabelWrapper>
-                    <Label onClick={EditProfile} style={{fontSize: '0.75rem', cursor: 'pointer'}}>프로필 편집</Label>
-                    <Label style={{fontSize: '0.75rem'}}>
-                      <Link to='/mypage/changepassword' style={{color:'#000000', textDecoration: 'none'}}>비밀번호 변경</Link>
+                    <Label onClick={EditProfile} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>프로필 편집</Label>
+                    <Label style={{ fontSize: '0.75rem' }}>
+                      <Link to='/mypage/changepassword' style={{ color: '#000000', textDecoration: 'none' }}>비밀번호 변경</Link>
                     </Label>
-                    <Label style={{fontSize: '0.75rem'}}>
-                      <Link to='./feedback' style={{color:'#000000', textDecoration: 'none'}}>의견 보내기</Link>
+                    <Label style={{ fontSize: '0.75rem' }}>
+                      <Link to='./feedback' style={{ color: '#000000', textDecoration: 'none' }}>의견 보내기</Link>
                     </Label>
                   </LabelWrapper>
                 </InfoContainer>
