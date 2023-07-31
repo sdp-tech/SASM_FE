@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 import Request from "../../functions/common/Request.js";
 
 const StyledList = styled(List)`
+  font-family: pretendard;
   top: 64px;
   height: calc(100vh - 64px);
   left: 28%;
@@ -59,7 +60,7 @@ export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
             <DetailCard detailData={detailData} modalClose={modalClose} like={like} setLike={setLike} />
             {
               isSasmAdmin &&
-              <AdminButton style={{ margin: "auto", width: "20%" }} onClick={() => { navigate(`/admin/place/${id}`); }}  >
+              <AdminButton style={{ margin: "auto", width: "20%", fontSize:"13px" }} onClick={() => { navigate(`/admin/place/${id}`); }}  >
                 장소 수정
               </AdminButton>
             }

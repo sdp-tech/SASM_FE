@@ -125,6 +125,15 @@ export default function DataContainer({ Location }) {
                 filter: checkedList
             });
         }
+        else if(location.state?.lat && location.state?.lng) {
+            response_list = await request.get("/places/place_search/", {
+                left: location.state.lat, 
+                right: location.state.lng, 
+                page: queryString.page,
+                search: search,
+                filter: checkedList
+        });
+    }
         else{
             response_list = await request.get("/places/place_search/", {
                 left: searchHere.lat, //현재 위치
@@ -168,7 +177,7 @@ export default function DataContainer({ Location }) {
                 {
                     isSasmAdmin &&
                     <AdminButton
-                        style={{ margin: "auto", width: "20%" }}
+                        style={{ margin: "auto", width: "20%", fontSize: "13px", fontFamily: "pretendard", fontWeight: 500}}
                         onClick={() => {
                             navigate("/admin/place");
                         }}

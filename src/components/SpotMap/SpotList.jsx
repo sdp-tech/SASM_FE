@@ -4,6 +4,7 @@ import ItemCard from "./SpotList/ItemCard";
 import nothingIcon from "../../assets/img/nothing.svg";
 
 const SpotListSection = styled.div`
+  font-family: pretendard;
   position: relative;
   grid-area: spotlist;
   display: flex;

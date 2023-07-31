@@ -8,6 +8,9 @@ import CommunityList from '../components/Community/CommunityList';
 import Loading from '../components/common/Loading';
 
 const CommunitySection = styled.div`
+  font-family: pretendard;
+  font-size: 16px;
+  color: #000;
   height: calc(100vh - 64px);
   display: grid;
   grid-template-areas: 

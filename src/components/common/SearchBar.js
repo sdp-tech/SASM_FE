@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Wrapper = styled.form`
+  font-family: pretendard;
   position: relative;
   display: flex;
   flex-wrap: nowrap;

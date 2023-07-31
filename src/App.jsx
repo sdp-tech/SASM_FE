@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./pages/Home";
 import SpotMap from "./pages/SpotMap";
-
+import Curation from "./pages/Curation";
 import MyPage from "./pages/MyPage";
 import Auth from "./pages/Auth";
 import StoryAdmin from "./pages/StoryAdmin";
-
 import StoryList from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
 import PlaceAdmin from "./pages/PlaceAdmin";
 import { LoginProvider } from "./contexts/LoginContexts";
 import { CookiesProvider } from "react-cookie";
-import { useCookies } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
 import Navibar from "./components/common/Navibar";
-import { device } from "./device";
-import MyPick from "./pages/MyPick";
 import Myplace from "./components/mypick/myplace/Myplace";
 import Mystory from "./components/mypick/mystory/Mystory";
-import { Pc, Tablet, Mobile } from "./device";
 import SpotCommunity from "./pages/SpotCommunity";
-import GoogleRedirect from "./components/Auth/module/GoogleRedirect";
+import CurationAdmin from "./pages/CurationAdmin";
+import CurationDetailPage from "./components/Curation/CurationDetailPage";
+import CurationMoreView from "./components/Curation/components/CurationMoreView";
+import CurationUserMoreView from "./components/Curation/components/CurationUserMoreView";
+
 const App = () => {
   const [login, setLogin] = useState({
     loggedIn: false,
@@ -66,6 +64,10 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/users/*" element={<Auth />} />
               <Route path="/map" element={<SpotMap />} />
+              <Route path="/curation" element={<Curation />} />
+              <Route path="/curation/curationlist" element={<CurationMoreView />} />
+              <Route path="/curation/usercurationlist" element={<CurationUserMoreView />} />
+              <Route path="/curation/:id" element={<CurationDetailPage />} />
               <Route path="/map/:place" element={<SpotMap />} />
               <Route path="/mypage/*" element={<MyPage />} />
               <Route path="/mypick/myplace" element={<Myplace />} />
@@ -77,6 +79,7 @@ const App = () => {
               <Route path="/admin/place/:id" element={<PlaceAdmin />} />
               <Route path="/admin/story" element={<StoryAdmin />} />
               <Route path="/admin/story/:id" element={<StoryAdmin />} />
+              <Route path="/admin/curation" element={<CurationAdmin/>} />
               <Route path="/community/" element={<SpotCommunity />} />
               <Route path="/community/:board" element={<SpotCommunity />} />
               <Route path="/community/:board/:id/*" element={<SpotCommunity />} />

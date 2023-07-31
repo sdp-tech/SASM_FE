@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import { useCookies } from "react-cookie";
 import { Editor } from '@tinymce/tinymce-react';
 import Loading from "../common/Loading";
-
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import oc from "open-color";
@@ -25,8 +23,8 @@ const StoryFormPage = (props) => {
     const uploadImage = async (file) => {
         const formData = new FormData();
         formData.append('image', file);
+        console.log(file);
         for (const place of places) {
-            console.log(place);
             if (place.id == story.place || story.place_name == place.place_name) {
                 formData.append('place_id', place.id);
                 formData.append('caption', place.place_name);
@@ -62,6 +60,7 @@ const StoryFormPage = (props) => {
         const response = await request.get(`/sdp_admin/places/`, null, null);
 
         setPlaces(response.data.data);
+        console.log(response.data.data);
         setLoading(false);
     };
 
@@ -351,73 +350,3 @@ const InputWithLabel = ({ label, message, ...rest }) => (
     </Wrapper>
 );
 export default StoryFormPage;
-
-/*
-
-    'cleanup_on_startup': True,
-    'custom_undo_redo_levels': 20,
-    'selector': 'textarea',
-    'theme': 'silver',
-    'plugins': '''
-            textcolor save link image media preview codesample contextmenu
-            table code lists fullscreen  insertdatetime  nonbreaking
-            contextmenu directionality searchreplace wordcount visualblocks
-            visualchars code fullscreen autolink lists  charmap print  hr
-            anchor pagebreak
-            ''',
-    'toolbar1': '''
-            fullscreen preview bold italic underline | fontselect,
-            fontsizeselect  | forecolor backcolor | alignleft alignright |
-            aligncenter alignjustify | indent outdent | bullist numlist table |
-            | link image media | codesample |
-            ''',
-    'toolbar2': '''
-            visualblocks visualchars |
-            charmap hr pagebreak nonbreaking anchor |  code |
-            ''',
-    'toolbar3': '''
-            h1 h2 h3 pre code
-            ''',
-    'contextmenu': 'formats | link image',
-    'menubar': True,
-    'statusbar': True,
-    'promotion': False,
-    'images_upload_url': '/board/upload_image/',
-    'images_upload_credentials': True
-
-
-    function StoryFormPage() {
-    const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
-    };
-    return (
-        <>
-            <Editor
-                onInit={(evt, editor) => editorRef.current = editor}
-                initialValue="<p>This is the initial content of the editor.</p>"
-                init={{
-                    height: 500,
-                    menubar: true,
-                    skin: false,
-                    content_css: false,
-                    plugins: [
-                        'advlist autolink lists link image charmap print preview anchor',
-                        'searchreplace visualblocks code fullscreen',
-                        'insertdatetime media table paste code help wordcount'
-                    ],
-                    toolbar: 'undo redo | formatselect | ' +
-                        'bold italic backcolor | alignleft aligncenter ' +
-                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                        'removeformat | help',
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                }}
-            />
-            <button onClick={log}>Log editor content</button>
-        </>
-    );
-}
-
-*/

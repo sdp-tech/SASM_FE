@@ -66,7 +66,7 @@ const OptionBox = styled.div`
 const ContentBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   width: 100%;
   overflow: hidden;
   min-height: 86px;
@@ -224,6 +224,7 @@ export default function ItemCard(props) {
             <Typography
               component={"span"}
               fontFamily={"Pretendard"}
+              fontSize={11}
               fontWeight="600"
               variant="p"
             >
@@ -235,6 +236,7 @@ export default function ItemCard(props) {
             <Typography
               component={"span"}
               fontFamily={"Pretendard"}
+              fontSize={11}
               fontWeight="600"
               variant="p"
             >

@@ -217,15 +217,23 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
     lat: 37.551229,
     lng: 126.988205,
   });
+  const location = useLocation();
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         //현재 위치 고정
-        setTemp({
+        if (location.state?.lat && location.state?.lng) {
+          setTemp({
+            lat: location.state.lat,
+            lng: location.state.lng,
+          });  
+        }
+        else {setTemp({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
+      }
         //User의 현재 위치
         setState({
           lat: position.coords.latitude,

@@ -44,6 +44,7 @@ const Nav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: pretendard;
 `;
  const StyledLink = styled(Link)`
   border: none;
