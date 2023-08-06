@@ -11,6 +11,7 @@ import Comments from "./Comments";
 import Recommends from "./StoryRecommend";
 import { useMediaQuery } from "react-responsive";
 import { Mobile, Pc, Tablet } from "../../../device"
+import RsuiteButton from "rsuite/Button";
 
 const Wrapper = styled.div`
   background: white;
@@ -28,6 +29,7 @@ const TopBox = styled.div`
   margin-bottom: 1rem;
 `;
 const CategoryOptionBox = styled.div`
+  position: relative;
   display: flex;
   float: left;
   line-height: 1rem;
@@ -183,6 +185,21 @@ const MarkupBox = styled.div`
     }
   }
 `
+const Text = styled.p`
+`
+const InfoBox = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: normal;
+  width: 19%;
+`
+const View = styled.div`
+  align-items: center;
+`
+const Image = styled.img`
+  width: 30%;
+`
 
 const MapButton = styled(Button)({
   border: 0,
@@ -220,6 +237,7 @@ const BackToList = styled.div`
   @media screen and (max-width: 768px) {
   }
 `;
+
 const StoryDetailBox = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const id = props.id; 
@@ -235,6 +253,23 @@ const StoryDetailBox = (props) => {
   const handlePageGoToMap = (place_name) => {
     navigate(`/map?page=1&place=${place_name}`, { state: { name : place_name }})
   };
+  const [refresh, setRefresh] = useState(false);
+
+  const rerender = () => {
+    setRefresh(!refresh);
+  }
+
+  const following = async (email) => {
+    const response = await request.post('/mypage/follow/',
+      {
+        targetEmail: email
+      })
+      if(data.writer_is_followed) {
+        data.writer_is_followed = !data.writer_is_followed;
+      }
+    if(response.data.status == 'fail') alert(response.data.message)
+    rerender();
+  }
 
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
@@ -266,7 +301,7 @@ const StoryDetailBox = (props) => {
 
   useEffect(() => {
     loadItem();
-  }, []);
+  }, [refresh]);
 
   return (
     <>
@@ -287,12 +322,26 @@ const StoryDetailBox = (props) => {
             <CategoryOptionBox>
               <Category>{data?.category}</Category>
               <Options>{data.semi_category}</Options>
+              <div style={{position: "absolute", left:'64vw', top:0}}>               
+                <InfoBox>
+                <Image src={`${data.profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+                <View>
+                  <Text>{data.nickname}</Text>
+                  <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
+                </View>
+                </InfoBox>
+                <RsuiteButton onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
+                <Text>팔로우 취소</Text>:
+                <Text>+ 팔로잉</Text>}</RsuiteButton>
+                </div>
             </CategoryOptionBox>
           </TopBox>
           <MainTitleNStoreNameBox>
             <MainTitleBox>
               <MainTitle>{data.title}</MainTitle>
-              <Pc><BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList></Pc>
+              <Pc>
+                <BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList>
+              </Pc>
               <Tablet><BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList></Tablet>
             </MainTitleBox>
             <StoreNameBox>

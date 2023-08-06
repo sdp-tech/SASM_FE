@@ -7,6 +7,7 @@ import { useCookies } from "react-cookie";
 // import { CurationPlusButton } from './CurationHome'
 import Heart from '../../common/Heart'
 import styled from "styled-components";
+import {Button} from "rsuite";
 
 const TitleBox = styled.div`
   display: flex;
@@ -133,18 +134,17 @@ export default function CurationDetailBox() {
     profile_image: '',
     writer_email: '',
     writer_is_verified: false,
+    writer_is_followed: false
   });
-  const [reppicSize, setReppicSize] = useState({
-    width: 1, height: 1
-  })
-  const [mapImageSize, setMapImageSize] = useState({
-    width: 1, height: 1
-  })
+  const [refresh, setRefresh] = useState(false);
+
+  const rerender = () => {
+    setRefresh(!refresh);
+  }
+
   const getCurationDetail = async () => {
     const response_detail = await request.get(`/curations/curation_detail/${params.id}/`);
     setCurationDetail(response_detail.data.data);
-    // Image.getSize(response_detail.data.data[0].rep_pic, (width, height) => { setReppicSize({ width: width, height: height }) });
-    // Image.getSize(response_detail.data.data[0].map_image, (width, height) => { setMapImageSize({ width: width, height: height }) })
   }
   const getCurationStoryDetail = async () => {
     const reponse_story_detail = await request.get(`/curations/curated_story_detail/${params.id}/`);
@@ -154,7 +154,18 @@ export default function CurationDetailBox() {
   useEffect(() => {
     getCurationDetail();
     getCurationStoryDetail();
-  }, [])
+  }, [refresh, curatedStory]);
+  const following = async (email) => {
+    const response = await request.post('/mypage/follow/',
+      {
+        targetEmail: email
+      })
+      if(curationDetail.writer_is_followed) {
+        curationDetail.writer_is_followed = !curationDetail.writer_is_followed;
+      }
+    if(response.data.status == 'fail') alert(response.data.message)
+    rerender();
+  }
 
   return (
     <>
@@ -168,12 +179,17 @@ export default function CurationDetailBox() {
                 <View>
                   <p>{curationDetail.nickname}</p>
                   <p>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
+                  <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
+                  <Text >팔로우 취소</Text>:
+                  <Text >+ 팔로잉</Text>}</Button>
                 </View>
               </InfoBox>
             </TitleBox>
             <ButtonDiv>
               <BackToList onClick={() => { navigate('/curation') }}>&#60; Back To List</BackToList>
-              <GotoMap onClick={() => { navigate('/map?page=1') }}>
+              <GotoMap onClick={() => {
+                 navigate('/map?page=1');
+                 }}>
                 <Text>맵페이지로 이동</Text>
               </GotoMap>
             </ButtonDiv>
@@ -192,7 +208,7 @@ export default function CurationDetailBox() {
           </ContentBox>
           {
             curatedStory.map(data =>
-              <Storys data={data} navigation={navigate} />
+              <Storys data={data}/>
             )
           }
         </View>
@@ -203,20 +219,34 @@ export default function CurationDetailBox() {
 }
 
 export const Storys = (data) => {
+  const params = useParams();
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK");
   const request = new Request(cookies, localStorage);
   const navigate = useNavigate();
+
   const handleLike = async () => {
     const response_like = await request.post('/stories/story_like/', { id: data.data.story_id });
     setLike(!like);
+  }
+
+  const following = async (email) => {
+    const response = await request.post('/mypage/follow/',
+      {
+        targetEmail: email
+      })
+      if(data.data.writer_is_followed) {
+        data.data.writer_is_followed = !data.data.writer_is_followed;
+      }
+    if(response.data.status == 'fail') alert(response.data.message);
   }
 
   useEffect(()=>{
     setLike(true);
     setLike(data.data.like_story);
   }, [])
+
   return (
     <StorySection>
       <StoryInfoBox>
@@ -230,6 +260,9 @@ export const Storys = (data) => {
               </View>
             </InfoBox>
             <Heart like={like} onClick={handleLike} />
+            <Button onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
+            <Text>팔로우 취소</Text>:
+            <Text>+ 팔로잉</Text>}</Button>
         </TitleBox>
         <Text style={{ fontSize: 16 }}>{data.data.place_address}</Text>
       </StoryInfoBox>
