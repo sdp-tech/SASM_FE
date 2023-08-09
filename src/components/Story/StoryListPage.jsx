@@ -5,7 +5,7 @@ import SearchBar from "../common/SearchBar";
 import searchBlack from "../../assets/img/search_black.svg";
 import Pagination from "../common/Pagination";
 import { useCookies } from "react-cookie";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
 import AdminButton from "../Admin/components/AdminButton";
@@ -39,7 +39,7 @@ const SearchBarSection = styled.div`
     flex-direction: column;
     height: 10vh;
     justify-content: space-between;
-    align-items: center;
+    align-items: center; 
   }
 `;
 const ToggleWrapper = styled.div`
@@ -65,7 +65,6 @@ const StoryListSection = styled.div`
   flex-direction: column;
   grid-area: story;
   scrollbar-height: thin;
-  overflow: scroll;
   @media screen and (max-width: 768px) {
   }
 `;
@@ -124,10 +123,11 @@ const StoryListPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [searchToggle, setSearchToggle] = useState(false);
   const [limit, setLimit] = useState(4);
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-    const queryString = qs.parse(location.search, {
-        ignoreQueryPrefix: true
-      });
+  const queryString = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [toggleOpen, setToggleOpen] = useState(false);
@@ -148,6 +148,10 @@ const StoryListPage = () => {
     e.preventDefault();
     setSearch(e.target.value);
   };
+  useEffect(() =>{
+    queryString.page = 1;
+  },[search]) // 검색할 때마다 페이지 번호 1로 수정
+  
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
@@ -167,14 +171,13 @@ const StoryListPage = () => {
     } else {
       newPage = queryString.page;
     }
-    let headerValue;
-    if (token === null || undefined) {
-      headerValue = `No Auth`;
-    } else {
-      headerValue = `Bearer ${token}`;
-    }
+
     let searched;
-    if (search === null || search === "") {
+    if (location.state?.name) {
+      searched = location.state.name;
+      location.state.name = "";
+      setSearch("비건")
+    } else if (search === null || search === "") {
       //검색어 없을 경우 전체 리스트 반환
       searched = null;
     } else {
@@ -189,6 +192,7 @@ const StoryListPage = () => {
     }, null);
 
     // console.log("response??", response);
+    if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);

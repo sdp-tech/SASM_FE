@@ -6,6 +6,7 @@ export default function PageRedirection(navigate, title) {
     "MY PAGE": "mypage",
     "MY PICK": "mypick/myplace?page=1",
     "LOG IN": "auth",
+    CURATION: "curation",
     COMMUNITY: "community/1?page=1",
     JOIN: "auth/register",
   };

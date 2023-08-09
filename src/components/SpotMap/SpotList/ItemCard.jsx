@@ -12,6 +12,7 @@ import MarkerbgSelect from "../../../assets/img/Map/MarkerbgSelect.svg";
 import qs from "qs";
 
 const StyledCard = styled.div`
+  font-family: pretendard;
   position: relative;
   max-width: 100%;
   margin: 0 0 0 2.5%;
@@ -61,6 +62,7 @@ const TitleLink = styled(Link)`
   cursor: "pointer";
   text-decoration : none;
   color: inherit;
+  color: #000;
 `;
 
 const ContentBox = styled.div`
@@ -205,7 +207,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
                 )
               }
             </LikeButton>
-            <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem" }}>
+            <div style={{ width: "100%", fontWeight: "400", fontSize: "1rem", color:"#000" }}>
               {placeData.category}
             </div>
           </TitleBox>

@@ -57,7 +57,7 @@ const Sections = styled.div`
 const FooterSection = styled.div`
   position: relative;
   display: flex;
-  flex-direction: roow;
+  flex-direction: row;
   padding-bottom: 0.25rem;
   // overflow: hidden;
   // grid-area: story;

@@ -22,6 +22,7 @@ const Container = styled.div`
   align-items: center;
 `
 const MyplaceSection = styled.div`
+  font-family: pretendard;
   position: relative;
   display: flex;
   justify-content: center;
@@ -142,7 +143,7 @@ const Mystory = () => {
                 <img src={ChangeMode} style={{ marginRight: '10px' }} />
                 PLACE
               </ChangeModeButton>
-              <span style={{ fontWeight: "500", fontSize: "1.6rem" }}>
+              <span style={{ fontWeight: "500", fontSize: "1.6rem", color: "#000" }}>
                 MY STORY
               </span>
               <FilterOptions>

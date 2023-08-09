@@ -61,6 +61,17 @@ const Text = styled.div`
     width: 50vw;
   }
 `
+const TextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const FollowText = styled.div`
+  color: black;
+  cursor : pointer;
+  font-size: 1rem;
+  align-items: center;
+  margin-left: 20px;
+`
 const InfoContainer = styled.div`
   height: calc(100vh - 64px - 0.3 * (100vh - 64px));
   display: flex;
@@ -105,27 +116,39 @@ export default function InfoForm(props) {
   const navigate = useNavigate();
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-
   const [loading, setLoading] = useState(true);
-
+  const [followerNum, setFollowerNum] = useState(0);
+  const [followingNum, setFollowingNum] = useState(0);
   const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = new Request(cookies, localStorage, navigate);
   //   초기에 mypage data 불러오기
-  const updateMypage = useCallback(async () => {
-    setLoading(true);
-    const response = await request.get("/mypage/me/", null, null);
+  const updateMypage = async () => {
+    // setLoading(true);
+    const response_info = await request.get("/mypage/me/", null, null);
     //   setPageCount(response.data.count);
-    setInfo(response.data.data);
+    setInfo(response_info.data.data);
+    const response_following = await request.get('/mypage/following/', {
+      email: response_info.data.data.email,
+      search_email: ''
+    });
+    const response_follower = await request.get('/mypage/follower/', {
+      email: response_info.data.data.email,
+      search_email: ''
+    });
+
+    setFollowingNum(response_following.data.data.count);
+    setFollowerNum(response_follower.data.data.count);
     setLoading(false);
-  }, [token]);
+  };
 
   const { profile_image, nickname, birthdate, email } = info;
+  const myEmail = info.email
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     updateMypage();
-  }, [updateMypage]);
+  }, []);
 
   const EditProfile = async () => {
     navigate("./change", { state: info });
@@ -140,6 +163,10 @@ export default function InfoForm(props) {
           <Section>
             <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
               <ImageBox profile={profile_image} />
+              <TextBox>
+                <FollowText onClick={() =>{navigate('/mypage/follower?page=1', {state: myEmail})}} style={{ color: '#000000' }}>팔로워 {followerNum}</FollowText>
+                <FollowText onClick={() =>{navigate('/mypage/following?page=1', {state: myEmail})}} style={{ color: '#000000' }}>팔로잉 {followingNum}</FollowText>
+              </TextBox>
             </div>
             <Grid container sx={{ height: '70%' }} >
               <Grid item xs={12} sm={12} md={5} lg={5}>

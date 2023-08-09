@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 const Wrapper = styled.div`
   overflow: hidden;
   position: relative;
+  font-family: pretendard;
 `
 
 const IntroImg = styled.img`
