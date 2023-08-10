@@ -132,9 +132,7 @@ export default function ItemCard(props) {
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      const response = await request.post("/stories/story_like/", { id: props.id }, null);
-      console.log("response", response);
-
+      const response = await request.post(`/stories/${props.id}/story_like/`);
       //색상 채우기
       setLike(!like);
     }
