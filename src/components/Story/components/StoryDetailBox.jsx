@@ -276,7 +276,7 @@ const StoryDetailBox = (props) => {
     if (!token) {
       alert("로그인이 필요합니다.");
     } else {
-      const response = await request.post("/stories/story_like/", { id: data.id }, null);
+      const response = await request.post(`/stories/${id}/story_like/`);
       console.log("response", response);
 
       //색상 채우기
