@@ -188,6 +188,7 @@ const MarkupBox = styled.div`
 const Text = styled.p`
 `
 const InfoBox = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
   font-size: 16px;
@@ -254,6 +255,7 @@ const StoryDetailBox = (props) => {
     navigate(`/map?page=1&place=${place_name}`, { state: { name : place_name }})
   };
   const [refresh, setRefresh] = useState(false);
+  const myEmail = localStorage.getItem('email');
 
   const rerender = () => {
     setRefresh(!refresh);
@@ -330,9 +332,11 @@ const StoryDetailBox = (props) => {
                   <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
                 </View>
                 </InfoBox>
-                <RsuiteButton onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
+                {
+                  myEmail !== data.writer ? <RsuiteButton onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
                 <Text>팔로우 취소</Text>:
-                <Text>+ 팔로잉</Text>}</RsuiteButton>
+                <Text>+ 팔로잉</Text>}</RsuiteButton> : <></>
+                }
                 </div>
             </CategoryOptionBox>
           </TopBox>
