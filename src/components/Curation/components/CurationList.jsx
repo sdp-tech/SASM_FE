@@ -17,7 +17,7 @@ const CurationList = ({ info }) => {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                minWidth: '95vw',
+                minWidth: '75vw',
               }}
             >
               {info.length === 0 ? (
@@ -28,7 +28,7 @@ const CurationList = ({ info }) => {
               ) : (
                 <Grid container spacing={2}>
                   {info.map((info, index) => (
-                    <Grid item key={info.id} xs={10} sm={6} md={4} lg={2.3}>
+                    <Grid item key={info.id} xs={12} sm={6} md={4} lg={3}>
                       <CardSection onClick={ () => { navigate(`/curation/${info.id}`)}}>
                         <ItemCard
                           key={index}

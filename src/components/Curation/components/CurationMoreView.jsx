@@ -14,7 +14,7 @@ import qs from 'qs';
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 110vh;
+  height: 80vh;
   min-height: 100%;
   width: 100%;
   grid-area: curation;
@@ -44,7 +44,7 @@ const SectionCuration = styled.div`
   box-sizing: border-box;
   position: relative;
   height: calc(100vh - 64px - 13vh);
-  width: 90%;
+  width: 75%;
   margin: auto;
   margin-top: 50px;
   display: flex;
@@ -109,7 +109,7 @@ const CurationMoreView = () => {
   const [loading, setLoading] = useState(true);
   const [pageCount, setPageCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(4);
   const [search, setSearch] = useState("");
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
@@ -127,7 +127,7 @@ const CurationMoreView = () => {
     setSearch(e.target.value);
   };
   useEffect(() =>{
-    queryString.page = 1;
+   if (search !== "") queryString.page = 1;
   },[search]) // 검색할 때마다 페이지 번호 1로 수정
 
   // page가 변경될 때마다 page를 붙여서 api 요청하기
@@ -156,7 +156,7 @@ const CurationMoreView = () => {
     } else {
       searched = search
     }
-      const response = await request.get("/curations/curation_search/", {
+      const response = await request.get("/curations/admin_curations/", {
       page:newPage,
       search: searched
     }, null);

@@ -1,5 +1,5 @@
 import React,  {useState, useEffect} from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import CurationList from "./CurationList";
 import styled from "styled-components";
 import Loading from "../../common/Loading";
@@ -14,7 +14,7 @@ import qs from 'qs';
 const Section = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 110vh;
+  height: 80vh;
   min-height: 100%;
   width: 100%;
   grid-area: curation;
@@ -108,12 +108,11 @@ const CurationUserMoreView = () => {
   const [item, setItem] = useState([]);
   const [searchToggle, setSearchToggle] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(4);
   const [search, setSearch] = useState("");
   const [pageCount, setPageCount] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
-  const [repCuration, setRepCuration] = useState([]);
-  const [verifedCuration, setVerifiedCuration] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const queryString = qs.parse(location.search, {
@@ -128,46 +127,45 @@ const CurationUserMoreView = () => {
     e.preventDefault();
     setSearch(e.target.value);
   };
+  useEffect(() =>{
+    if (search !== "") queryString.page = 1;
+   },[search]) // 검색할 때마다 페이지 번호 1로 수정
+
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
   }, [queryString.page]);
 
-  const handleSearchToggle = async () => {
-
-    const response = await request.get("/curations/curation_search/", {
-      search: search,
-    }, null);
-
-    setItem(response.data.data.results);
-    setPageCount(response.data.data.count);
-    setLoading(false);
-  };
-  useEffect(()=>{
-    handleSearchToggle();
-  }, [search]);
-  const getCurration = async () => {
+  const handleSearchToggle = async (e) => {
+    if(e) {e.preventDefault();}
     let newPage;
     if (queryString.page == 1) {
       newPage = null;
     } else {
       newPage = queryString.page;
     }
-    setLoading(true);
-    const response_admin = await request.get('/curations/admin_curations/');
-    const response_rep = await request.get('/curations/rep_curations/');
-    setRepCuration(response_rep.data.data.results)
-    const response_verifed = await request.get('/curations/verified_user_curations/',{
-      page: newPage
+
+    let searched
+    if (location.state?.search) {
+      searched = location.state.search;
+      setSearch(location.state.search);
+      location.state.search = "";
+    } else if (search === null || search === "") {
+      searched = null;
+    } else {
+      searched = search
+    }
+    const response = await request.get("/curations/verified_user_curations/", {
+      page: newPage,
+      search: searched
     }, null);
-    setVerifiedCuration(response_verifed.data.data.results);
-    setPageCount(response_verifed.data.data.count);
+    if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
+    setItem(response.data.data.results);
+    setPageCount(response.data.data.count);
     setLoading(false);
-  }
-  useEffect(() => {
-    getCurration();
-  }, [])
+  };
+
   return (
     <>
       {loading ? (
@@ -196,7 +194,7 @@ const CurationUserMoreView = () => {
                 </SubWrap>
             </TitleBox>
             <SectionCuration>
-              <CurationList info={verifedCuration} />
+              <CurationList info={item} />
             </SectionCuration>
           </Section>
           <FooterSection>

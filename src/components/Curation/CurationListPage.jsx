@@ -11,6 +11,7 @@ import Request from "../../functions/common/Request";
 import ItemCard from "./components/ItemCard";
 import CurationList from "./components/CurationList";
 import { Grid } from "@mui/material";
+import toggleOpenImg from "../../assets/img/toggleOpen.svg";
 import SeongSu from "../../assets/img/Curation/place_seongsu.jpeg";
 import NamDaeMun from "../../assets/img/Curation/place_namdaemun.jpeg";
 import MangWon from "../../assets/img/Curation/place_mangwon.jpeg";
@@ -66,6 +67,7 @@ const SectionCuration = styled.div`
   height: calc(100vh - 64px - 25vh);
   width: 75%;
   margin: auto;
+  margin-top: 20px;
   display: flex;
   grid-area: curation;
   scrollbar-height: thin;
@@ -147,15 +149,52 @@ const FooterSection = styled.div`
   align-items: center;
   background-color: #FFFFFF;
 `;
-
+const ToggleWrapper = styled.div`
+  position: absolute;
+  height: 50%;
+  display: flex;
+  right: 15vw;
+  width: 8vw;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 30vw;
+    position: relative;
+    right: -25vw;
+    height: 4vh;
+  }
+`
+const OrderToggle = styled.div`
+  background-color: #FFFFFF;
+  cursor: pointer;
+  width: 125%;
+  height: 130%;
+  position: absolute;
+  padding: 0 1vw;
+  text-align: center;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  & + & {
+    transform: translateY(100%);
+    justify-content: center;
+  }
+  img {
+    transform: scale(0.8);
+  }
+  @media screen and (max-width: 768px) {
+    padding: 0 3vw;
+  }
+  z-index: 3;
+`
 const CurationListPage = () => {
   const [item, setItem] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [searchToggle, setSearchToggle] = useState(false);
   const [repCuration, setRepCuration] = useState([]);
   const [verifedCuration, setVerifiedCuration] = useState([]);
-  // 큐레이션 검색어
-  const [checkedList, setCheckedList] = useState('');
+  const [toggleOpen, setToggleOpen] = useState(false);
+  const [orderList, setOrderList] = useState(true);
   // 연관 스토리 검색
   const [storyData, setStoryData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -167,15 +206,9 @@ const CurationListPage = () => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = new Request(cookies, localStorage, navigate);
 
-  const onCheckedElement = (checked, item) => {
-    navigate('/map?page=1');
-    if (checked) {
-        setCheckedList([...checkedList, item]);
-    } else if (!checked) {
-        setCheckedList(checkedList.filter((el) => el !== item));
-    }
+  const handleToggleOpen = () => {
+    setToggleOpen(!toggleOpen);
   };
-
   const onChangeSearch = (e) => {
     e.preventDefault();
     setTempSearch(e.target.value);
@@ -184,9 +217,6 @@ const CurationListPage = () => {
   useEffect(() => {
     checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
   }, []);
-  useEffect(()=>{
-    handleSearchToggle();
-  }, [search]);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
@@ -200,8 +230,12 @@ const CurationListPage = () => {
   };
   const getCurration = async () => {
     setLoading(true);
-    if(search) {navigate(`/curation/curationlist?page=1&search=${search}`, {state : {search: search}})}
-    const response_admin = await request.get('/curations/admin_curations/');
+    if(search && orderList) {
+      navigate(`/curation/curationlist?page=1&search=${search}`, {state : {search: search}})
+    } else if(search && !orderList) {
+      navigate(`/curation/usercurationlist?page=1&search=${search}`, {state : {search: search}})
+    }
+
     const response_rep = await request.get('/curations/rep_curations/');
     setRepCuration(response_rep.data.data.results);
     const response_verifed = await request.get('/curations/verified_user_curations/');
@@ -218,6 +252,7 @@ const CurationListPage = () => {
   }
   useEffect(() => {
     getStory();
+    handleSearchToggle();
     getCurration();
   }, [search])
 
@@ -241,6 +276,39 @@ const CurationListPage = () => {
                   fontsize="0.8rem"
                 />
               </SearchFilterBar>
+              <ToggleWrapper>
+                {orderList ?
+                  <>{toggleOpen ?
+                    <>
+                      <OrderToggle onClick={() => {
+                        setOrderList(true);
+                        handleToggleOpen();
+                      }}>큐레이션 검색<img style={{ transform: 'rotate(180deg) scale(0.8)' }} src={toggleOpenImg} /></OrderToggle>
+                      <OrderToggle onClick={() => {
+                        setOrderList(false);
+                        handleToggleOpen();
+                      }}>유저 큐레이션 검색</OrderToggle>
+                    </>
+                    :
+                    <OrderToggle onClick={handleToggleOpen}>큐레이션 검색<img src={toggleOpenImg} /></OrderToggle>}
+                  </>
+                  :
+                  <>{toggleOpen ?
+                    <>
+                      <OrderToggle onClick={() => {
+                        setOrderList(false);
+                        handleToggleOpen();
+                      }}>유저 큐레이션 검색 <img style={{ transform: 'rotate(180deg) scale(0.8)' }} src={toggleOpenImg} /></OrderToggle>
+                      <OrderToggle onClick={() => {
+                        setOrderList(true);
+                        handleToggleOpen();
+                      }}>큐레이션 검색</OrderToggle>
+                    </>
+                    :
+                    <OrderToggle onClick={handleToggleOpen}>유저 큐레이션 검색 <img src={toggleOpenImg} /></OrderToggle>}
+                  </>
+                }
+              </ToggleWrapper>
             </SearchBarSection>
             <TitleBox>
               <MainTitle>큐레이션</MainTitle>
