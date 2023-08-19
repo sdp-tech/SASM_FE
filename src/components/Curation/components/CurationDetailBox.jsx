@@ -137,6 +137,7 @@ export default function CurationDetailBox() {
     writer_is_followed: false
   });
   const [refresh, setRefresh] = useState(false);
+  const myEmail = localStorage.getItem('email');
 
   const rerender = () => {
     setRefresh(!refresh);
@@ -179,9 +180,9 @@ export default function CurationDetailBox() {
                 <View>
                   <p>{curationDetail.nickname}</p>
                   <p>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
-                  <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
+                  {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
                   <Text >팔로우 취소</Text>:
-                  <Text >+ 팔로잉</Text>}</Button>
+                  <Text >+ 팔로잉</Text>}</Button> : <></>}
                 </View>
               </InfoBox>
             </TitleBox>
@@ -225,6 +226,7 @@ export const Storys = (data) => {
   const token = localStorage.getItem("accessTK");
   const request = new Request(cookies, localStorage);
   const navigate = useNavigate();
+  const myEmail = localStorage.getItem('email');
 
   const handleLike = async () => {
     const response_like = await request.post('/stories/story_like/', { id: data.data.story_id });
@@ -260,9 +262,12 @@ export const Storys = (data) => {
               </View>
             </InfoBox>
             <Heart like={like} onClick={handleLike} />
-            <Button onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
-            <Text>팔로우 취소</Text>:
-            <Text>+ 팔로잉</Text>}</Button>
+            {
+              myEmail !== data.data.writer_email ? <Button onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
+              <Text >팔로우 취소</Text>:
+              <Text >+ 팔로잉</Text>}
+              </Button> : <></>
+            }
         </TitleBox>
         <Text style={{ fontSize: 16 }}>{data.data.place_address}</Text>
       </StoryInfoBox>
