@@ -11,7 +11,7 @@ import StoryListModal from "./FormModals/StoryListModal";
 import Pagination from '../common/Pagination';
 import { Editor } from '@tinymce/tinymce-react';
 import { Button, Modal, ButtonToolBar, Placeholder, ButtonToolbar } from 'rsuite';
-import 'rsuite/dist/rsuite.css';
+import 'rsuite/dist/rsuite.min.css';
 import oc from "open-color";
 import qs from "qs";
 
