@@ -10,8 +10,7 @@ import searchBlack from "../../assets/img/search_black.svg";
 import StoryListModal from "./FormModals/StoryListModal";
 import Pagination from '../common/Pagination';
 import { Editor } from '@tinymce/tinymce-react';
-import { Button, Modal, ButtonToolBar, Placeholder, ButtonToolbar } from 'rsuite';
-import 'rsuite/dist/rsuite.min.css';
+import { Button, Modal, ButtonToolbar } from 'rsuite';
 import oc from "open-color";
 import qs from "qs";
 
