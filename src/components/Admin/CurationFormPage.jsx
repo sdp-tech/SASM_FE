@@ -9,8 +9,8 @@ import SearchBar from "../common/SearchBar";
 import searchBlack from "../../assets/img/search_black.svg";
 import StoryListModal from "./FormModals/StoryListModal";
 import Pagination from '../common/Pagination';
+import Modal from "react-modal"
 import { Editor } from '@tinymce/tinymce-react';
-import { Button, Modal, ButtonToolbar } from 'rsuite';
 import oc from "open-color";
 import qs from "qs";
 
@@ -112,6 +112,8 @@ const SearchBarSection = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+`
+const ModalButton = styled.button`
 `
 const charCount = (editor) => editor.getContent({ format: "text" }).length;
 
@@ -295,15 +297,8 @@ export default function CurationForm() {
                 onChange={onChangeImage}
             />
           <Label>스토리 선택</Label>
-          <ButtonToolbar>
-            <Button size="lg" onClick={()=>handleOpen('lg')}>스토리 선택</Button>
-          </ButtonToolbar>
-
-          <Modal backdrop={backdrop} size={size} open={open} onClose={handleClose}>
-            <Modal.Header>
-              <Modal.Title>스토리를 선택해주세요</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+          <button onClick={handleOpen}>스토리 선택</button>
+          <Modal isOpen={open} onRequestClose={handleClose} contentLabel='스토리를 선택해주세요'>      
               <SearchBarSection>
                 <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
               </SearchBarSection>
@@ -313,15 +308,12 @@ export default function CurationForm() {
               limit={limit}
               page={queryString.page}
             />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={handleClose} appearance="primary">
+              <ModalButton onClick={handleClose}>
                 확인
-              </Button>
-              <Button onClick={handleClose} appearance="subtle">
+              </ModalButton>
+              <ModalButton onClick={handleClose}>
                 취소
-              </Button>
-            </Modal.Footer>
+              </ModalButton>
           </Modal>
         </Wrapper>
         <Label>선택된 스토리</Label>
@@ -339,7 +331,7 @@ export default function CurationForm() {
         </StorySection>
         <View>
           <Label>본문</Label>
-          <Editor
+          {open ? <></>:<Editor
             value={data}
             onInit={handleInit}
             onEditorChange={handleUpdate}
@@ -361,7 +353,7 @@ export default function CurationForm() {
                     'removeformat | help',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
-        />
+        />}
         <p>{count}/{sizeLimit}</p>
         </View>
         <FooterSection>

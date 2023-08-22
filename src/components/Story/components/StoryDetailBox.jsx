@@ -11,7 +11,7 @@ import Comments from "./Comments";
 import Recommends from "./StoryRecommend";
 import { useMediaQuery } from "react-responsive";
 import { Mobile, Pc, Tablet } from "../../../device"
-import RsuiteButton from "rsuite/Button";
+import AdminButton from "../../Admin/components/AdminButton";
 
 const Wrapper = styled.div`
   background: white;
@@ -324,18 +324,18 @@ const StoryDetailBox = (props) => {
             <CategoryOptionBox>
               <Category>{data?.category}</Category>
               <Options>{data.semi_category}</Options>
-              <div style={{position: "absolute", left:'64vw', top:0}}>               
+              <div style={{position: "absolute", left:'63vw', top:"-30px"}}>               
                 <InfoBox>
-                <Image src={`${data.profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
-                <View>
+                  <Image src={`${data.profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+                  <View>
                   <Text>{data.nickname}</Text>
                   <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
-                </View>
+                  </View>
                 </InfoBox>
                 {
-                  myEmail !== data.writer ? <RsuiteButton onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
+                  myEmail !== data.writer ? <AdminButton style={{width:"70%"}} onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
                 <Text>팔로우 취소</Text>:
-                <Text>+ 팔로잉</Text>}</RsuiteButton> : <></>
+                <Text>+ 팔로잉</Text>}</AdminButton> : <></>
                 }
                 </div>
             </CategoryOptionBox>
