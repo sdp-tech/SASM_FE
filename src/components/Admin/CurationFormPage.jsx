@@ -9,7 +9,6 @@ import SearchBar from "../common/SearchBar";
 import searchBlack from "../../assets/img/search_black.svg";
 import StoryListModal from "./FormModals/StoryListModal";
 import Pagination from '../common/Pagination';
-import Modal from "react-modal"
 import { Editor } from '@tinymce/tinymce-react';
 import oc from "open-color";
 import qs from "qs";
@@ -81,6 +80,12 @@ const CountCharacters = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: auto;
+  // justify-content: center;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
   margin: auto;
   // justify-content: center;
 `;
@@ -198,7 +203,6 @@ export default function CurationForm() {
   }, [open, queryString.page]);
 
   const handleOpen = value => {
-    setSize(value);
     setOpen(true);
   }
   const handleClose = () => {
@@ -297,8 +301,8 @@ export default function CurationForm() {
                 onChange={onChangeImage}
             />
           <Label>스토리 선택</Label>
-          <button onClick={handleOpen}>스토리 선택</button>
-          <Modal isOpen={open} onRequestClose={handleClose} contentLabel='스토리를 선택해주세요'>      
+          <AdminButton onClick={handleOpen}>스토리 선택</AdminButton>
+          { open ?<Wrapper>      
               <SearchBarSection>
                 <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
               </SearchBarSection>
@@ -307,14 +311,15 @@ export default function CurationForm() {
               total={pageCount}
               limit={limit}
               page={queryString.page}
-            />
-              <ModalButton onClick={handleClose}>
-                확인
-              </ModalButton>
-              <ModalButton onClick={handleClose}>
-                취소
-              </ModalButton>
-          </Modal>
+            /><ButtonWrapper>
+                <AdminButton onClick={handleClose}>
+                  확인
+                 </AdminButton>
+                <AdminButton onClick={handleClose}>
+                  취소
+                </AdminButton>
+              </ButtonWrapper>
+              </Wrapper>:<></>}
         </Wrapper>
         <Label>선택된 스토리</Label>
         <StorySection>
