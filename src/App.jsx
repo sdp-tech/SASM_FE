@@ -13,7 +13,6 @@ import { LoginProvider } from "./contexts/LoginContexts";
 import { CookiesProvider } from "react-cookie";
 import { createGlobalStyle } from "styled-components";
 import "./index.css";
-import 'rsuite/dist/rsuite.min.css';
 import Navibar from "./components/common/Navibar";
 import Myplace from "./components/mypick/myplace/Myplace";
 import Mystory from "./components/mypick/mystory/Mystory";
