@@ -164,8 +164,8 @@ export default function InfoForm(props) {
             <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
               <ImageBox profile={profile_image} />
               <TextBox>
-                <FollowText onClick={() =>{navigate('/mypage/follower?page=1', {state: myEmail})}} style={{ color: '#000000' }}>팔로워 {followerNum}</FollowText>
-                <FollowText onClick={() =>{navigate('/mypage/following?page=1', {state: myEmail})}} style={{ color: '#000000' }}>팔로잉 {followingNum}</FollowText>
+                <FollowText onClick={() =>{navigate('/mypage/follower?page=1')}} style={{ color: '#000000' }}>팔로워 {followerNum}</FollowText>
+                <FollowText onClick={() =>{navigate('/mypage/following?page=1')}} style={{ color: '#000000' }}>팔로잉 {followingNum}</FollowText>
               </TextBox>
             </div>
             <Grid container sx={{ height: '70%' }} >

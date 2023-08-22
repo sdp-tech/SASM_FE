@@ -2,9 +2,11 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Pagination from '../../common/Pagination';
 import Request from '../../../functions/common/Request';
 import SearchBar from '../../common/SearchBar';
 import AdminButton from "../../Admin/components/AdminButton";
+import qs from "qs";
 
 const SearchWapper = styled.div`
 box-sizing: border-box;
@@ -51,7 +53,7 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
-  height: 100%;
+  height: 110%;
   margin-top: 50px;
   margin: auto;
   align-items: center;
@@ -78,6 +80,17 @@ const FollowingSection = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
 `
+const FooterSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  bottom: 0;
+  width: 100%;
+  position: relative;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+`;
 
 
 const Following = () => {
@@ -87,21 +100,34 @@ const Following = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const request = new Request(cookies, localStorage, navigate);
-  const [myEmail, setMyEmail] = useState([]);
+  const myEmail = localStorage.getItem("email");
+  const [limit, setLimit] = useState(5);
   const [followingList, setFollowingList] = useState([]);
+  const [total, setTotal] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
-
+  const queryString = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
   const rerender = () => {
     setRefresh(!refresh);
   }
 
   const GetFollowing = async () => {
+    let newPage;
+    if (queryString.page == 1) {
+      newPage = null;
+    } else {
+      newPage = queryString.page;
+    }
+
     const response = await request.get('/mypage/following/', {
-      email: location.state,
+      page: newPage,
+      email: myEmail,
       search_email: searchQuery
     });
     setFollowingList(response.data.data.results);
+    setTotal(response.data.data.count);
   }
 
   const onChangeSearch = (e) => {
@@ -116,7 +142,7 @@ const Following = () => {
 
   useEffect(() => {
       GetFollowing();
-    }, [searchQuery, refresh])
+    }, [queryString.page, refresh])
 
 
   return (
@@ -157,6 +183,13 @@ const Following = () => {
             </UserWrapper>
         }
       </FollowingSection>
+      <FooterSection>
+        <Pagination
+          total={total}
+          limit={limit}
+          page={queryString.page}
+        />
+      </FooterSection>
     </InfoBox>
   )
 }

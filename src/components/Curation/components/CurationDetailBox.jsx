@@ -155,7 +155,7 @@ export default function CurationDetailBox() {
   useEffect(() => {
     getCurationDetail();
     getCurationStoryDetail();
-  }, [refresh, curatedStory]);
+  }, [refresh]);
   const following = async (email) => {
     const response = await request.post('/mypage/follow/',
       {
