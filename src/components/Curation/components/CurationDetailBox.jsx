@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 // import { CurationPlusButton } from './CurationHome'
 import Heart from '../../common/Heart'
 import styled from "styled-components";
-import {Button} from "rsuite";
+import AdminButton from "../../Admin/components/AdminButton";
 
 const TitleBox = styled.div`
   display: flex;
@@ -180,9 +180,9 @@ export default function CurationDetailBox() {
                 <View>
                   <p>{curationDetail.nickname}</p>
                   <p>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
-                  {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
+                  {myEmail !== curationDetail.writer_email ? <AdminButton onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
                   <Text >팔로우 취소</Text>:
-                  <Text >+ 팔로잉</Text>}</Button> : <></>}
+                  <Text >+ 팔로잉</Text>}</AdminButton> : <></>}
                 </View>
               </InfoBox>
             </TitleBox>
@@ -263,10 +263,10 @@ export const Storys = (data) => {
             </InfoBox>
             <Heart like={like} onClick={handleLike} />
             {
-              myEmail !== data.data.writer_email ? <Button onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
+              myEmail !== data.data.writer_email ? <AdminButton onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
               <Text >팔로우 취소</Text>:
               <Text >+ 팔로잉</Text>}
-              </Button> : <></>
+              </AdminButton> : <></>
             }
         </TitleBox>
         <Text style={{ fontSize: 16 }}>{data.data.place_address}</Text>

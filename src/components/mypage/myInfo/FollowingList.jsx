@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Request from '../../../functions/common/Request';
 import SearchBar from '../../common/SearchBar';
-import { Button } from 'rsuite';
+import AdminButton from "../../Admin/components/AdminButton";
 
 const SearchWapper = styled.div`
 box-sizing: border-box;
@@ -150,7 +150,7 @@ const Following = () => {
                     <p>{user.nickname}</p>
                     <p>{user.email}</p>
                   </Wrapper>
-                  <Button style={{height:"50%"}} onClick={()=>{undoFollowing(user.email)}}>팔로우 취소</Button>
+                  <AdminButton style={{height:"50%"}} onClick={()=>{undoFollowing(user.email)}}>팔로우 취소</AdminButton>
                 </InfoWrapper>
               ))
             }
