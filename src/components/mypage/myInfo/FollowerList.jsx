@@ -2,8 +2,10 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useCookies } from 'react-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Pagination from '../../common/Pagination';
 import Request from '../../../functions/common/Request';
 import SearchBar from '../../common/SearchBar';
+import qs from "qs";
 
 const SearchWapper = styled.div`
 box-sizing: border-box;
@@ -50,7 +52,7 @@ const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 50%;
-  height: 100%;
+  height: 110%;
   margin-top: 50px;
   margin: auto;
   align-items: center;
@@ -77,6 +79,17 @@ const FollowerSection = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
 `
+const FooterSection = styled.div`
+  display: flex;
+  flex-direction: row;
+  bottom: 0;
+  width: 100%;
+  position: relative;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFFFFF;
+`;
 
 
 const Follower = () => {
@@ -86,17 +99,30 @@ const Follower = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const request = new Request(cookies, localStorage, navigate);
-  const [myEmail, setMyEmail] = useState([]);
+  const myEmail = localStorage.getItem("email");
   const [followerList, setFollowerList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [limit, setLimit] = useState(5);
+  const [total, setTotal] = useState(0);
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   const GetFollower = async () => {
+    let newPage;
+    if (queryString.page == 1) {
+      newPage = null;
+    } else {
+      newPage = queryString.page;
+    }
     const response = await request.get('/mypage/follower/', {
+      page: newPage,
       email: location.state,
       search_email: searchQuery
     });
     setFollowerList(response.data.data.results);
+    setTotal(response.data.data.count);
   }
 
   const onChangeSearch = (e) => {
@@ -146,6 +172,13 @@ const Follower = () => {
             </UserWrapper>
         }
       </FollowerSection>
+      <FooterSection>
+        <Pagination
+          total={total}
+          limit={limit}
+          page={queryString.page}
+        />
+      </FooterSection>
     </InfoBox>
   )
 }
