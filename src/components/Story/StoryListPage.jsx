@@ -193,6 +193,7 @@ const StoryListPage = () => {
 
     // console.log("response??", response);
     if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
+    if (!orderList) {setItem(response.data.data.results.reverse());}
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
