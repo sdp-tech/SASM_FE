@@ -12,10 +12,6 @@ import ItemCard from "./components/ItemCard";
 import CurationList from "./components/CurationList";
 import { Grid } from "@mui/material";
 import toggleOpenImg from "../../assets/img/toggleOpen.svg";
-import SeongSu from "../../assets/img/Curation/place_seongsu.jpeg";
-import NamDaeMun from "../../assets/img/Curation/place_namdaemun.jpeg";
-import MangWon from "../../assets/img/Curation/place_mangwon.jpeg";
-import SongRiDan from "../../assets/img/Curation/place_songridan.jpg";
 
 
 const CardSection = styled.div`
@@ -337,25 +333,25 @@ const CurationListPage = () => {
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.544641605, lng: 127.055896738 }});  
               }}>
-                <img src={SeongSu} style={{width: 160, height:160, borderRadius:100}} alt="성수동"/>
+                <img src="/img/place_seongsu.jpeg" style={{width: 160, height:160, borderRadius:100}} alt="성수동"/>
                 <RecommendPlaceText>성수동</RecommendPlaceText>
               </RecommendPlace>
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.5090846971287, lng: 127.108220751231 }})  
               }}>
-                <img src={SongRiDan} style={{width: 160, height:160, borderRadius:160}} alt="송리단길"/>
+                <img src="/img/place_songridan.jpg" style={{width: 160, height:160, borderRadius:160}} alt="송리단길"/>
                 <RecommendPlaceText>송리단길</RecommendPlaceText>
               </RecommendPlace>
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.555833333333325, lng: 126.89999999999999 }})
               }}>
-                <img src={MangWon} style={{width: 160, height:160, borderRadius:160}} alt="망원동"/>
+                <img src="/img/place_mangwon.jpeg" style={{width: 160, height:160, borderRadius:160}} alt="망원동"/>
                 <RecommendPlaceText>망원동</RecommendPlaceText>
               </RecommendPlace>
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.55972222222222, lng: 126.9752777777778 }})  
               }}>
-                <img src={NamDaeMun} style={{width: 160, height:160, borderRadius:160}} alt="남대문"/>
+                <img src="/img/place_namdaemun.jpeg" style={{width: 160, height:160, borderRadius:160}} alt="남대문"/>
                 <RecommendPlaceText>남대문</RecommendPlaceText>
               </RecommendPlace>
             </SectionCuration>
