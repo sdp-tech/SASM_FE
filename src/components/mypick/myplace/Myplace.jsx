@@ -84,7 +84,14 @@ const FilterOptions = styled.div`
     width: 100%;
   }
 `
-
+const MenuSection = styled.div`
+  // display: flex;
+  margin-top: 20px;
+`
+const MoveSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -141,14 +148,24 @@ const Myplace = (props) => {
       ) : (
         <>
           <MyplaceSection>
-            <HeaderSection>
-              <ChangeModeButton to={`/mypick/mystory?page=1`}>
-                <img src={ChangeMode} style={{ marginRight: '10px' }} />
-                STORY
-              </ChangeModeButton>
-              <span style={{ fontWeight: "500", fontSize: "1.6rem", color:"#000" }}>
+            <span style={{ fontWeight: "500", fontSize: "1.6rem", color:"#000", marginBottom: "50px" }}>
                 MY PLACE
-              </span>
+            </span>
+            <HeaderSection>
+              <MoveSection>
+                <MenuSection>
+                  <ChangeModeButton to={`/mypick/mystory?page=1`}>
+                    <img src={ChangeMode} style={{ marginRight: '10px' }} />
+                    STORY
+                  </ChangeModeButton>
+                </MenuSection>
+                <MenuSection>
+                  <ChangeModeButton to={`/mypick/mycuration?page=1`}>
+                    <img src={ChangeMode} style={{ marginRight: '10px' }} />
+                    CURATION
+                  </ChangeModeButton>
+                </MenuSection>
+              </MoveSection>
               <FilterOptions>
                 <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
               </FilterOptions>

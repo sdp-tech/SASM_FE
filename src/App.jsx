@@ -16,6 +16,7 @@ import "./index.css";
 import Navibar from "./components/common/Navibar";
 import Myplace from "./components/mypick/myplace/Myplace";
 import Mystory from "./components/mypick/mystory/Mystory";
+import MyCuration from "./components/mypick/mycuration/MyCuration";
 import SpotCommunity from "./pages/SpotCommunity";
 import CurationAdmin from "./pages/CurationAdmin";
 import CurationDetailPage from "./components/Curation/CurationDetailPage";
@@ -72,6 +73,7 @@ const App = () => {
               <Route path="/mypage/*" element={<MyPage />} />
               <Route path="/mypick/myplace" element={<Myplace />} />
               <Route path="/mypick/mystory" element={<Mystory />} />
+              <Route path="/mypick/mycuration" element={<MyCuration />} />
               <Route path="/auth/*" element={<Auth />} />
               <Route path="/story" element={<StoryList />} />
               <Route path="/story/:id" element={<StoryDetail />} />

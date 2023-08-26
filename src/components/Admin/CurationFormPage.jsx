@@ -10,8 +10,6 @@ import searchBlack from "../../assets/img/search_black.svg";
 import StoryListModal from "./FormModals/StoryListModal";
 import Pagination from '../common/Pagination';
 import { Editor } from '@tinymce/tinymce-react';
-import { Button, Modal, ButtonToolBar, Placeholder, ButtonToolbar } from 'rsuite';
-import 'rsuite/dist/rsuite.css';
 import oc from "open-color";
 import qs from "qs";
 
@@ -85,6 +83,12 @@ const Wrapper = styled.div`
   margin: auto;
   // justify-content: center;
 `;
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  // justify-content: center;
+`;
 const Label = styled.div`
 //   font-size: 1rem;
   font-weight: 700;
@@ -113,6 +117,8 @@ const SearchBarSection = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+`
+const ModalButton = styled.button`
 `
 const charCount = (editor) => editor.getContent({ format: "text" }).length;
 
@@ -197,7 +203,6 @@ export default function CurationForm() {
   }, [open, queryString.page]);
 
   const handleOpen = value => {
-    setSize(value);
     setOpen(true);
   }
   const handleClose = () => {
@@ -296,15 +301,8 @@ export default function CurationForm() {
                 onChange={onChangeImage}
             />
           <Label>스토리 선택</Label>
-          <ButtonToolbar>
-            <Button size="lg" onClick={()=>handleOpen('lg')}>스토리 선택</Button>
-          </ButtonToolbar>
-
-          <Modal backdrop={backdrop} size={size} open={open} onClose={handleClose}>
-            <Modal.Header>
-              <Modal.Title>스토리를 선택해주세요</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+          <AdminButton onClick={handleOpen}>스토리 선택</AdminButton>
+          { open ?<Wrapper>      
               <SearchBarSection>
                 <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
               </SearchBarSection>
@@ -313,17 +311,15 @@ export default function CurationForm() {
               total={pageCount}
               limit={limit}
               page={queryString.page}
-            />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={handleClose} appearance="primary">
-                확인
-              </Button>
-              <Button onClick={handleClose} appearance="subtle">
-                취소
-              </Button>
-            </Modal.Footer>
-          </Modal>
+            /><ButtonWrapper>
+                <AdminButton onClick={handleClose}>
+                  확인
+                 </AdminButton>
+                <AdminButton onClick={handleClose}>
+                  취소
+                </AdminButton>
+              </ButtonWrapper>
+              </Wrapper>:<></>}
         </Wrapper>
         <Label>선택된 스토리</Label>
         <StorySection>
@@ -340,7 +336,7 @@ export default function CurationForm() {
         </StorySection>
         <View>
           <Label>본문</Label>
-          <Editor
+          {open ? <></>:<Editor
             value={data}
             onInit={handleInit}
             onEditorChange={handleUpdate}
@@ -362,7 +358,7 @@ export default function CurationForm() {
                     'removeformat | help',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
-        />
+        />}
         <p>{count}/{sizeLimit}</p>
         </View>
         <FooterSection>

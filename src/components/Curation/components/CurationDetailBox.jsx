@@ -1,13 +1,11 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react'
-// import { HomeStackParams } from '../../pages/Home'
 import Request from "../../../functions/common/Request";
+import HeartButton from '../../common/Heart';
 import { useCookies } from "react-cookie";
-// import CardView from '../../common/CardView'
-// import { CurationPlusButton } from './CurationHome'
 import Heart from '../../common/Heart'
 import styled from "styled-components";
-import {Button} from "rsuite";
+import AdminButton from "../../Admin/components/AdminButton";
 
 const TitleBox = styled.div`
   display: flex;
@@ -19,6 +17,11 @@ const TitleBox = styled.div`
 `
 const CurationPlusButton = styled.div`
 `
+const LikeIconBox = styled.div`
+  width: 30px;
+  height: 30px
+  cursor: pointer;
+`;
 const Text = styled.p`
 `
 const InfoBox = styled.div`
@@ -50,6 +53,12 @@ const Image = styled.img`
 `
 const View = styled.div`
   align-items: center;
+`
+const IconView = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
 `
 const StoryInfoBox = styled.div`
   position: relative;
@@ -121,6 +130,7 @@ export default function CurationDetailBox() {
   const params = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK");
+  const [like, setLike] = useState(false);
   const request = new Request(cookies, localStorage, navigate);
   const [curatedStory, setCuratedStory] = useState([]);
   const [curationDetail, setCurationDetail] = useState({
@@ -143,6 +153,18 @@ export default function CurationDetailBox() {
     setRefresh(!refresh);
   }
 
+    // 좋아요 클릭 이벤트
+    const toggleLike = async () => {
+      if (!token) {
+        alert("로그인이 필요합니다.");
+      } else {
+        const response = await request.post(`/curations/curation_like/${params.id}/`);
+        console.log("response", response);
+        //색상 채우기
+        setLike(!like);
+      }
+    };
+
   const getCurationDetail = async () => {
     const response_detail = await request.get(`/curations/curation_detail/${params.id}/`);
     setCurationDetail(response_detail.data.data);
@@ -155,7 +177,7 @@ export default function CurationDetailBox() {
   useEffect(() => {
     getCurationDetail();
     getCurationStoryDetail();
-  }, [refresh, curatedStory]);
+  }, [refresh]);
   const following = async (email) => {
     const response = await request.post('/mypage/follow/',
       {
@@ -176,13 +198,22 @@ export default function CurationDetailBox() {
             <TitleBox>
               <Title>{curationDetail.title}</Title>
               <InfoBox>
-                <Image src={ curationDetail.profile_image } style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+                <IconView>
+                  <Image src={ curationDetail.profile_image } style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+                  <LikeIconBox style={{marginTop: "40px"}}>
+                      {curationDetail.like_curation === true ? (
+                        <HeartButton like={!like} onClick={toggleLike} />
+                      ) : (
+                        <HeartButton like={like} onClick={toggleLike} />
+                      )}
+                  </LikeIconBox>
+                </IconView>
                 <View>
                   <p>{curationDetail.nickname}</p>
                   <p>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
-                  {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
+                  {myEmail !== curationDetail.writer_email ? <AdminButton onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
                   <Text >팔로우 취소</Text>:
-                  <Text >+ 팔로잉</Text>}</Button> : <></>}
+                  <Text >+ 팔로잉</Text>}</AdminButton> : <></>}
                 </View>
               </InfoBox>
             </TitleBox>
@@ -263,15 +294,14 @@ export const Storys = (data) => {
             </InfoBox>
             <Heart like={like} onClick={handleLike} />
             {
-              myEmail !== data.data.writer_email ? <Button onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
+              myEmail !== data.data.writer_email ? <AdminButton  style={{marginLeft: "30px"}} onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
               <Text >팔로우 취소</Text>:
               <Text >+ 팔로잉</Text>}
-              </Button> : <></>
+              </AdminButton> : <></>
             }
         </TitleBox>
         <Text style={{ fontSize: 16 }}>{data.data.place_address}</Text>
       </StoryInfoBox>
-      {/* <Image src={`${data.data.rep_photos}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} /> */}
       <StoryContentBox>
         <Text style={{fontWeight:'bold', fontSize:'18px'}}>{data.data.place_category}</Text>
         <Text>{data.data.story_review}</Text>
