@@ -184,16 +184,20 @@ const StoryListPage = () => {
       //검색어 있는 경우
       searched = search;
     }
-
+    
+    let order;
+    if (orderList) {
+      order = "latest";
+    } else {
+      order = "oldest";
+    }
     const response = await request.get("/stories/story_search/", {
       page: newPage,
       search: searched,
-      latest: orderList.toString(),
+      order: order
     }, null);
-
     // console.log("response??", response);
     if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
-    if (!orderList) {setItem(response.data.data.results.reverse());}
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
