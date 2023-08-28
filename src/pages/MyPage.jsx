@@ -9,7 +9,6 @@ export default function MyPage() {
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
-  console.log("token@!", token);
   const navigate = useNavigate();
 
   useEffect(() => {

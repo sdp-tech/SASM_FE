@@ -118,7 +118,7 @@ const Follower = () => {
     }
     const response = await request.get('/mypage/follower/', {
       page: newPage,
-      email: location.state,
+      email: myEmail,
       search_email: searchQuery
     });
     setFollowerList(response.data.data.results);
@@ -132,7 +132,7 @@ const Follower = () => {
 
   useEffect(() => {
       GetFollower();
-    }, [searchQuery])
+    }, [searchQuery, queryString.page]);
 
 
   return (
