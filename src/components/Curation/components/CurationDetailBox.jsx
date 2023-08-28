@@ -260,7 +260,7 @@ export const Storys = (data) => {
   const myEmail = localStorage.getItem('email');
 
   const handleLike = async () => {
-    const response_like = await request.post('/stories/story_like/', { id: data.data.story_id });
+    const response_like = await request.post(`/stories/${data.data.story_id}/story_like/`);
     setLike(!like);
   }
 

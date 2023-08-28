@@ -336,7 +336,7 @@ export default function CurationForm() {
         </StorySection>
         <View>
           <Label>본문</Label>
-          {open ? <></>:<Editor
+          <Editor
             value={data}
             onInit={handleInit}
             onEditorChange={handleUpdate}
@@ -358,7 +358,7 @@ export default function CurationForm() {
                     'removeformat | help',
                 content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
             }}
-        />}
+        />
         <p>{count}/{sizeLimit}</p>
         </View>
         <FooterSection>
