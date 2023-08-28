@@ -425,7 +425,7 @@ const ContactImage = styled.div`
   justify-content: space-around;
   width: 50%;
 `
-//
+
 export default function Home() {
   const isMobile = useMediaQuery({
     query: "(max-width:768px)"
@@ -492,26 +492,32 @@ export default function Home() {
       <ContentBox>
         <SASMLogo src={sasm_logo} rotate="true" />
         <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
-        크게 <b>세 가지 기능</b>을 제공하고 있습니다.
+        크게 <b>네 가지 기능</b>을 제공하고 있습니다.
         <SASMLogo src={sasm_logo} />
       </ContentBox>
       <br />
       <Function>
         <FunctionWrapper>
-          <Link to={'/map'} style={{ textDecoration: 'none' }}>
+          <Link to={'/map?page=1'} style={{ textDecoration: 'none' }}>
             <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
           </Link>
           <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
         </FunctionWrapper>
         <FunctionWrapper>
-          <Link to={'/story'} style={{ textDecoration: 'none' }}>
+          <Link to={'/story?page=1'} style={{ textDecoration: 'none' }}>
             <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
           </Link>
           <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
         </FunctionWrapper>
         <FunctionWrapper>
-          <Link to={'/mypick'} style={{ textDecoration: 'none' }}>
-            <FunctionBox backgroundColor="#FFE9D0">My Pick</FunctionBox>
+          <Link to={'/curation'} style={{ textDecoration: 'none' }}>
+            <FunctionBox backgroundColor="#8a2be2" >Curation</FunctionBox>
+          </Link>
+          <FunctionDescp>장소를 모아 놓은 코스를 추천받아보세요.</FunctionDescp>
+        </FunctionWrapper>
+        <FunctionWrapper>
+          <Link to={'/mypick/myplace?page=1'} style={{ textDecoration: 'none', marginLeft:"8%" }}>
+            <FunctionBox backgroundColor="#FFE9D0" >My Pick</FunctionBox>
           </Link>
           <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
         </FunctionWrapper>
