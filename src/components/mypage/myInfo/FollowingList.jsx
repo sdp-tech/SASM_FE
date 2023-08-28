@@ -142,7 +142,7 @@ const Following = () => {
 
   useEffect(() => {
       GetFollowing();
-    }, [queryString.page, refresh])
+    }, [queryString.page, refresh, searchQuery])
 
 
   return (
