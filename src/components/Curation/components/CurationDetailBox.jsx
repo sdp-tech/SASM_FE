@@ -21,6 +21,9 @@ const LikeIconBox = styled.div`
   width: 30px;
   height: 30px
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const Text = styled.p`
 `
@@ -64,12 +67,33 @@ const StoryInfoBox = styled.div`
   position: relative;
 `
 const GotoStory = styled.button`
-  background-color: #75E59B;
+background-image: linear-gradient(
+  // to right,
+  #f5f6fa,
+  #f6e58d
+);
+  color: #485460;
   border-radius: 5px;
   padding: 2px 8px;
-  margin-left: 25px;
+  // font-family: sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  // margin-left: 25px;
   align-items: center;
   cursor: pointer;
+  border: none;
+  font-size: 0.8rem;
+  // box-shadow: 1px 1px 1px black;
+  transition-duration: 0.3s;
+  &:active {
+    background-image: linear-gradient(
+      // to right,
+      #f6e58d,
+      #f5f6fa
+    );
+    margin-left: 5px;
+    margin-top: 5px;
+  }
 `
 const StoryContentBox = styled.div`
   padding-horizontal: 25px;
@@ -137,6 +161,7 @@ export default function CurationDetailBox() {
     contents: '',
     created: '',
     like_curation: false,
+    like_cnt: 0,
     map_image: '',
     rep_pic: '',
     title: '',
@@ -160,14 +185,14 @@ export default function CurationDetailBox() {
       } else {
         const response = await request.post(`/curations/curation_like/${params.id}/`);
         console.log("response", response);
-        //색상 채우기
-        setLike(!like);
+        rerender();
       }
     };
 
   const getCurationDetail = async () => {
     const response_detail = await request.get(`/curations/curation_detail/${params.id}/`);
     setCurationDetail(response_detail.data.data);
+    console.log(response_detail.data.data);
   }
   const getCurationStoryDetail = async () => {
     const reponse_story_detail = await request.get(`/curations/curated_story_detail/${params.id}/`);
@@ -177,7 +202,8 @@ export default function CurationDetailBox() {
   useEffect(() => {
     getCurationDetail();
     getCurationStoryDetail();
-  }, [refresh]);
+  }, [refresh])
+  
   const following = async (email) => {
     const response = await request.post('/mypage/follow/',
       {
@@ -206,6 +232,9 @@ export default function CurationDetailBox() {
                       ) : (
                         <HeartButton like={like} onClick={toggleLike} />
                       )}
+                      <div style={{fontWeight: 500, marginLeft: '5px'}}>
+                        {curationDetail.like_cnt}
+                      </div>
                   </LikeIconBox>
                 </IconView>
                 <View>
@@ -309,7 +338,7 @@ export const Storys = (data) => {
         <Text>{data.data.hashtags}</Text>
       </StoryContentBox>
       <GotoStory onClick={() => { navigate(`/story/${data.data.story_id}`)}}>
-        <Text>스토리 보러 가기</Text>
+        <Text>Go to Story</Text>
       </GotoStory>
     </StorySection>
   )
