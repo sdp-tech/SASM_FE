@@ -211,7 +211,7 @@ const MapButton = styled(Button)({
   fontWeight: "600",
   display: "flex",
   width: "137px",
-  height: "30px"
+  height: "30px",
 });
 
 const ButtonText = styled.div`
@@ -237,8 +237,25 @@ const BackToList = styled.div`
   font-size: 1rem;
   @media screen and (max-width: 768px) {
   }
+  &:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
 `;
-
+const DeleteButton = styled.div`
+  // position: absolute;
+  color: black;
+  cursor : pointer;
+  // right: 0;
+  font-size: 1rem;
+  &:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
+  @media screen and (max-width: 768px) {
+  }
+  // margin: 20px auto;
+`;
 const StoryDetailBox = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const id = props.id; 
@@ -286,6 +303,14 @@ const StoryDetailBox = (props) => {
     }
   };
 
+  const delStory = async() => {
+    if(window.confirm("삭제하시겠습니까?")) {
+      const response = await request.delete(`/stories/${id}/delete/`);
+      alert("삭제되었습니다.");
+      navigate(-1);
+    }
+  }
+
   const markup = () => {
     return { __html: `${data.html_content}` };
   };
@@ -329,7 +354,8 @@ const StoryDetailBox = (props) => {
                   <Image src={`${data.profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
                   <View>
                   <Text>{data.nickname}</Text>
-                  <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
+                  <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>                
+              {myEmail === data.writer ? <DeleteButton onClick={delStory}>삭제하기</DeleteButton> : <></>}
                   </View>
                 </InfoBox>
                 {

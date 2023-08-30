@@ -48,6 +48,10 @@ const GotoMap = styled.button`
   border: none;
   cursor: pointer;
   font-size: 1rem;
+  &:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
 `
 const StorySection = styled.div`
 `
@@ -55,6 +59,7 @@ const Image = styled.img`
   width: 30%;
 `
 const View = styled.div`
+  position: relative;
   align-items: center;
 `
 const IconView = styled.div`
@@ -112,6 +117,25 @@ const BackToList = styled.div`
   color: black;
   cursor : pointer;
   font-size: 1rem;
+  margin-top: 2rem;
+  &:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
+  @media screen and (max-width: 768px) {
+  }
+  // margin: 20px auto;
+`;
+const DeleteButton = styled.div`
+  position: absolute;
+  color: black;
+  cursor : pointer;
+  right: 0;
+  font-size: 1rem;
+  &:hover {
+    text-decoration: underline;
+    transform: scale(1.05);
+  }
   @media screen and (max-width: 768px) {
   }
   // margin: 20px auto;
@@ -152,6 +176,7 @@ const ImgBox = styled.div`
 export default function CurationDetailBox() {
   const navigate = useNavigate();
   const params = useParams();
+  const myEmail = localStorage.getItem("email");
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK");
   const [like, setLike] = useState(false);
@@ -172,10 +197,17 @@ export default function CurationDetailBox() {
     writer_is_followed: false
   });
   const [refresh, setRefresh] = useState(false);
-  const myEmail = localStorage.getItem('email');
 
   const rerender = () => {
     setRefresh(!refresh);
+  }
+
+  const delCuration = async() => {
+    if(window.confirm("삭제하시겠습니까?")) {
+      const response = await request.delete(`/curations/curation_delete/${params.id}/`);
+      alert("삭제되었습니다.");
+      navigate(-1);
+    }
   }
 
     // 좋아요 클릭 이벤트
@@ -226,7 +258,7 @@ export default function CurationDetailBox() {
               <InfoBox>
                 <IconView>
                   <Image src={ curationDetail.profile_image } style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
-                  <LikeIconBox style={{marginTop: "40px"}}>
+                  <LikeIconBox style={{marginTop: "20px"}}>
                       {curationDetail.like_curation === true ? (
                         <HeartButton like={!like} onClick={toggleLike} />
                       ) : (
@@ -238,8 +270,9 @@ export default function CurationDetailBox() {
                   </LikeIconBox>
                 </IconView>
                 <View>
-                  <p>{curationDetail.nickname}</p>
+                  <p style={{textAlign: "right"}}>{curationDetail.nickname}</p>
                   <p>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
+                  {myEmail === curationDetail.writer_email ? <DeleteButton onClick={delCuration}>삭제하기</DeleteButton> : <></>}
                   {myEmail !== curationDetail.writer_email ? <AdminButton onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
                   <Text >팔로우 취소</Text>:
                   <Text >+ 팔로잉</Text>}</AdminButton> : <></>}
