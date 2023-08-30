@@ -269,7 +269,7 @@ export default function CurationDetailBox() {
           </ContentBox>
           {
             curatedStory.map(data =>
-              <Storys data={data}/>
+              <Storys {...data} refresh={refresh} setRefresh={setRefresh} />
             )
           }
         </View>
@@ -279,7 +279,22 @@ export default function CurationDetailBox() {
   )
 }
 
-export const Storys = (data) => {
+export const Storys = ({
+    created,
+    hashtags, 
+    like_story,
+    nickname, 
+    place_address, 
+    place_category, 
+    place_name, 
+    preview,
+    profile_image,
+    story_id, story_review,
+    writer_email, 
+    writer_is_followed, 
+    refresh, 
+    setRefresh
+    }) => {
   const params = useParams();
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
@@ -289,7 +304,7 @@ export const Storys = (data) => {
   const myEmail = localStorage.getItem('email');
 
   const handleLike = async () => {
-    const response_like = await request.post(`/stories/${data.data.story_id}/story_like/`);
+    const response_like = await request.post(`/stories/${story_id}/story_like/`);
     setLike(!like);
   }
 
@@ -298,46 +313,47 @@ export const Storys = (data) => {
       {
         targetEmail: email
       })
-      if(data.data.writer_is_followed) {
-        data.data.writer_is_followed = !data.data.writer_is_followed;
+      if(writer_is_followed) {
+        writer_is_followed = !writer_is_followed;
       }
     if(response.data.status == 'fail') alert(response.data.message);
+    setRefresh(!refresh);
   }
 
   useEffect(()=>{
     setLike(true);
-    setLike(data.data.like_story);
+    setLike(like_story);
   }, [])
 
   return (
     <StorySection>
       <StoryInfoBox>
         <TitleBox>
-            <Text style={{marginRight:'20px'}}>{data.data.place_name}</Text>
+            <Text style={{marginRight:'20px'}}>{place_name}</Text>
             <InfoBox>
-              <Image src={`${data.data.profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+              <Image src={`${profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
               <View>
-                <Text>{data.data.nickname}</Text>
-                <Text>{data.data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
+                <Text>{nickname}</Text>
+                <Text>{created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
               </View>
             </InfoBox>
             <Heart like={like} onClick={handleLike} />
             {
-              myEmail !== data.data.writer_email ? <AdminButton  style={{marginLeft: "30px"}} onClick={()=>{following(data.data.writer_email)}}>{data.data.writer_is_followed ? 
+              myEmail !== writer_email ? <AdminButton  style={{marginLeft: "30px"}} onClick={()=>{following(writer_email)}}>{writer_is_followed ? 
               <Text >팔로우 취소</Text>:
               <Text >+ 팔로잉</Text>}
               </AdminButton> : <></>
             }
         </TitleBox>
-        <Text style={{ fontSize: 16 }}>{data.data.place_address}</Text>
+        <Text style={{ fontSize: 16 }}>{place_address}</Text>
       </StoryInfoBox>
       <StoryContentBox>
-        <Text style={{fontWeight:'bold', fontSize:'18px'}}>{data.data.place_category}</Text>
-        <Text>{data.data.story_review}</Text>
-        <Text>{data.data.preview}</Text>
-        <Text>{data.data.hashtags}</Text>
+        <Text style={{fontWeight:'bold', fontSize:'18px'}}>{place_category}</Text>
+        <Text>{story_review}</Text>
+        <Text>{preview}</Text>
+        <Text>{hashtags}</Text>
       </StoryContentBox>
-      <GotoStory onClick={() => { navigate(`/story/${data.data.story_id}`)}}>
+      <GotoStory onClick={() => { navigate(`/story/${story_id}`)}}>
         <Text>Go to Story</Text>
       </GotoStory>
     </StorySection>
