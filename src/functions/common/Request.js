@@ -1,19 +1,23 @@
 import axios from "axios";
+import { setCookie, getCookie } from "../../components/common/Cookie";
 
-export default class Request {
-    constructor(cookies, localStorage, navigate) {
-        this.cookies = cookies;
-        this.localStorage = localStorage;
-        this.navigate = navigate;
-    }
+export default function Request (cookies, navigate) {
+    // constructor(cookies, localStorage, navigate) {
+    //     this.cookies = cookies;
+    //     this.localStorage = localStorage;
+    //     this.navigate = navigate;
+    // }
+    const cookie = cookies
+    // const navigate = useNavigate();
 
-    default = async (path, body) => {
-        const token = this.localStorage.getItem("accessTK"); //localStorage에서 accesstoken 꺼내기
+
+    const defaultRequest = async (path, body) => {
+        const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken 꺼내기
         const url = process.env.REACT_APP_SASM_API_URL + path;
 
         let headerValue;
 
-        if (token === null || undefined) {
+        if (token === null || token === undefined || token === false) {
             headerValue = `No Auth`;
         } else {
             headerValue = `Bearer ${token}`;
@@ -24,22 +28,29 @@ export default class Request {
             return response;
         } catch (err) {
             console.log(err.response);
-            if (err.response == undefined) {
+            if (err.response === undefined) {
                 // 백엔드와 통신 자체가 실패(ERR_CONNECTION_REFUSED)
                 console.log(err);
                 alert("ERR_CONNECTION_REFUSED");
                 throw err;
             }
             else if (
-                err.response.status == 401
+                err.response.status === 401
             ) {
                 // access 토큰이 만료된 경우 또는 로그인이 필요한 기능의 경우
                 //만료된 토큰 : "Given token not valid for any token type"
                 //없는 토큰 : "자격 인증데이터(authentication credentials)가 제공되지 않았습니다."
-                this.localStorage.removeItem("accessTK"); //기존 access token 삭제
+                localStorage.removeItem("accessTK"); //기존 access token 삭제
+                setCookie("name", "refresh", {
+                    path: "/"
+                });
+                console.log(cookies);
+                console.log(cookie);
                 //refresh 토큰을 통해 access 토큰 재발급
                 try {
-                    const refreshtoken = this.cookies.name; // 쿠키에서 id 를 꺼내기
+                    const refreshtoken = cookie.getCookie("name"); // 쿠키에서 id 를 꺼내기
+                    console.log(cookie);
+                    console.log(refreshtoken);
                     const response = await axios.post(
                         process.env.REACT_APP_SASM_API_URL + "/users/token/refresh/",
                         {
@@ -52,12 +63,12 @@ export default class Request {
                         }
                     );
                     console.log("!!", response);
-                    this.localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
+                    localStorage.setItem("accessTK", response.data.access); //새로운 access token 따로 저장
                     headerValue = `Bearer ${response.data.access}`;
                 } catch (err) {
                     // refresh 토큰이 유효하지 않은 모든 경우(토큰 만료, 토큰 없음 등)
                     alert("로그인이 필요합니다.");
-                    this.navigate("/auth");
+                    navigate("/auth");
                     return;
                 }
                 console.log("==============");
@@ -75,8 +86,8 @@ export default class Request {
         }
     }
 
-    get = async (path, params, headers) => {
-        return await this.default(path, async (url, headerValue) => {
+    const get = async (path, params, headers) => {
+        return await defaultRequest(path, async (url, headerValue) => {
             const response = await axios.get(
                 url,
                 {
@@ -93,8 +104,8 @@ export default class Request {
         });
     }
 
-    post = async (path, data, headers) => {
-        return await this.default(path, async (url, headerValue) => {
+    const post = async (path, data, headers) => {
+        return await defaultRequest(path, async (url, headerValue) => {
             const response = await axios.post(
                 url,
                 data,
@@ -114,8 +125,8 @@ export default class Request {
         });
     }
 
-    put = async (path, data, headers) => {
-        return await this.default(path, async (url, headerValue) => {
+    const put = async (path, data, headers) => {
+        return await defaultRequest(path, async (url, headerValue) => {
             const response = await axios.put(
                 url,
                 data,
@@ -131,8 +142,8 @@ export default class Request {
         });
     }
 
-    delete = async (path, params, headers) => {
-        return await this.default(path, async (url, headerValue) => {
+    const del = async (path, params, headers) => {
+        return await defaultRequest(path, async (url, headerValue) => {
             const response = await axios.delete(
                 url,
                 {
@@ -149,8 +160,8 @@ export default class Request {
         });
     }
 
-    patch = async (path, data, headers) => {
-        return await this.default(path, async (url, headerValue) => {
+    const patch = async (path, data, headers) => {
+        return await defaultRequest(path, async (url, headerValue) => {
             const response = await axios.patch(
                 url,
                 data,
@@ -165,4 +176,5 @@ export default class Request {
             return response;
         });
     }
+    return { get, post, put, del, patch };
 }
