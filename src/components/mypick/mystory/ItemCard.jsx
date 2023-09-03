@@ -4,10 +4,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { CardMedia } from "@mui/material";
 import HeartButton from "../../common/Heart";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import Loading from "../../common/Loading";
-import Typography from "@mui/material/Typography";
 import { Link, useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import { MatchCategory, CATEGORY_LIST } from "../../common/Category";
@@ -56,15 +52,11 @@ export default function ItemCard(props) {
   const width = isMobile?"80vw":"32vw";
   const height = isMobile?"45vw":"18vw";
   const [like, setLike] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     const response = await request.post(`/stories/${props.story_id}/story_like/`);
-    console.log("response", response);
-
     //색상 채우기
     setLike(!like);
   };

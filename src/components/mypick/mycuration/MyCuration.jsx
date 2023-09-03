@@ -1,15 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
-import { useCookies } from "react-cookie";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
-import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category";
+import CategorySelector from "../../common/Category";
 import qs from 'qs';
 
 const Container = styled.div`
@@ -98,7 +97,6 @@ const MoveSection = styled.div`
 const MyCuration = (props) => {
   const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(6);
   const location = useLocation();
@@ -106,11 +104,8 @@ const MyCuration = (props) => {
       ignoreQueryPrefix: true
     });
   const [loading, setLoading] = useState(true);
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
-  // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
+  const request = Request(navigate);
 
   const onCheckedElement = (checked, item) => {
     if (checked) {

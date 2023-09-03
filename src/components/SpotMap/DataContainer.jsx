@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Request from '../../functions/common/Request';
-import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router";
 import { useLocation } from "react-router-dom";
 import Map from './Map';
@@ -41,18 +40,15 @@ export default function DataContainer({ Location }) {
     const queryString = qs.parse(location.search, {
         ignoreQueryPrefix: true
       });
-    const [detail, setDetail] = useState({});
-    const [like, setLike] = useState(false);
     const [isSasmAdmin, setIsSasmAdmin] = useState(false);
     //tempSearch, tempCheckedList 검색 버튼을 누르기 전에 적용 방지 
     const [search, setSearch] = useState('');
     const [tempSearch, setTempSearch] = useState('');
     const [checkedList, setCheckedList] = useState('');
     const [loading, setLoading] = useState(true);
-    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-    const request = new Request(cookies, localStorage, navigate);
+    const request = Request(navigate);
     const [placeData, setPlaceData] = useState({
         total: 0,
         MapList: [],
@@ -102,7 +98,7 @@ export default function DataContainer({ Location }) {
     };
     //admin 여부 체크
     useEffect(() => {
-        checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
+        checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
     }, [])
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {

@@ -1,17 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from "react";
-import Container from "@mui/material/Container";
+import { useState } from "react";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import Loading from "../../common/Loading";
 import Request from "../../../functions/common/Request";
-import {
-  AuthContent,
-  InputWithLabel,
-  ProfileButton,
-  LeftAlignedLink,
-} from "../../Auth/module";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router-dom";
 import Edit_profileimage from "../../../assets/img/Edit_profileimage.png";
@@ -21,15 +11,8 @@ const ChangeForm = (props) => {
 
   const { state } = useLocation(); //placeholder 값 가져오기
   const [info, setInfo] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-
-  const [loading, setLoading] = useState(true);
   const [imageUrl, setImageUrl] = useState(null);
-  const [imgFile, setImgFile] = useState("");
-  const imgRef = useRef();
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const onChangeImage = async (e) => {
     const reader = new FileReader();

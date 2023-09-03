@@ -177,10 +177,9 @@ export default function CurationDetailBox() {
   const navigate = useNavigate();
   const params = useParams();
   const myEmail = localStorage.getItem("email");
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK");
   const [like, setLike] = useState(false);
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const [curatedStory, setCuratedStory] = useState([]);
   const [curationDetail, setCurationDetail] = useState({
     contents: '',
@@ -204,7 +203,7 @@ export default function CurationDetailBox() {
 
   const delCuration = async() => {
     if(window.confirm("삭제하시겠습니까?")) {
-      const response = await request.delete(`/curations/curation_delete/${params.id}/`);
+      const response = await request.del(`/curations/curation_delete/${params.id}/`);
       alert("삭제되었습니다.");
       navigate(-1);
     }
@@ -332,8 +331,8 @@ export const Storys = ({
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK");
-  const request = new Request(cookies, localStorage);
   const navigate = useNavigate();
+  const request = Request(navigate);
   const myEmail = localStorage.getItem('email');
 
   const handleLike = async () => {

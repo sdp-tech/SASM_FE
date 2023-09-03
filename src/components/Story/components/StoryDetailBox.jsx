@@ -267,7 +267,7 @@ const StoryDetailBox = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const handlePageGoToMap = (place_name) => {
     navigate(`/map?page=1&place=${place_name}`, { state: { name : place_name }})
   };
@@ -305,7 +305,7 @@ const StoryDetailBox = (props) => {
 
   const delStory = async() => {
     if(window.confirm("삭제하시겠습니까?")) {
-      const response = await request.delete(`/stories/${id}/delete/`);
+      const response = await request.del(`/stories/${id}/delete/`);
       alert("삭제되었습니다.");
       navigate(-1);
     }

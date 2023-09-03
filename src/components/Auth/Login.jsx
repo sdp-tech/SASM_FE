@@ -11,8 +11,6 @@ import {
   SocialLogin,
   CenterAlignedLink
 } from "./module";
-// import { setCookie } from "../common/Cookie";
-import { useCookies } from "react-cookie"; // useCookies import
 
 const emailFormat = [
   "@naver.com",
@@ -33,7 +31,6 @@ const Login = () => {
   const [info, setInfo] = useState({ email: "" });
   const [fail, setFail] = useState(false);
   const [login, setLogin] = useContext(LoginContext);
-  const [cookies, setCookie] = useCookies(["name"]); // 쿠키 훅
 
   const navigate = useNavigate();
 
@@ -69,9 +66,7 @@ const Login = () => {
       localStorage.setItem("nickname", res.data.nickname); //닉네임 따로 저장
       localStorage.setItem("accessTK", res.data.access); //access token 따로 저장
       localStorage.setItem("email", info.email);
-
-      // setCookie("name", access);
-      setCookie("name", refresh);
+      localStorage.setItem("refreshTK", refresh);
       navigate(-1);
       // window.location.href = "/map";
     } else {

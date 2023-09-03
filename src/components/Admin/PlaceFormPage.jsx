@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import axios from "axios";
-import { useCookies } from "react-cookie";
 import DaumPostcode from 'react-daum-postcode';
 import {
     InputWithLabel,
@@ -9,7 +7,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import AdminButton from "../Admin/components/AdminButton";
 import DetailList from "../Admin/components/DetailList";
-import CheckRepetition from "../../functions/Auth/CheckRepetition";
 import Request from "../../functions/common/Request";
 
 const PlaceFormPage = (props) => {
@@ -24,9 +21,6 @@ const PlaceFormPage = (props) => {
     //주소
     const [openPostcode, setOpenPostcode] = useState([]);
     const [address, setAddess] = useState([]);
-    //쿠키
-    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기 // 쿠키에서 id 를 꺼내기
     //글자수 count를 위한 변수값
     const [countText, setCountText] = useState([0]);
     const [countEtcHours, setCountEtcHours] = useState([0]);
@@ -38,7 +32,7 @@ const PlaceFormPage = (props) => {
     //sns수정을 위한 변수값
     const [snsData, setSnsData] = useState([0]);
     const [snsselect, setSnsselect] = useState([]);
-    const request = new Request(cookies, localStorage, navigate);
+    const request = Request(navigate);
     const openHourArray = ['mon_hours', 'tues_hours', 'wed_hours', 'thurs_hours', 'fri_hours', 'sat_hours', 'sun_hours'];
     //장소 카테고리
     const PlaceCategory = [

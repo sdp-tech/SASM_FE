@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Request from '../../../functions/common/Request';
@@ -51,11 +50,10 @@ export default function Comment({ data, id, format }) {
   const [reply, setReply] = useState(false);
   //update의 default는 댓글을 수정하지 않느 false
   const [update, setUpdate] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
   const email = localStorage.getItem('email');
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const handleReply = () => {
     setReply(!reply);
     setUpdate(false);
@@ -65,7 +63,7 @@ export default function Comment({ data, id, format }) {
     setReply(false);
   }
   const deleteComment = async () => {
-    const response = await request.delete(`/community/post_comments/${data.id}/delete`);
+    const response = await request.del(`/community/post_comments/${data.id}/delete`);
     window.location.reload();
   }
   const reportComment = async () => {

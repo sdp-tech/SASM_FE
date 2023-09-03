@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components';
-import { useCookies } from 'react-cookie';
 import Request from '../../../functions/common/Request';
 import { useNavigate } from 'react-router-dom';
 
@@ -77,11 +76,8 @@ const TextArea = styled.textarea`
 export default function Comment({ data }) {
   const date = data.updated_at.slice(0, 10);
   const [update, setUpdate] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const email = localStorage.getItem('email');
   const [updatetext, setUpdateText] = useState(data.content);
 
@@ -89,7 +85,7 @@ export default function Comment({ data }) {
     setUpdate(!update);
   }
   const deleteComment = async () => {
-    const response = await request.delete(`/stories/comments/delete/${data.id}/`, {});
+    const response = await request.del(`/stories/comments/delete/${data.id}/`, {});
     window.location.reload();
   }
   const updateComment = async () => {

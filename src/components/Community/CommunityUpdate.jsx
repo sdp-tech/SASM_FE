@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Request from '../../functions/common/Request';
@@ -100,12 +99,11 @@ const FileWrapper = styled.label`
   margin-right: 3vw;
 `
 export default function CommunityUpdate({ setMode, detail, id, format }) {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [photoList, setPhotoList] = useState(detail.photoList);
   const [imageList, setImageList] = useState([]);
   const [hashtag, setHashtag] = useState(detail.hashtagList);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const selectFile = (file) => {
     //각각의 파일을 FileReader로 읽어옴
     const fileReader = new FileReader();

@@ -3,9 +3,8 @@ import { AuthButton, InputWithLabel } from "../module";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Request from "../../../functions/common/Request";
-import { useCookies } from "react-cookie";
 import PageRedirection from "../../../functions/common/PageRedirection";
-import { AltRoute } from "@mui/icons-material";
+
 const Div = styled.div`
   margin: 7% auto;
   padding: 2rem;
@@ -51,11 +50,9 @@ const Message = styled.div`
 const ChangePassword = () => {
   const [info, setInfo] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const navigate = useNavigate();
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   // 비밀번호 확인 체크
   var passwordCheck = false;
@@ -124,7 +121,7 @@ const ChangePassword = () => {
                   });
                   if (response.data.status === "success") {
                     alert("비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요");
-                    removeCookie("name"); // 쿠키 삭제
+                    localStorage.removeItem("refreshTK"); //refresh token 삭제
                     localStorage.removeItem("accessTK"); //access token 삭제
                     localStorage.removeItem("nickname"); //nickname 삭제
                     localStorage.removeItem("email"); //email 삭제

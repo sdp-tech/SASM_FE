@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import SearchBar from "../common/SearchBar";
 import searchBlack from "../../assets/img/search_black.svg";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
@@ -186,7 +185,6 @@ const OrderToggle = styled.div`
 `
 const CurationListPage = () => {
   const [item, setItem] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [repCuration, setRepCuration] = useState([]);
   const [verifedCuration, setVerifiedCuration] = useState([]);
   const [toggleOpen, setToggleOpen] = useState(false);
@@ -200,7 +198,7 @@ const CurationListPage = () => {
   const navigate = useNavigate();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request (navigate);
 
   const handleToggleOpen = () => {
     setToggleOpen(!toggleOpen);
@@ -211,7 +209,7 @@ const CurationListPage = () => {
   };
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
-    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
   }, []);
 
   //검색 요청 api url

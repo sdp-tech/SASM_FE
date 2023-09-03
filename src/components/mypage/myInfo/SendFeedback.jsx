@@ -1,36 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
-import axios from "axios";
-import Loading from "../../common/Loading";
-import {
-  AuthContent,
-  InputWithLabel,
-  ProfileButton,
-  LeftAlignedLink,
-} from "../../Auth/module";
-import { useLocation } from "react-router";
+import { ProfileButton } from "../../Auth/module";
 import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 
 const SendFeedback = (props) => {
   const navigate = useNavigate();
-
   const [info, setInfo] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-
-  const [loading, setLoading] = useState(true);
-
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   // 저장하기 버튼 클릭 -> 서버에 변경 요청
   const SaveInfo = async () => {
-    // console.log(info.nickname);
-    // console.log(info.birthdate);
-    // console.log(info.email);
-    console.log(info);
-
     const response = await request.post("/sdp_admin/voc/",
       info,
     );

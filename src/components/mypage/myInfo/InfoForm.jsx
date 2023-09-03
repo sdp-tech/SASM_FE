@@ -1,15 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
-import axios from "axios";
 import Loading from "../../common/Loading";
-import {
-  AuthContent,
-  InputWithLabel,
-  ProfileButton,
-  LeftAlignedLink,
-} from "../../Auth/module";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -115,13 +108,10 @@ const ImageBox = styled.div`
 export default function InfoForm(props) {
   const navigate = useNavigate();
   const [info, setInfo] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [loading, setLoading] = useState(true);
   const [followerNum, setFollowerNum] = useState(0);
   const [followingNum, setFollowingNum] = useState(0);
-  const refreshtoken = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   //   초기에 mypage data 불러오기
   const updateMypage = async () => {
     // setLoading(true);

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import { NavLink, useNavigate, useParams, useLocation } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import CommunityDetail from '../components/Community/CommunityDetail';
 import Request from '../functions/common/Request';
 import CommunityList from '../components/Community/CommunityList';
@@ -66,17 +65,14 @@ export default function SpotCommunity() {
   const [loading, setLoading] = useState(true);
   const params = useParams();
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const [format, setFormat] = useState();
   const getFormat = async () => {
     const response = await request.get(`/community/boards/${params.board}/`);
     setFormat(response.data);
     setLoading(false);
   }
-  const ActiveStyle = (isActive) => {
-    
-  }
+
   useEffect(() => {
     getFormat();
   }, [params.board]);

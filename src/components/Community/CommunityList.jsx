@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 import Request from '../../functions/common/Request';
 import SearchBar from '../common/SearchBar';
 import Pagination from '../common/Pagination';
@@ -77,8 +76,7 @@ const HashtagList = styled.div`
 export default function CommunityList({ board, format }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const [mode, setMode] = useState(false);
   const [list, setList] = useState([]);
   const [listHashtag, setListHashtag] = useState([]);

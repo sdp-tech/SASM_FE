@@ -1,9 +1,5 @@
-import React, { Dispatch, SetStateAction, useEffect, useState, useMemo, useRef, useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
-import Request from "../../../functions/common/Request";
-import { useNavigate, useLocation } from "react-router-dom";
-import {useCookies} from "react-cookie";
-import qs from "qs";
 
 const StorySelectButton = styled.button`
   border: none;
@@ -58,16 +54,6 @@ const MoreView = styled.button`
 `
 
 export default function StoryListModal({ selectedStory, setSelectedStory, item}) {
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
-  const queryString = qs.parse(location.search, {
-    ignoreQueryPrefix: true
-  });
 
   const handleSelectedStory = (id, rep_pic) => {
     if (selectedStory.filter(el => el.id == id).length > 0) {

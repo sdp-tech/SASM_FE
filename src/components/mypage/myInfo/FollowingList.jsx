@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { useCookies } from 'react-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Pagination from '../../common/Pagination';
 import Request from '../../../functions/common/Request';
@@ -94,12 +93,9 @@ const FooterSection = styled.div`
 
 
 const Following = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const location = useLocation();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const myEmail = localStorage.getItem("email");
   const [limit, setLimit] = useState(5);
   const [followingList, setFollowingList] = useState([]);

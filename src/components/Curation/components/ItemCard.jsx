@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { CardMedia } from "@mui/material";
-import { useNavigate } from 'react-router-dom';
 import { useMediaQuery } from "react-responsive";
-import Request from '../../../functions/common/Request';
 import Typography from "@mui/material/Typography";
 
 
@@ -28,8 +26,6 @@ const CardWrapper = styled.div`
 `
 
 export default function ItemCard(props) {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const width = isMobile ? "60vw" : "15vw";
   const height = isMobile ? "60vw" : "15vw";

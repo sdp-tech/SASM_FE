@@ -3,7 +3,6 @@ import WriteReview from './WriteReview';
 import UserReview from './UserReview';
 import styled from 'styled-components';
 import Pagination from '../../common/Pagination';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import Request from '../../../functions/common/Request';
 import Loading from '../../common/Loading';
@@ -42,9 +41,8 @@ export default function Reviews({ id, category, setValue }) {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const email = localStorage.getItem('email');
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   let keywordList = [
     ['분위기가 좋다', '1'],

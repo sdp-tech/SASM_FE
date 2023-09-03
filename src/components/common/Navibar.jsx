@@ -161,7 +161,6 @@ const LogginOutTitle = styled.div`
 `
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({ navigate, title, setMenu, style }) => {
-  const [color, setColor] = useState("yellow");
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   return (
     <>
@@ -190,7 +189,6 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
 };
 
 const LoggingOut = ({ login, setLogin, setMenu }) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
   return (
     <LogginOutTitle
@@ -198,10 +196,10 @@ const LoggingOut = ({ login, setLogin, setMenu }) => {
         setLogin({ loggedIn: false });
         alert("로그아웃 되었습니다. 이용을 원할 시 로그인 해주세요");
         // 서버에 토큰 블랙리스트화하기 위해 전달
-        removeCookie("name"); // 쿠키 삭제
         localStorage.removeItem("accessTK"); //access token 삭제
         localStorage.removeItem("nickname"); //nickname 삭제
         localStorage.removeItem("email"); //email 삭제
+        localStorage.removeItem("refreshTK"); //refreshtoken 삭제
         setMenu(false);
         navigate("/"); // 메인 페이지로 이동
       }}

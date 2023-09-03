@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import Request from "../../functions/common/Request";
-import {useCookies} from "react-cookie"
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
-import { useMediaQuery } from "react-responsive";
 import AdminButton from "../Admin/components/AdminButton";
 import SearchBar from "../common/SearchBar";
 import searchBlack from "../../assets/img/search_black.svg";
@@ -118,8 +116,7 @@ const SearchBarSection = styled.div`
     align-items: center;
   }
 `
-const ModalButton = styled.button`
-`
+
 const charCount = (editor) => editor.getContent({ format: "text" }).length;
 
 export default function CurationForm() {
@@ -143,16 +140,11 @@ export default function CurationForm() {
   const [rep_pic, setRep_pic] = useState([])
   const [curation, setCuration] = useState({title: '', contents: '', uri:'', width: 1, height: 1, fileName: ''})
   const [open, setOpen] = useState(false);
-  const [size, setSize] = useState("");
-  const [backdrop, setBackdrop] = useState('static');
   const location = useLocation();
   const queryString = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const uploadCuration = async () => {
     const formData = new FormData();

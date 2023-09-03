@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Request from '../../../functions/common/Request';
@@ -48,11 +47,9 @@ const ImageList = styled.div`
 `
 
 export default function WriteComment({ id, isParent, parentId, format }) {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [imageUrl, setImageUrl] = useState();
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
-  console.log(format);
+  const request = Request(navigate);
   const fileInput = (event) => {
     const reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
