@@ -1,10 +1,9 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import StoryList from "./components/StoryList";
 import SearchBar from "../common/SearchBar";
 import searchBlack from "../../assets/img/search_black.svg";
 import Pagination from "../common/Pagination";
-import { useCookies } from "react-cookie";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Loading from "../common/Loading";
 import checkSasmAdmin from "../Admin/Common";
@@ -120,7 +119,6 @@ const OrderToggle = styled.div`
 const StoryListPage = () => {
   const [item, setItem] = useState([]);
   const [pageCount, setPageCount] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [searchToggle, setSearchToggle] = useState(false);
   const [limit, setLimit] = useState(4);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -134,13 +132,9 @@ const StoryListPage = () => {
   const [orderList, setOrderList] = useState(true);
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
-  const handleOrderToggle = () => {
-    setOrderList(!orderList);
-  }
   const handleToggleOpen = () => {
     setToggleOpen(!toggleOpen);
   }
@@ -155,7 +149,7 @@ const StoryListPage = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
-    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
   }, [queryString.page, orderList]);
 
   //검색 요청 api url

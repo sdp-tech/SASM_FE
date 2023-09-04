@@ -101,13 +101,11 @@ const DetailBox = styled.div`
 
 export default function ItemCard({ placeData, categoryNum, setTemp }) {
   const [like, setLike] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
   const [modalOpen, setModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
   const node = useRef();
   const navigate = useNavigate();
   const [bool, setBool] = useState(false);
@@ -118,7 +116,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       setBool(false);
     }
   }, [categoryNum]);
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);

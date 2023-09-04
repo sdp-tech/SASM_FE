@@ -19,14 +19,13 @@ const Button = styled.button`
 
 export default function UserReview({ reviewData, setReviewOpen, setTargetData, writer, setValue }) {
     const [toggle, setToggle] = useState(false);
-    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const navigate = useNavigate();
-    const request = new Request(cookies, localStorage, navigate);
+    const request = Request(navigate);
     const handleToggle = () => {
         setToggle(!toggle);
     }
     const deleteReview = async () => {
-        const response_delete = await request.delete(`/places/place_review/${reviewData.id}/`);
+        const response_delete = await request.del(`/places/place_review/${reviewData.id}/`);
         setValue(0);
     }
     const confirmDelete = () => {

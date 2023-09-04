@@ -62,11 +62,10 @@ const ImageUpload = styled.img`
 `
 
 export default function UpdateComment({ data, setUpdate }) {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [photoList, setPhotoList] = useState(data.photoList);
   const [imageUrl, setImageUrl] = useState([]);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const deleteFile = (data) => {
     setPhotoList(photoList.filter((el) => el !== data));

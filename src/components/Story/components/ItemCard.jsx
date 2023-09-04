@@ -4,9 +4,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { CardMedia } from "@mui/material";
 import HeartButton from "../../common/Heart";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import Loading from "../../common/Loading";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -116,10 +113,8 @@ const StyledCard = styled(Card)`
 
 export default function ItemCard(props) {
   const [like, setLike] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const width = isMobile ? "60vw" : "15vw";
   const height = isMobile ? "60vw" : "15vw";

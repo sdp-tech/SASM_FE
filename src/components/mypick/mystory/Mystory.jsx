@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
 import { useCookies } from "react-cookie";
-import axios from "axios";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
@@ -95,7 +94,6 @@ const MoveSection = styled.div`
 const Mystory = () => {
   const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(6);
   const location = useLocation();
@@ -104,11 +102,8 @@ const Mystory = () => {
     });
   const intPage = parseInt(queryString.page);
   const [loading, setLoading] = useState(true);
-  const offset = (intPage - 1) * limit;
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
     if (checked) {

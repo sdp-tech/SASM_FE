@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useCookies } from "react-cookie";
 import { Editor } from '@tinymce/tinymce-react';
 import Loading from "../common/Loading";
 import { useNavigate } from "react-router-dom";
@@ -13,12 +12,10 @@ const StoryFormPage = (props) => {
     const [story, setStory] = useState({ title: "", tag: "", preview: "", place: 0, story_review: "", html_content: "", rep_pic: "", place_name: "" });
     const [photoList, setPhotoList] = useState([]);
     const [places, setPlaces] = useState([]);
-    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
     const [loading, setLoading] = useState(true);
     const [imageUrl, setImageUrl] = useState(null);
     const navigate = useNavigate();
-    const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기 // 쿠키에서 id 를 꺼내기
-    const request = new Request(cookies, localStorage, navigate);
+    const request = Request(navigate);
 
     const uploadImage = async (file) => {
         const formData = new FormData();

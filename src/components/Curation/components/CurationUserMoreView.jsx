@@ -121,7 +121,7 @@ const CurationUserMoreView = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -134,7 +134,7 @@ const CurationUserMoreView = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
-    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
   }, [queryString.page]);
 
   const handleSearchToggle = async (e) => {

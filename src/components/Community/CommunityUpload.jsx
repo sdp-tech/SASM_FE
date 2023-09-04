@@ -99,13 +99,10 @@ const FileWrapper = styled.label`
 `
 
 export default function CommunityUpload({ setMode, board, format }) {
-  const [test, setTest] = useState({});
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const [images, setImages] = useState([]);
   const [hashtag, setHashtag] = useState([])
   const navigate = useNavigate();
   const [imageList, setImageList] = useState([]);
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const uploadPost = async (event) => {
     event.preventDefault();

@@ -165,10 +165,9 @@ TabPanel.propTypes = {
 
 export default function DetailCard({ detailData, modalClose, like, setLike }) {
   const [value, setValue] = useState(0);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const handleClick = () => {
     setOpen(!open);
   };

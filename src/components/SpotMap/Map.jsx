@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { RenderAfterNavermapsLoaded, NaverMap, Marker } from "react-naver-maps";
 import styled from "styled-components";
-import axios from "axios";
 import { useCookies } from "react-cookie";
-import Loading from "../common/Loading";
 import SpotDetail from "./SpotDetail";
 import { useNavigate, useLocation } from "react-router-dom";
-import Request from "../../functions/common/Request";
 import Restart from "../../assets/img/Map/Restart.svg";
 import MoveToCenter from "../../assets/img/Map/MoveToCenter.svg";
 import ZoomPlus from "../../assets/img/Map/ZoomPlus.svg";
@@ -104,7 +101,6 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
     }
   }, [categoryNum]);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
   // 마커 전부 초기화
   const MarkerReset = () => {
     const text = document.getElementById(`${id}text`);

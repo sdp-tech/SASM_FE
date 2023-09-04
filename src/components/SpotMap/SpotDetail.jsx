@@ -6,7 +6,6 @@ import styled from "styled-components";
 import AdminButton from "../../components/Admin/components/AdminButton";
 import checkSasmAdmin from "../../components/Admin/Common";
 import { useNavigate } from "react-router";
-import { useCookies } from "react-cookie";
 import Request from "../../functions/common/Request.js";
 
 const StyledList = styled(List)`
@@ -30,12 +29,9 @@ export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
   const [detailData, setDetailData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(true);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  useEffect(() => {
-    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
-  }, []);
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
+
   const getDetail = async () => {
     setDataLoading(true);
     const response_detail = await request.get("/places/place_detail/", { id: id });
@@ -46,7 +42,9 @@ export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
       lng: response_detail.data.data.longitude,
     });
   }
+
   useEffect(() => {
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
     getDetail();
   }, [])
   return (

@@ -77,7 +77,6 @@ export default function CommunityDetail({ board, id, format }) {
     total:0,
     data:'',
   });
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   //mode false -> detail / true -> update
   const [mode, setMode] = useState(false);
   const [like, setLike] = useState(false);
@@ -89,7 +88,7 @@ export default function CommunityDetail({ board, id, format }) {
   const node = useRef();
   const email = localStorage.getItem('email');
   const navigate = useNavigate()
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const getDetail = async () => {
     const response_detail = await request.get(`/community/posts/${id}`);
     setDetail(response_detail.data);
@@ -127,7 +126,7 @@ export default function CommunityDetail({ board, id, format }) {
   }
   const deleteItem = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
-      const response = await request.delete(`/community/posts/${id}/delete/`);
+      const response = await request.del(`/community/posts/${id}/delete/`);
       navigate(`/community/${board}?page=1`);
       alert('삭제되었습니다.');
     }
@@ -136,9 +135,6 @@ export default function CommunityDetail({ board, id, format }) {
     const response = await request.post(`/community/posts/${id}/like/`);
     setLike(!like);
   }
-  useEffect(()=>{
-    console.log(review);
-  }, [review])
   return (
     <>
       {

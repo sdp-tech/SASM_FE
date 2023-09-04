@@ -1,9 +1,7 @@
 import React from 'react'
-import InputWithLabel from '../../Auth/module/InputWithLabel'
 import styled from 'styled-components';
 import { useState } from 'react';
 import Request from '../../../functions/common/Request';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
@@ -43,9 +41,8 @@ const FileList = styled.div`
 `
 
 export default function WriteReview({ targetData, keywordList, id, setValue }) {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   const token = localStorage.getItem('accessTK');
   const [Keyword, setKeyword] = useState([]);
   const [photos, setPhotos] = useState([]);

@@ -2,14 +2,13 @@ import { useState, useEffect, useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import styled from "styled-components";
 import Pagination from "../../common/Pagination";
-import { useCookies } from "react-cookie";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
-import CategorySelector, { CATEGORY_LIST, MatchCategory } from "../../common/Category";
+import CategorySelector from "../../common/Category";
 import qs from 'qs';
 
 const Container = styled.div`
@@ -94,7 +93,6 @@ const MoveSection = styled.div`
 `
 const Myplace = (props) => {
   const [info, setInfo] = useState([]);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [pageCount, setPageCount] = useState(1);
   const [limit, setLimit] = useState(6);
   const location = useLocation();
@@ -103,12 +101,8 @@ const Myplace = (props) => {
     });
   const [loading, setLoading] = useState(true);
   const [checkedList, setCheckedList] = useState('');
-  const offset = (parseInt(queryString.page) - 1) * limit;
-  //console.log("pageInfo", page, offset); 현재 page 번호를 쿼리에 붙여서 api요청하도록 변경하기!
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-  const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
     if (checked) {

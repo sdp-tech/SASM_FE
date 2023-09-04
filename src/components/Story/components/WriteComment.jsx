@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { useCookies } from 'react-cookie';
-import Request from '../../../functions/common/Request'
+import React, { useState } from 'react';
+import Request from '../../../functions/common/Request';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -72,11 +71,9 @@ const SubmitBtn = styled.button`
 `
 
 export default function WriteComment({ id }) {
-    const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-    // const token = cookies.name; // 쿠키에서 id 를 꺼내기
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const navigate = useNavigate();
-    const request = new Request(cookies, localStorage, navigate);
+    const request = Request(navigate);
     const uploadComment = async (event) => {
         event.preventDefault();
         if (!token) {

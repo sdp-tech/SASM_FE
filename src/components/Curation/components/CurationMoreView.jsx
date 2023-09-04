@@ -6,7 +6,6 @@ import Loading from "../../common/Loading";
 import SearchBar from "../../common/SearchBar";
 import searchBlack from "../../../assets/img/search_black.svg";
 import Request from "../../../functions/common/Request";
-import { useCookies } from "react-cookie";
 import checkSasmAdmin from "../../Admin/Common";
 import Pagination from "../../common/Pagination";
 import qs from 'qs';
@@ -117,10 +116,9 @@ const CurationMoreView = () => {
   const queryString = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -133,7 +131,7 @@ const CurationMoreView = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
-    checkSasmAdmin(token, setLoading, cookies, localStorage, navigate).then((result) => setIsSasmAdmin(result));
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
   }, [queryString.page]);
   
 

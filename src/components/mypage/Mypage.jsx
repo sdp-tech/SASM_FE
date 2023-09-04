@@ -1,12 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import styled from "styled-components";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import InfoForm from "./myInfo/InfoForm";
 import ChangeForm from "./myInfo/ChangeForm";
 import SendFeedback from "./myInfo/SendFeedback";
@@ -23,11 +18,7 @@ const Section = styled.div`
 `;
 
 export default function Mypage() {
-  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
   return (
     <Section>
       <Box sx={{ flexGrow: 1}}>

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import Request from '../../../functions/common/Request'
@@ -56,9 +55,8 @@ export const REPORT_LIST = [
 ];
 export default function ReportComment({ report, setReport, id }) {
   const node = useRef();
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const navigate = useNavigate();
-  const request = new Request(cookies, localStorage, navigate);
+  const request = Request(navigate);
 
   const reportItem = async (category) => {
     const formData = new FormData()
