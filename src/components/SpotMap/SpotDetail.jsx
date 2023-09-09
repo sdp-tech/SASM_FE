@@ -34,7 +34,7 @@ export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
 
   const getDetail = async () => {
     setDataLoading(true);
-    const response_detail = await request.get("/places/place_detail/", { id: id });
+    const response_detail = await request.get(`/places/place_detail/${id}/`);
     setDetailData(response_detail.data.data);
     setDataLoading(false);
     setTemp({
