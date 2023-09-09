@@ -26,11 +26,11 @@ const PlaceFormPage = (props) => {
     const [countEtcHours, setCountEtcHours] = useState([0]);
     const [countPlaceReview, setCountPlaceReview] = useState([0]);
     //유효성 검사를 위한 변수값
-    const [message, setMessage] = useState([]);
     //snstype, snsurl을 위한 변수값
     const [countList, setCountList] = useState([0]);
     //sns수정을 위한 변수값
     const [snsData, setSnsData] = useState([0]);
+    const [newSnsData, setNewSnsData] = useState([]);
     const [snsselect, setSnsselect] = useState([]);
     const request = Request(navigate);
     const openHourArray = ['mon_hours', 'tues_hours', 'wed_hours', 'thurs_hours', 'fri_hours', 'sat_hours', 'sun_hours'];
@@ -82,88 +82,40 @@ const PlaceFormPage = (props) => {
             if (openHours.includes("정기휴무"))
                 alert("가게가 쉬는 날은 휴무라고 적어주세요");
     }
-    //장소 중복 체크
-    const CheckPlaceRepetition = async () => {
-        const response = await request.get("/sdp_admin/places/check_name_overlap/", {
-            'place_name': info['place_name'],
-        }, null);
-        if (response.data['data']['overlap'] === true) {
-            alert('이미 존재하는 장소입니다');
-        }
-        else {
-            alert('존재하지 않는 장소입니다');
-        }
-    };
-    //DetailList에서 snstype이 변경되었을 때
-    const getSnstype = (a, b) => {
-        console.log(a, b);
-        //직접 입력을 선택한 경우
-        if (b == "0") {
-            setSnsData({
-                ...snsData,
-                [a]: {
-                    ...snsData[a],
-                    ['snstype']: b,
-                    ['snstype_name']: "직접 입력",
-                },
-            })
-        }
-        //선택했을 때
-        else if (Number.isInteger(Number(b)) && Number(b) != 0) {
-            setSnsData({
-                ...snsData,
-                [a]: {
-                    ...snsData[a],
-                    ['snstype']: b,
-                    ['snstype_name']: snsselect[b - 1]['name'],
-                },
-            })
-            //입력하는 경우
-        } else {
-            setSnsData({
-                ...snsData,
-                [a]: {
-                    ...snsData[a],
-                    ['snstype_name']: b,
-                },
-            })
-        }
-    }
-    //DetailList에서 snsurl이 변경되었을 때
-    const getSnsurl = (a, b) => {
-        console.log(a, b);
-        setSnsData({
-            ...snsData,
-            [a]: {
-                ...snsData[a],
-                ['url']: b
-            },
-        })
-    }
+    // 장소 중복 체크
+    // 장소 중복 api 수정되면 활성화 예정
+    // const CheckPlaceRepetition = async () => {
+    //     const response = await request.get("/sdp_admin/places/check_name_overlap/", {
+    //         'place_name': info['place_name'],
+    //     }, null);
+    //     if (response.data['data']['overlap'] === true) {
+    //         alert('이미 존재하는 장소입니다');
+    //     }
+    //     else {
+    //         alert('존재하지 않는 장소입니다');
+    //     }
+    // };
+
     //snsurl&type 추가
-    const onAddDetailDiv = () => {
-        let countArr = [...countList]
-        let counter = countArr.slice(-1)[0]
-        counter += 1
-        countArr.push(counter)	// index 사용 X
-        // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용	
-        setCountList(countArr)
-        setSnsData({
-            ...snsData,
-            [counter]: {
-                ...snsData[counter],
-                ['url']: "",
-                ['snstype']: 0,
-            },
-        })
-    }
+    // const onAddDetailDiv = () => {
+    //     let countArr = [...countList]
+    //     let counter = countArr.slice(-1)[0]
+    //     counter += 1
+    //     countArr.push(counter)	// index 사용 X
+    //     // countArr[counter] = counter	// index 사용 시 윗줄 대신 사용	
+    //     setCountList(countArr)
+    //     setInfo({
+    //         ...info,
+    //         snscount: snsData.length + 1,
+    //     });
+    // }
     //snsurl&type 삭제
-    const onDeleteDetailDiv = () => {
-        let countArr = [...countList]
-        countArr.pop()
-        setCountList(countArr)
-        snsData.pop()
-    }
+    // const onDeleteDetailDiv = () => {
+    //     let countArr = [...countList]
+    //     countArr.pop()
+    //     setCountList(countArr);
+    //     // if(snsData) snsData.pop();
+    // }
     //이미지 변경 시
     const onChangeImage = async (e, image_type) => {
         const reader = new FileReader();
@@ -201,8 +153,9 @@ const PlaceFormPage = (props) => {
     const handleChange = (e, type) => {
         console.log(type);
         console.log(e.target.value);
+        let value = e.target.value;
         //없음 선택 시 null 값 입력 - 나중에 백에서 처리
-        if (e.target.value === '') {
+        if (value === '') {
             setInfo({
                 ...info,
                 [type]: null,
@@ -211,7 +164,7 @@ const PlaceFormPage = (props) => {
         else {
             setInfo({
                 ...info,
-                [type]: e.target.value,
+                [type]: value,
             });
         }
     };
@@ -220,46 +173,34 @@ const PlaceFormPage = (props) => {
         if (!id) {
             return;
         }
-        const response = await request.get(`/sdp_admin/places/${id}`, null, null);
+        const response = await request.get(`/places/place_detail/${id}/`);
         setInfo(response.data.data);
-        setAddess(response.data.data['address']);
-        imageUrl['rep_pic'] = response.data.data['rep_pic'];
-    };
-    //place update 기능을 위해 장소 이미지 load
-    const loadPlacePhoto = async () => {
-        if (!id) {
-            return;
-        }
-        const resphoto = await request.get(`/sdp_admin/placephoto/${id}`, null, null);
+        console.log(response.data.data)
+        setAddess(response.data.data.address);
+        imageUrl['rep_pic'] = response.data.data.rep_pic;
         setImageUrl({
             ...imageUrl,
-            'placephoto1': resphoto.data.data[0]['image'],
-            'placephoto2': resphoto.data.data[1]['image'],
-            'placephoto3': resphoto.data.data[2]['image'],
+            'placephoto1': response.data.data.imageList[0],
+            'placephoto2': response.data.data.imageList[1],
+            'placephoto3': response.data.data.imageList[2]
         });
+            // if (response.data.data.snsList.length !== 0) {
+            //     setSnsData(response.data.data.snsList);
+            // }
+            // //몇개를 생성할 지 정해주기 위해
+            // let newCountArr = [];
+            // for (var i = 0; i < response.data.data.snsList.length; i++) {
+            //     newCountArr.push(i);
+            // }
+            // setCountList(newCountArr);
     };
-    //snsurl load 하기
-    const loadSnsUrl = async () => {
-        if (!id) {
-            return;
-        }
-        const ressnsurl = await request.get(`/sdp_admin/snsurl/${id}`, null, null);
-        console.log(ressnsurl.data.data);
-        if (ressnsurl.data.data.length !== 0) {
-            setSnsData(ressnsurl.data.data);
-        }
-        //몇개를 생성할 지 정해주기 위해
-        let newCountArr = [];
-        for (var i = 0; i < ressnsurl.data.data.length; i++) {
-            newCountArr.push(i);
-        }
-        setCountList(newCountArr);
-    };
-    //select box를 위해 snstype 불러오기
-    const loadSns = async () => {
-        const response = await request.get(`/sdp_admin/snstypes/`, null, null);
-        setSnsselect(response.data.data);
-    };
+
+    // const loadSns = async () => {
+    //     const response = await request.get(`/places/sns_types/`, {id:id}, null);
+    //     console.log(response);
+    //     setSnsselect(response.data.data.results);
+    // };
+
     const SaveInfo = async () => {
         let cnt = 0;
         if (checkInclude('장소한줄평', info['place_review'], '"')
@@ -272,17 +213,18 @@ const PlaceFormPage = (props) => {
         info['longitude'] = 0;
         info['latitude'] = 0;
         info['address'] = address;
-        info['snscount'] = countList.length;
+        // info['snscount'] = countList.length;
+        info['snscount'] = 0;
         if (id) {
             info['id'] = id;
         }
         const formData = new FormData();
-        if (address.length > 0) {
-            cnt++;
-        }
-        //snsdata 
+        // if (address.length > 0) {
+        //     cnt++;
+        // }
+        // snsdata 
         for (var i = 0; i < countList.length; i++) {
-            formData.append(i, [snsData[i]['snstype'], snsData[i]['snstype_name'], snsData[i]['url']]);
+            formData.append(i, []);
         }
         //info
         console.log(info);
@@ -315,12 +257,11 @@ const PlaceFormPage = (props) => {
         }
         try {
             if (!id) {
-                const response = await request.post("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
-                console.log(response);
+                const response = await request.post("/places/create/", formData, { "Content-Type": "multipart/form-data" });
             }
             else {
                 console.log(formData);
-                const response = await request.put("/sdp_admin/places/update_place/", formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.patch(`/places/place_update/${id}/`, formData, { "Content-Type": "multipart/form-data" });
                 console.log(response);
             }
             alert('장소 생성 성공');
@@ -331,6 +272,9 @@ const PlaceFormPage = (props) => {
             alert("장소 생성 실패", err.response.data.message);
         }
     };
+    // useEffect(() => {
+    //     setSnsData([...snsData, newSnsData]);
+    // }, [newSnsData]);
     useEffect(async () => {
         setInfo({
             ...info,
@@ -341,9 +285,7 @@ const PlaceFormPage = (props) => {
             tumblur_category: "null",
         })
         await loadPlace();
-        await loadPlacePhoto();
-        await loadSnsUrl();
-        await loadSns();
+        // await loadSns();
     }, []);
     return (
         <form>
@@ -362,12 +304,12 @@ const PlaceFormPage = (props) => {
                         name="place_name"
                         value={info['place_name']}
                     />
-                    <AdminButton
+                    {/* <AdminButton
                         style={{ height: "70%", marginTop: "auto", marginBotton: "auto" }}
                         onClick={CheckPlaceRepetition}
                     >
                         중복확인
-                    </AdminButton>
+                    </AdminButton> */}
                 </ValueBox>
                 <ValueBox>
                     <p>장소 카테고리</p>
@@ -631,7 +573,7 @@ const PlaceFormPage = (props) => {
                     />
                 </ValueBox>
                 <hr></hr>
-                <div>
+                {/* <div>
                     <button type="button" onClick={onAddDetailDiv}>
                         추가
                     </button>
@@ -643,9 +585,9 @@ const PlaceFormPage = (props) => {
                     countList={countList}
                     snsselect={snsselect}
                     snsData={snsData}
-                    getSnstype={getSnstype}
-                    getSnsurl={getSnsurl}
-                />
+                    setSnsData={setSnsData}
+                    setNewSnsData={setNewSnsData}
+                /> */}
                 <br></br>
                 <ValueBox>
                     <ImageBox>

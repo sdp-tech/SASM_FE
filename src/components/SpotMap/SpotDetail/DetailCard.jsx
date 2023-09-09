@@ -185,7 +185,7 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
   const handleTab = (event, value) => {
     setValue(value);
   }
-
+  
   return (
     <StyledCard className="component component--item_card">
       <CloseButton>
@@ -254,10 +254,10 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
           </AddressBox>
           <PhotoBox>
             {
-              detailData.photos.map((data, index) => {
+              detailData.imageList.map((data, index) => {
                 return (
-                  <a href={data.image} key={`${detailData.id}_photo_${index}`} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
-                    <img src={data.image} alt={`place images`} width="100%" height="100%" />
+                  <a href={data} key={`${detailData.id}_photo_${index}`} style={{ display: 'block', width: '150px', height: '150px', margin: '5px' }}>
+                    <img src={data} alt={`place images`} width="100%" height="100%" />
                   </a>
                 )
               })
