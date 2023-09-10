@@ -15,11 +15,24 @@ const TitleBox = styled.div`
   display: flex;
   width: 100%;
   color: #6c6c6c;
-  margin-top: 7%;
-  @media screen and (max-width: 768px) {
+  // margin-top: 7%;
+  @media screen and (max-width: 767px) {
     width:100%;
+    font-size: 1rem;
   }
-  font-size: 1rem;
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width:100%;
+    font-size: 0.2rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width:100%;
+    font-size: 0.7rem;
+  }
+  @media screen and (min-width: 1200px) {
+    width:100%;
+    font-size: 0.8rem;
+  }
+  // font-size: 1rem;
 `;
 
 const StoreNameBox = styled.div`
@@ -29,11 +42,23 @@ const StoreNameBox = styled.div`
   justify-content: space-between;
   width: 100%;
   color: #000000;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     width:100%;
-    margin: 0;
+    font-size: 1.5rem;
   }
-  font-size: 1.25rem;
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width:110%;
+    font-size: 0.9rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width:110%;
+    font-size: 1rem;
+  }
+  @media screen and (min-width: 1200px) {
+    width:110%;
+    font-size: 1.25rem;
+  }
+  
 `;
 
 const CategoryBox = styled.div`
@@ -42,10 +67,22 @@ const CategoryBox = styled.div`
   margin-top: 2.5%;
   width: 100%;
   color: #000000;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     width:100%;
+    font-size: 1rem;
   }
-  font-size:0.8rem;
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width:100%;
+    font-size: 0.2rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width:100%;
+    font-size: 0.2rem;
+  }
+  @media screen and (min-width: 1200px) {
+    width:100%;
+    font-size: 0.88rem;
+  }
 `;
 const OptionBox = styled.div`
   box-sizing: border-box;
@@ -54,25 +91,42 @@ const OptionBox = styled.div`
   color: #999999;
   padding-left: 2%;
   border-left: 2px solid #000000;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     width:100%;
   }
-  font-size: 0.8rem;
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width:100%;
+    font-size: 0.2rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width:100%;
+    font-size: 0.5rem;
+  }
+  @media screen and (min-width: 1200px) {
+    width:100%;
+    font-size: 0.7rem;
+  }
 `;
 
 const ContentBox = styled.div`
   box-sizing: border-box;
   display: flex;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   width: 100%;
-  overflow: hidden;
-  min-height: 86px;
-  max-height: 86px;
   color: #797979;
-  @media screen and (max-width: 768px) {
-    width:100%;
+  @media screen and (max-width: 767px) {
+    font-size: 0.9rem;
   }
-  font-size: 0.8rem;
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    display: none;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    display: none;
+  }
+  @media screen and (min-width: 1200px) {
+    font-size: 0.61rem;
+    // overflow: hidden;
+  }
 `;
 
 // 기존에 존재하는 버튼에 재스타일
@@ -99,8 +153,6 @@ const StyledCard = styled(Card)`
   display: flex;
   min-height: 15vw;
   min-width: 30vw;
-  max-height: 15vw;
-  max-width: 30vw;
   flex-direction: row;
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -108,6 +160,19 @@ const StyledCard = styled(Card)`
     min-width: 60vw;
     max-height: 120vw;
     max-width: 60vw;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    min-height: 25vw;
+    min-width: 30vw;;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    min-height: 25vw;
+  }
+  @media screen and (min-width: 1200px) {
+    min-height: 30vh;
+  }
+  &:hover{
+    transform: scale(1.01)
   }
 `
 
@@ -217,7 +282,6 @@ export default function ItemCard(props) {
             <Typography
               component={"span"}
               fontFamily={"Pretendard"}
-              fontSize={11}
               fontWeight="600"
               variant="p"
             >
@@ -229,7 +293,6 @@ export default function ItemCard(props) {
             <Typography
               component={"span"}
               fontFamily={"Pretendard"}
-              fontSize={11}
               fontWeight="600"
               variant="p"
             >

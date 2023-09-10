@@ -52,25 +52,40 @@ const ToggleWrapper = styled.div`
     width: 30vw;
     position: relative;
     right: -25vw;
+    top: 2vw;
     height: 4vh;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 10vw;
+    height: 4vh;
+    // position: relative;
+    // right: 
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width: 10vw;
+    height: 4vh;
+  }
+  @media screen and (min-width: 1200px) {
+    width: 10vw;
   }
 `
 const StoryListSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: calc(100vh - 64px - 13vh);
+  // height: calc(100vh - 64px - 13vh);
   width: 100%;
   display: flex;
   flex-direction: column;
   grid-area: story;
   scrollbar-height: thin;
-  @media screen and (max-width: 768px) {
-  }
+  // @media screen and (min-width: 768px) and (max-width: 991px) {
+  //   height: 55vh;
+  // }
 `;
 const FooterSection = styled.div`
   display: flex;
   flex-direction: row;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   // position: relative;
@@ -85,6 +100,22 @@ const SearchFilterBar = styled.div`
   @media screen and (max-width: 768px) {
     width: 80%;
     height: 4vh;
+  }
+  @media screen and (min-width: 767px) and (max-width: 991px) {
+    width:40%;
+    height:80%;
+    font-size: 0.2rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    margin-top: 10px;
+    width:40%;
+    height:90%;
+    font-size: 0.5rem;
+  }
+  @media screen and (min-width: 1200px) {
+    width:35%;
+    height:50%;
+    font-size: 0.8rem;
   }
   height: 50%;
   display: flex;
