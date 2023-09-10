@@ -37,7 +37,26 @@ const RecommendTitle = styled.div`
     height:1px;
     margin : 0 0 0 1%;
     background-color: #44ADF7;
-    width: 55%;
+  }
+  @media screen and (max-width: 767px) {
+    &::after {
+      width: 65%;
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    &::after {
+      width: 75%;
+    }
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    &::after {
+      width: 45%;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    &::after {
+      width: 55%;
+    }
   }
 `;
 const SpotsWrapper = styled.div`

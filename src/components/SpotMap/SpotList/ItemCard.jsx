@@ -39,6 +39,10 @@ const ImgLink = styled(Link)`
     max-width: 25vmin;
     max-height: 25vmin;
   }
+  transition: transform 1s ease-in-out;
+  :hover {
+    transform: scale(1.1);
+  }
 `;
 const TextBox = styled.div`
   width: 100%;
@@ -61,8 +65,11 @@ const TitleLink = styled(Link)`
   width: 100%;
   cursor: "pointer";
   text-decoration : none;
-  color: inherit;
   color: #000;
+  &:hover {
+    color: #00A5FF;
+    transform: scale(1.01);
+  }
 `;
 
 const ContentBox = styled.div`
