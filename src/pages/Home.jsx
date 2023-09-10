@@ -28,14 +28,14 @@ const IntroImg = styled.img`
   float: right;
   position: absolute;
   right: 0;
-  @media screen and (max-width: 768px) {
-    width: 95%;
-  } 
-  @media screen and (min-width: 769px) and (max-width: 1023px) {
-    width: 50%;
-  } 
-  @media screen and (min-width: 1920px) {
-    width: 30%;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 40%
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width: 38%
   }
 `;
 
@@ -47,23 +47,39 @@ const SASM = styled.div`
   margin-top: 10%;
   color: black;
   display: block;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     height: auto;
     width: 100%;
     margin-left: 0;
     margin-top: 20vh;
     padding-left: 6vw;
   } 
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    font-size: 1rem;
+    width: 35%
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    width: 38%
+    margin-left: 0;
+    margin-top: 20vh;
+    padding-left: 6vw;
+  }
 `;
 const SASMDescription = styled.div`
   display: flex;
   width: 100%;
   padding-left: 10vw;
   margin-top: 15vh;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     padding-left: 6vw;
     margin-top: 5vh;
   } 
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    padding-left: 6vw;
+    margin-top: 5vh;
+    width: 140%;
+    font-size: 0.9rem;
+  }
 `
 const SASMLogo = styled.img`
   position: absolute;
@@ -155,8 +171,8 @@ const FunctionWrapper = styled.div`
   display: flex;
   align-items: center;
   padding: 5vh 0 5vh 15vw;
-  @media screen and (min-width: 769px) and (max-width: 1023px) {
-    width: 50%;
+  @media screen and (min-width: 769px) and (max-width: 991px) {
+    width: 100%;
   } 
   &: nth-of-type(2) {
     padding-left: 22vw;
@@ -164,7 +180,7 @@ const FunctionWrapper = styled.div`
   & + & {
     border-top: 1px rgba(0,0,0,0.5) solid;
   }
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
     padding: 3vh 0;
     flex-direction: column;
     align-items: flex-start;
