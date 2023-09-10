@@ -83,7 +83,12 @@ const MainTitle = styled.div`
   color: #000000;
   padding-left: 10px;
   display: inline-block; //텍스트 크기에 자동 맞춤
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 767px) {
+    font-size: 1.3rem;
+    height: auto;
+    line-height: 150%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
     font-size: 1.3rem;
     height: auto;
     line-height: 150%;
@@ -94,6 +99,11 @@ const StoreNameBox = styled.div`
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #000000;
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    font-size: 0.8rem;
+    height: auto;
+    line-height: 150%;
+  }
 `;
 
 const StoreName = styled.div`
@@ -113,6 +123,12 @@ const StoreName = styled.div`
     font-size: 2rem;
     flex-flow: row wrap;
    }
+   @media screen and (min-width: 768px) and (max-width: 1024px) {
+    font-size: 1.9rem;
+    width: 110%;
+    height: auto;
+    line-height: 150%;
+  }
 `;
 const Tag = styled.div`
   width: auto;
@@ -129,6 +145,10 @@ const Tag = styled.div`
     padding: 0;
     height: auto;
     font-size: 0.9rem;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    // display: none;
+    font-size: 0.6rem;
   }
 `;
 const ButtonDiv = styled.div`
@@ -150,14 +170,21 @@ const LikeIconBox = styled.div`
 const ImageNContentBox = styled.div`
   width: 100%;
   box-sizing: border-box;
-  font-weight: 200;
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 8px;
   flex-direction: column;
   zoom: 1.6;
-  @media screen and (max-width: 768px) {
+  font-weight: 400;
+  @media screen and (max-width: 767px) {
+    zoom: 1;
+    padding-top: 20px;
+  }
+  @media screen and (min-width: 768px) and (max-width:1023px) {
+    font-size: 0.8rem;
+  }
+  @media screen and (min-width: 1024px) {
     zoom: 1;
     padding-top: 20px;
   }
@@ -186,6 +213,7 @@ const MarkupBox = styled.div`
   }
 `
 const Text = styled.p`
+  margin: auto;
 `
 const InfoBox = styled.div`
   width: 100%;
@@ -256,6 +284,11 @@ const DeleteButton = styled.div`
   }
   // margin: 20px auto;
 `;
+const FollowBox = styled.div`
+  margin-left: 20px;
+  margin-top: 10px;
+`
+
 const StoryDetailBox = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const id = props.id; 
@@ -341,8 +374,8 @@ const StoryDetailBox = (props) => {
               <MapButton onClick={(e) => { handlePageGoToMap(data.place_name) }}>
                 <ButtonText>Go To Map</ButtonText>
               </MapButton>
-              <BackToList
-                onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList>
+              <BackToList style={{marginBottom: '30px'}}
+                onClick={() => { navigate('/story?page=1'); }}>&#60; Back To List</BackToList>
             </ButtonDiv>
           </Mobile>
           <TopBox>
@@ -358,11 +391,13 @@ const StoryDetailBox = (props) => {
               {myEmail === data.writer ? <DeleteButton onClick={delStory}>삭제하기</DeleteButton> : <></>}
                   </View>
                 </InfoBox>
+                <FollowBox>
                 {
                   myEmail !== data.writer ? <AdminButton style={{width:"70%"}} onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
                 <Text>팔로우 취소</Text>:
                 <Text>+ 팔로잉</Text>}</AdminButton> : <></>
                 }
+                </FollowBox>
                 </div>
             </CategoryOptionBox>
           </TopBox>
@@ -370,9 +405,9 @@ const StoryDetailBox = (props) => {
             <MainTitleBox>
               <MainTitle>{data.title}</MainTitle>
               <Pc>
-                <BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList>
+                <BackToList style={{marginTop: "30px"}} onClick={() => { navigate('/story?page=1'); }}>&#60; Back To List</BackToList>
               </Pc>
-              <Tablet><BackToList onClick={() => { navigate(-1); }}>&#60; Back To List</BackToList></Tablet>
+              <Tablet><BackToList style={{marginTop: "30px"}} onClick={() => { navigate('/story?page=1'); }}>&#60; Back To List</BackToList></Tablet>
             </MainTitleBox>
             <StoreNameBox>
               <StoreName>

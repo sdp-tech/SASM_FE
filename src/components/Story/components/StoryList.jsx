@@ -10,7 +10,7 @@ const StoryList = ({ info }) => {
     <>
       <>
         <StorySection>
-          <main style={{width: '100%', marginTop:'2rem'}}>
+          <main style={{width: '100%', marginTop:'1rem'}}>
             <Container
               sx={{
                 display: "flex",

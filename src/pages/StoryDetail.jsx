@@ -26,10 +26,8 @@ export default function StoryList() {
     <>
       <Sections>
         <StoryDetail />
-      </Sections>
-      <FooterSection>
         {isSasmAdmin ? (
-          <AdminButton
+          <AdminButton style={{position: "fixed", right: "10px", bottom: "10px"}}
             onClick={() => {
               navigate(`/admin/story/${params.id}`);
             }}
@@ -39,7 +37,7 @@ export default function StoryList() {
         ) : (
           <></>
         )}
-      </FooterSection>
+      </Sections>
     </>
   );
 }
@@ -53,17 +51,4 @@ const Sections = styled.div`
   grid-template-areas:
     "story";
   // background: black;
-`;
-const FooterSection = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  padding-bottom: 0.25rem;
-  // overflow: hidden;
-  // grid-area: story;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  // background: black;
-  transform : translateY(-100%);
 `;
