@@ -56,8 +56,6 @@ export default function ItemCard(props) {
   // 좋아요 클릭 이벤트
   const toggleLike = async () => {
     const response = await request.post(`/curations/curation_like/${props.id}/`);
-    console.log("response", response);
-
     //색상 채우기
     setLike(!like);
   };
@@ -96,7 +94,7 @@ export default function ItemCard(props) {
           }}
         >
           <PlacenameBox>
-            <Placename to={`/curation/${props.id}`} style={{ textDecoration: 'none' }}>
+            <Placename to={`/curation/${props.id}`} style={{ textDecoration: 'none', marginLeft: '10px' }}>
               {props.title}
             </Placename>
           <div style={{display:'flex', marginRight:'10px'}}>
@@ -105,7 +103,7 @@ export default function ItemCard(props) {
             </LikeButton>
           </div>
         </PlacenameBox>
-          <div style={{borderBottom:"2px #44ADF7 solid" ,paddingBottom:'10px', fontWeight: 700, color: "#808080"}}>
+          <div style={{borderBottom:"2px #E97FE5 solid" ,paddingBottom:'10px', fontWeight: 700, color: "#808080", marginLeft: '10px'}}>
             {props.writer_nickname}
           </div>
         </CardContent>
