@@ -54,8 +54,16 @@ const CardSection = styled.div`
   flex-direction: column;
   overflow: hidden;
   grid-area: story;
+  // border-radius: 10%;
   justify-content: center;
   align-items: center;
+  transition: all .5s ease;
+  &:hover {
+    transform: scale(1.02);
+  }
+  @media screen and (max-width: 767px) {
+    border-radius: 3%;
+  }
 `;
 const NothingSearched = styled.div`
   position: relative;
@@ -65,27 +73,37 @@ const NothingSearched = styled.div`
   align-items: center;
 `;
 const ChangeModeButton = styled(Link)`
-  width: 30%;
-  text-align: center;
+  // width: 30%;
+  text-align: left;
   font-size: 1.25rem;
   z-index: 3;
   color: inherit;
   text-decoration: none;
+  transition: all .5s ease;
   @media screen and (max-width: 768px) {
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 30px;
   }
+  &:hover {
+    background: linear-gradient(to right top, #228B22, #C1FF6B);
+    color: transparent;
+    -webkit-background-clip: text;
+    transform: scale(1.01);
+  }
+
 `
 const FilterOptions = styled.div`
   width: 30%;
   @media screen and (max-width: 768px) {
     width: 100%;
+    margin-top: 10px;
   }
 `
 const MenuSection = styled.div`
-  // display: flex;
   margin-top: 20px;
+  @media screen and (max-width: 767px) {
+    margin-bottom: 20px;
+  }
 `
 const MoveSection = styled.div`
   display: flex;

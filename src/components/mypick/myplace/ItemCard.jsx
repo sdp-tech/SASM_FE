@@ -20,6 +20,9 @@ const PlacenameBox = styled.div`
   margin-top: -2%;
   margin-bottom: 5%;
   justify-content: space-between;
+  @media screen and (max-width: 767px) {
+    justify-content: space-around;
+  }
 `;
 
 const Placename = styled(Link)`
