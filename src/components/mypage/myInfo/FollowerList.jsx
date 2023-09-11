@@ -27,7 +27,7 @@ const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 75%;
   @media screen and (max-width: 768px) {
-    width: 80%;
+    width: 90%;
     height: 4vh;
   }
   height: 50%;
@@ -42,10 +42,10 @@ const UserWrapper = styled.div`
   // justify-content: center;
 `;
 const Wrapper = styled.div`
+  width: 40%;
   display: flex;
   flex-direction: column;
   margin: auto;
-  // justify-content: center;
 `;
 const InfoBox = styled.div`
   display: flex;
@@ -60,7 +60,7 @@ const InfoBox = styled.div`
 const FollowerImg = styled.img`
   width: 80px;
   height: 80px;
-  border-radius: 3px;
+  border-radius: 50%;
   margin: 4px;
 `
 const BackButton = styled.div`
@@ -68,9 +68,13 @@ const BackButton = styled.div`
   cursor : pointer;
   font-size: 1rem;
   align-items: center;
+  transition: all .5s ease-in-out;
+  &:hover {
+    box-shadow: 3px 3px 3px 3px #999;
+  }
 `
 const FollowerSection = styled.div`
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: colume;
   align-items: center;

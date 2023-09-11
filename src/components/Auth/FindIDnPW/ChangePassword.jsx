@@ -8,10 +8,16 @@ import PageRedirection from "../../../functions/common/PageRedirection";
 const Div = styled.div`
   margin: 7% auto;
   padding: 2rem;
-  width: 33%;
+  width: 50%;
   height: auto;
   justify-content: center;
   box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 4px; 
+  @media screen and (max-width: 768px) {
+    width: 70%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 70%;
+  }
 `
 const Wrapper = styled.div`
   width: 100%;
@@ -36,7 +42,7 @@ const InputAndButton = styled.div`
   position: relative;
   display: flex;
   flex-wrap: nowrap;
-  align-items: end;
+  align-items: center;
   width: auto;
   margin-top: 0.8em;
   margin-bottom: 0.8em;

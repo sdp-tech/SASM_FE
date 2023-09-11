@@ -15,12 +15,13 @@ const Section = styled.div`
   flex-direction: column;
   overflow: auto;
   height: 100%;
-  width: 100%
+  width: 100%;
+  overflow-y: hidden;
 `;
 const LabelWrapper = styled.div`
   display: flex;
-  width: 100%;
-  justify-content: space-between;
+  width: 120%;
+  // justify-content: space-between;
 `
 const Label = styled.div`
   width: 10vw;
@@ -37,7 +38,19 @@ const Label = styled.div`
   & + & {
     margin-left: 2vw;
   }
+  &:hover {
+    background-color: #51FFA6
+  }
   @media screen and (max-width: 768px) {
+    width: 25vw;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 12vw;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1023px) {
+    width: 20vw;
+  }
+  @media screen and (min-width: 1023px) {
     width: 30vw;
   }
 `
@@ -51,7 +64,20 @@ const Text = styled.div`
   box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
   padding: 2% 1vw;
   @media screen and (max-width: 768px) {
-    width: 50vw;
+    width: 45vw;
+    margin-left: 50px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 40vw;
+    margin-left: 50px;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1023px) {
+    width: 40vw;
+    margin-left: 30px;
+  }
+  @media screen and (min-width: 1023px) {
+    width: 30vw;
+    margin-left: 50px;
   }
 `
 const TextBox = styled.div`
@@ -64,20 +90,31 @@ const FollowText = styled.div`
   font-size: 1rem;
   align-items: center;
   margin-left: 20px;
+  transition: all 0.5s ease;
+  &:hover {
+    color: #1EDDFF;
+  }
 `
 const InfoContainer = styled.div`
+  width: 100%;
   height: calc(100vh - 64px - 0.3 * (100vh - 64px));
   display: flex;
   flex-flow: column wrap;
   justify-content: space-around;
   padding-left: 10vw;
   padding-right: 5vw;
-  border-right: 2px #44ADF7 solid;
-  @media screen and (max-width: 768px) {
+  // border-right: 2px #44ADF7 solid;
+  @media screen and (max-width: 767px) {
     padding: 2vw;
     border: none;
     border-bottom : 2px #44ADF7 solid;
   }
+  @media screen and (min-width: 768px) and (max-width: 991px){
+    padding: 2vw;
+    border: none;
+    border-bottom : 2px #44ADF7 solid;
+  }
+  
 `
 const DetailContainer = styled.div`
   height: calc(100vh - 64px - 0.3 * (100vh - 64px));
@@ -100,8 +137,12 @@ const ImageBox = styled.div`
   background-image: url(${props => props.profile});
   background-size: cover;
   @media screen and (max-width: 768px) {
-    width: 35vw;
-    height: 35vw;
+    width: 120px;
+    height: 120px;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 150px;
+    height: 150px;
   }
 `;
 
@@ -154,8 +195,8 @@ export default function InfoForm(props) {
             <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
               <ImageBox profile={profile_image} />
               <TextBox>
-                <FollowText onClick={() =>{navigate('/mypage/follower?page=1')}} style={{ color: '#000000' }}>팔로워 {followerNum}</FollowText>
-                <FollowText onClick={() =>{navigate('/mypage/following?page=1')}} style={{ color: '#000000' }}>팔로잉 {followingNum}</FollowText>
+                <FollowText onClick={() =>{navigate('/mypage/follower?page=1')}}>팔로워 {followerNum}</FollowText>
+                <FollowText onClick={() =>{navigate('/mypage/following?page=1')}}>팔로잉 {followingNum}</FollowText>
               </TextBox>
             </div>
             <Grid container sx={{ height: '70%' }} >
