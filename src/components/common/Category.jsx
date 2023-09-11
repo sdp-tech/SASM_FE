@@ -15,7 +15,7 @@ const CategoryLabelWrapper = styled.div`
   display: flex;
   justify-content:center;
   align-items: center;
-  padding: 1%;
+  padding: 0.5%;
 `;
 const CategoryLabel = styled.label`
   display: flex;
@@ -32,16 +32,34 @@ const CategoryImageWrapper = styled.div`
   border-radius: 50%;
   width: 3vw;
   height: 3vw;
-  @media screen and (max-width: 768px) {
-    width:10vw;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  &:hover {
+    transform: scale(1.05)
+  }
+  @media screen and (max-width: 767px) {
+    width: 10vw;
     height: 10vw;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 6vw;
+    height: 6vw;
   }
 `
 const CategoryNameWrapper = styled.div`
   margin-top: 5%;
-  font-size: 0.65rem;
-  @media screen and (max-width: 768px) {
+  // font-size: 0.65rem;
+  @media screen and (max-width: 767px) {
+    font-size: 0.8rem;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    font-size: 0.8rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
     font-size: 0.65rem;
+  }
+  @media screen and (min-width: 1200px) {
+    font-size: 0.7rem
   }
 `
 const CategoryCheckInput = styled.input`
