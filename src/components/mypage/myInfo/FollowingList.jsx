@@ -28,7 +28,7 @@ const SearchFilterBar = styled.div`
   box-sizing: border-box;
   width: 75%;
   @media screen and (max-width: 768px) {
-    width: 80%;
+    width: 90%;
     height: 4vh;
   }
   height: 50%;
@@ -40,14 +40,22 @@ const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto;
-  // justify-content: center;
 `;
 const Wrapper = styled.div`
+  width: 40%;
   display: flex;
   flex-direction: column;
   margin: auto;
-  // justify-content: center;
 `;
+const ButtonWrapper = styled.div`
+  margin-top: 10px;
+  margin-left: 30px;
+  font-size: 0.9rem;
+  @media screen and (max-width: 768px) {
+    font-size: 0.6rem;
+    margin-left: 32px;
+  }
+`
 const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -61,17 +69,20 @@ const InfoBox = styled.div`
 const FollowingImg = styled.img`
   width: 80px;
   height: 80px;
-  border-radius: 3px;
+  border-radius: 50%;
   margin: 4px;
 `
 const BackButton = styled.div`
   color: black;
   cursor : pointer;
   font-size: 1rem;
-  align-items: center;
+  transition: all .5s ease-in-out;
+  &:hover {
+    box-shadow: 3px 3px 3px 3px #999;
+  }
 `
 const FollowingSection = styled.div`
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: colume;
   align-items: center;
@@ -172,7 +183,9 @@ const Following = () => {
                     <p>{user.nickname}</p>
                     <p>{user.email}</p>
                   </Wrapper>
-                  <AdminButton style={{height:"50%"}} onClick={()=>{undoFollowing(user.email)}}>팔로우 취소</AdminButton>
+                  <ButtonWrapper>
+                    <AdminButton onClick={()=>{undoFollowing(user.email)}}>팔로우 취소</AdminButton>
+                  </ButtonWrapper>
                 </InfoWrapper>
               ))
             }

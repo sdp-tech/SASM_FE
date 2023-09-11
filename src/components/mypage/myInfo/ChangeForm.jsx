@@ -139,7 +139,7 @@ const ChangeForm = (props) => {
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label style={{ opacity: "0" }}>저장하기</Label>
-                    <Label onClick={SaveInfo} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>저장하기</Label>
+                    <SaveLabel onClick={SaveInfo} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>저장하기</SaveLabel>
                     <Label style={{ opacity: "0" }}>저장하기</Label>
                   </LabelWrapper>
                 </InfoContainer>
@@ -235,6 +235,15 @@ const Label = styled.div`
   @media screen and (max-width: 768px) {
     width: 30vw;
   }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 15vw;
+  }
+`
+const SaveLabel = styled(Label)`
+  transition: all 0.5s ease;
+  &:hover {
+    background-color: #51FFA6;
+  }
 `
 const Text = styled.input`
   width: 15vw;
@@ -247,6 +256,10 @@ const Text = styled.input`
   padding: 2% 1vw;
   @media screen and (max-width: 768px) {
     width: 50vw;
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 25vw;
+    margin: auto;
   }
 `
 const InfoContainer = styled.div`
