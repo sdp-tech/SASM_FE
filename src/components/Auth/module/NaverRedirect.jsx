@@ -3,13 +3,10 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { LoginContext } from "../../../contexts/LoginContexts";
 import { useNavigate } from "react-router";
-import { useCookies } from "react-cookie";
-
 
 
 const NaverCallback = (props) => {
     const [login, setLogin] = useContext(LoginContext);
-    const [cookies, setCookie] = useCookies(["name"]); // 쿠키 훅
     const navigate = useNavigate();
 
     useEffect(async () => {
@@ -31,9 +28,9 @@ const NaverCallback = (props) => {
                 });
                 localStorage.setItem("nickname", res.data.data.nickname);
                 localStorage.setItem("accessTK", res.data.data.access);
-                setCookie("name", res.data.data.refresh);
+                localStorage.setItem("refreshTK", res.data.data.refresh);
 
-                navigate("/map");
+                navigate("/map?page=1");
             })
             .catch((err) => {
                 window.alert("로그인에 실패하였습니다.");

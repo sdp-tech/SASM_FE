@@ -4,7 +4,6 @@ import Navibar from "../../common/Navibar";
 import axios from "axios";
 import { LoginContext } from "../../../contexts/LoginContexts";
 import { useNavigate } from "react-router";
-import { useCookies } from "react-cookie";
 
 // import { KakaoLogin } from "../../../functions/Auth/TrySocialLogin";
 import styled from "styled-components";
@@ -23,7 +22,6 @@ const KakaoLogin = (code) => {
   // console.log(code, 1);
 
   const [login, setLogin] = useContext(LoginContext);
-  const [cookies, setCookie] = useCookies(["name"]); // 쿠키 훅
   const navigate = useNavigate();
 
   const KakaoClick = async (code) => {
@@ -64,11 +62,11 @@ const KakaoLogin = (code) => {
         // console.log(res.data.data.nickname, 111);
         // setCookie("name", access);
         // console.log("refresh: ", refresh);
-        setCookie("name", refresh);
+        localStorage.setItem("refreshTK", res.data.data.refresh);
 
         // console.log("쿠키 설정 완료");
         // console.log("화면 전환");
-        navigate("/map");
+        navigate("/map?page=1");
         // window.location.replace("/"); // 토큰 받았았고 로그인됐으니 화면 전환시켜줌(메인으로)
       })
       .catch((err) => {

@@ -16,7 +16,7 @@ export default async function TrySocialLogin(site) {
 
   }
   if (site === "kakao") {
-    const KAKAO_CLIENT_ID = "7fcf4129e14411d85f4468cbffae48c0";
+    const KAKAO_CLIENT_ID = "021463732f2fb5758ca19c92237864b4";
     const KAKAO_REDIRECT_URI = "https://www.sasm.co.kr/auth/kakao/callback/";
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
   }
