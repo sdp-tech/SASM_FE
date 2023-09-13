@@ -45,6 +45,11 @@ const ReportList = styled.div`
   font-size: 1.3rem;
   border-bottom: 1px black solid;
   cursor: pointer;
+  &:hover {
+    background-color: #fff;
+    border-bottom: none;
+    transform : scale(1.03);
+  }
 `
 export const REPORT_LIST = [
   { id: 0, name: "음란물/불건전한 만남 및 대화" },

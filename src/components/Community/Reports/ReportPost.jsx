@@ -45,6 +45,11 @@ const ReportList = styled.div`
   font-size: 1.3rem;
   border-bottom: 1px black solid;
   cursor: pointer;
+  &:hover {
+    background-color: #fff;
+    border-bottom: none;
+    transform : scale(1.03);
+  }
 `
 
 export const REPORT_LIST = [

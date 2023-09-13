@@ -21,12 +21,16 @@ const List = styled.div`
   align-items: center;
   padding: 2% 0;
   border-bottom: 1px rgba(0,0,0,0.5) solid;
+  width: 100%;
+  @media screen and (max-width: 768px) {
+    font-size: 0.7rem;
+  }
 `
 const Title = styled.div`
   width: 50%;
 `
 const Info = styled.div`
-  width: 10%;
+  width: 15%;
 `
 const Writer = styled.div`
   width: 20%;
@@ -46,17 +50,29 @@ const UploadButton = styled.div`
   position: absolute;
   right:0;
   bottom: 0;
+  @media screen and (max-width: 768px) {
+    width: 20%;
+  }
+  &:hover {
+    transform : scale(1.03);
+  }
 `
 const StyledLink = styled(Link)`
   width: 50%;
   color: #000000;
   text-decoration: none;
   cursor: pointer;
+  &:hover{
+    color: #0064FF;
+  }
 `
 const SearchFilterBar = styled.div`
   position: relative;
   width: 60%;
   margin: 5vh auto;
+  @media screen and (max-width: 768px) {
+    width: 95%;
+  }
 `
 const HashtagListWrapper = styled.div`
   position: absolute;

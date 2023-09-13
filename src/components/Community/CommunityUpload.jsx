@@ -74,6 +74,9 @@ const Button = styled.button`
   border-radius: 7px;
   box-shadow: 2px 4px 4px rgba(0,0,0,0.2);
   cursor: pointer;
+  &:hover {
+    transform : scale(1.03);
+  }
 `
 const LabelWrapper = styled.div`
   display: flex;
