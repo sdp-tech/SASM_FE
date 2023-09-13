@@ -42,28 +42,39 @@ const Content = styled.div`
   height: 40vh;
 `
 const ImageWrapper = styled.div`
-
+  
 `
 const Image = styled.img`
   height: 100px;
+    @media screen and (max-width: 768px) {
+      height: 75px;
+  }
 `
 const HashtagWrapper = styled.div`
 `
 const ButtonWrapper = styled.div`
-  width: 100%;
   display: flex;
   justify-content: flex-end;
   margin-top: 5%;
   height: 5%;
 `
 const Button = styled.button`
-  width: 10%;
+  width: 15%;
   outline:none;
   border:none;
   cursor: pointer;
-  background-color: #FFFFFF;
+  background-color: #FFF;
+  margin-bottom: 0.5%;
   & + & {
     border-left: 1px #000000 solid;
+  }
+  @media screen and (max-width: 768px) {
+    width: 40%
+  }
+  // transition: all 0.5s ease;
+  &:hover {
+    color: #1E90FF;
+    transform: scale(1.02);
   }
 `
 const CommentsWrapper = styled.div`
@@ -92,6 +103,7 @@ export default function CommunityDetail({ board, id, format }) {
   const getDetail = async () => {
     const response_detail = await request.get(`/community/posts/${id}`);
     setDetail(response_detail.data);
+    console.log(response_detail);
     setLike(response_detail.data.likes);
     setLoading(false);
   }
@@ -109,7 +121,6 @@ export default function CommunityDetail({ board, id, format }) {
   useEffect(()=>{
     getReview();
   }, [queryString.page])
-  let isWriter = false;
   useEffect(() => {
     const clickOutside = (e) => {
       if (report && node.current && !node.current.contains(e.target)) {
@@ -121,9 +132,6 @@ export default function CommunityDetail({ board, id, format }) {
       document.removeEventListener("mousedown", clickOutside);
     };
   }, [report]);
-  if (detail.email == email) {
-    isWriter = true;
-  }
   const deleteItem = async () => {
     if (window.confirm('삭제하시겠습니까?')) {
       const response = await request.del(`/community/posts/${id}/delete/`);
@@ -190,10 +198,10 @@ export default function CommunityDetail({ board, id, format }) {
                 <ButtonWrapper>
                   <Button onClick={() => { setReport(true) }}>신고하기</Button>
                   {
-                    isWriter && <Button onClick={deleteItem}>삭제하기</Button>
+                    detail.email === email ? <Button onClick={deleteItem}>삭제하기</Button> : <></>
                   }
                   {
-                    isWriter && <Button onClick={() => { setMode(true) }}>수정하기</Button>
+                    detail.email === email ? <Button onClick={() => { setMode(true) }}>수정하기</Button> : <></>
                   }
                 </ButtonWrapper>
                 <WriteComment format={format} id={id} isParent={true}></WriteComment>

@@ -15,7 +15,7 @@ const StlyedForm = styled.form`
 `
 
 const InputText = styled.input`
-  width: 60%;
+  width: 50%;
   height: 5vh;
   border: none;
   outline: none;
@@ -25,19 +25,30 @@ const InputText = styled.input`
 `
 const SubmitButton = styled.button`
   height: 5vh;
-  width: 5%;
+  width: 10%;
   background: #9DF4C9;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   border: none;
   outline: none;
   cursor: pointer;
+    @media screen and (max-width: 768px) {
+    width: 18%;
+  }
+  &:hover {
+    transform : scale(1.03);
+  }
+  
 `
 const ImageUpload = styled.img`
   height: 100%;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   cursor: pointer;
+  margin-right: 5px;
+  &:hover {
+    transform : scale(1.03);
+  }
 `
 const ImageList = styled.div`
   display: flex;
