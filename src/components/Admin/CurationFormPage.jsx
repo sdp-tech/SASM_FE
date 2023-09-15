@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from "styled-components";
 import Request from "../../functions/common/Request";
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
@@ -25,6 +25,7 @@ width: 100%;
   }
   padding: 0.2em;
   box-shadow: 0px 4px 4px rgba(51, 51, 51, 0.04), 0px 4px 16px rgba(51, 51, 51, 0.08);
+
 `;
 const Section = styled.div`
   width: 75%;
@@ -37,6 +38,7 @@ const StoryImage = styled.img`
   height: 80px;
   border-radius: 3px;
   margin: 4px;
+  margin-top: 0px;
 `
 const StorySection = styled.div`
   width: 50%;
@@ -50,6 +52,9 @@ const FooterSection = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+  }
   `;
 
 const InfoBox = styled.div`
@@ -99,8 +104,8 @@ const Label = styled.div`
 const SearchBarSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  height: 7vh;
-  width: 65%;
+  height: 6vh;
+  width: 100%;
   display: flex;
   margin-top: 0.1%;
   margin:auto;
@@ -115,6 +120,38 @@ const SearchBarSection = styled.div`
     justify-content: space-between;
     align-items: center;
   }
+`
+const ModalWrapper = styled.div`
+  width: 50%;
+  height: 70%;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 25%;
+  background-color: rgba(255,255,255, 0.9);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+`
+const Modal = styled.div`
+  width: 50%;
+  height: 100%;
+  // text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+const DelX = styled.p`
+  transition: all 0.5s;
+  margin:0;
+  padding: 0;
+  &: hover {
+    color:#E0EBFF;
+  }
+`
+const StoryWrapper = styled.div`
+  position: relative;
 `
 
 const charCount = (editor) => editor.getContent({ format: "text" }).length;
@@ -145,6 +182,7 @@ export default function CurationForm() {
       ignoreQueryPrefix: true
     });
   const request = Request(navigate);
+  const ref = useRef();
 
   const uploadCuration = async () => {
     const formData = new FormData();
@@ -260,6 +298,14 @@ export default function CurationForm() {
       evt.preventDefault();
     }
   };
+  const handleSelectedStory = (id, rep_pic) => {
+    if (selectedStory.filter(el => el.id == id).length > 0) {
+      setSelectedStory(selectedStory.filter(el => el.id != id));
+      if (window.confirm("목록에서 삭제하시겠습니까?")) {
+        alert("삭제되었습니다.");
+        }
+      }
+  }
 
   return (
     <InfoBox>
@@ -294,34 +340,41 @@ export default function CurationForm() {
             />
           <Label>스토리 선택</Label>
           <AdminButton onClick={handleOpen}>스토리 선택</AdminButton>
-          { open ?<Wrapper>      
-              <SearchBarSection>
-                <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
-              </SearchBarSection>
-              <StoryListModal item = {item} selectedStory={selectedStory} setSelectedStory={setSelectedStory}/>
-              <Pagination
-              total={pageCount}
-              limit={limit}
-              page={queryString.page}
-            /><ButtonWrapper>
-                <AdminButton onClick={handleClose}>
-                  확인
-                 </AdminButton>
-                <AdminButton onClick={handleClose}>
-                  취소
-                </AdminButton>
-              </ButtonWrapper>
-              </Wrapper>:<></>}
+          { open ?
+            <ModalWrapper>
+              <Modal>     
+                <SearchBarSection>
+                  <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
+                </SearchBarSection>
+                <StoryListModal item = {item} selectedStory={selectedStory} setSelectedStory={setSelectedStory}/>
+                <Pagination
+                total={pageCount}
+                limit={limit}
+                page={queryString.page}
+              /><ButtonWrapper>
+                  <AdminButton onClick={handleClose}>
+                    확인
+                  </AdminButton>
+                  <AdminButton onClick={handleClose}>
+                    취소
+                  </AdminButton>
+                </ButtonWrapper>
+              </Modal>
+            </ModalWrapper>
+            :<></>}
         </Wrapper>
         <Label>선택된 스토리</Label>
         <StorySection>
           {
             selectedStory.map((data, index) =>
               <ValueBox>
-                <StoryImage
-                //  style={index == 0 && { borderColor: '#209DF5', borderWidth: 2 }}
-                 src={ data.rep_pic } />
-                {index == 0 && <p>대표</p>}
+                <StoryWrapper>
+                  <DelX onClick={() => {handleSelectedStory(data.id, data.rep_pic)}}>X</DelX>
+                  <StoryImage
+                  //  style={index == 0 && { borderColor: '#209DF5', borderWidth: 2 }}
+                  src={ data.rep_pic } />
+                  {index == 0 && <p style={{padding:"0px", margin:"0px"}}>대표</p>}
+                </StoryWrapper>
               </ValueBox>
             )
           }
