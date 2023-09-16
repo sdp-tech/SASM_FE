@@ -107,7 +107,7 @@ const SearchBarSection = styled.div`
   box-sizing: border-box;
   position: relative;
   height: 6vh;
-  width: 100%;
+  width: 55%;
   display: flex;
   margin-top: 0.1%;
   margin:auto;
@@ -148,6 +148,7 @@ const DelX = styled.p`
   transition: all 0.5s;
   margin:0;
   padding: 0;
+  cursor: pointer;
   &: hover {
     color:#E0EBFF;
   }
@@ -344,7 +345,7 @@ export default function CurationForm() {
             />
           <Label>스토리 선택</Label>
           <ButtonToolbar>
-            <Button onClick={() => handleOpen('lg')}> Open</Button>
+            <Button onClick={() => handleOpen('lg')}>스토리 선택</Button>
           </ButtonToolbar>
 
           <Modal open={open} size={size} backdrop={"static"}>
