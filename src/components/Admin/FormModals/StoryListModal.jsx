@@ -106,8 +106,8 @@ export default function StoryListModal({ selectedStory, setSelectedStory, item})
                   <p style={{fontWeight:600}}>{info.category}</p>
                   <p style={{fontSize:'12px', fontWeight:600, color: '#6C6C6C',   paddingLeft: '1%', borderLeft: '2px solid #000000'}}>{info.semi_category}</p>
                   <p style={{fontSize:'14px', fontWeight:600, color: '#6C6C6C'}}>{info.preview}</p>
-                  <MoreView style={{marginTop:'-5px'}} onClick={()=>{window.open(`/story/${info.id}`)}}>더보기</MoreView>
-                  <StorySelectButton style={{marginTop:'-10px'}} onClick={()=>{handleSelectedStory(info.id, info.rep_pic)}}>스토리 선택</StorySelectButton>
+                  <MoreView style={{marginTop:'5px'}} onClick={()=>{window.open(`/story/${info.id}`)}}>더보기</MoreView>
+                  <StorySelectButton style={{marginTop:'-30px'}} onClick={()=>{handleSelectedStory(info.id, info.rep_pic)}}>스토리 선택</StorySelectButton>
                 </TextBox>
               </ItemCard>
             ))}
