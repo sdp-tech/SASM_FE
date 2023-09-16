@@ -7,6 +7,7 @@ const StorySelectButton = styled.div`
   font-size: 1rem;
   padding:0;
   position: absolute;
+  margin-top: -30px;
   right: 0px;
   top: 20px;
   background-color: none;
@@ -26,7 +27,10 @@ const StorySelectButton = styled.div`
     --_p: 100%;
     --_s: .3s;
   }
-
+  @media screen and (max-width:768px) {
+    font-size: 0.8rem;
+    margin-top: -20px;
+  }
 `
 const CardSection = styled.div`
 
@@ -47,9 +51,31 @@ const ItemCard = styled.div`
 `
 const TextBox = styled.div`
   color: #000;
-  position: relative;
-  width: 50%;
-  height: 75%;
+  position: absolute;
+  @media screen and (max-width:768px) {
+    width: 80%;
+    height: 80%;
+    top: 45px;
+    right: -80px;
+  }
+  @media screen and (min-width:768px) and (max-width: 1023px) {
+    width: 80%;
+    height: 80%;
+    top: 25px;
+    right: -100px;
+  }
+  @media screen and (min-width:1024px) and (max-width:1200px) {
+    width: 60%;
+    height: 80%;
+    top: 25px;
+    right: -50px;
+  }
+  @media screen and (min-width:1200px) {
+    width: 60%;
+    height: 80%;
+    top: 25px;
+    right: -30px;
+  }
 `
 const View = styled.div`
   display: flex;
@@ -77,6 +103,64 @@ const MoreView = styled.div`
   }
 `
 
+const RefPic = styled.img`
+  width: 175px; 
+  height: 175px;
+  margin: auto;
+  margin-right: 20px;
+  position: absolute;
+  left:-20px;
+  border-radius: 15px;
+  @media screen and (max-width: 767px) {
+    width: 20vw;
+    height: 20vw;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 20vw;
+    height: 20vw;
+  }
+`
+const PlaceName = styled.p`
+  font-weight:700;
+`
+
+const Title = styled.p`
+  color: #6C6C6C;
+`
+
+const SemiCategory = styled.p`
+  font-size:12px;
+  font-weight:600;
+  color: #6C6C6C;
+  padding-left: 1%;
+  borderLeft: 2px solid #000000;
+  @media screen and (min-width:768px) and (max-width:1023px) {
+    font-size: 0.7rem;
+  }
+`
+
+const Category = styled.p`
+  font-weight:600;
+`
+
+const Preview = styled.p`
+  font-size:14px;
+  font-weight:600;
+  color: #6C6C6C;
+  @media screen and (max-width:767px) {
+    display: none;
+  }
+  @media screen and (min-width:768px) and (max-width:1023px) {
+    font-size: 0.5rem;
+  }
+  @media screen and (min-width:1024px) and (max-width:1200px) {
+    font-size: 0.5rem;
+  }
+  @media screen and (min-width:1200px) {
+    font-size: 0.5rem;
+  }
+`
+
 export default function StoryListModal({ selectedStory, setSelectedStory, item}) {
 
   const handleSelectedStory = (id, rep_pic) => {
@@ -99,15 +183,15 @@ export default function StoryListModal({ selectedStory, setSelectedStory, item})
           <CardSection>
             {item.map((info, index) => (
               <ItemCard>
-                <img src={ info.rep_pic } style={{ width: 150, height: 150, margin: 'auto', marginRight: 20, position:"absolute", left:-20, borderRadius:15 }} />
+                <RefPic src={ info.rep_pic } />
                 <TextBox>
-                  <p style={{fontWeight:700, fontSize: 'px'}}>{info.place_name}</p>
-                  <p style={{color: '#6C6C6C'}}>{info.title}</p>
-                  <p style={{fontWeight:600}}>{info.category}</p>
-                  <p style={{fontSize:'12px', fontWeight:600, color: '#6C6C6C',   paddingLeft: '1%', borderLeft: '2px solid #000000'}}>{info.semi_category}</p>
-                  <p style={{fontSize:'14px', fontWeight:600, color: '#6C6C6C'}}>{info.preview}</p>
+                  <PlaceName>{info.place_name}</PlaceName>
+                  <Title>{info.title}</Title>
+                  <Category>{info.category}</Category>
+                  <SemiCategory>{info.semi_category}</SemiCategory>
+                  <Preview>{info.preview}</Preview>
                   <MoreView style={{marginTop:'5px'}} onClick={()=>{window.open(`/story/${info.id}`)}}>더보기</MoreView>
-                  <StorySelectButton style={{marginTop:'-30px'}} onClick={()=>{handleSelectedStory(info.id, info.rep_pic)}}>스토리 선택</StorySelectButton>
+                  <StorySelectButton  onClick={()=>{handleSelectedStory(info.id, info.rep_pic)}}>스토리 선택</StorySelectButton>
                 </TextBox>
               </ItemCard>
             ))}
