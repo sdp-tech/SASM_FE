@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import Heart from '../../common/Heart'
 import styled from "styled-components";
 import AdminButton from "../../Admin/components/AdminButton";
+import { Button } from 'rsuite';
 
 const TitleBox = styled.div`
   display: flex;
@@ -14,7 +15,18 @@ const TitleBox = styled.div`
   position: relative;
   align-items: center;
   margin-top: 50px;
+  border-bottom: 1px solid #000;
+  @media screen and (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `
+
+const StoryTitleBox = styled(TitleBox)`
+  @media screen and (max-width: 768px) {
+    justify-content: space-around;
+  }  
+`
+
 const CurationPlusButton = styled.div`
 `
 const LikeIconBox = styled.div`
@@ -26,6 +38,12 @@ const LikeIconBox = styled.div`
   align-items: center;
 `;
 const Text = styled.p`
+  @media screen and (max-width: 768px) {
+    font-size: 0.85rem;
+  }
+`
+const StoryPlaceName = styled.p`
+  
 `
 const InfoBox = styled.div`
   display: flex;
@@ -33,6 +51,12 @@ const InfoBox = styled.div`
   font-size: 16px;
   font-weight: normal;
   width: 19%;
+  @media screen and (max-width: 767px) {
+    width: 45%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 45%;
+  }
 `
 const ContentBox = styled.div`
   display: flex;
@@ -45,6 +69,7 @@ const ContentBox = styled.div`
 const GotoMap = styled.button`
   // margin: 20px auto;
   background-color: #fff;
+  color: #000;
   border: none;
   cursor: pointer;
   font-size: 1rem;
@@ -55,8 +80,22 @@ const GotoMap = styled.button`
 `
 const StorySection = styled.div`
 `
+const ProfileImage = styled.img`
+  width: 30%;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px; margin-right: 20px;
+`
+const StoryProfileImage = styled(ProfileImage)`
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`
 const Image = styled.img`
   width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 50%;
+  }
 `
 const View = styled.div`
   position: relative;
@@ -72,6 +111,8 @@ const StoryInfoBox = styled.div`
   position: relative;
 `
 const GotoStory = styled.button`
+margin-bottom: 15px;
+margin-top: 15px;
 background-image: linear-gradient(
   // to right,
   #f5f6fa,
@@ -97,7 +138,7 @@ background-image: linear-gradient(
       #f5f6fa
     );
     margin-left: 5px;
-    margin-top: 5px;
+    margin-top: 20px;
   }
 `
 const StoryContentBox = styled.div`
@@ -106,7 +147,7 @@ const StoryContentBox = styled.div`
 `
 const Wrapper = styled.div`
   background: white;
-  width: 100vw;
+  width: 100%;
   margin: 0 auto;
   margin-top: 4rem;
   padding: 0 10vw;
@@ -148,8 +189,9 @@ const ButtonDiv = styled.div`
   align-items: flex-end;
   @media screen and (max-width: 768px) {
     justify-content: space-between;
-    align-items: center;
+    align-items: right;
     margin-bottom: 1rem;
+    margin-top: 0px;
   }
 `;
 const Title = styled.div`
@@ -164,14 +206,17 @@ const Title = styled.div`
   display: flex;
    @media screen and (max-width: 768px) {
     height: auto;
-    font-size: 2rem;
+    font-size: 1.2rem;
     flex-flow: row wrap;
    }
 `;
 const ImgBox = styled.div`
    display: flex;
    flex-direction:column;
-   item-align:center;
+   align-items:center;
+`
+const StoryProfileInfoBox = styled(InfoBox)`
+   text-align : right;
 `
 export default function CurationDetailBox() {
   const navigate = useNavigate();
@@ -256,8 +301,8 @@ export default function CurationDetailBox() {
               <Title>{curationDetail.title}</Title>
               <InfoBox>
                 <IconView>
-                  <Image src={ curationDetail.profile_image } style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
-                  <LikeIconBox style={{marginTop: "20px"}}>
+                  <ProfileImage src={ curationDetail.profile_image }/>
+                  <LikeIconBox style={{marginTop: "20px", marginBottom:"20px"}}>
                       {curationDetail.like_curation === true ? (
                         <HeartButton like={!like} onClick={toggleLike} />
                       ) : (
@@ -270,11 +315,11 @@ export default function CurationDetailBox() {
                 </IconView>
                 <View>
                   <p style={{textAlign: "right"}}>{curationDetail.nickname}</p>
-                  <p>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
+                  <p style={{textAlign: "right"}}>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
                   {myEmail === curationDetail.writer_email ? <DeleteButton onClick={delCuration}>삭제하기</DeleteButton> : <></>}
-                  {myEmail !== curationDetail.writer_email ? <AdminButton onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
+                  {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
                   <Text >팔로우 취소</Text>:
-                  <Text >+ 팔로잉</Text>}</AdminButton> : <></>}
+                  <Text >+ 팔로잉</Text>}</Button> : <></>}
                 </View>
               </InfoBox>
             </TitleBox>
@@ -283,11 +328,14 @@ export default function CurationDetailBox() {
               <GotoMap onClick={() => {
                  navigate('/map?page=1');
                  }}>
-                <Text>맵페이지로 이동</Text>
+                  &#60; Go To Map
               </GotoMap>
             </ButtonDiv>
             
           </View>
+          <ContentBox>
+            <p>{curationDetail.contents}</p>
+          </ContentBox>
           <ImgBox>
             <Image src={curationDetail.map_image} 
             // style={{ width: width, height: width * (mapImageSize.height / mapImageSize.width) }}
@@ -296,9 +344,6 @@ export default function CurationDetailBox() {
               // style={{ width: width, height: width * (reppicSize.height / reppicSize.width) }}
               />
           </ImgBox>
-          <ContentBox>
-            <p>{curationDetail.contents}</p>
-          </ContentBox>
           {
             curatedStory.map(data =>
               <Storys {...data} refresh={refresh} setRefresh={setRefresh} />
@@ -360,29 +405,29 @@ export const Storys = ({
   return (
     <StorySection>
       <StoryInfoBox>
-        <TitleBox>
-            <Text style={{marginRight:'20px'}}>{place_name}</Text>
-            <InfoBox>
-              <Image src={`${profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+        <StoryTitleBox>
+            <StoryPlaceName style={{marginRight:'30px'}}>{place_name}</StoryPlaceName>
+            <StoryProfileInfoBox>
+              <StoryProfileImage src={`${profile_image}`}/>
               <View>
-                <Text>{nickname}</Text>
-                <Text>{created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
+                <Text style={{fontWeight:600, textAlign:"right"}}>{nickname}</Text>
+                <Text style={{fontWeight:600}}>{created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
               </View>
-            </InfoBox>
+            </StoryProfileInfoBox>
             <Heart like={like} onClick={handleLike} />
             {
-              myEmail !== writer_email ? <AdminButton  style={{marginLeft: "30px"}} onClick={()=>{following(writer_email)}}>{writer_is_followed ? 
+              myEmail !== writer_email ? <Button  style={{marginLeft: "30px"}} onClick={()=>{following(writer_email)}}>{writer_is_followed ? 
               <Text >팔로우 취소</Text>:
               <Text >+ 팔로잉</Text>}
-              </AdminButton> : <></>
+              </Button> : <></>
             }
-        </TitleBox>
-        <Text style={{ fontSize: 16 }}>{place_address}</Text>
+        </StoryTitleBox>
+        <Text style={{ fontSize: 18, color: "#282828" }}>{place_address}</Text>
       </StoryInfoBox>
       <StoryContentBox>
-        <Text style={{fontWeight:'bold', fontSize:'18px'}}>{place_category}</Text>
-        <Text>{story_review}</Text>
-        <Text>{preview}</Text>
+        <Text style={{fontWeight:'bold', fontSize:'20px'}}>{place_category}</Text>
+        <Text style={{color:"#000", fontWeight:600}}>{story_review}</Text>
+        <Text style={{color:"#000", fontWeight:600}}>{preview}</Text>
         <Text>{hashtags}</Text>
       </StoryContentBox>
       <GotoStory onClick={() => { navigate(`/story/${story_id}`)}}>

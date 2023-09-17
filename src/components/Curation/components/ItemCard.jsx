@@ -16,30 +16,37 @@ const StoreNameBox = styled.div`
   @media screen and (max-width: 768px) {
     width:100%;
     margin: 0;
+    font-size: 0.5rem;
   }
-  font-size: 1.25rem;
+  font-size: 1.2rem;
+  &:hover {
+    color: #8C8CFF;
+  }
 `;
 
 const CardWrapper = styled.div`
   position: relative;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  &:hover {
+    transform: scale(1.02);
+  }
 `
 
 export default function ItemCard(props) {
-  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
-  const width = isMobile ? "60vw" : "15vw";
-  const height = isMobile ? "60vw" : "15vw";
   return (
     <CardWrapper>
       <CardMedia
       component="img"
       sx={{
         16: 9,
-        minHeight: height,
-        minWidth: width,
-        maxHeight: height,
-        maxWidth: width,
-        display: "flex",
+        minHeight: '15vw',
+        minWidth: '15vw',
+        maxHeight: '15vw',
+        maxWidth: '15vw',
+        // display: "flex",
         borderRadius: "10%",
       }}
       image={props.rep_pic}

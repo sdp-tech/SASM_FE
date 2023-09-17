@@ -105,11 +105,15 @@ const PageTitleCss = styled.div`
   }
 `;
 const MobileMenuBox = styled.div`
-  height: 100%;
   width: 10%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  cursor: pointer;
+  transition: all .5s;
+  &:hover {
+    transform: scale(0.8);
+  }
 `
 const MobileMenuList = styled.div`
   width:100%;
