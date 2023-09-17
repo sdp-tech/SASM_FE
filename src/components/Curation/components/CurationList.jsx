@@ -22,13 +22,13 @@ const CurationList = ({ info }) => {
             >
               {info.length === 0 ? (
                 <NothingSearched>
-                  <img src={nothingIcon} style={{ marginBottom: "10px" }} />
+                  <img src={nothingIcon} style={{ marginBottom: "10px", margin: 'auto' }} />
                   해당하는 큐레이션이 없습니다
                 </NothingSearched>
               ) : (
                 <Grid container spacing={2}>
                   {info.map((info, index) => (
-                    <Grid item key={info.id} xs={12} sm={6} md={4} lg={3}>
+                    <Grid item key={info.id} xs={3} sm={3} md={3} lg={3}>
                       <CardSection onClick={ () => { navigate(`/curation/${info.id}`)}}>
                         <ItemCard
                           key={index}
@@ -71,13 +71,10 @@ const CardSection = styled.div`
   align-items: center;
 `;
 const NothingSearched = styled.div`
-  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // margin-top: 15%;
-  left: 410px;
   margin-bottom: 50px;
 `;
 export default CurationList;

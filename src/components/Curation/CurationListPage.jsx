@@ -67,8 +67,6 @@ const SectionCuration = styled.div`
   grid-area: curation;
   scrollbar-height: thin;
   // overflow: scroll;
-  @media screen and (max-width: 768px) {
-  }
 `;
 const RecommendPlace = styled.div`
   margin-left: 15px;
@@ -121,6 +119,9 @@ const MoreViewText = styled.p`
   font-weight: 600;
   font-size: 12px;
   font-family: pretendard;
+  &:hover {
+    color: #00AFFF;
+  }
 `
 const RecommendPlaceText = styled.p`
   font-weight: 600;
@@ -136,9 +137,9 @@ const SubWrap = styled.div`
 const FooterSection = styled.div`
   display: flex;
   flex-direction: row;
-  bottom: 0;
+  // bottom: 0;
   width: 100%;
-  position: relative;
+  // position: absolute;
   z-index: 20;
   justify-content: center;
   align-items: center;
@@ -149,13 +150,14 @@ const ToggleWrapper = styled.div`
   height: 50%;
   display: flex;
   right: 15vw;
-  width: 8vw;
+  width: 12vw;
   align-items: center;
   @media screen and (max-width: 768px) {
     width: 30vw;
+    top: 2vh;
     position: relative;
     right: -25vw;
-    height: 4vh;
+    height: 3vh;
   }
 `
 const OrderToggle = styled.div`
@@ -183,6 +185,27 @@ const OrderToggle = styled.div`
   }
   z-index: 3;
 `
+
+const Image = styled.img`
+  width: 160px;
+  height:160px; 
+  border-radius:80px;
+  transition: all .5s;
+  @media screen and (max-width: 767px) {
+    width: 15vw;    
+    height: 15vw;
+    border-radius: 50%;   
+  }
+  @media screen and (min-width: 768px) and (max-width: 991px) {
+    width: 13vw;    
+    height: 13vw;
+    border-radius: 50%;   
+  }
+  &:hover {
+    transform: rotate(1turn);
+  }
+`
+
 const CurationListPage = () => {
   const [item, setItem] = useState([]);
   const [repCuration, setRepCuration] = useState([]);
@@ -331,25 +354,25 @@ const CurationListPage = () => {
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.544641605, lng: 127.055896738 }});  
               }}>
-                <img src="/img/place_seongsu.jpg" style={{width: 160, height:160, borderRadius:100}} alt="성수동"/>
+                <Image src="/img/place_seongsu.jpg" alt="성수동"/>
                 <RecommendPlaceText>성수동</RecommendPlaceText>
               </RecommendPlace>
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.5090846971287, lng: 127.108220751231 }})  
               }}>
-                <img src="/img/place_songridan.jpg" style={{width: 160, height:160, borderRadius:160}} alt="송리단길"/>
+                <Image src="/img/place_songridan.jpg" alt="송리단길"/>
                 <RecommendPlaceText>송리단길</RecommendPlaceText>
               </RecommendPlace>
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.555833333333325, lng: 126.89999999999999 }})
               }}>
-                <img src="/img/place_mangwon.jpg" style={{width: 160, height:160, borderRadius:160}} alt="망원동"/>
+                <Image src="/img/place_mangwon.jpg" alt="망원동"/>
                 <RecommendPlaceText>망원동</RecommendPlaceText>
               </RecommendPlace>
               <RecommendPlace onClick={() => { 
                   navigate("/map?page=1", { state: { lat: 37.55972222222222, lng: 126.9752777777778 }})  
               }}>
-                <img src="/img/place_namdaemun.jpg" style={{width: 160, height:160, borderRadius:160}} alt="남대문"/>
+                <Image src="/img/place_namdaemun.jpg" alt="남대문"/>
                 <RecommendPlaceText>남대문</RecommendPlaceText>
               </RecommendPlace>
             </SectionCuration>
@@ -360,9 +383,9 @@ const CurationListPage = () => {
               </SubWrap>
             </TitleBox>
             <SectionCuration style={{marginTop:40}}>
-              <Grid container spacing={4}>
+              <Grid container spacing={2}>
                 {storyData.map((info, index) => (
-                  <Grid item key={info.id} xs={12} sm={6} md={4} lg={3}>
+                  <Grid item key={info.id} xs={3} sm={3} md={3} lg={3}>
                     <CardSection onClick={()=>{navigate(`/story/${info.id}`)}}>
                       <ItemCard
                         category={info.category}
