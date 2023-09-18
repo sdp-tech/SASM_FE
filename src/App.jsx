@@ -22,6 +22,7 @@ import CurationAdmin from "./pages/CurationAdmin";
 import CurationDetailPage from "./components/Curation/CurationDetailPage";
 import CurationMoreView from "./components/Curation/components/CurationMoreView";
 import CurationUserMoreView from "./components/Curation/components/CurationUserMoreView";
+import ScrollRestoration from "./functions/common/ScrollRestoration";
 
 const App = () => {
   const [login, setLogin] = useState({
@@ -59,6 +60,7 @@ const App = () => {
       <CookiesProvider>
         <LoginProvider value={[login, setLogin]}>
           <BrowserRouter>
+            <ScrollRestoration/>
             <Navibar />
             <Routes>
               <Route path="/map/:id" element={<SpotMap />} />
