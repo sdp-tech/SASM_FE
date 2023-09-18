@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 
 const StorySelectButton = styled.div`
@@ -161,7 +161,9 @@ const Preview = styled.p`
   }
 `
 
-export default function StoryListModal({ selectedStory, setSelectedStory, item}) {
+export default function StoryListModal({ selectedStory, setSelectedStory, item, setMessage}) {
+
+
 
   const handleSelectedStory = (id, rep_pic) => {
     if (selectedStory.filter(el => el.id == id).length > 0) {
@@ -172,9 +174,11 @@ export default function StoryListModal({ selectedStory, setSelectedStory, item})
       }
     else {
       setSelectedStory([...selectedStory, { id: id, rep_pic: rep_pic }]);
-      alert("스토리 목록에 추가되었습니다.");  
+      setMessage(true); 
     }
   }
+
+
 
   return (
     <View>

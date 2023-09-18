@@ -12,6 +12,7 @@ import oc from "open-color";
 import qs from "qs";
 import { Modal, Button, ButtonToolbar, Placeholder} from 'rsuite';
 import "rsuite/dist/rsuite.min.css";
+import AlertMessage from "../../functions/common/AlertMessage"
 
 const InputTitle = styled.input`
 width: 100%;
@@ -187,6 +188,7 @@ export default function CurationForm() {
     });
   const request = Request(navigate);
   const ref = useRef();
+  const [message, setMessage] = useState(false);
 
   const uploadCuration = async () => {
     const formData = new FormData();
@@ -351,12 +353,13 @@ export default function CurationForm() {
           <Modal open={open} size={size} backdrop={"static"}>
             <Modal.Header>
               <Modal.Title>스토리 선택</Modal.Title>
+              {message && <AlertMessage setMessage={setMessage} text="📚 스토리 목록에 추가되었습니다."/>}
             </Modal.Header>
             <Modal.Body>
                 <SearchBarSection>
                   <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
                 </SearchBarSection>
-                <StoryListModal item = {item} selectedStory={selectedStory} setSelectedStory={setSelectedStory}/>
+                <StoryListModal item = {item} selectedStory={selectedStory} setSelectedStory={setSelectedStory} setMessage={setMessage}/>
                 <Pagination
                 total={pageCount}
                 limit={limit}
