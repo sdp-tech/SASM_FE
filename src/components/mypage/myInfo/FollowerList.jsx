@@ -5,6 +5,7 @@ import Pagination from '../../common/Pagination';
 import Request from '../../../functions/common/Request';
 import SearchBar from '../../common/SearchBar';
 import qs from "qs";
+import OtherUserData from '../../../functions/common/OtherUserData';
 
 const SearchWapper = styled.div`
 box-sizing: border-box;
@@ -47,6 +48,12 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin: auto;
 `;
+const FollowWrapper = styled(Wrapper)`
+  cursor: pointer;
+  &:hover {
+    color: #00AFFF;
+  }
+`
 const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,6 +69,10 @@ const FollowerImg = styled.img`
   height: 80px;
   border-radius: 50%;
   margin: 4px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
 `
 const BackButton = styled.div`
   color: black;
@@ -100,6 +111,8 @@ const Follower = () => {
   const location = useLocation();
   const request = Request(navigate);
   const myEmail = localStorage.getItem("email");
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [followerList, setFollowerList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [limit, setLimit] = useState(5);
@@ -122,6 +135,18 @@ const Follower = () => {
     });
     setFollowerList(response.data.data.results);
     setTotal(response.data.data.count);
+  }
+
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
   }
 
   const onChangeSearch = (e) => {
@@ -151,6 +176,7 @@ const Follower = () => {
         <p style={{ fontSize: 16, letteringSpace: -0.6 }} >Back To Mypage</p>
       </BackButton>
       <FollowerSection>
+      <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
         {
           followerList.length == 0 ? 
             <Wrapper>
@@ -160,11 +186,11 @@ const Follower = () => {
             {
               followerList.map((user, index) => (
                 <InfoWrapper>
-                  <FollowerImg src={user.profile_image}/>
-                  <Wrapper>
+                  <FollowerImg src={user.profile_image} onClick={() => {otherUserData(user.email)}}/>
+                  <FollowWrapper onClick={() => {otherUserData(user.email)}}>
                     <p>{user.nickname}</p>
                     <p>{user.email}</p>
-                  </Wrapper>
+                  </FollowWrapper>
                 </InfoWrapper>
               ))
             }

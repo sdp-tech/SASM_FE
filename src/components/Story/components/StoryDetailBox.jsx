@@ -12,6 +12,7 @@ import Recommends from "./StoryRecommend";
 import { useMediaQuery } from "react-responsive";
 import { Mobile, Pc, Tablet } from "../../../device"
 import AdminButton from "../../Admin/components/AdminButton";
+import OtherUserData from "../../../functions/common/OtherUserData";
 
 const Wrapper = styled.div`
   background: white;
@@ -215,6 +216,12 @@ const MarkupBox = styled.div`
 const Text = styled.p`
   margin: auto;
 `
+const ProfileText = styled.p`
+  margin: auto;
+  &:hover {
+    color: #00AFFF;
+  }
+`
 const InfoBox = styled.div`
   width: 100%;
   display: flex;
@@ -228,6 +235,9 @@ const View = styled.div`
 `
 const Image = styled.img`
   width: 30%;
+  &:hover {
+    transform: scale(1.02);
+  }
 `
 
 const MapButton = styled(Button)({
@@ -294,6 +304,8 @@ const StoryDetailBox = (props) => {
   const id = props.id; 
   const [data, setData] = useState([]);
   const [comment, setComment] = useState([]);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [recommend, setRecommend] = useState([]);
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -359,6 +371,18 @@ const StoryDetailBox = (props) => {
     setLoading(false);
   };
 
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   useEffect(() => {
     loadItem();
   }, [refresh]);
@@ -384,16 +408,16 @@ const StoryDetailBox = (props) => {
               <Options>{data.semi_category}</Options>
               <div style={{position: "absolute", left:'63vw', top:"-30px"}}>               
                 <InfoBox>
-                  <Image src={`${data.profile_image}`} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} />
+                  <Image src={data.profile} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} onClick={() => {otherUserData(data.writer)}} />
                   <View>
-                  <Text>{data.nickname}</Text>
+                  <ProfileText onClick={() => {otherUserData(data.writer)}}>{data.nickname}</ProfileText>
                   <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>                
               {myEmail === data.writer ? <DeleteButton onClick={delStory}>삭제하기</DeleteButton> : <></>}
                   </View>
                 </InfoBox>
                 <FollowBox>
                 {
-                  myEmail !== data.writer ? <AdminButton style={{width:"70%"}} onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
+                  myEmail !== data.writer ? <AdminButton style={{width:"100%"}} onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
                 <Text>팔로우 취소</Text>:
                 <Text>+ 팔로잉</Text>}</AdminButton> : <></>
                 }
@@ -439,6 +463,7 @@ const StoryDetailBox = (props) => {
               </Tablet>
             </StoreNameBox>
           </MainTitleNStoreNameBox>
+          <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
           <ImageNContentBox>
             <div>{data.story_review}</div>
             <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>

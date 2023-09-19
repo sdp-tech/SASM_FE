@@ -12,6 +12,7 @@ import Comment from './Comments/Comment';
 import CommunityUpdate from './CommunityUpdate';
 import Pagination from "../common/Pagination";
 import qs from 'qs';
+import OtherUserData from '../../functions/common/OtherUserData';
 
 const Section = styled.div`
   position: relative;
@@ -81,6 +82,13 @@ const CommentsWrapper = styled.div`
   width: 100%;
 `
 
+const Writer = styled.span`
+  cursor: pointer;
+  &:hover {
+    color: #1E90FF;
+  }
+`
+
 export default function CommunityDetail({ board, id, format }) {
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState({});
@@ -92,6 +100,8 @@ export default function CommunityDetail({ board, id, format }) {
   const [mode, setMode] = useState(false);
   const [like, setLike] = useState(false);
   const [report, setReport] = useState(false);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
@@ -143,6 +153,19 @@ export default function CommunityDetail({ board, id, format }) {
     const response = await request.post(`/community/posts/${id}/like/`);
     setLike(!like);
   }
+
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
     <>
       {
@@ -159,12 +182,13 @@ export default function CommunityDetail({ board, id, format }) {
                   <HeartButton like={like} onClick={likeItem} />
                 </Title>
                 <Info>
-                  <span style={{ margin: '0 5% 0 0' }}>
-                    작성자 | {detail.nickname}
-                  </span>
-                  작성일 | {detail.updated.slice(0, 10)}
+                  <Writer style={{ margin: '0 5% 0 0' }} onClick={() => {otherUserData(detail.email)}}>
+                    {detail.nickname}
+                  </Writer>
+                  {detail.updated.slice(0, 10)} 작성
                 </Info>
                 <Content>
+                <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
                   {detail.board == '2' ?
                     <>
                       {
