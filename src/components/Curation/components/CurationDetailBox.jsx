@@ -7,6 +7,7 @@ import Heart from '../../common/Heart'
 import styled from "styled-components";
 import AdminButton from "../../Admin/components/AdminButton";
 import { Button } from 'rsuite';
+import OtherUserData from '../../../functions/common/OtherUserData';
 
 const TitleBox = styled.div`
   display: flex;
@@ -85,6 +86,9 @@ const ProfileImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 25px; margin-right: 20px;
+  &:hover {
+    transform: scale(1.02);
+  }
 `
 const StoryProfileImage = styled(ProfileImage)`
   @media screen and (max-width: 768px) {
@@ -218,6 +222,11 @@ const ImgBox = styled.div`
 const StoryProfileInfoBox = styled(InfoBox)`
    text-align : right;
 `
+const Writer = styled.p`
+   &:hover {
+    color: #00AFFF;
+   }
+`
 export default function CurationDetailBox() {
   const navigate = useNavigate();
   const params = useParams();
@@ -225,6 +234,8 @@ export default function CurationDetailBox() {
   const token = localStorage.getItem("accessTK");
   const [like, setLike] = useState(false);
   const request = Request(navigate);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [curatedStory, setCuratedStory] = useState([]);
   const [curationDetail, setCurationDetail] = useState({
     contents: '',
@@ -292,6 +303,18 @@ export default function CurationDetailBox() {
     rerender();
   }
 
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
     <>
       <Wrapper>
@@ -299,9 +322,10 @@ export default function CurationDetailBox() {
           <View style={{ position: 'relative' }}>
             <TitleBox>
               <Title>{curationDetail.title}</Title>
+              <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
               <InfoBox>
                 <IconView>
-                  <ProfileImage src={ curationDetail.profile_image }/>
+                  <ProfileImage src={ curationDetail.profile_image } onClick={() => {otherUserData(curationDetail.writer_email)}}/>
                   <LikeIconBox style={{marginTop: "20px", marginBottom:"20px"}}>
                       {curationDetail.like_curation === true ? (
                         <HeartButton like={!like} onClick={toggleLike} />
@@ -314,7 +338,7 @@ export default function CurationDetailBox() {
                   </LikeIconBox>
                 </IconView>
                 <View>
-                  <p style={{textAlign: "right"}}>{curationDetail.nickname}</p>
+                  <Writer style={{textAlign: "right"}} onClick={() => {otherUserData(curationDetail.writer_email)}}>{curationDetail.nickname}</Writer>
                   <p style={{textAlign: "right"}}>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
                   {myEmail === curationDetail.writer_email ? <DeleteButton onClick={delCuration}>삭제하기</DeleteButton> : <></>}
                   {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
@@ -375,6 +399,8 @@ export const Storys = ({
   const params = useParams();
   const [like, setLike] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["name"]);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const token = localStorage.getItem("accessTK");
   const navigate = useNavigate();
   const request = Request(navigate);
@@ -397,6 +423,18 @@ export const Storys = ({
     setRefresh(!refresh);
   }
 
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   useEffect(()=>{
     setLike(true);
     setLike(like_story);
@@ -406,11 +444,12 @@ export const Storys = ({
     <StorySection>
       <StoryInfoBox>
         <StoryTitleBox>
+          <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
             <StoryPlaceName style={{marginRight:'30px'}}>{place_name}</StoryPlaceName>
             <StoryProfileInfoBox>
-              <StoryProfileImage src={`${profile_image}`}/>
+              <StoryProfileImage src={`${profile_image}`} onClick={() => {otherUserData(writer_email)}}/>
               <View>
-                <Text style={{fontWeight:600, textAlign:"right"}}>{nickname}</Text>
+                <Writer style={{fontWeight:600, textAlign:"right"}} onClick={() => {otherUserData(writer_email)}}>{nickname}</Writer>
                 <Text style={{fontWeight:600}}>{created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>
               </View>
             </StoryProfileInfoBox>

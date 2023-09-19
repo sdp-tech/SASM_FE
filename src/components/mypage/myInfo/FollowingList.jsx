@@ -4,8 +4,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Pagination from '../../common/Pagination';
 import Request from '../../../functions/common/Request';
 import SearchBar from '../../common/SearchBar';
-import AdminButton from "../../Admin/components/AdminButton";
 import qs from "qs";
+import { Button } from 'rsuite';
+import OtherUserData from '../../../functions/common/OtherUserData';
 
 const SearchWapper = styled.div`
 box-sizing: border-box;
@@ -47,6 +48,13 @@ const Wrapper = styled.div`
   flex-direction: column;
   margin: auto;
 `;
+
+const FollowWrapper = styled(Wrapper)`
+  cursor: pointer;
+  &:hover {
+    color: #00AFFF;
+  }
+`
 const ButtonWrapper = styled.div`
   margin-top: 10px;
   margin-left: 30px;
@@ -71,6 +79,10 @@ const FollowingImg = styled.img`
   height: 80px;
   border-radius: 50%;
   margin: 4px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
 `
 const BackButton = styled.div`
   color: black;
@@ -103,6 +115,7 @@ const FooterSection = styled.div`
 `;
 
 
+
 const Following = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -110,6 +123,8 @@ const Following = () => {
   const myEmail = localStorage.getItem("email");
   const [limit, setLimit] = useState(5);
   const [followingList, setFollowingList] = useState([]);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [total, setTotal] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
@@ -147,10 +162,21 @@ const Following = () => {
     rerender();
   }
 
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   useEffect(() => {
       GetFollowing();
     }, [queryString.page, refresh, searchQuery])
-
 
   return (
     <InfoBox style={{ backgroundColor: 'white' }}>
@@ -169,6 +195,7 @@ const Following = () => {
         <p style={{ fontSize: 16, letteringSpace: -0.6 }} >Back To Mypage</p>
       </BackButton>
       <FollowingSection>
+      <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
         {
           followingList.length == 0 ? 
             <Wrapper>
@@ -178,13 +205,13 @@ const Following = () => {
             {
               followingList.map((user, index) => (
                 <InfoWrapper>
-                  <FollowingImg src={user.profile_image}/>
-                  <Wrapper>
+                  <FollowingImg src={user.profile_image} onClick={() => {otherUserData(user.email)}}/>
+                  <FollowWrapper onClick={() => {otherUserData(user.email)}}>
                     <p>{user.nickname}</p>
                     <p>{user.email}</p>
-                  </Wrapper>
+                  </FollowWrapper>
                   <ButtonWrapper>
-                    <AdminButton onClick={()=>{undoFollowing(user.email)}}>팔로우 취소</AdminButton>
+                    <Button onClick={()=>{undoFollowing(user.email)}}>팔로우 취소</Button>
                   </ButtonWrapper>
                 </InfoWrapper>
               ))

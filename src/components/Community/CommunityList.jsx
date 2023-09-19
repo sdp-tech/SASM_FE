@@ -7,6 +7,7 @@ import Pagination from '../common/Pagination';
 import SearchBlack from "../../assets/img/search_black.svg";
 import CommunityUpload from "./CommunityUpload";
 import qs from 'qs';
+import OtherUserData from '../../functions/common/OtherUserData';
 const Section = styled.div`
   height: 53vh;
   position: relative;
@@ -35,6 +36,12 @@ const Info = styled.div`
 const Writer = styled.div`
   width: 20%;
 `
+const CommunityWriter = styled(Writer)`
+  cursor: pointer;
+  &:hover {
+    color: #00AFFF;
+  }
+` 
 const CreatedAt = styled.div`
   width: 20%;
 `
@@ -94,6 +101,8 @@ export default function CommunityList({ board, format }) {
   const navigate = useNavigate();
   const request = Request(navigate);
   const [mode, setMode] = useState(false);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [list, setList] = useState([]);
   const [listHashtag, setListHashtag] = useState([]);
   const location = useLocation();
@@ -142,6 +151,18 @@ export default function CommunityList({ board, format }) {
       setSearch(tempSearch);
     }
   };
+
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   const getHashTag = async (search) => {
     const response = await request.get("/community/post_hashtags", {
@@ -192,6 +213,7 @@ export default function CommunityList({ board, format }) {
           </SearchFilterBar>
           <Section>
             <ListWrapper>
+            <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
               <List>
                 <Title>제목</Title>
                 <Info>좋아요/댓글</Info>
@@ -208,7 +230,7 @@ export default function CommunityList({ board, format }) {
                       {data.likeCount}
                       -
                       {data.commentCount}</Info>
-                    <Writer>{data.nickname}</Writer>
+                    <CommunityWriter onClick={() => {otherUserData(data.email)}}>{data.nickname}</CommunityWriter>
                     <CreatedAt>{data.updated.slice(0, 10)}</CreatedAt>
                   </List>
                 ))

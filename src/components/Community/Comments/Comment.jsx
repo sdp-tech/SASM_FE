@@ -5,6 +5,7 @@ import Request from '../../../functions/common/Request';
 import ReportComment from '../Reports/ReportComment';
 import UpdateComment from './UpdateComment';
 import WriteComment from './WriteComment';
+import OtherUserData from '../../../functions/common/OtherUserData';
 
 const CommentWrapper = styled.div`
   border-bottom: 1px black solid;
@@ -43,6 +44,12 @@ const Button = styled.button`
   }
   padding: 0.5vh 1vw;
 `
+const Writer = styled.span`
+  cursor: pointer;
+  &:hover {
+    color: #1E90FF;
+  }
+`
 
 
 export default function Comment({ data, id, format }) {
@@ -50,6 +57,8 @@ export default function Comment({ data, id, format }) {
   const [reply, setReply] = useState(false);
   //update의 default는 댓글을 수정하지 않느 false
   const [update, setUpdate] = useState(false);
+  const [otherUser, setOtherUser] = useState({});
+  const [open, setOpen] = useState(false);
   const [report, setReport] = useState(false);
   const navigate = useNavigate();
   const email = localStorage.getItem('email');
@@ -73,14 +82,26 @@ export default function Comment({ data, id, format }) {
   if (data.email == email) {
     isWriter = true;
   }
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <>
+    <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
       {update ?
         <UpdateComment data={data} setUpdate={setUpdate} /> :
         <CommentWrapper>
           <Contents isParent={data.isParent}>
             <Title>
-              {data.nickname}
+              <Writer onClick={() => {otherUserData(data.email)}}>{data.nickname}</Writer>
               <ButtonWrapper>
                 {isWriter && <Button onClick={deleteComment}>삭제</Button>}
                 {isWriter && <Button onClick={handleUpdate}>수정</Button>}
