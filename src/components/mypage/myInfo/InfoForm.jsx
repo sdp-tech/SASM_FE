@@ -172,8 +172,7 @@ export default function InfoForm(props) {
     setFollowerNum(response_follower.data.data.count);
     setLoading(false);
   };
-
-  const { profile_image, nickname, birthdate, email } = info;
+  const { profile_image, nickname, birthdate, email, introduction } = info;
   const myEmail = info.email
 
   // 초기에 좋아요 목록 불러오기
@@ -213,6 +212,10 @@ export default function InfoForm(props) {
                   <LabelWrapper>
                     <Label backgroundColor={"#AAEFC2"}>생년월일</Label>
                     <Text>{birthdate}</Text>
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label backgroundColor={"#AAEFC2"}>한 줄 소개</Label>
+                    <Text>{introduction}</Text>
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label onClick={EditProfile} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>프로필 편집</Label>

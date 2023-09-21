@@ -18,7 +18,7 @@ const ChangeForm = (props) => {
     const reader = new FileReader();
     const file = e.target.files[0];
     // console.log(file);
-
+    state.profile_image = "";
     setInfo({
       ...info,
       profile_image: file,
@@ -74,7 +74,7 @@ const ChangeForm = (props) => {
           <form style={{ width: '100%', height: '100%' }}>
             <div style={{ height: '30%', display: 'flex', alignItems: 'center' }}>
               <div style={{ position: 'relative' }}>
-                <ImageBox profile={state.profile_image} />
+                {state.profile_image ?<ImageBox profile={state.profile_image} /> : <ImageBox profile={imageUrl} />}
                 <AppStyle>
                   <label htmlFor="ex_file">
                     <div>
@@ -116,7 +116,7 @@ const ChangeForm = (props) => {
                           nickname: event.target.value,
                         });
                       }}
-                      name="nickname" />
+                      name="nickname"/>
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label>생년월일</Label>
@@ -130,6 +130,17 @@ const ChangeForm = (props) => {
                         });
                       }}
                       name="birthdate" />
+                  </LabelWrapper>
+                  <LabelWrapper>
+                    <Label>한 줄 소개</Label>
+                    <Text type="text" placeholder={state.introduction}
+                      onChange={(event) => {
+                        setInfo({
+                          ...info,
+                          introduction: event.target.value,
+                        });
+                      }}
+                      name="introduction"  maxLength={35}/>
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label style={{ opacity: "0" }}>저장하기</Label>
