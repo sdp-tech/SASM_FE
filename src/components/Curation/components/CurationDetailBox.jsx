@@ -322,7 +322,7 @@ export default function CurationDetailBox() {
           <View style={{ position: 'relative' }}>
             <TitleBox>
               <Title>{curationDetail.title}</Title>
-              <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+              {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
               <InfoBox>
                 <IconView>
                   <ProfileImage src={ curationDetail.profile_image } onClick={() => {otherUserData(curationDetail.writer_email)}}/>

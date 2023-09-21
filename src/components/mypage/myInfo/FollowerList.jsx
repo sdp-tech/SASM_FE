@@ -176,7 +176,7 @@ const Follower = () => {
         <p style={{ fontSize: 16, letteringSpace: -0.6 }} >Back To Mypage</p>
       </BackButton>
       <FollowerSection>
-      <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+      {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
         {
           followerList.length == 0 ? 
             <Wrapper>

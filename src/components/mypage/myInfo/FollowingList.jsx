@@ -195,7 +195,7 @@ const Following = () => {
         <p style={{ fontSize: 16, letteringSpace: -0.6 }} >Back To Mypage</p>
       </BackButton>
       <FollowingSection>
-      <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+      {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
         {
           followingList.length == 0 ? 
             <Wrapper>
