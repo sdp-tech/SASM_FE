@@ -95,7 +95,7 @@ export default function Comment({ data, id, format }) {
   }
   return (
     <>
-    <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+    {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
       {update ?
         <UpdateComment data={data} setUpdate={setUpdate} /> :
         <CommentWrapper>

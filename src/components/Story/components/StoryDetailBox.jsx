@@ -77,12 +77,13 @@ const MainTitleBox = styled.div`
   }
 `;
 const MainTitle = styled.div`
-  height: 50px;
+  width: 80%;
   font-weight: 600;
   font-size: 1.5rem;
   line-height: 50px;
   color: #000000;
   padding-left: 10px;
+  height: auto;
   display: inline-block; //텍스트 크기에 자동 맞춤
   @media screen and (max-width: 767px) {
     font-size: 1.3rem;
@@ -113,11 +114,10 @@ const StoreName = styled.div`
   color: #000000;
   font-style: normal;
   font-weight: 700;
-  font-size: 2.5rem;
-  line-height: 70px;
+  font-size: 2rem;
   padding: 10px;
+  height: auto;
   display: flex;
-  flex-direction: row;
   align-items: center;
    @media screen and (max-width: 768px) {
     height: auto;
@@ -125,15 +125,15 @@ const StoreName = styled.div`
     flex-flow: row wrap;
    }
    @media screen and (min-width: 768px) and (max-width: 1024px) {
-    font-size: 1.9rem;
-    width: 110%;
+    font-size: 1.7rem;
+    width: 100%;
     height: auto;
     line-height: 150%;
   }
 `;
 const Tag = styled.div`
-  width: auto;
-  height: 50px;
+  width: 60%;
+  height: auto;
   color: #000000;
   font-style: normal;
   font-weight: 600;
@@ -149,7 +149,7 @@ const Tag = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     // display: none;
-    font-size: 0.6rem;
+    font-size: 0.8rem;
   }
 `;
 const ButtonDiv = styled.div`
@@ -171,22 +171,22 @@ const LikeIconBox = styled.div`
 const ImageNContentBox = styled.div`
   width: 100%;
   box-sizing: border-box;
+  height: 95%;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding-top: 8px;
   flex-direction: column;
   zoom: 1.6;
   font-weight: 400;
   @media screen and (max-width: 767px) {
     zoom: 1;
-    padding-top: 20px;
+    height: 97%;
   }
   @media screen and (min-width: 768px) and (max-width:1023px) {
     font-size: 0.8rem;
   }
   @media screen and (min-width: 1024px) {
-    zoom: 1;
+    // zoom: 1;
     padding-top: 20px;
   }
 `;
@@ -463,7 +463,7 @@ const StoryDetailBox = (props) => {
               </Tablet>
             </StoreNameBox>
           </MainTitleNStoreNameBox>
-          <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+          {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
           <ImageNContentBox>
             <div>{data.story_review}</div>
             <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>

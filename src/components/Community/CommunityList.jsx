@@ -213,7 +213,7 @@ export default function CommunityList({ board, format }) {
           </SearchFilterBar>
           <Section>
             <ListWrapper>
-            <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+            {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
               <List>
                 <Title>제목</Title>
                 <Info>좋아요/댓글</Info>

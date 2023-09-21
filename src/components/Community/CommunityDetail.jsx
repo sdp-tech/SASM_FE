@@ -188,7 +188,7 @@ export default function CommunityDetail({ board, id, format }) {
                   {detail.updated.slice(0, 10)} 작성
                 </Info>
                 <Content>
-                <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+                {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
                   {detail.board == '2' ?
                     <>
                       {
