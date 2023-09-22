@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Navibar from "../components/common/Navibar";
 import styled from "styled-components";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import Mypick from "../components/mypick/Mypick"
+import Myplace from "../components/mypick/myplace/Myplace";
 
 export default function MyPick() {
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   // const token = cookies.name;
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
 
-  console.log("token@!", token);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,7 +19,7 @@ export default function MyPick() {
 
   return (
     <Sections>
-      {token ? <Mypick/> : alert("로그인이 필요합니다.")}
+      {token ? <Myplace/> : alert("로그인이 필요합니다.")}
     </Sections>
   );
 }
