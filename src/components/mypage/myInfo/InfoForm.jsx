@@ -15,16 +15,16 @@ const Section = styled.div`
   flex-direction: column;
   overflow: auto;
   height: 100%;
-  width: 100%;
+  width: 50%;
   overflow-y: hidden;
 `;
 const LabelWrapper = styled.div`
   display: flex;
-  width: 120%;
+  width: 100%;
   // justify-content: space-between;
 `
 const Label = styled.div`
-  width: 10vw;
+  width: 27vw;
   display: flex;
   align-items: center;
   background-color: ${props => props.backgroundColor};
@@ -45,12 +45,9 @@ const Label = styled.div`
     width: 25vw;
   }
   @media screen and (min-width: 768px) and (max-width: 991px) {
-    width: 12vw;
+    width: 15vw;
   }
   @media screen and (min-width: 992px) and (max-width: 1023px) {
-    width: 20vw;
-  }
-  @media screen and (min-width: 1023px) {
     width: 30vw;
   }
 `
@@ -76,8 +73,8 @@ const Text = styled.div`
     margin-left: 30px;
   }
   @media screen and (min-width: 1023px) {
-    width: 30vw;
-    margin-left: 50px;
+    width: 35vw;
+    margin-left: 40px;
   }
 `
 const TextBox = styled.div`
@@ -92,7 +89,7 @@ const FollowText = styled.div`
   margin-left: 20px;
   transition: all 0.5s ease;
   &:hover {
-    color: #1EDDFF;
+    color: #1E90FF;
   }
 `
 const InfoContainer = styled.div`
@@ -145,6 +142,29 @@ const ImageBox = styled.div`
     height: 150px;
   }
 `;
+const AllSection = styled.div`
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+`
+
+const MySection = styled.div`
+  margin-top: 30px;
+`
+
+const MySectionTitle = styled.div`
+  margin: 20px 0;
+  font-weight: bold;
+  color:#282828;
+`
+
+const HistoryText = styled.div`
+  cursor: pointer;
+  &:hover {
+    color: #1E90FF;
+    text-decoration: underline;
+  }
+`
 
 export default function InfoForm(props) {
   const navigate = useNavigate();
@@ -152,6 +172,9 @@ export default function InfoForm(props) {
   const [loading, setLoading] = useState(true);
   const [followerNum, setFollowerNum] = useState(0);
   const [followingNum, setFollowingNum] = useState(0);
+  const [myReviewedPlace, setMyReviewedPlace] = useState([]);
+  const [myStory, setMyStory] = useState([]);
+  const [myCuration, setMyCuration] = useState([]);
   const request = Request(navigate);
   //   초기에 mypage data 불러오기
   const updateMypage = async () => {
@@ -167,7 +190,14 @@ export default function InfoForm(props) {
       email: response_info.data.data.email,
       search_email: ''
     });
+    const response_myCuration = await request.get('/mypage/my_curation/', null, null);
+    const response_myStory = await request.get('/mypage/my_story/',null, null);
+    const response_myReviewPlace = await request.get('/mypage/my_reviewed_place/',null, null);
 
+    setMyReviewedPlace(response_myReviewPlace.data.data.results);
+    console.log(response_myReviewPlace);
+    setMyStory(response_myStory.data.data.results);
+    setMyCuration(response_myCuration.data.data);
     setFollowingNum(response_following.data.data.count);
     setFollowerNum(response_follower.data.data.count);
     setLoading(false);
@@ -189,7 +219,8 @@ export default function InfoForm(props) {
       {loading ? (
         <Loading />
       ) : (
-        <>
+      <>  
+        <AllSection>
           <Section>
             <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
               <ImageBox profile={profile_image} />
@@ -198,41 +229,60 @@ export default function InfoForm(props) {
                 <FollowText onClick={() =>{navigate('/mypage/following?page=1')}}>팔로잉 {followingNum}</FollowText>
               </TextBox>
             </div>
-            <Grid container sx={{ height: '70%' }} >
-              <Grid item xs={12} sm={12} md={5} lg={5}>
-                <InfoContainer>
-                  <LabelWrapper>
-                    <Label backgroundColor={"#AAEFC2"}>이메일</Label>
-                    <Text>{email}</Text>
-                  </LabelWrapper>
-                  <LabelWrapper>
-                    <Label backgroundColor={"#AAEFC2"}>닉네임</Label>
-                    <Text>{nickname}</Text>
-                  </LabelWrapper>
-                  <LabelWrapper>
-                    <Label backgroundColor={"#AAEFC2"}>생년월일</Label>
-                    <Text>{birthdate}</Text>
-                  </LabelWrapper>
-                  <LabelWrapper>
-                    <Label backgroundColor={"#AAEFC2"}>한 줄 소개</Label>
-                    <Text>{introduction}</Text>
-                  </LabelWrapper>
-                  <LabelWrapper>
-                    <Label onClick={EditProfile} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>프로필 편집</Label>
-                    <Label style={{ fontSize: '0.75rem' }}>
-                      <Link to='/mypage/changepassword' style={{ color: '#000000', textDecoration: 'none' }}>비밀번호 변경</Link>
-                    </Label>
-                    <Label style={{ fontSize: '0.75rem' }}>
-                      <Link to='./feedback' style={{ color: '#000000', textDecoration: 'none' }}>의견 보내기</Link>
-                    </Label>
-                  </LabelWrapper>
-                </InfoContainer>
-              </Grid>
-              <Grid item xs={12} sm={12} md={7} lg={7}>
-              </Grid>
-            </Grid>
+            <InfoContainer>
+              <LabelWrapper>
+                <Label backgroundColor={"#AAEFC2"}>이메일</Label>
+                <Text>{email}</Text>
+              </LabelWrapper>
+              <LabelWrapper>
+                <Label backgroundColor={"#AAEFC2"}>닉네임</Label>
+                <Text>{nickname}</Text>
+              </LabelWrapper>
+              <LabelWrapper>
+                <Label backgroundColor={"#AAEFC2"}>생년월일</Label>
+                <Text>{birthdate}</Text>
+              </LabelWrapper>
+              <LabelWrapper>
+                <Label backgroundColor={"#AAEFC2"}>한 줄 소개</Label>
+                <Text>{introduction}</Text>
+              </LabelWrapper>
+              <LabelWrapper>
+                <Label onClick={EditProfile} style={{ fontSize: '0.75rem', cursor: 'pointer' }}>프로필 편집</Label>
+                <Label style={{ fontSize: '0.75rem' }}>
+                  <Link to='/mypage/changepassword' style={{ color: '#000000', textDecoration: 'none' }}>비밀번호 변경</Link>
+                </Label>
+                <Label style={{ fontSize: '0.75rem' }}>
+                  <Link to='./feedback' style={{ color: '#000000', textDecoration: 'none' }}>의견 보내기</Link>
+                </Label>
+              </LabelWrapper>
+            </InfoContainer>
           </Section>
-        </>
+          <Section>
+            <MySection>
+              <MySectionTitle>내가 리뷰를 쓴 장소</MySectionTitle>
+              {myReviewedPlace && myReviewedPlace.map(data => (
+                <HistoryText
+                  // onClick={() => {
+                  // window.open(`/map?page=1&place=${data.place_name}`)
+                  // localStorage.setItem("place_name", data.place_name)}}
+                  >{data.place_name}</HistoryText>
+              ))}
+            </MySection>
+            <MySection>
+              <MySectionTitle>내가 쓴 스토리</MySectionTitle>
+              {myStory && myStory.map(data => (
+                <HistoryText onClick={() => {window.open(`/story/${data.id}`)}}>{data.title}</HistoryText>
+              ))}
+            </MySection>
+            <MySection>
+              <MySectionTitle>내가 쓴 큐레이션</MySectionTitle>
+              {myCuration && myCuration.map(data => (
+                <HistoryText onClick={() => {window.open(`/curation/${data.id}`)}}>{data.title}</HistoryText>
+              ))}              
+            </MySection>
+          </Section>
+        </AllSection>
+      </>
       )}
     </>
   );

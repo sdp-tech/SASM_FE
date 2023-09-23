@@ -148,7 +148,12 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
         MarkerChange();
         setModalOpen(true);
       }
-  },[]);
+    //   else if(localStorage.getItem("place_name")) {
+    //     MarkerChange();
+    //     setModalOpen(true);
+    //     localStorage.removeItem("place_name");
+    //   }
+    } ,[]);
   // 상세보기 클릭 이벤트
   const handleClick = () => {
     MarkerChange();
@@ -319,7 +324,7 @@ const NaverMapAPI = ({ markerData, temp, setTemp, setSearchHere, setPage, catego
         onCenterChanged={(center) => { handleCenterChanged(center) }}
       >
         {/* markers */}
-        {markerData.map((itemdata) => {
+        {markerData.length !== 0 && markerData.map((itemdata) => {
           const left = itemdata[0];
           const right = itemdata[1];
           const title = itemdata[2];
