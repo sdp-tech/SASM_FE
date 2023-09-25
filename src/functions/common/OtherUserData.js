@@ -42,7 +42,7 @@ export default function OtherUserData (props) {
             <TextWrapper>
               <ProfileText>닉네임 : {props.userData.nickname}</ProfileText>
               <ProfileText>이메일 : {props.userData.email}</ProfileText>
-              <ProfileText>한 줄 소개: {props.introduction ? props.introduction : "안녕하세요."}</ProfileText>
+              <ProfileText>한 줄 소개: {props.userData.introduction ? props.userData.introduction : "안녕하세요."}</ProfileText>
             </TextWrapper>
           </ProfileWrapper>
           <BUttonWrapper>
