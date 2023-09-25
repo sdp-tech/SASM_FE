@@ -132,7 +132,7 @@ export default function DataContainer({ Location }) {
         }
         document.getElementById('wrapper').scrollTo(0, 0);
         getList();
-    }, [searchHere, search, checkedList, queryString.page]);
+    }, [searchHere, location.search, checkedList, queryString.page]);
     //초기 map 데이터 가져오기
     const getList = async () => {
         let response_list;
@@ -154,6 +154,16 @@ export default function DataContainer({ Location }) {
                 filter: checkedList
         });
     }
+        // else if(localStorage.getItem("place_name")) {
+        //     response_list = await request.get("/places/place_search/", {
+        //         left: searchHere.lat, //현재 위치
+        //         right: searchHere.lng, //현재 위치
+        //         page: queryString.page,
+        //         search: localStorage.getItem("place_name"),
+        //         filter: checkedList
+        //     }
+        // )
+    // }
         else{
             response_list = await request.get("/places/place_search/", {
                 left: searchHere.lat, //현재 위치
