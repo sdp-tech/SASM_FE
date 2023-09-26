@@ -145,27 +145,21 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   // 마커 전부 초기화
   const MarkerReset = () => {
     const text = document.getElementById(`${placeData.id}text`);
+    const bg = document.getElementById(`${placeData.id}bg`);
+    const marker = document.getElementById(placeData.id);
     if (text) {
       text.style.transform = "none";
-      if (!bool) {
-        text.style.display = "none";
-      }
+      text.style.display = bool ? "block" : "none";
     }
-    if (!bool) {
-      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgDefault})`;
-    } else {
-      document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgActive})`;
-    }
-    document.getElementById(placeData.id).style.zIndex = "1";
+    bg.style.backgroundImage = bool ? `url(${MarkerbgActive})` : `url(${MarkerbgDefault})`
+    marker.style.zIndex = "1";
   };
   // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
     const text = document.getElementById(`${placeData.id}text`);
     if (text) {
       text.style.transform = "translateY(100%)";
-      if (!bool) {
-        text.style.display = "block";
-      }
+      text.style.display = bool ? "block" : "none";
     }
     document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
     document.getElementById(placeData.id).style.zIndex = "100";
