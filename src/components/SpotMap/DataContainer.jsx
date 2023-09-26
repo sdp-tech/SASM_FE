@@ -87,92 +87,43 @@ export default function DataContainer({ Location }) {
         lat: Location.latitude,
         lng: Location.longitude,
     });
-    const params = useParams();
+
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
         navigate('/map?page=1');
-        if (checked) {
-            setCheckedList([...checkedList, item]);
-        } else if (!checked) {
-            setCheckedList(checkedList.filter((el) => el !== item));
-        }
+        checked ? setCheckedList([...checkedList, item]) : setCheckedList(checkedList.filter((el) => el !== item));
     };
 
     const onChangeSearch = (event) => {
         setTempSearch(event.target.value);
     };
+
     const handleSearchToggle = (event) => {
         if (event) {
             //초기화 방지
             event.preventDefault();
         }
-        if(tempSearch === '') {
-            navigate('/map?page=1');
-            if (location.state?.name) {
-                window.location.reload();
-            }
-        }
-        else {
-            navigate(`/map?page=1&search=${tempSearch}`);
-        }
+        tempSearch ? navigate(`/map?page=1&search=${tempSearch}`) : navigate(`/map?page=1`);
         setSearch(tempSearch);
-        if (params.place) {
-            navigate('/map');
-        }
     };
-    //admin 여부 체크
-    useEffect(() => {
-        checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-    }, [])
-    //page, 검색어, 체크리스트 변경시 작동
-    useEffect(() => {
-        setCategoryNum(checkedList.length);
-        if (search != "") {
-            setCategoryNum(7);
-        }
-        document.getElementById('wrapper').scrollTo(0, 0);
-        getList();
-    }, [searchHere, location.search, checkedList, queryString.page]);
+
     //초기 map 데이터 가져오기
     const getList = async () => {
-        let response_list;
-        if(location.state?.name) {
-            response_list = await request.get("/places/place_search/", {
-                left: searchHere.lat, //현재 위치
-                right: searchHere.lng, //현재 위치
-                page: queryString.page,
-                search: location.state.name, // gotomap으로 넘어왔을 때
-                filter: checkedList
+        const queryParams = {
+            left: location.state?.lat || searchHere.lat,
+            right: location.state?.lng || searchHere.lng,
+            page: queryString.page,
+            search: location.state?.name || search,
+            filter: checkedList
+        }    
+        const response_list = await request.get("/places/place_search/", { 
+                left: queryParams.left, //현재 위치
+                right: queryParams.right, //현재 위치
+                page: queryParams.page,
+                search: queryParams.search, // gotomap으로 넘어왔을 때
+                filter: queryParams.filter
             });
-        }
-        else if(location.state?.lat && location.state?.lng) {
-            response_list = await request.get("/places/place_search/", {
-                left: location.state.lat, 
-                right: location.state.lng, 
-                page: queryString.page,
-                search: search,
-                filter: checkedList
-        });
-    }
-        // else if(localStorage.getItem("place_name")) {
-        //     response_list = await request.get("/places/place_search/", {
-        //         left: searchHere.lat, //현재 위치
-        //         right: searchHere.lng, //현재 위치
-        //         page: queryString.page,
-        //         search: localStorage.getItem("place_name"),
-        //         filter: checkedList
-        //     }
-        // )
-    // }
-        else{
-            response_list = await request.get("/places/place_search/", {
-                left: searchHere.lat, //현재 위치
-                right: searchHere.lng, //현재 위치
-                page: queryString.page,
-                search: search,
-                filter: checkedList
-        });
-    }
+
         setPlaceData({
             total: response_list.data.data.count,
             MapList: response_list.data.data.results,
@@ -184,6 +135,25 @@ export default function DataContainer({ Location }) {
             });
         }
     }; 
+
+    //admin 여부 체크
+    useEffect(() => {
+        checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
+    }, []);
+    
+    useEffect(() => {
+        document.getElementById('wrapper').scrollTo(0, 0);
+    }, [searchHere, checkedList, queryString.page]);
+
+    //page, 검색어, 체크리스트 변경시 작동
+    useEffect(() => {
+        setCategoryNum(checkedList.length);
+        if (search != "") {
+            setCategoryNum(7);
+        }
+        getList();
+    }, [searchHere, location.search, checkedList, queryString.page]);
+
     return (
         <>
             <Mobile><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere}/></Mobile>
