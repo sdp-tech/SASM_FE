@@ -258,10 +258,11 @@ export default function CurationDetailBox() {
   }
 
   const delCuration = async() => {
+    const isVerified = curationDetail.writer_is_verified
     if(window.confirm("삭제하시겠습니까?")) {
       const response = await request.del(`/curations/curation_delete/${params.id}/`);
       alert("삭제되었습니다.");
-      navigate(-1);
+      isVerified ? navigate('/curation/usercurationlist?page=1') : navigate('/curation/curationlist?page=1')
     }
   }
 
