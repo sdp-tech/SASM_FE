@@ -199,15 +199,19 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   }, [categoryNum]);
 
   useEffect(() => {
-    if(location.state?.name) {
+    const openModal = () => {
       MarkerChange();
       setModalOpen(true);
     }
-  //   else if(localStorage.getItem("place_name")) {
-  //     MarkerChange();
-  //     setModalOpen(true);
-  //     localStorage.removeItem("place_name");
-  //   }
+    const stateName = location.state?.name;
+    const localStorageName = localStorage.getItem("place_name");
+
+    if (stateName || localStorageName) {
+      openModal();
+      if (localStorageName) {
+        localStorage.removeItem("place_name");
+      }
+    }
   } ,[]);
 
 
