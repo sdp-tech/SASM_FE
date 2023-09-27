@@ -262,9 +262,11 @@ export default function InfoForm(props) {
               <MySectionTitle>내가 리뷰를 쓴 장소</MySectionTitle>
               {myReviewedPlace && myReviewedPlace.map(data => (
                 <HistoryText
-                  // onClick={() => {
-                  // window.open(`/map?page=1&place=${data.place_name}`)
-                  // localStorage.setItem("place_name", data.place_name)}}
+                  onClick={() => {
+                  window.open(`/map?page=1&place=${data.place_name}`);
+                  localStorage.setItem("place_name", data.place_name);
+                  localStorage.setItem("value", 1);
+                  }}
                   >{data.place_name}</HistoryText>
               ))}
             </MySection>

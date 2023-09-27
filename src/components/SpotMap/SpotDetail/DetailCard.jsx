@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import HeartButton from "../../common/Heart";
 import { useCookies } from "react-cookie";
@@ -185,7 +185,11 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
   const handleTab = (event, value) => {
     setValue(value);
   }
-  
+
+  useEffect(()=>{
+    localStorage.getItem("value") ? setValue(parseInt(localStorage.getItem("value"))) : setValue(0);
+    localStorage.removeItem("value");
+  }, []);
   return (
     <StyledCard className="component component--item_card">
       <CloseButton>
@@ -207,11 +211,13 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
             ) : (
               ""
             )}
+            
+            {/* 좋아요 동시 반영 안되는 것 수정 예정 */}
             <LikeButton>
               {detailData.place_like === "ok" ? (
-                <HeartButton like={!like} onClick={toggleLike} />
-              ) : (
                 <HeartButton like={like} onClick={toggleLike} />
+              ) : (
+                <HeartButton like={!like} onClick={toggleLike} />
               )}
             </LikeButton>
           </ButtonBox>
