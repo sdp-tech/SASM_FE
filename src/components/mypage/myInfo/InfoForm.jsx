@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
+import OtherUserData from "../../../functions/common/OtherUserData";
 
 const Section = styled.div`
   position: relative;
@@ -133,6 +134,9 @@ const ImageBox = styled.div`
   margin-left: 10vw;
   background-image: url(${props => props.profile});
   background-size: cover;
+  &:hover {
+    opacity: 0.7;
+  }
   @media screen and (max-width: 768px) {
     width: 120px;
     height: 120px;
@@ -169,18 +173,18 @@ const HistoryText = styled.div`
 export default function InfoForm(props) {
   const navigate = useNavigate();
   const [info, setInfo] = useState([]);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [followerNum, setFollowerNum] = useState(0);
   const [followingNum, setFollowingNum] = useState(0);
   const [myReviewedPlace, setMyReviewedPlace] = useState([]);
   const [myStory, setMyStory] = useState([]);
   const [myCuration, setMyCuration] = useState([]);
+  const [myProfileModal, setMyProfileModal] = useState({});
   const request = Request(navigate);
   //   초기에 mypage data 불러오기
   const updateMypage = async () => {
-    // setLoading(true);
     const response_info = await request.get("/mypage/me/", null, null);
-    //   setPageCount(response.data.count);
     setInfo(response_info.data.data);
     const response_following = await request.get('/mypage/following/', {
       email: response_info.data.data.email,
@@ -195,7 +199,6 @@ export default function InfoForm(props) {
     const response_myReviewPlace = await request.get('/mypage/my_reviewed_place/',null, null);
 
     setMyReviewedPlace(response_myReviewPlace.data.data.results);
-    console.log(response_myReviewPlace);
     setMyStory(response_myStory.data.data.results);
     setMyCuration(response_myCuration.data.data);
     setFollowingNum(response_following.data.data.count);
@@ -214,6 +217,16 @@ export default function InfoForm(props) {
     navigate("./change", { state: info });
   };
 
+  const myData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setMyProfileModal(response.data.data);
+    setOpen(true);
+  }
+
+  const handleClose = () => setOpen(false);
+  
   return (
     <>
       {loading ? (
@@ -223,7 +236,8 @@ export default function InfoForm(props) {
         <AllSection>
           <Section>
             <div style={{ width: '100%', height: '30%', display: 'flex', alignItems: 'center' }}>
-              <ImageBox profile={profile_image} />
+              <ImageBox profile={profile_image} onClick={()=>{myData(info.email)}} />
+              {open && <OtherUserData open = {open} userData = {myProfileModal} handleClose={handleClose}/>}
               <TextBox>
                 <FollowText onClick={() =>{navigate('/mypage/follower?page=1')}}>팔로워 {followerNum}</FollowText>
                 <FollowText onClick={() =>{navigate('/mypage/following?page=1')}}>팔로잉 {followingNum}</FollowText>
