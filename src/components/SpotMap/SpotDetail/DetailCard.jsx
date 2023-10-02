@@ -212,12 +212,11 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
               ""
             )}
             
-            {/* 좋아요 동시 반영 안되는 것 수정 예정 */}
             <LikeButton>
-              {detailData.place_like === "ok" ? (
-                <HeartButton like={like} onClick={toggleLike} />
-              ) : (
+              {detailData.user_liked ? (
                 <HeartButton like={!like} onClick={toggleLike} />
+              ) : (
+                <HeartButton like={like} onClick={toggleLike} />
               )}
             </LikeButton>
           </ButtonBox>
