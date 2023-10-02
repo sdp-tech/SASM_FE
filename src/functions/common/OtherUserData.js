@@ -45,7 +45,7 @@ export default function OtherUserData (props) {
               <ProfileText>한 줄 소개: {props.userData.introduction ? props.userData.introduction : "안녕하세요."}</ProfileText>
             </TextWrapper>
           </ProfileWrapper>
-          <BUttonWrapper>
+          <ButtonWrapper>
             <SelectButton>{props.userData.nickname}의 스토리
               <LinkList>
                 <OtherUserWriting>
@@ -68,7 +68,7 @@ export default function OtherUserData (props) {
                 </OtherUserWriting>
               </LinkList>
             </SelectButton> 
-          </BUttonWrapper>
+          </ButtonWrapper>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.handleClose} appearance="primary">
@@ -107,7 +107,7 @@ const ProfileImg = styled.img`
 const OtherUserWriting = styled.div`
 `
 
-const BUttonWrapper = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   width: 100%;
   margin-top: 30px;
