@@ -160,10 +160,9 @@ const StoryWrapper = styled.div`
 
 const charCount = (editor) => editor.getContent({ format: "text" }).length;
 
-export default function CurationForm() {
+export default function CurationForm({id}) {
   const [imageUrl, setImageUrl] = useState(null);
   const sizeLimit = 200;
-  const [data, setData] = useState("");
   const [count, setCount] = useState(0);
   const [item, setItem] = useState([]);
   const [pageCount, setPageCount] = useState(1);
@@ -178,7 +177,7 @@ export default function CurationForm() {
   const [search, setSearch] = useState('');
   const [searchToggle, setSearchToggle] = useState(false);
   const [selectedStory, setSelectedStory] = useState([]);
-  const [rep_pic, setRep_pic] = useState([])
+  const [rep_pic, setRep_pic] = useState([]);
   const [curation, setCuration] = useState({title: '', contents: '', uri:'', width: 1, height: 1, fileName: ''})
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState("");
@@ -189,23 +188,25 @@ export default function CurationForm() {
   const request = Request(navigate);
   const ref = useRef();
   const [message, setMessage] = useState(false);
-
+  
   const uploadCuration = async () => {
     const formData = new FormData();
     for (let i of Object.keys(form)) {
       formData.append(i, form[i]);
     }
-
-    formData.append('rep_pic', rep_pic)
+    
     for (let i of selectedStory) {
-      formData.append('stories', i.id);
+      formData.append(`stories`, i.story_id);
       formData.append('short_curations', '.');
-    }
+      }
+    
+    id ? formData.append('photo_image_url', imageUrl) : formData.append('rep_pic', rep_pic);
+    
     if (form.title.length == 0 || count == 0) {
       alert('빈 칸을 전부 채워주세요.')
       return;
     }
-    if (imageUrl == '') {
+    if (!imageUrl) {
       alert('대표 사진을 설정해주세요.')
       return;
     }
@@ -213,11 +214,24 @@ export default function CurationForm() {
       alert('최소 3개의 스토리를 선택해주세요.')
       return;
     }
-    const response = await request.post('/curations/curation_create/', formData, { "Content-Type": "multipart/form-data" });
-    console.log(response, 'siuuu');
-    navigate("/curation");
+    for (let key of formData.keys()) {
+      console.log(key, "::", formData.get(key));
+    }
+    try {
+      let newId
+      if (!id) {
+        const response = await request.post('/curations/curation_create/', formData, { "Content-Type": "multipart/form-data" });
+        newId = response.data.data.id
+      }
+      else {
+        const response = await request.put(`/curations/curation_update/${id}/`, formData);
+      }
+     id ? navigate(`/curation/${id}`) : navigate(`/curation/${newId}`);
+    }
+    catch (e) {
+      alert(`큐레이션 생성 실패 => ${e.response.data.detail}`);
+    }
   }
-
     const onChangeImage = (e) => {
       const file = e.target.files[0];
       if (file != undefined) {
@@ -229,6 +243,18 @@ export default function CurationForm() {
           setRep_pic(file);
       }
   };
+
+  const loadCuration = async() => {
+    if (!id) return;
+    const response = await request.get(`/curations/curation_detail/${id}/`);
+    const reponse_story_detail = await request.get(`/curations/curated_story_detail/${id}/`);
+    const { contents, rep_pic, title } = response.data.data;
+    setRep_pic(rep_pic);
+    setImageUrl(rep_pic);
+    setForm({title : title, contents : contents});
+    setSelectedStory(reponse_story_detail.data.data);
+    console.log(reponse_story_detail);
+  }
   
   useEffect(() =>{
     queryString.page = 1;
@@ -237,6 +263,10 @@ export default function CurationForm() {
   useEffect(() => {
     handleSearchToggle();
   }, [open, queryString.page]);
+
+  useEffect(async() => {
+    await loadCuration();
+  }, [])
 
   const handleOpen = value => {
     setOpen(true);
@@ -280,22 +310,20 @@ export default function CurationForm() {
     search.length !== 0 ? setSearchParams({page:queryString.page, search: search}) : setSearchParams({page:queryString.page}); 
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
-    console.log(response.data.data);
     setLoading(false);
   };
 
   const handleInit = (value, editor) => {
+    setForm({...form, contents: editor.getContent({format: "html"})});
     setCount(charCount(editor));
-    setForm({...form, contents: editor.getContent({format: "text"})});
   };
 
   const handleUpdate = (value, editor) => {
     const cCount = charCount(editor);
     if (cCount <= sizeLimit) {
-      setData(value);
+      setForm({...form, contents: editor.getContent({format: "html"})});
       setCount(cCount);
     }
-    setForm({...form, contents: editor.getContent({format: "text"})})
   };
 
   const handleBeforeAddUndo = (evt, editor) => {
@@ -306,8 +334,8 @@ export default function CurationForm() {
     }
   };
   const handleSelectedStory = (id, rep_pic) => {
-    if (selectedStory.filter(el => el.id == id).length > 0) {
-      setSelectedStory(selectedStory.filter(el => el.id != id));
+    if (selectedStory.filter(el => el.story_id === id).length > 0) {
+      setSelectedStory(selectedStory.filter(el => el.story_id !== id));
       if (window.confirm("목록에서 삭제하시겠습니까?")) {
         alert("삭제되었습니다.");
         }
@@ -317,7 +345,7 @@ export default function CurationForm() {
   return (
     <InfoBox>
       <ValueBox>
-          <InputTitle placeholder='제목을 입력해주세요 *' placeholderTextColor={'#000000'} onChange={(e) => { setForm({ ...form, title: e.target.value });
+          <InputTitle placeholder='제목을 입력해주세요 *' defaultValue={form.title} placeholderTextColor={'#000000'} onChange={(e) => { setForm({ ...form, title: e.target.value });
         }} maxLength={45} />
           <CountCharacters>{form.title.length}/45</CountCharacters>
       </ValueBox>
@@ -331,14 +359,7 @@ export default function CurationForm() {
                 alt="rep_pic"
                 style ={{height:"400px",
                 width:"400px"}}
-            ></img> : <>
-                {curation.rep_pic ?
-                    <img src={curation.rep_pic}
-                        alt="rep_pic"
-                        style ={{height:"400px",
-                        width:"400px"}}></img>
-                    : <></>}
-            </>}
+            ></img> : <></>}
             <input
                 type="file"
                 id="ex_file"
@@ -378,11 +399,11 @@ export default function CurationForm() {
         </Wrapper>
         <Label>선택된 스토리</Label>
         <StorySection>
-          {
+          { 
             selectedStory.map((data, index) =>
               <ValueBox>
                 <StoryWrapper>
-                  <DelX onClick={() => {handleSelectedStory(data.id, data.rep_pic)}}>X</DelX>
+                  <DelX onClick={() => {handleSelectedStory(data.story_id, data.rep_pic)}}>X</DelX>
                   <StoryImage
                   //  style={index == 0 && { borderColor: '#209DF5', borderWidth: 2 }}
                   src={ data.rep_pic } />
@@ -395,7 +416,7 @@ export default function CurationForm() {
         <View>
           <Label>본문</Label>
           <Editor
-            value={data}
+            value={form.contents ? form.contents : ""}
             onInit={handleInit}
             onEditorChange={handleUpdate}
             onBeforeAddUndo={handleBeforeAddUndo}

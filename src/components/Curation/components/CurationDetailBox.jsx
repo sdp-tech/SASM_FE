@@ -172,10 +172,10 @@ const BackToList = styled.div`
   // margin: 20px auto;
 `;
 const DeleteButton = styled.div`
-  position: absolute;
+  text-align: right;
   color: black;
   cursor : pointer;
-  right: 0;
+  margin-top: 5px;
   font-size: 1rem;
   &:hover {
     text-decoration: underline;
@@ -185,6 +185,8 @@ const DeleteButton = styled.div`
   }
   // margin: 20px auto;
 `;
+const UpdateButton = styled(DeleteButton)`
+`
 const ButtonDiv = styled.div`
   box-sizing: border-box;
   margin-top: 20px;
@@ -226,6 +228,8 @@ const Writer = styled.p`
    &:hover {
     color: #00AFFF;
    }
+`
+const ButtonWrapper = styled.div`
 `
 export default function CurationDetailBox() {
   const navigate = useNavigate();
@@ -272,7 +276,6 @@ export default function CurationDetailBox() {
         alert("로그인이 필요합니다.");
       } else {
         const response = await request.post(`/curations/curation_like/${params.id}/`);
-        console.log("response", response);
         rerender();
       }
     };
@@ -280,7 +283,6 @@ export default function CurationDetailBox() {
   const getCurationDetail = async () => {
     const response_detail = await request.get(`/curations/curation_detail/${params.id}/`);
     setCurationDetail(response_detail.data.data);
-    console.log(response_detail.data.data);
   }
   const getCurationStoryDetail = async () => {
     const reponse_story_detail = await request.get(`/curations/curated_story_detail/${params.id}/`);
@@ -316,6 +318,10 @@ export default function CurationDetailBox() {
     setOpen(false);
   }
 
+  const markup = () => {
+    return { __html: `${curationDetail.contents}` };
+  };
+
   return (
     <>
       <Wrapper>
@@ -341,7 +347,10 @@ export default function CurationDetailBox() {
                 <View>
                   <Writer style={{textAlign: "right"}} onClick={() => {otherUserData(curationDetail.writer_email)}}>{curationDetail.nickname}</Writer>
                   <p style={{textAlign: "right"}}>{curationDetail.created.slice(0, 10).replace(/-/gi, '.')} 작성</p>
-                  {myEmail === curationDetail.writer_email ? <DeleteButton onClick={delCuration}>삭제하기</DeleteButton> : <></>}
+                  <ButtonWrapper>
+                    {myEmail === curationDetail.writer_email ? <DeleteButton onClick={delCuration}>삭제하기</DeleteButton> : <></>}
+                    {myEmail === curationDetail.writer_email ? <UpdateButton onClick={() => {navigate(`/admin/curation/${params.id}`)}}>수정하기</UpdateButton> : <></>}
+                  </ButtonWrapper>
                   {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
                   <Text >팔로우 취소</Text>:
                   <Text >+ 팔로잉</Text>}</Button> : <></>}
@@ -349,7 +358,7 @@ export default function CurationDetailBox() {
               </InfoBox>
             </TitleBox>
             <ButtonDiv>
-              <BackToList onClick={() => { navigate('/curation') }}>&#60; Back To List</BackToList>
+              <BackToList onClick={() => { navigate(-1) }}>&#60; Back To List</BackToList>
               <GotoMap onClick={() => {
                  navigate('/map?page=1');
                  }}>
@@ -358,8 +367,7 @@ export default function CurationDetailBox() {
             </ButtonDiv>
             
           </View>
-          <ContentBox>
-            <p>{curationDetail.contents}</p>
+          <ContentBox dangerouslySetInnerHTML={markup()}>
           </ContentBox>
           <ImgBox>
             <Image src={curationDetail.map_image} 
@@ -416,10 +424,10 @@ export const Storys = ({
     const response = await request.post('/mypage/follow/',
       {
         targetEmail: email
-      })
-      if(writer_is_followed) {
-        writer_is_followed = !writer_is_followed;
-      }
+      });
+    if(writer_is_followed) {
+      writer_is_followed = !writer_is_followed;
+    }
     if(response.data.status == 'fail') alert(response.data.message);
     setRefresh(!refresh);
   }

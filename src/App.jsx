@@ -84,6 +84,7 @@ const App = () => {
               <Route path="/admin/story" element={<StoryAdmin />} />
               <Route path="/admin/story/:id" element={<StoryAdmin />} />
               <Route path="/admin/curation" element={<CurationAdmin/>} />
+              <Route path="/admin/curation/:id" element={<CurationAdmin/>} />
               <Route path="/community/" element={<SpotCommunity />} />
               <Route path="/community/:board" element={<SpotCommunity />} />
               <Route path="/community/:board/:id/*" element={<SpotCommunity />} />
