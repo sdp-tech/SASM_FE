@@ -154,7 +154,7 @@ const CurationUserMoreView = () => {
     } else if (search === null || search === "") {
       searched = null;
     } else {
-      searched = search
+      searched = search.trim();
     }
     const response = await request.get("/curations/verified_user_curations/", {
       page: newPage,

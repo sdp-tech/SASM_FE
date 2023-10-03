@@ -152,7 +152,7 @@ const CurationMoreView = () => {
     } else if (search === null || search === "") {
       searched = null;
     } else {
-      searched = search
+      searched = search.trim();
     }
       const response = await request.get("/curations/admin_curations/", {
       page:newPage,

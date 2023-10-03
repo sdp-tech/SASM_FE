@@ -207,7 +207,7 @@ const StoryListPage = () => {
       searched = null;
     } else {
       //검색어 있는 경우
-      searched = search;
+      searched = search.trim();
     }
     
     let order;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Request from '../../functions/common/Request';
 import SearchBar from '../common/SearchBar';
 import Pagination from '../common/Pagination';
@@ -106,22 +106,28 @@ export default function CommunityList({ board, format }) {
   const [list, setList] = useState([]);
   const [listHashtag, setListHashtag] = useState([]);
   const location = useLocation();
-  const queryString = qs.parse(location.search, {
-    ignoreQueryPrefix: true
-  });
   const [total, setTotal] = useState(0);
   const [search, setSearch] = useState('');
   const [tempSearch, setTempSearch] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
   const getItem = async () => {
     setLoading(true);
     const response = await request.get("/community/posts/", {
       board: board,
-      query: search,
+      query: search.trim(),
       query_type: 'default',
       page: queryString.page,
       latest: 'true',
     }, null);
+    const params = {
+      page : queryString.page
+    }
+    if (search) params.search = search
     setList(response.data.data.results);
+    setSearchParams(params);
     setTotal(response.data.data.count);
     setLoading(false);
   }
