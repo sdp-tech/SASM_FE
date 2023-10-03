@@ -5,11 +5,43 @@ import Pagination from "../../common/Pagination";
 import Loading from "../../common/Loading";
 import ItemCard from "./ItemCard";
 import nothingIcon from "../../../assets/img/nothing.svg";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link, useSearchParams } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import ChangeMode from "../../../assets/img/Mypick/ChangeMode.svg"
 import CategorySelector from "../../common/Category";
 import qs from 'qs';
+import SearchBar from "../../common/SearchBar";
+import searchBlack from "../../../assets/img/search_black.svg";
+
+const SearchFilterBar = styled.div`
+  box-sizing: border-box;
+  width: 35%;
+  @media screen and (max-width: 768px) {
+    width: 80%;
+    height: 4vh;
+  }
+  @media screen and (min-width: 767px) and (max-width: 991px) {
+    width:40%;
+    height:80%;
+    font-size: 0.2rem;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1199px) {
+    margin-top: 10px;
+    width:40%;
+    height:90%;
+    font-size: 0.5rem;
+  }
+  @media screen and (min-width: 1200px) {
+    width:35%;
+    height:50%;
+    font-size: 0.8rem;
+  }
+  height: 50%;
+  display: flex;
+  background: #FFFFFF;
+  border-radius: 56px;
+  margin-bottom: 20px;
+`;
 
 const Container = styled.div`
   margin: 0 auto;
@@ -108,50 +140,64 @@ const MoveSection = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Myplace = (props) => {
+const Myplace = () => {
   const [info, setInfo] = useState([]);
   const [pageCount, setPageCount] = useState(1);
+  const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(6);
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-  const queryString = qs.parse(location.search, {
-      ignoreQueryPrefix: true
-    });
   const [loading, setLoading] = useState(true);
   const [checkedList, setCheckedList] = useState('');
   const navigate = useNavigate();
   const request = Request(navigate);
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
+
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
-    if (checked) {
-      setCheckedList([...checkedList, item]);
-    } else if (!checked) {
-      setCheckedList(checkedList.filter((el) => el !== item));
-    }
+    checked ? setCheckedList([...checkedList, item]) : setCheckedList(checkedList.filter((el) => el !== item));
   };
+
+  const onChangeSearch = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+  };
+
   const pageMyplace = async () => {
-    let newPage;
-    if (queryString.page == 1) {
-      newPage = null;
-    } else {
-      newPage = queryString.page;
-    }
-
+  
+    let newPage = (queryString.page == 1) ? null : queryString.page
     setLoading(true);
-
-    const response = await request.get("/users/like_place/", {
+    let params = new URLSearchParams();
+    for (const category of checkedList) params.append('filter', category);
+    const response = await request.get(`/mypage/myplace_search/?${params.toString()}`, {
       page: newPage,
-      filter: checkedList
+      search: search.trim()
     }, null);
+
+    const urlParams = {
+      page: queryString.page
+    }
+    if (search) urlParams.search = search
+    if (checkedList) urlParams.checkedList = checkedList
 
     setPageCount(response.data.data.count);
     setInfo(response.data.data.results);
+    setSearchParams(urlParams);
     setLoading(false);
   };
+
+  
+  useEffect(() => {
+    if (search || checkedList) queryString.page = 1;
+  }, [checkedList, search]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
   }, [queryString.page, checkedList]);
+
   return (
     <>
       {loading ? (
@@ -162,6 +208,18 @@ const Myplace = (props) => {
             <span style={{ fontWeight: "500", fontSize: "1.6rem", color:"#000", marginBottom: "50px" }}>
                 MY PLACE
             </span>
+            <SearchFilterBar>
+                <SearchBar
+                  search={search}
+                  onChangeSearch={onChangeSearch}
+                  handleSearchToggle={pageMyplace}
+                  placeholder="어떤 장소의 이야기가 궁금하신가요?"
+                  searchIcon={searchBlack}
+                  background="white"
+                  color="black"
+                  fontsize="0.8rem"
+                />
+            </SearchFilterBar>
             <HeaderSection>
               <MoveSection>
                 <MenuSection>
@@ -178,7 +236,7 @@ const Myplace = (props) => {
                 </MenuSection>
               </MoveSection>
               <FilterOptions>
-                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
+                <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement}/>
               </FilterOptions>
             </HeaderSection>
             <main style={{ width: '100%' }}>
