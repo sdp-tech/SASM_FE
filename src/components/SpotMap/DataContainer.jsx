@@ -113,7 +113,7 @@ export default function DataContainer({ Location }) {
             left: location.state?.lat || searchHere.lat,
             right: location.state?.lng || searchHere.lng,
             page: queryString.page,
-            search: location.state?.name || localStorage.getItem("place_name") || search,
+            search: location.state?.name || localStorage.getItem("place_name") || search.trim(),
             filter: checkedList
         }    
         const response_list = await request.get("/places/place_search/", { 

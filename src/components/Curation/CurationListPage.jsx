@@ -239,7 +239,7 @@ const CurationListPage = () => {
   const handleSearchToggle = async (e) => {
     if(e) {e.preventDefault();}
     const response = await request.get("/curations/curation_search/", {
-      search: tempSearch,
+      search: tempSearch.trim(),
     }, null);
     setSearch(tempSearch);
     setItem(response.data.data.results);
