@@ -166,14 +166,14 @@ export default function StoryListModal({ selectedStory, setSelectedStory, item, 
 
 
   const handleSelectedStory = (id, rep_pic) => {
-    if (selectedStory.filter(el => el.id == id).length > 0) {
-      setSelectedStory(selectedStory.filter(el => el.id != id));
+    if (selectedStory.filter(el => el.story_id === id).length > 0) {
+      setSelectedStory(selectedStory.filter(el => el.story_id != id));
       if (window.confirm("목록에서 삭제하시겠습니까?")) {
         alert("삭제되었습니다.");
         }
       }
     else {
-      setSelectedStory([...selectedStory, { id: id, rep_pic: rep_pic }]);
+      setSelectedStory([...selectedStory, { story_id: id, rep_pic: rep_pic }]);
       setMessage(true); 
     }
   }

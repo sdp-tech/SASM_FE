@@ -87,16 +87,16 @@ const StoryFormPage = (props) => {
         // }
 
         try {
+            let newId
             if (!id) {
                 const response = await request.post("/stories/create/", formData, { "Content-Type": "multipart/form-data" });
-                console.log(response);
+                newId = response.data.data.id
             }
             else {
                 const response = await request.put(`/stories/${id}/update/`, formData, { "Content-Type": "multipart/form-data" });
-                console.log(response)
             }
             alert('스토리 생성 완료');
-            navigate("/story?page=1");
+            id ? navigate(`/story/${id}`) : navigate(`/story/${newId}`);
         } catch (err) {
             alert(`스토리 생성 실패 => ${err.response.data.detail}`);
         }
@@ -146,7 +146,6 @@ const StoryFormPage = (props) => {
                                         place: event.target.value,
                                     });
                                 }}
-                                disabled={id}
                             >
                                 <option value="0" selected>Select Place</option>
                                 {places.map((place, index) => {
