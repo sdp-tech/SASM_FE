@@ -26,17 +26,6 @@ export default function StoryList() {
     <>
       <Sections>
         <StoryDetail />
-        {isSasmAdmin ? (
-          <AdminButton style={{position: "fixed", right: "10px", bottom: "10px"}}
-            onClick={() => {
-              navigate(`/admin/story/${params.id}`);
-            }}
-          >
-            스토리 수정
-          </AdminButton>
-        ) : (
-          <></>
-        )}
       </Sections>
     </>
   );
