@@ -309,7 +309,6 @@ const StoryDetailBox = (props) => {
   const [recommend, setRecommend] = useState([]);
   const [like, setLike] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const navigate = useNavigate();
   const request = Request(navigate);
@@ -352,7 +351,7 @@ const StoryDetailBox = (props) => {
     if(window.confirm("삭제하시겠습니까?")) {
       const response = await request.del(`/stories/${id}/delete/`);
       alert("삭제되었습니다.");
-      navigate(-1);
+      navigate("/story?page=1");
     }
   }
 
@@ -411,8 +410,9 @@ const StoryDetailBox = (props) => {
                   <Image src={data.profile} style={{ width: 50, height: 50, borderRadius: 25, marginRight: 20 }} onClick={() => {otherUserData(data.writer)}} />
                   <View>
                   <ProfileText onClick={() => {otherUserData(data.writer)}}>{data.nickname}</ProfileText>
-                  <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>                
-              {myEmail === data.writer ? <DeleteButton onClick={delStory}>삭제하기</DeleteButton> : <></>}
+                  <Text>{data.created.slice(0, 10).replace(/-/gi, '.')} 작성</Text>  
+                  {myEmail === data.writer ? <DeleteButton onClick={delStory}>삭제하기</DeleteButton> : <></>}
+                  {myEmail === data.writer ? <DeleteButton onClick={() => {navigate(`/admin/story/${id}`)}}>수정하기</DeleteButton> : <></>}
                   </View>
                 </InfoBox>
                 <FollowBox>
