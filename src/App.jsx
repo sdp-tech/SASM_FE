@@ -23,6 +23,7 @@ import CurationDetailPage from "./components/Curation/CurationDetailPage";
 import CurationMoreView from "./components/Curation/components/CurationMoreView";
 import CurationUserMoreView from "./components/Curation/components/CurationUserMoreView";
 import ScrollRestoration from "./functions/common/ScrollRestoration";
+import NotExistPage from "./components/common/NotExistPage";
 
 const App = () => {
   const [login, setLogin] = useState({
@@ -88,6 +89,7 @@ const App = () => {
               <Route path="/community/" element={<SpotCommunity />} />
               <Route path="/community/:board" element={<SpotCommunity />} />
               <Route path="/community/:board/:id/*" element={<SpotCommunity />} />
+              <Route path="/notexistpage" element={<NotExistPage />} />
             </Routes>
           </BrowserRouter>
         </LoginProvider>

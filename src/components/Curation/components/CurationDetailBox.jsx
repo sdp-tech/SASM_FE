@@ -237,6 +237,7 @@ export default function CurationDetailBox() {
   const myEmail = localStorage.getItem("email");
   const token = localStorage.getItem("accessTK");
   const [like, setLike] = useState(false);
+  const [notExist, setNotExist] = useState(false);
   const request = Request(navigate);
   const [otherUser, setOtherUser] = useState({});
   const [open, setOpen] = useState(false);
@@ -281,13 +282,19 @@ export default function CurationDetailBox() {
     };
 
   const getCurationDetail = async () => {
+    try {
     const response_detail = await request.get(`/curations/curation_detail/${params.id}/`);
     setCurationDetail(response_detail.data.data);
+    }
+    catch (err) {
+      navigate('/notexistpage');
+    }
   }
   const getCurationStoryDetail = async () => {
-    const reponse_story_detail = await request.get(`/curations/curated_story_detail/${params.id}/`);
+    const reponse_story_detail = await request.get(`/curations/curated_story_detail/${params.id}/`); 
     setCuratedStory(reponse_story_detail.data.data);
-  }
+   }
+  
 
   useEffect(() => {
     getCurationDetail();
