@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Box = styled.div`
@@ -10,9 +10,11 @@ const Box = styled.div`
 
 const NotExistPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate(-2);
+      location.state?.path ? navigate(`${location.state.path}`) : navigate(-2);
     }, 1500);
     
     return () => {

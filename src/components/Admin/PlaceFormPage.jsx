@@ -173,6 +173,7 @@ const PlaceFormPage = (props) => {
         if (!id) {
             return;
         }
+        try {
         const response = await request.get(`/places/place_detail/${id}/`);
         setInfo(response.data.data);
         console.log(response.data.data)
@@ -184,6 +185,10 @@ const PlaceFormPage = (props) => {
             'placephoto2': response.data.data.imageList[1],
             'placephoto3': response.data.data.imageList[2]
         });
+        }
+        catch (e) {
+            navigate('/notexistpage', {state: {path: "/map?page=1"}})
+        }
             // if (response.data.data.snsList.length !== 0) {
             //     setSnsData(response.data.data.snsList);
             // }

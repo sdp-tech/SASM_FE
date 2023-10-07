@@ -39,6 +39,7 @@ const StoryFormPage = (props) => {
         if (!id) {
             return;
         }
+        try {
         setLoading(true);
         const response = await request.get(`/stories/story_detail/${id}/`);
         console.log("data", response.data.data);
@@ -49,6 +50,10 @@ const StoryFormPage = (props) => {
             html_content: html_content, rep_pic: rep_pic, place_name: place_name,
         });
         setLoading(false);
+        }
+        catch (e) {
+            navigate("/notexistpage", {state: {path: "/story?page=1"}});
+        }
     };
 
 

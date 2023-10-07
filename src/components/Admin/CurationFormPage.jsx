@@ -188,7 +188,7 @@ export default function CurationForm({id}) {
   const request = Request(navigate);
   const ref = useRef();
   const [message, setMessage] = useState(false);
-  
+
   const uploadCuration = async () => {
     const formData = new FormData();
     for (let i of Object.keys(form)) {
@@ -246,14 +246,18 @@ export default function CurationForm({id}) {
 
   const loadCuration = async() => {
     if (!id) return;
-    const response = await request.get(`/curations/curation_detail/${id}/`);
-    const reponse_story_detail = await request.get(`/curations/curated_story_detail/${id}/`);
-    const { contents, rep_pic, title } = response.data.data;
-    setRep_pic(rep_pic);
-    setImageUrl(rep_pic);
-    setForm({title : title, contents : contents});
-    setSelectedStory(reponse_story_detail.data.data);
-    console.log(reponse_story_detail);
+    try {
+      const response = await request.get(`/curations/curation_detail/${id}/`);
+      const reponse_story_detail = await request.get(`/curations/curated_story_detail/${id}/`);
+      const { contents, rep_pic, title } = response.data.data;
+      setRep_pic(rep_pic);
+      setImageUrl(rep_pic);
+      setForm({title : title, contents : contents});
+      setSelectedStory(reponse_story_detail.data.data);
+    }
+    catch (e) {
+      navigate("/notexistpage", {state : {path: "/curation"}});
+    }
   }
   
   useEffect(() =>{
