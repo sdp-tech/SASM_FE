@@ -29,7 +29,7 @@ const CurationList = ({ info }) => {
                 <Grid container spacing={2}>
                   {info.map((info, index) => (
                     <Grid item key={info.id} xs={3} sm={3} md={3} lg={3}>
-                      <CardSection onClick={ () => { navigate(`/curation/${info.id}`)}}>
+                      <CardSection onClick={ () => { navigate(`/curation/${info.id}?page=1`)}}>
                         <ItemCard
                           key={index}
                           id={info.id}

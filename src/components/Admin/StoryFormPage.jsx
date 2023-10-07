@@ -9,6 +9,7 @@ import Request from "../../functions/common/Request";
 
 const StoryFormPage = (props) => {
     const id = props.id;
+    const myEmail = localStorage.getItem("email");
     const [story, setStory] = useState({ title: "", tag: "", preview: "", place: 0, story_review: "", html_content: "", rep_pic: "", place_name: "" });
     const [photoList, setPhotoList] = useState([]);
     const [places, setPlaces] = useState([]);
@@ -42,8 +43,8 @@ const StoryFormPage = (props) => {
         try {
         setLoading(true);
         const response = await request.get(`/stories/story_detail/${id}/`);
-        console.log("data", response.data.data);
-        const { title, tag, preview, place, story_review, html_content, rep_pic, place_name } = response.data.data
+        const { title, tag, preview, place, story_review, html_content, rep_pic, place_name, writer } = response.data.data
+        if (myEmail !== writer) navigate("/notexistpage", {state: {path: "/story?page=1", message: "접근권한이 없습니다."}});
         setStory({
             ...story,
             title: title, tag: tag, preview: preview, place: place, story_review: story_review,

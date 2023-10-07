@@ -187,6 +187,7 @@ export default function CurationForm({id}) {
     });
   const request = Request(navigate);
   const ref = useRef();
+  const myEmail = localStorage.getItem('email');
   const [message, setMessage] = useState(false);
 
   const uploadCuration = async () => {
@@ -247,30 +248,31 @@ export default function CurationForm({id}) {
   const loadCuration = async() => {
     if (!id) return;
     try {
-      const response = await request.get(`/curations/curation_detail/${id}/`);
+      const curationResponse = await request.get(`/curations/curation_detail/${id}/`);
+      const { writer_email, contents, rep_pic, title } = curationResponse.data.data;
       const reponse_story_detail = await request.get(`/curations/curated_story_detail/${id}/`);
-      const { contents, rep_pic, title } = response.data.data;
       setRep_pic(rep_pic);
       setImageUrl(rep_pic);
       setForm({title : title, contents : contents});
       setSelectedStory(reponse_story_detail.data.data);
+      if (writer_email !== myEmail) navigate("/notexistpage", {state: {path: "/curation", message: "접근권한이 없습니다."}});
     }
     catch (e) {
       navigate("/notexistpage", {state : {path: "/curation"}});
     }
   }
   
-  useEffect(() =>{
-    queryString.page = 1;
-  },[open, search]) // 검색할 때마다 페이지 번호 1로 수정
-
+  useEffect(async() => {
+    await loadCuration();
+  }, [])
+  
   useEffect(() => {
     handleSearchToggle();
   }, [open, queryString.page]);
 
-  useEffect(async() => {
-    await loadCuration();
-  }, [])
+  useEffect(() =>{
+    queryString.page = 1;
+  },[open, search]) // 검색할 때마다 페이지 번호 1로 수정
 
   const handleOpen = value => {
     setOpen(true);
@@ -290,31 +292,14 @@ export default function CurationForm({id}) {
       e.preventDefault();
     } //초기화 방지
     setSearchToggle(true);
-    setLoading(true);
-    let newPage;
-    if (queryString.page == 1) {
-      newPage = null;
-    } else {
-      newPage = queryString.page;
-    }
-   
-    let searched;
-    if (search === null || search === "") {
-      //검색어 없을 경우 전체 리스트 반환
-      searched = null;
-    } else {
-      //검색어 있는 경우
-      searched = search;
-    }
-
     const response = await request.get("/stories/story_search/", {
-      page:newPage,
-      search: searched,
+      page:queryString.page,
+      search: search,
     }, null);
+
     search.length !== 0 ? setSearchParams({page:queryString.page, search: search}) : setSearchParams({page:queryString.page}); 
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
-    setLoading(false);
   };
 
   const handleInit = (value, editor) => {
