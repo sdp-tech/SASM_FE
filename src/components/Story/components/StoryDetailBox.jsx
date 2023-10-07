@@ -360,6 +360,7 @@ const StoryDetailBox = (props) => {
   };
 
   const loadItem = async () => {
+  try {
     setLoading(true);
     const response_detail = await request.get(`/stories/story_detail/${id}/`);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
@@ -368,6 +369,10 @@ const StoryDetailBox = (props) => {
     setComment(response_comment.data.data);
     setRecommend(recommend_story.data.data);
     setLoading(false);
+  }
+  catch (e) {
+    navigate("/notexistpage");
+  }
   };
 
   const otherUserData = async (email) => {

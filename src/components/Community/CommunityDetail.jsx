@@ -111,11 +111,16 @@ export default function CommunityDetail({ board, id, format }) {
   const navigate = useNavigate()
   const request = Request(navigate);
   const getDetail = async () => {
-    const response_detail = await request.get(`/community/posts/${id}`);
-    setDetail(response_detail.data);
-    console.log(response_detail);
-    setLike(response_detail.data.likes);
-    setLoading(false);
+    try {
+      const response_detail = await request.get(`/community/posts/${id}`);
+      setDetail(response_detail.data);
+      console.log(response_detail);
+      setLike(response_detail.data.likes);
+      setLoading(false);
+    }
+    catch(e) {
+      navigate("/notexistpage");
+    }
   }
   const getReview = async () => {
     const response_review = await request.get(`/community/post_comments/`, {
