@@ -11,7 +11,7 @@ const Box = styled.div`
 const NotExistPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
+  const message = location.state?.message || "존재하지 않는 페이지입니다."
   useEffect(() => {
     const timer = setTimeout(() => {
       location.state?.path ? navigate(`${location.state.path}`) : navigate(-2);
@@ -23,7 +23,7 @@ const NotExistPage = () => {
 
   return (
     <Box>
-      <div>존재하지 않는 페이지입니다.</div>
+      <div>{message}</div>
       <div>잠시 후 이전 페이지로 돌아갑니다.</div>
     </Box>
   )
