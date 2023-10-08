@@ -230,10 +230,6 @@ const CurationListPage = () => {
     e.preventDefault();
     setTempSearch(e.target.value);
   };
-  // page가 변경될 때마다 page를 붙여서 api 요청하기
-  useEffect(() => {
-    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, []);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
@@ -245,33 +241,45 @@ const CurationListPage = () => {
     setItem(response.data.data.results);
     setLoading(false);
   };
+  
+  const basePath = orderList ? `/curation/curationlist` : `/curation/usercurationlist`
+  if(search) navigate(`${basePath}?page=1&search=${search}`, {state : {search: search}});
+  
   const getCurration = async () => {
-    setLoading(true);
-    if(search && orderList) {
-      navigate(`/curation/curationlist?page=1&search=${search}`, {state : {search: search}})
-    } else if(search && !orderList) {
-      navigate(`/curation/usercurationlist?page=1&search=${search}`, {state : {search: search}})
+    try {
+      setLoading(true);
+      const response_rep = await request.get('/curations/rep_curations/');
+      setRepCuration(response_rep.data.data.results);
+      const response_verifed = await request.get('/curations/verified_user_curations/');
+      setVerifiedCuration(response_verifed.data.data.results);
+      setLoading(false);
+    } catch (err) {
+      alert("문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
     }
-
-    const response_rep = await request.get('/curations/rep_curations/');
-    setRepCuration(response_rep.data.data.results);
-    const response_verifed = await request.get('/curations/verified_user_curations/');
-    setVerifiedCuration(response_verifed.data.data.results);
-    setLoading(false);
   }
   const getStory = async() => {
-    const response_story = await request.get('/stories/story_search/', {
+    try {
+      const response_story = await request.get('/stories/story_search/', {
       page: 1,
       search: '비건',
       latest: true
     });
     setStoryData(response_story.data.data.results);
+    }
+    catch (error) {
+      console.log(error);
   }
+}
+
   useEffect(() => {
-    getStory();
-    handleSearchToggle();
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
     getCurration();
-  }, [search])
+    getStory();
+  }, []);
+  
+  useEffect(() => {
+    handleSearchToggle();
+  }, [search]);
 
   return (
     <>

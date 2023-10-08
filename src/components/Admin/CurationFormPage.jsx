@@ -12,7 +12,7 @@ import oc from "open-color";
 import qs from "qs";
 import { Modal, Button, ButtonToolbar, Placeholder} from 'rsuite';
 import "rsuite/dist/rsuite.min.css";
-import AlertMessage from "../../functions/common/AlertMessage"
+import AlertMessage from "../../functions/common/AlertMessage";
 
 const InputTitle = styled.input`
 width: 100%;
@@ -167,7 +167,6 @@ export default function CurationForm({id}) {
   const [item, setItem] = useState([]);
   const [pageCount, setPageCount] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [limit, setLimit] = useState(4);
   const [form, setForm] = useState({
@@ -178,7 +177,6 @@ export default function CurationForm({id}) {
   const [searchToggle, setSearchToggle] = useState(false);
   const [selectedStory, setSelectedStory] = useState([]);
   const [rep_pic, setRep_pic] = useState([]);
-  const [curation, setCuration] = useState({title: '', contents: '', uri:'', width: 1, height: 1, fileName: ''})
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState("");
   const location = useLocation();
@@ -215,19 +213,13 @@ export default function CurationForm({id}) {
       alert('최소 3개의 스토리를 선택해주세요.')
       return;
     }
-    for (let key of formData.keys()) {
-      console.log(key, "::", formData.get(key));
-    }
     try {
-      let newId
-      if (!id) {
-        const response = await request.post('/curations/curation_create/', formData, { "Content-Type": "multipart/form-data" });
-        newId = response.data.data.id
-      }
-      else {
-        const response = await request.put(`/curations/curation_update/${id}/`, formData);
-      }
-     id ? navigate(`/curation/${id}`) : navigate(`/curation/${newId}`);
+      const response = id ?
+                      await request.put(`/curations/curation_update/${id}/`, formData) :
+                      await request.post('/curations/curation_create/', formData, { "Content-Type": "multipart/form-data" });
+      const message = id ? "수정되었습니다." : "큐레이션이 생성되었습니다.";
+      alert(message);
+      navigate(`/curation/${response.data.data.id}`);
     }
     catch (e) {
       alert(`큐레이션 생성 실패 => ${e.response.data.detail}`);
@@ -297,7 +289,7 @@ export default function CurationForm({id}) {
       search: search,
     }, null);
 
-    search.length !== 0 ? setSearchParams({page:queryString.page, search: search}) : setSearchParams({page:queryString.page}); 
+    search ? setSearchParams({page:queryString.page, search: search}) : setSearchParams({page:queryString.page}); 
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
   };
