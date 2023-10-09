@@ -346,7 +346,7 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
         maxZoom={19}
         onZoomChanged={(zoom) => { setZoom(zoom) }}
         zoomControl={false}
-        // onCenterChanged={(center) => { handleCenterChanged(center) }}
+        onCenterChanged={(center) => { handleCenterChanged(center) }}
       >
         {/* markers */}
         {placeData.map((itemdata) => (

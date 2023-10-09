@@ -1,19 +1,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import Navibar from "../components/common/Navibar";
-import { LoginContext } from "../contexts/LoginContexts";
 import Loading from "../components/common/Loading";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
 import DataContainer from "../components/SpotMap/DataContainer";
 
 export default function SpotMap() {
-  const [login, setLogin] = useContext(LoginContext);
   const [loading, setLoading] = useState(true);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
-  const navigate = useNavigate();
-  // const token = cookies.name; // 쿠키에서 id 를 꺼내기
-
   const [location, setLocation] = useState([]);
   // 에러 메세지 저장
   const [error, setError] = useState();

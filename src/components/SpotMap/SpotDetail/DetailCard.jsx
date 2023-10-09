@@ -204,8 +204,8 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
           <p style={{ fontSize: "1.25rem", fontWeight: "400" }}>{detailData.category}</p>
           <ButtonBox>
             {/* 스토리가 있는 경우에만 버튼 띄우기 */}
-            {detailData.story_id ? (
-              <Link to={`/story/${detailData.story_id}`} style={{ textDecoration: "none" }} >
+            {detailData.story_id.length ? (
+              <Link to={`/story/${detailData.story_id[0]}`} style={{ textDecoration: "none" }} >
                 <MapButton>Go To Story</MapButton>
               </Link>
             ) : (
@@ -214,9 +214,9 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
             
             <LikeButton>
               {detailData.user_liked ? (
-                <HeartButton like={!like} onClick={toggleLike} />
-              ) : (
                 <HeartButton like={like} onClick={toggleLike} />
+              ) : (
+                <HeartButton like={!like} onClick={toggleLike} />
               )}
             </LikeButton>
           </ButtonBox>
