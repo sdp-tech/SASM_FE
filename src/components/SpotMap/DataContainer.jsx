@@ -148,11 +148,11 @@ export default function DataContainer({ Location }) {
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         setCategoryNum(checkedList.length);
-        if (search != "") {
+        if (search) {
             setCategoryNum(7);
         }
         getList();
-    }, [searchHere, location.search, checkedList, queryString.page]);
+    }, [searchHere, search, checkedList, queryString.page]);
 
     return (
         <>
