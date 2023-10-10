@@ -7,23 +7,26 @@ import { Button, Modal } from "rsuite";
 export default function OtherUserData (props) {
   const navigate = useNavigate();
   const request = Request(navigate);
+  const token = localStorage.getItem('token');
   const [otherStory, setOtherStory] = useState([]);
   const [otherCuration, setOtherCuration] = useState([]);
 
   const getOtherUserStory = async() => {
-    const response = await request.get('/mypage/user/other_story/', {
-      email: props.userData.email
-    })
-    console.log(response.data);
-    setOtherStory(response.data);
+    if (token) {
+      const response = await request.get('/mypage/user/other_story/', {
+        email: props.userData.email
+      })
+      setOtherStory(response.data);
+    }
   }
 
   const getOtherUserCuration = async() => {
+    if (token) { 
     const response = await request.get('/mypage/user/other_curation/', {
       email: props.userData.email
     })
     setOtherCuration(response.data.data);
-    console.log(response.data.data);
+    }
   }
 
   useEffect(() => {
