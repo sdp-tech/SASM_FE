@@ -88,6 +88,10 @@ const Writer = styled.span`
     color: #1E90FF;
   }
 `
+const LikeCount = styled.p`
+  
+`
+
 
 export default function CommunityDetail({ board, id, format }) {
   const [loading, setLoading] = useState(true);
@@ -190,7 +194,8 @@ export default function CommunityDetail({ board, id, format }) {
                   <Writer style={{ margin: '0 5% 0 0' }} onClick={() => {otherUserData(detail.email)}}>
                     {detail.nickname}
                   </Writer>
-                  {detail.updated.slice(0, 10)} 작성
+                  {detail.created.slice(0, 10)} 작성
+                  <LikeCount>좋아요 : {detail.likeCount}</LikeCount>
                 </Info>
                 <Content>
                 {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}

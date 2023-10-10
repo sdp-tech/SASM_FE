@@ -237,7 +237,7 @@ export default function CommunityList({ board, format }) {
                       -
                       {data.commentCount}</Info>
                     <CommunityWriter onClick={() => {otherUserData(data.email)}}>{data.nickname}</CommunityWriter>
-                    <CreatedAt>{data.updated.slice(0, 10)}</CreatedAt>
+                    <CreatedAt>{data.created.slice(0, 10)}</CreatedAt>
                   </List>
                 ))
               }
