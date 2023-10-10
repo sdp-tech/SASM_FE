@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 import Request from '../../../functions/common/Request';
 import { useNavigate } from 'react-router-dom';
+import OtherUserData from '../../../functions/common/OtherUserData';
 
 const CommentBox = styled.div`
   margin-bottom: 3vh;
@@ -73,9 +74,23 @@ const TextArea = styled.textarea`
       padding: 5px 15px;
     }
 `
+const NicknameWrapper = styled.div`
+    cursor: pointer;
+    &:hover {
+      color: #289AFF;
+    }
+`
+const Image = styled.img`
+    cursor: pointer;
+    &: hover {
+      opacity: 0.4;
+    }
+`
 export default function Comment({ data }) {
   const date = data.updated_at.slice(0, 10);
   const [update, setUpdate] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [otherUser, setOtherUser] = useState({});
   const navigate = useNavigate();
   const request = Request(navigate);
   const email = localStorage.getItem('email');
@@ -98,12 +113,24 @@ export default function Comment({ data }) {
   if (data.email == email) {
     isWriter = true;
   }
+
+  const otherUserData = async (email) => {
+    const response = await request.get('/mypage/user/', {
+      email: email
+    });
+    setOtherUser(response.data.data);
+    setOpen(true);
+  }
+  const handleClose = () => {
+    setOpen(false);
+  }
   return (
     <CommentBox>
+      {open && <OtherUserData open={open} userData={otherUser} handleClose = {handleClose}/>}
       <InfoBox>
         <UserBox>
-          <img src={data.profile_image} style={{ width: '45px', height: '45px', borderRadius: '50%', marginRight: '20px' }} />
-          {data.nickname}
+          <Image src={data.profile_image} onClick={() => {otherUserData(data.email)}} style={{ width: '45px', height: '45px', borderRadius: '50%', marginRight: '20px' }} />
+          <NicknameWrapper onClick={() => {otherUserData(data.email)}}>{data.nickname}</NicknameWrapper>
         </UserBox>
         <DateBox>
           {date}

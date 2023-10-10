@@ -130,6 +130,7 @@ const List = styled.div`
 `
 
 const ListText = styled.p`
+  cursor: pointer;
   font-weight: bold;
   font-size: 14px;
  &:hover {

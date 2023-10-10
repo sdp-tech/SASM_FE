@@ -217,6 +217,7 @@ const Text = styled.p`
   margin: auto;
 `
 const ProfileText = styled.p`
+  cursor: pointer;
   margin: auto;
   &:hover {
     color: #00AFFF;
@@ -235,6 +236,7 @@ const View = styled.div`
 `
 const Image = styled.img`
   width: 30%;
+  cursor: pointer;
   &:hover {
     transform: scale(1.02);
   }
@@ -340,10 +342,7 @@ const StoryDetailBox = (props) => {
       alert("로그인이 필요합니다.");
     } else {
       const response = await request.post(`/stories/${id}/story_like/`);
-      console.log("response", response);
-
-      //색상 채우기
-      setLike(!like);
+      rerender();
     }
   };
 
@@ -448,6 +447,7 @@ const StoryDetailBox = (props) => {
                     ) : (
                       <HeartButton like={like} onClick={toggleLike} />
                     )}
+                    {data.like_cnt}
                   </LikeButton>
                 </LikeIconBox>
                 <Tag>{data.tag}</Tag>

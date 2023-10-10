@@ -197,7 +197,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
             <TitleLink to={`/map?page=${queryString.page}&place=${placeData.place_name}`} onClick={handleClick}>
               {placeData.place_name}
             </TitleLink>
-            <LikeButton style={{ position: "absolute", right: "5%", bottom: "2%" }}>
+            <LikeButton style={{ position: "absolute", right: "5%", bottom: "50%" }}>
               {
                 placeData.place_like === "ok" ? (
                   <HeartButton like={!like} onClick={toggleLike} />
