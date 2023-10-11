@@ -5,7 +5,6 @@ import HeartButton from '../../common/Heart';
 import { useCookies } from "react-cookie";
 import Heart from '../../common/Heart'
 import styled from "styled-components";
-import AdminButton from "../../Admin/components/AdminButton";
 import { Button } from 'rsuite';
 import OtherUserData from '../../../functions/common/OtherUserData';
 
@@ -239,7 +238,6 @@ export default function CurationDetailBox() {
   const myEmail = localStorage.getItem("email");
   const token = localStorage.getItem("accessTK");
   const [like, setLike] = useState(false);
-  const [notExist, setNotExist] = useState(false);
   const request = Request(navigate);
   const [otherUser, setOtherUser] = useState({});
   const [open, setOpen] = useState(false);
@@ -277,9 +275,12 @@ export default function CurationDetailBox() {
     const toggleLike = async () => {
       if (!token) {
         alert("로그인이 필요합니다.");
-      } else {
+        return;
+      } try {
         const response = await request.post(`/curations/curation_like/${params.id}/`);
         rerender();
+      } catch (err) {
+        console.log(err);
       }
     };
 
@@ -414,12 +415,9 @@ export const Storys = ({
     refresh, 
     setRefresh
     }) => {
-  const params = useParams();
   const [like, setLike] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(["name"]);
   const [otherUser, setOtherUser] = useState({});
   const [open, setOpen] = useState(false);
-  const token = localStorage.getItem("accessTK");
   const navigate = useNavigate();
   const request = Request(navigate);
   const myEmail = localStorage.getItem('email');

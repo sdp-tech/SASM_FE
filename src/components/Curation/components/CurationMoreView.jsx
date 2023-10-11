@@ -125,7 +125,7 @@ const CurationMoreView = () => {
     setSearch(e.target.value);
   };
   useEffect(() =>{
-   if (search !== "") queryString.page = 1;
+   if (search) queryString.page = 1;
   },[search]) // 검색할 때마다 페이지 번호 1로 수정
 
   // page가 변경될 때마다 page를 붙여서 api 요청하기
@@ -136,26 +136,18 @@ const CurationMoreView = () => {
   
 
   const handleSearchToggle = async (e) => {
-    if(e) {e.preventDefault();}
-    let newPage;
-    if (queryString.page == 1) {
-      newPage = null;
-    } else {
-      newPage = queryString.page;
-    }
+    if(e) e.preventDefault();
 
     let searched
     if (location.state?.search) {
       searched = location.state.search;
       setSearch(location.state.search);
       location.state.search = "";
-    } else if (search === null || search === "") {
-      searched = null;
     } else {
       searched = search.trim();
     }
       const response = await request.get("/curations/admin_curations/", {
-      page:newPage,
+      page: queryString.page,
       search: searched
     }, null);
       if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
