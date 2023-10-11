@@ -1,9 +1,5 @@
-# https://www.robotstxt.org/robotstxt.html
-User-agent: Googlebot
-User-agent: Yeti
+User-agent:*
 Disallow: /mypage
 Disallow: /mypick
 Disallow: /auth
-
-
 Sitemap: https://www.sasm.co.kr/sitemap.xml
