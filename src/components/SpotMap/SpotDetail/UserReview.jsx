@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import Request from '../../../functions/common/Request';
 import styled from 'styled-components';
+import OtherUserData from '../../../functions/common/OtherUserData';
 
 const TextBox = styled.div`
     white-space: normal;
@@ -16,9 +17,17 @@ const Button = styled.button`
     border: none;
     background: none;
 `
+const NicknameWrapper = styled.div`
+    cursor: pointer;
+    &:hover {
+        color: #289AFF;
+    }
+`
 
 export default function UserReview({ reviewData, setReviewOpen, setTargetData, writer, setValue }) {
     const [toggle, setToggle] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [otherUser, setOtherUser] = useState({});
     const navigate = useNavigate();
     const request = Request(navigate);
     const handleToggle = () => {
@@ -33,41 +42,54 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
             deleteReview();
         }
     }
+    const otherUserData = async (email) => {
+        const response = await request.get('/mypage/user/', {
+          email: email
+        });
+        setOtherUser(response.data.data);
+        setOpen(true);
+      }
+    const handleClose = () => {
+    setOpen(false);
+    }
     return (
-        <div style={{ padding: '5px', borderBottom: '1px black solid', position: 'relative' }}>
-            <div>{reviewData.nickname}</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {reviewData.updated.slice(0, 10)} {reviewData.updated.slice(11, 19)}
-                <span style={{ color: '#999999' }}>
+        <>
+          {open && <OtherUserData open={open} userData = {otherUser} handleClose = {handleClose}/>}
+            <div style={{ padding: '5px', borderBottom: '1px black solid', position: 'relative' }}>
+                <NicknameWrapper onClick={() => {otherUserData(reviewData.writer)}}>{reviewData.nickname}</NicknameWrapper>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    {reviewData.updated.slice(0, 10)} {reviewData.updated.slice(11, 19)}
+                    <span style={{ color: '#999999' }}>
+                        {
+                            !(reviewData.created.slice(0, 19) == reviewData.updated.slice(0, 19)) && '수정됨'
+                        }
+                    </span>
+                </div>
+                <div>
                     {
-                        !(reviewData.created.slice(0, 19) == reviewData.updated.slice(0, 19)) && '수정됨'
+                        toggle ?
+                            <div style={{ display: 'flex' }}>{reviewData.contents}</div> :
+                            <div>{reviewData.contents}</div>
                     }
-                </span>
-            </div>
-            <div>
+                    <div onClick={handleToggle} style={{ position: 'absolute', right: '5px', top: '5px' }}>{toggle ? "∧" : "∨"}</div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    {
+                        reviewData.photoList?.map((data, index) => {
+                            return (
+                                <img src={data.imgfile} key={`review_photos_${reviewData.id}_${index}`} alt="review photos" style={{ width: '100px', height: '100px' }} />
+                            )
+                        })
+                    }
+                </div>
                 {
-                    toggle ?
-                        <div style={{ display: 'flex' }}>{reviewData.contents}</div> :
-                        <div>{reviewData.contents}</div>
-                }
-                <div onClick={handleToggle} style={{ position: 'absolute', right: '5px', top: '5px' }}>{toggle ? "∧" : "∨"}</div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                {
-                    reviewData.photoList?.map((data, index) => {
-                        return (
-                            <img src={data.imgfile} key={`review_photos_${reviewData.id}_${index}`} alt="review photos" style={{ width: '100px', height: '100px' }} />
-                        )
-                    })
+                    writer &&
+                    <>
+                        <Button onClick={confirmDelete}>삭제</Button>
+                        <Button onClick={() => { setReviewOpen(true); setTargetData(reviewData); }}>수정</Button>
+                    </>
                 }
             </div>
-            {
-                writer &&
-                <>
-                    <Button onClick={confirmDelete}>삭제</Button>
-                    <Button onClick={() => { setReviewOpen(true); setTargetData(reviewData); }}>수정</Button>
-                </>
-            }
-        </div>
+        </>
     )
 }

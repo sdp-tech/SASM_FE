@@ -84,6 +84,7 @@ const StorySection = styled.div`
 const ProfileImage = styled.img`
   width: 30%;
   width: 50px;
+  cursor: pointer;
   height: 50px;
   border-radius: 25px; margin-right: 20px;
   &:hover {
@@ -225,6 +226,7 @@ const StoryProfileInfoBox = styled(InfoBox)`
    text-align : right;
 `
 const Writer = styled.p`
+  cursor: pointer;
    &:hover {
     color: #00AFFF;
    }
