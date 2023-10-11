@@ -118,9 +118,9 @@ export default function CommunityDetail({ board, id, format }) {
     try {
       const response_detail = await request.get(`/community/posts/${id}`);
       setDetail(response_detail.data);
-      console.log(response_detail);
       setLike(response_detail.data.likes);
       setLoading(false);
+      if (response_detail.data.board != board) navigate("/notexistpage");
     }
     catch(e) {
       navigate("/notexistpage");

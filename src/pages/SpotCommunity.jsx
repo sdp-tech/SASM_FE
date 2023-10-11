@@ -68,10 +68,17 @@ export default function SpotCommunity() {
   const request = Request(navigate);
   const [format, setFormat] = useState();
   const getFormat = async () => {
-    const response = await request.get(`/community/boards/${params.board}/`);
-    setFormat(response.data);
-    setLoading(false);
+    try {
+      const response = await request.get(`/community/boards/${params.board}/`);
+      setFormat(response.data);
+      setLoading(false);
+    }
+    catch (e) {
+      navigate(`/notexistpage`);
+    }
   }
+
+  if (params.board > 4) {navigate(`/notexistpage`)}
 
   useEffect(() => {
     getFormat();
