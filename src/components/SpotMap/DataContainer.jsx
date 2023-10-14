@@ -156,7 +156,6 @@ export default function DataContainer({ Location }) {
 
     return (
         <>
-            <Mobile><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere}/></Mobile>
             <ListWrapper>
                 <SearchFilterBar>
                     <SearchBar
@@ -186,8 +185,7 @@ export default function DataContainer({ Location }) {
                     </AdminButton>
                 }
             </ListWrapper>
-            <Pc><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} /></Pc>
-            <Tablet><Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} /></Tablet>
+            <Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} />
         </>
     )
 }

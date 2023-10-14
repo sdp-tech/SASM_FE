@@ -199,7 +199,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   }, [categoryNum]);
 
   useEffect(() => {
-    const openModal = () => {
+    const openModal = async() => {
       MarkerChange();
       setModalOpen(true);
     }
