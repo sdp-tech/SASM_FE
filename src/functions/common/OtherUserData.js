@@ -7,9 +7,20 @@ import { Button, Modal } from "rsuite";
 export default function OtherUserData (props) {
   const navigate = useNavigate();
   const request = Request(navigate);
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('accessTK');
+  const [otherReview, setOtherReview] = useState([]);
   const [otherStory, setOtherStory] = useState([]);
   const [otherCuration, setOtherCuration] = useState([]);
+
+  const getOtherUserReview = async() => {
+    if(token) {
+    let params = new URLSearchParams();
+    params.append('email', props.userData.email);
+    const response = await request.get(`/mypage/other_reviewed_place/?${params.toString()}`);
+    console.log(response);
+    setOtherReview(response.data.data.results);
+    }
+  }
 
   const getOtherUserStory = async() => {
     if (token) {
@@ -30,6 +41,7 @@ export default function OtherUserData (props) {
   }
 
   useEffect(() => {
+    getOtherUserReview();
     getOtherUserStory();
     getOtherUserCuration();
   }, [props.open]);
@@ -71,6 +83,22 @@ export default function OtherUserData (props) {
                 </OtherUserWriting>
               </LinkList>
             </SelectButton> 
+          </ButtonWrapper>
+          <ButtonWrapper>
+          <SelectButton>{props.userData.nickname}의 장소에 관한 댓글
+            <LinkList>
+                <OtherUserWriting>
+                  {otherReview.map((data) => (
+                    <List>
+                      <ListText onClick={() => {
+                        window.open(`/map?page=1&place=${data.place_name}`)
+                        localStorage.setItem("place_name", data.place_name);
+                        }}>{data.place_name}</ListText>
+                    </List>
+                  ))}
+                </OtherUserWriting>
+              </LinkList>
+            </SelectButton>
           </ButtonWrapper>
         </Modal.Body>
         <Modal.Footer>
