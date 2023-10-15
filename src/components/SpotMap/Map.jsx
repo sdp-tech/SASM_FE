@@ -90,7 +90,6 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   });
   const node = useRef();
   const [bool, setBool] = useState(false);
-
   const navigate = useNavigate();
   // 마커 전부 초기화
   const MarkerReset = () => {
@@ -105,6 +104,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
 
     bg.style.backgroundImage = bool ? `url(${MarkerbgActive})` : `url(${MarkerbgDefault})`;
     marker.style.zIndex = "1";
+    setBool(!bool);
   };
   // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
@@ -115,6 +115,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
     }
     document.getElementById(`${id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
     document.getElementById(id).style.zIndex = "100";
+    setBool(!bool);
   };
   
   // 상세보기 클릭 이벤트
@@ -127,11 +128,12 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
+    setBool(!bool);
   };
 
   //마커의 텍스트 사이즈 고정하기
   const htmlFontSize = getComputedStyle(document.documentElement).fontSize.slice(0, 2);
-  const width = Number(htmlFontSize * title.length) + 10;
+  const width = 200;
   // HTML 마커
   const contentString = `
     <div style="
@@ -140,40 +142,46 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
       align-items: center;
       transform: translateY(-50%);
       position: relative;
-      flex-direction: column;
       cursor: pointer;
+      z-index: ${bool ? 100 : 1};
     " class="iw_inner" id="${id}">
       <div style="
-        margin-top: 0px;
         display: flex;
-        width: 45px;
-        height: 67.5px;
-        align-items: flex-start;
-        justify-content: center;
-        padding: 10px;
-        background-image: url(${bool ? MarkerbgActive : MarkerbgDefault});
-        background-repeat: no-repeat;
-        background-position: top;
-        background-size: contain;
-      " id="${id}bg">
-        <img src="${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`)}" style="
-          width: 25px;
-          height: 25px;
-          border: 1px red;
-        " alt="marker" class="thumb" id="${id}img" />
-      </div>
-      <div style="
-        display: ${bool ? 'block' : 'none'};
-        background: #FFFFFF;
-        border-radius: 8px;
-        border: 1px #ADEFC2 solid;
+        background: ${bool ? '#01A0FC' : '#FFF'};
+        color: ${bool ? '#FFF' : '#000' };
+        font-weight: 500;
+        border-radius: ${width}px;
+        border: 1px #01A0FC solid;
         padding: 3px;
         width: ${width}px;
         text-align: center;
         position: absolute;
         bottom: -5px;
       " id="${id}text">
-        <p style="margin: 0; font-size: 1rem;">${title}</p>
+        <div style="
+          margin-top: 0px;
+          display: flex;
+          justify-content: center;
+          padding: 8px;
+          background-image: url(${bool ? MarkerbgActive : MarkerbgDefault});
+          background-repeat: no-repeat;
+          background-position: top;
+          background-size: contain;
+        " id="${id}bg">
+          <img src="${require(`../../assets/img/Category/CategoryWhite${MatchCategory(category)}.svg`)}" style="
+          width: 20px;
+          height: 20px;
+          border: 1px red;
+        " alt="marker" class="thumb" id="${id}img" />
+        </div>
+        <div style-"
+        display: flex;
+        flex-direction: column;
+        align-items: right;
+        ">
+          <p style="margin: 0; font-size: 0.9rem; font-weight: bold;">${title}</p>
+          <p style="margin: 0; font-size: 0.5rem;">${category}</p>
+        </div>
       </div>
     </div>
   `;
@@ -234,6 +242,8 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
             modalClose={modalClose}
             id={id}
             setTemp={setTemp}
+            bool={bool}
+            setBool={setBool}
           ></SpotDetail>
         )}
       </DetailBox>

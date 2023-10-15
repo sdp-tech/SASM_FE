@@ -127,6 +127,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   // 상세보기 모달 닫기 이벤트
   const modalClose = () => {
     setModalOpen(!modalOpen);
+    setBool(false);
   };
 
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
@@ -148,21 +149,25 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
     const bg = document.getElementById(`${placeData.id}bg`);
     const marker = document.getElementById(placeData.id);
     if (text) {
-      text.style.transform = "none";
-      text.style.display = bool ? "block" : "none";
+      text.style.backgroundColor = "#FFF";
+      text.style.color = "#000";
+      text.style.display =bool ? "flex" : "none";
     }
-    bg.style.backgroundImage = bool ? `url(${MarkerbgActive})` : `url(${MarkerbgDefault})`
+    bg.style.backgroundImage = bool ?`url(${MarkerbgDefault})` : `url(${MarkerbgActive})` 
     marker.style.zIndex = "1";
+    setBool(false);
   };
   // 상태에 맞는 마커 스타일 변경
   const MarkerChange = () => {
     const text = document.getElementById(`${placeData.id}text`);
     if (text) {
-      text.style.transform = "translateY(100%)";
-      text.style.display = bool ? "block" : "none";
+      text.style.backgroundColor = '#01A0FC';
+      text.style.color = '#FFF';
+      text.style.display = "flex" ;
     }
-    document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
+    document.getElementById(`${placeData.id}bg`).style.backgroundImage = `url(${MarkerbgActive})`;
     document.getElementById(placeData.id).style.zIndex = "100";
+    setBool(true);
   };
 
   // 상세보기 클릭 이벤트
