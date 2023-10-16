@@ -38,6 +38,9 @@ const SearchHereButton = styled.button`
   transform: translateX(-50%);
   z-index: 3;
   cursor: pointer;
+  &:hover{
+    background:#1E90FF;
+  }
 `;
 const MoveToCenterButton = styled.button`
   background: #ffffff;
@@ -139,7 +142,6 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
     <div style="
       display: flex;
       justify-content: center;
-      align-items: center;
       transform: translateY(-50%);
       position: relative;
       cursor: pointer;
@@ -153,6 +155,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
         border-radius: ${width}px;
         border: 1px #01A0FC solid;
         padding: 3px;
+        height: 45px;
         width: ${width}px;
         text-align: center;
         position: absolute;
@@ -162,7 +165,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
           margin-top: 0px;
           display: flex;
           justify-content: center;
-          padding: 8px;
+          padding: 9px;
           background-image: url(${bool ? MarkerbgActive : MarkerbgDefault});
           background-repeat: no-repeat;
           background-position: top;
@@ -174,18 +177,13 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
           border: 1px red;
         " alt="marker" class="thumb" id="${id}img" />
         </div>
-        <div style-"
-        display: flex;
-        flex-direction: column;
-        align-items: right;
-        ">
-          <p style="margin: 0; font-size: 0.9rem; font-weight: bold;">${title}</p>
-          <p style="margin: 0; font-size: 0.5rem;">${category}</p>
+        <div>
+          <p style="margin: 0; font-size: 0.9rem; font-weight: bold; position: absolute; left: 45px;">${title.length > 11 ? title.slice(0,10) + '...': title}</p>
+          <p style="margin: 0; font-size: 0.5rem; position: absolute; left: 45px; bottom: 5px;">${category}</p>
         </div>
       </div>
     </div>
   `;
-
 
   useEffect(() => {
     const clickOutside = (e) => {
