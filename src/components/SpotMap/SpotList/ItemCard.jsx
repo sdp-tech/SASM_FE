@@ -140,7 +140,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
     else {
       const response = await request.post("/places/place_like/", { id: placeData.id });
       //색상 채우기
-      setLike(!like);
+      like ? setLike(false) : setLike(true);
     }
   };
   // 마커 전부 초기화
