@@ -179,7 +179,7 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
     } else {
       const response = await request.post("/places/place_like/", { id: detailData.id }, null);
       //색상 채우기
-      setLike(!like);
+      like ? setLike(false) : setLike(true);
     }
   };
   const handleTab = (event, value) => {
@@ -211,14 +211,14 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
             ) : (
               ""
             )}
-            
+            {like === undefined ? <></> :
             <LikeButton>
               {detailData.user_liked ? (
-                <HeartButton like={like} onClick={toggleLike} />
-              ) : (
                 <HeartButton like={!like} onClick={toggleLike} />
+              ) : (
+                <HeartButton like={like} onClick={toggleLike} />
               )}
-            </LikeButton>
+            </LikeButton>}
           </ButtonBox>
         </InfoBox>
         <Tabs value={value} onChange={handleTab}>
