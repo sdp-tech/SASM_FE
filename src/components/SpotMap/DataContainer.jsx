@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Request from '../../functions/common/Request';
 import { useNavigate, useParams } from "react-router";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import Map from './Map';
 import styled from 'styled-components';
 import SearchBar from '../common/SearchBar';
@@ -68,6 +68,7 @@ export default function DataContainer({ Location }) {
     //tempSearch, tempCheckedList 검색 버튼을 누르기 전에 적용 방지 
     const [search, setSearch] = useState('');
     const [tempSearch, setTempSearch] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
     const [checkedList, setCheckedList] = useState('');
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -90,7 +91,6 @@ export default function DataContainer({ Location }) {
 
     // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
     const onCheckedElement = (checked, item) => {
-        navigate('/map?page=1');
         checked ? setCheckedList([...checkedList, item]) : setCheckedList(checkedList.filter((el) => el !== item));
     };
 
@@ -102,9 +102,7 @@ export default function DataContainer({ Location }) {
         if (event) {
             //초기화 방지
             event.preventDefault();
-        }
-        tempSearch ? navigate(`/map?page=1&search=${tempSearch}`) : navigate(`/map?page=1`);
-        setSearch(tempSearch);
+        }        setSearch(tempSearch);
     };
 
     //초기 map 데이터 가져오기
@@ -134,6 +132,13 @@ export default function DataContainer({ Location }) {
                 lng: response_list.data.data.results[0].longitude,
             });
         }
+        const urlParams = {
+            page: queryString.page
+        }
+        if (search) urlParams.search = search;
+        if (location.state?.name) urlParams.search = location.state.name;
+        if (checkedList) urlParams.checkedList = checkedList;
+        setSearchParams(urlParams);
     }; 
 
     //admin 여부 체크
