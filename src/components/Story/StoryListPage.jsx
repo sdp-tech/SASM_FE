@@ -28,7 +28,7 @@ const SearchBarSection = styled.div`
   height: 8vh;
   width: 100%;
   display: flex;
-  margin-top: 0.1%;
+  margin-top: 1%;
   flex-direction: row;
   grid-area: story;
   align-items: center;
@@ -46,7 +46,7 @@ const ToggleWrapper = styled.div`
   height: 50%;
   display: flex;
   right: 15vw;
-  width: 8vw;
+  width: 10vw;
   align-items: center;
   @media screen and (max-width: 768px) {
     width: 30vw;
@@ -56,31 +56,21 @@ const ToggleWrapper = styled.div`
     height: 4vh;
   }
   @media screen and (min-width: 768px) and (max-width: 991px) {
-    width: 10vw;
     height: 4vh;
-    // position: relative;
-    // right: 
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
-    width: 10vw;
     height: 4vh;
-  }
-  @media screen and (min-width: 1200px) {
-    width: 10vw;
   }
 `
 const StoryListSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  // height: calc(100vh - 64px - 13vh);
+  margin-top: 1%;
   width: 100%;
   display: flex;
   flex-direction: column;
   grid-area: story;
   scrollbar-height: thin;
-  // @media screen and (min-width: 768px) and (max-width: 991px) {
-  //   height: 55vh;
-  // }
 `;
 const FooterSection = styled.div`
   display: flex;
@@ -88,7 +78,6 @@ const FooterSection = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  // position: relative;
   z-index: 20;
   justify-content: center;
   align-items: center;
@@ -103,21 +92,18 @@ const SearchFilterBar = styled.div`
   }
   @media screen and (min-width: 767px) and (max-width: 991px) {
     width:40%;
-    height:80%;
-    font-size: 0.2rem;
+    font-size: 0.8rem;
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
     margin-top: 10px;
     width:40%;
-    height:90%;
-    font-size: 0.5rem;
+    font-size: 0.8rem;
   }
   @media screen and (min-width: 1200px) {
     width:35%;
     height:50%;
     font-size: 0.8rem;
   }
-  height: 50%;
   display: flex;
   background: #FFFFFF;
   border-radius: 56px;
@@ -174,7 +160,7 @@ const StoryListPage = () => {
     setSearch(e.target.value);
   };
   useEffect(() =>{
-    if (search !== "") queryString.page = 1;
+    if (search) queryString.page = 1;
   },[search]) // 검색할 때마다 페이지 번호 1로 수정
   
   // page가 변경될 때마다 page를 붙여서 api 요청하기
@@ -190,39 +176,25 @@ const StoryListPage = () => {
     } //초기화 방지
     setSearchToggle(true);
     setLoading(true);
-    let newPage;
-    if (queryString.page == 1) {
-      newPage = null;
-    } else {
-      newPage = queryString.page;
-    }
 
     let searched;
     if (location.state?.name) {
       searched = location.state.name;
       location.state.name = "";
       setSearch("비건")
-    } else if (search === null || search === "") {
-      //검색어 없을 경우 전체 리스트 반환
-      searched = null;
     } else {
-      //검색어 있는 경우
       searched = search.trim();
     }
     
-    let order;
-    if (orderList) {
-      order = "latest";
-    } else {
-      order = "oldest";
-    }
+    const order = orderList ? "latest" : "oldest";
+
     const response = await request.get("/stories/story_search/", {
-      page: newPage,
+      page: queryString.page,
       search: searched,
       order: order
     }, null);
-    // console.log("response??", response);
-    if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
+
+    if(search) {setSearchParams({page:queryString.page, search: search});}
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
