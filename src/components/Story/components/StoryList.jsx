@@ -49,14 +49,6 @@ const StoryList = ({ info }) => {
             </Container>
           </main>
         </StorySection>
-        {/* <FooterSection>
-            <Pagination
-              total={pageCount}
-              limit={limit}
-              page={page}
-              setPage={setPage}
-            />
-          </FooterSection> */}
       </>
     </>
   );
@@ -68,26 +60,13 @@ const StorySection = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  // overflow: hidden;
   grid-area: story;
-  // height: 100%;
   height: auto;
   margin-bottom: 5vh;
-`;
-const FooterSection = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  // overflow: hidden;
-  grid-area: story;
-  height: 12%;
-  border: 1px solid blue;
-  background-color: blue;
 `;
 const CardSection = styled.div`
   box-sizing: border-box;
   position: relative;
-  //   margin: 15px 0px 15px 15px;
   display: flex;
   flex-direction: column;
   overflow: hidden;

@@ -22,7 +22,7 @@ const TitleBox = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 991px) {
     width:100%;
-    font-size: 0.2rem;
+    font-size: 0.5rem;
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
     width:100%;
@@ -73,11 +73,11 @@ const CategoryBox = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 991px) {
     width:100%;
-    font-size: 0.2rem;
+    font-size: 0.7rem;
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
     width:100%;
-    font-size: 0.2rem;
+    font-size: 0.9rem;
   }
   @media screen and (min-width: 1200px) {
     width:100%;
@@ -96,7 +96,7 @@ const OptionBox = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 991px) {
     width:100%;
-    font-size: 0.2rem;
+    font-size: 0.5rem;
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
     width:100%;
