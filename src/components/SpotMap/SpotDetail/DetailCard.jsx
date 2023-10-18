@@ -42,7 +42,6 @@ const ImgBox = styled.div`
 const TextBox = styled.div`
   font-size: 1em;
   color: black;
-  min-width: 280px;
   margin : 2% 3%;
 `;
 const InfoBox = styled.div`
@@ -115,28 +114,17 @@ const ListButton = styled(Button)({
   marginTop: "-3%",
 });
 
-const MapButton = styled(Button)({
-  background: "#44ADF7",
-  height: "30px",
-  borderRadius: '15px',
-  padding: '5px 15px',
-  color: "#FFFFFF",
-  fontWeight: "700",
-  fontSize: "1em"
-});
-const ButtonImg = styled.div`
-  box-sizing: border-box;
-  height: 15px;
-  width: 15px;
-  display: flex;
-  margin: 2px 2px 2px 2px;
-`;
-const ButtonText = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  margin: 2px 4px 2px 3px;
-  min-width: 80px;
-  font-weight: 600;
+const MapButton = styled(Button)`
+  background: #44ADF7;
+  height: 30px;
+  border-radius: 15px;
+  padding: 5px 15px;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1em;
+  &:hover {
+    background: #1E90FF;
+  }
 `;
 
 function TabPanel(props) {
@@ -163,11 +151,12 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function DetailCard({ detailData, modalClose, like, setLike }) {
+export default function DetailCard({ detailData, modalClose, like, setLike, open_hour }) {
   const [value, setValue] = useState(0);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const request = Request(navigate);
+  const open_hours = open_hour || '영업시간을 확인해보세요';  
   const handleClick = () => {
     setOpen(!open);
   };
@@ -237,7 +226,7 @@ export default function DetailCard({ detailData, modalClose, like, setLike }) {
             <ListButton onClick={handleClick}>
               <div style={{ display: 'flex', width: '100%' }}>
                 <img style={{ width: '25px' }} src={OpenTimeImg} />
-                <p style={{ marginLeft: '3%' }}>{detailData.open_hours}</p>
+                <p style={{ marginLeft: '3%' }}>{open_hours}</p>
               </div>
               <img src={toggleOpen} style={open ? { transform: 'rotate(180deg)' } : {}} />
             </ListButton>

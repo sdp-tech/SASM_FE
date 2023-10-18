@@ -23,7 +23,7 @@ const StyledList = styled(List)`
   z-index: 102;
 `
 
-export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
+export default function SpotDetail({ modalClose, id, setTemp, like, setLike, open_hour }) {
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
   const [detailData, setDetailData] = useState([]);
@@ -55,7 +55,7 @@ export default function SpotDetail({ modalClose, id, setTemp, like, setLike }) {
             style={{ overflow: "scroll", position: "fixed" }}
             sx={{ padding: "0", boxSizing: "border-box", width: "100%", bgcolor: "#FFFFFF" }}
           >
-            <DetailCard detailData={detailData} modalClose={modalClose} like={like} setLike={setLike} />
+            <DetailCard detailData={detailData} modalClose={modalClose} like={like} setLike={setLike} open_hour={open_hour} />
             {
               isSasmAdmin &&
               <AdminButton style={{ margin: "auto", width: "20%", fontSize:"13px" }} onClick={() => { navigate(`/admin/place/${id}`); }}  >

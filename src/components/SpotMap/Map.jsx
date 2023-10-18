@@ -28,7 +28,7 @@ const SearchHereButton = styled.button`
   align-items: center;
   padding: 0 20px;
   border: none;
-  background: #44adf7;
+  background: #0AC9FF;
   height: 36px;
   border-radius: 15px;
   color: #ffffff;
@@ -39,7 +39,7 @@ const SearchHereButton = styled.button`
   z-index: 3;
   cursor: pointer;
   &:hover{
-    background:#1E90FF;
+    background: #00A5FF;
   }
 `;
 const MoveToCenterButton = styled.button`
@@ -201,10 +201,6 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   });
 
   useEffect(() => {
-    {categoryNum ? setBool(true) : setBool(false)}
-  }, [categoryNum]);
-
-  useEffect(() => {
     const openModal = async() => {
       MarkerChange();
       setModalOpen(true);
@@ -309,7 +305,7 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
         }}
       >
         <img style={{ marginRight: "5px" }} src={Restart} />
-        지금 지도에서 검색
+        현재 지도 위치에서 검색
       </SearchHereButton>
       <ControllerWrapper>
         <MoveToCenterButton>

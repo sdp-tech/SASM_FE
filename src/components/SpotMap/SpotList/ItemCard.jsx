@@ -202,7 +202,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
             <TitleLink to={`/map?page=${queryString.page}&place=${placeData.place_name}`} onClick={handleClick}>
               {placeData.place_name}
             </TitleLink>
-            <LikeButton style={{ position: "absolute", right: "5%", bottom: "50%" }}>
+            <LikeButton style={{ position: "absolute", right: "5%", bottom: "15%" }}>
               {
                 placeData.place_like === "ok" ? (
                   <HeartButton like={!like} onClick={toggleLike} />
@@ -225,7 +225,7 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
       </StyledCard>
       <DetailBox>
         {
-          modalOpen && <SpotDetail like={like} setLike={setLike} setTemp={setTemp} modalClose={modalClose} id={placeData.id} />
+          modalOpen && <SpotDetail like={like} setLike={setLike} setTemp={setTemp} modalClose={modalClose} id={placeData.id} open_hour={placeData.open_hours} />
         }
       </DetailBox>
     </div>
