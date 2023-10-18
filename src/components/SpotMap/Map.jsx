@@ -179,7 +179,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
         </div>
         <div>
           <p style="margin: 0; font-size: 0.9rem; font-weight: bold; position: absolute; left: 45px;">${title.length > 11 ? title.slice(0,10) + '...': title}</p>
-          <p style="margin: 0; font-size: 0.5rem; position: absolute; left: 45px; bottom: 5px;">${category}</p>
+          <p style="margin: 0; font-size: 0.6rem; position: absolute; left: 45px; bottom: 5px;">${category}</p>
         </div>
       </div>
     </div>
