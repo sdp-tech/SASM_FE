@@ -51,10 +51,12 @@ const InfoBox = styled.div`
   font-size: 16px;
   font-weight: normal;
   width: 19%;
-  @media screen and (max-width: 767px) {
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     width: 45%;
   }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
+`;
+const CurationInfoBox = styled(InfoBox)`
+  @media screen and (max-width: 767px) {
     width: 45%;
   }
 `
@@ -114,36 +116,8 @@ const IconView = styled.div`
 const StoryInfoBox = styled.div`
   position: relative;
 `
-const GotoStory = styled.button`
-margin-bottom: 15px;
-margin-top: 15px;
-background-image: linear-gradient(
-  // to right,
-  #f5f6fa,
-  #f6e58d
-);
-  color: #485460;
-  border-radius: 5px;
-  padding: 2px 8px;
-  // font-family: sans-serif;
-  font-weight: 600;
-  font-size: 20px;
-  // margin-left: 25px;
-  align-items: center;
-  cursor: pointer;
-  border: none;
-  font-size: 0.8rem;
-  // box-shadow: 1px 1px 1px black;
-  transition-duration: 0.3s;
-  &:active {
-    background-image: linear-gradient(
-      // to right,
-      #f6e58d,
-      #f5f6fa
-    );
-    margin-left: 5px;
-    margin-top: 20px;
-  }
+const GotoStory = styled(GotoMap)`
+
 `
 const StoryContentBox = styled.div`
   padding-horizontal: 25px;
@@ -167,9 +141,6 @@ const BackToList = styled.div`
     text-decoration: underline;
     transform: scale(1.05);
   }
-  @media screen and (max-width: 768px) {
-  }
-  // margin: 20px auto;
 `;
 const DeleteButton = styled.div`
   text-align: right;
@@ -340,7 +311,7 @@ export default function CurationDetailBox() {
             <TitleBox>
               <Title>{curationDetail.title}</Title>
               {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
-              <InfoBox>
+              <CurationInfoBox>
                 <IconView>
                   <ProfileImage src={ curationDetail.profile_image } onClick={() => {otherUserData(curationDetail.writer_email)}}/>
                   <LikeIconBox style={{marginTop: "20px", marginBottom:"20px"}}>
@@ -361,21 +332,17 @@ export default function CurationDetailBox() {
                     {myEmail === curationDetail.writer_email ? <DeleteButton onClick={delCuration}>삭제하기</DeleteButton> : <></>}
                     {myEmail === curationDetail.writer_email ? <UpdateButton onClick={() => {navigate(`/admin/curation/${params.id}`)}}>수정하기</UpdateButton> : <></>}
                   </ButtonWrapper>
-                  {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
-                  <Text >팔로우 취소</Text>:
-                  <Text >+ 팔로잉</Text>}</Button> : <></>}
+                  <ButtonWrapper>
+                    {myEmail !== curationDetail.writer_email ? <Button onClick={()=>{following(curationDetail.writer_email)}}>{curationDetail.writer_is_followed ? 
+                    <Text >팔로우 취소</Text>:
+                    <Text >+ 팔로잉</Text>}</Button> : <></>}
+                  </ButtonWrapper>
                 </View>
-              </InfoBox>
+              </CurationInfoBox>
             </TitleBox>
             <ButtonDiv>
               <BackToList onClick={() => { navigate(-1) }}>&#60; Back To List</BackToList>
-              <GotoMap onClick={() => {
-                 navigate('/map?page=1');
-                 }}>
-                  &#60; Go To Map
-              </GotoMap>
             </ButtonDiv>
-            
           </View>
           <ContentBox dangerouslySetInnerHTML={markup()}>
           </ContentBox>
@@ -461,7 +428,7 @@ export const Storys = ({
       <StoryInfoBox>
         <StoryTitleBox>
           <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
-            <StoryPlaceName style={{marginRight:'30px'}}>{place_name}</StoryPlaceName>
+            <StoryPlaceName style={{color: "#000", marginRight:'30px'}}>{place_name}</StoryPlaceName>
             <StoryProfileInfoBox>
               <StoryProfileImage src={`${profile_image}`} onClick={() => {otherUserData(writer_email)}}/>
               <View>
@@ -471,11 +438,19 @@ export const Storys = ({
             </StoryProfileInfoBox>
             <Heart like={like} onClick={handleLike} />
             {
-              myEmail !== writer_email ? <Button  style={{marginLeft: "30px"}} onClick={()=>{following(writer_email)}}>{writer_is_followed ? 
+              myEmail !== writer_email ? <Button  style={{margin: "0 5px"}} onClick={()=>{following(writer_email)}}>{writer_is_followed ? 
               <Text >팔로우 취소</Text>:
               <Text >+ 팔로잉</Text>}
               </Button> : <></>
             }
+        <ButtonWrapper>
+          <GotoMap onClick={() => { navigate(`/map?page=1&place=${place_name}`, {state: {name: place_name}})}}>
+            <Text>위치 확인하기</Text>
+          </GotoMap>
+          <GotoStory onClick={() => { navigate(`/story/${story_id}`)}}>
+            <Text>스토리 보기</Text>
+          </GotoStory>
+        </ButtonWrapper>
         </StoryTitleBox>
         <Text style={{ fontSize: 18, color: "#282828" }}>{place_address}</Text>
       </StoryInfoBox>
@@ -485,9 +460,6 @@ export const Storys = ({
         <Text style={{color:"#000", fontWeight:600}}>{preview}</Text>
         <Text>{hashtags}</Text>
       </StoryContentBox>
-      <GotoStory onClick={() => { navigate(`/story/${story_id}`)}}>
-        <Text>Go to Story</Text>
-      </GotoStory>
     </StorySection>
   )
 }
