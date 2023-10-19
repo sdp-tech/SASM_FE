@@ -115,9 +115,9 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
     if (text) {
       text.style.transform = "translateY(100%)";
       text.style.display = bool ? "block" : "none";
+      document.getElementById(`${id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
+      document.getElementById(id).style.zIndex = "100";
     }
-    document.getElementById(`${id}bg`).style.backgroundImage = `url(${MarkerbgSelect})`;
-    document.getElementById(id).style.zIndex = "100";
     setBool(!bool);
   };
   
@@ -201,7 +201,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   });
 
   useEffect(() => {
-    const openModal = async() => {
+    const openModal = () => {
       MarkerChange();
       setModalOpen(true);
     }
