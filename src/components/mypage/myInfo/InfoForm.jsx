@@ -253,10 +253,6 @@ export default function InfoForm(props) {
                 <Text>{nickname}</Text>
               </LabelWrapper>
               <LabelWrapper>
-                <Label backgroundColor={"#AAEFC2"}>생년월일</Label>
-                <Text>{birthdate}</Text>
-              </LabelWrapper>
-              <LabelWrapper>
                 <Label backgroundColor={"#AAEFC2"}>한 줄 소개</Label>
                 <Text>{introduction}</Text>
               </LabelWrapper>

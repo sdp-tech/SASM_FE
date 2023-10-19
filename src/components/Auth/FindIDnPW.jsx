@@ -51,9 +51,17 @@ function a11yProps(index) {
 const FindIDnPW = () => {
   const [id, setId] = React.useState({});
   const [value, setValue] = React.useState(window.location.href.includes('SetNewPassword') ? 1 : 0);
-
+  const token = localStorage.getItem('accessTK');
   const navigate = useNavigate()
 
+  React.useEffect(()=>{
+    const loginCheck = () => {
+      if (token) {
+        navigate("/notexistpage", {state:{message: "유효한 접근이 아닙니다.", path: "/"}});
+      }
+    }
+    loginCheck();
+  }, []);
   const handleChange = (event, newValue) => {
     setValue(newValue);
     navigate('./')

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AuthContent,
   InputWithLabel,
@@ -10,6 +10,7 @@ import { NoEncryption } from "@mui/icons-material";
 import TryRegister from "../../functions/Auth/TryRegister";
 import CheckRepetition from "../../functions/Auth/CheckRepetition";
 import SelectWithLabel from "./module/SelectWithLabel";
+import { useNavigate } from "react-router-dom";
 
 const InputAndButton = styled.div`
   position: relative;
@@ -25,7 +26,7 @@ const Button = styled.div`
   margin-left: 2%;
   height: 100%;
   text-align: center;
-  line-height: 3;
+  // line-height: 3;
   border-radius: 4px;
   font-size: 16px;
   color: white;
@@ -42,19 +43,6 @@ const Message = styled.div`
   margin-left: 2.5%;
 `;
 
-const year = ["년도"];
-const month = ["월"];
-const day = ["일"];
-for (var i = 1950; i <= new Date().getFullYear(); i++) year.push(i.toString());
-for (var i = 1; i <= 12; i++) {
-  if (i <= 9) month.push("0" + i.toString());
-  else month.push(i.toString());
-}
-for (var i = 1; i <= 31; i++) {
-  if (i <= 9) day.push("0" + i.toString());
-  else day.push(i.toString());
-}
-
 const emailFormat = [
   "@naver.com",
   "@gmail.com",
@@ -68,6 +56,16 @@ const Register = () => {
     email: "",
     passwordConfirm: "",
   });
+  const token = localStorage.getItem("accessTK");
+  const navigate = useNavigate();
+  useEffect(()=>{
+    const loginCheck = () => {
+      if (token) {
+        navigate("/notexistpage", {state:{message: "유효한 접근이 아닙니다.", path: "/"}});
+      }
+    }
+    loginCheck();
+  }, [])
   // 이메일 체크
   const isEmail = (email) => {
     const emailRegex =
@@ -158,32 +156,6 @@ const Register = () => {
         >
           중복확인
         </Button>
-      </InputAndButton>
-
-      <InputAndButton>
-        <SelectWithLabel
-          label="생년월일 (선택)"
-          item1={year}
-          item2={month}
-          item3={day}
-          onChange={() => {
-            let birthdate = "";
-            const items = document.getElementsByClassName("birthdate");
-
-            for (let i = 0; i < items.length; i++) {
-              if (i == items.length - 1) {
-                birthdate += items[i].value;
-              } else {
-                birthdate = birthdate + items[i].value + "-";
-              }
-            }
-            // for (const item of items) birthdate = birthdate + item.value + "-";
-            setInfo({
-              ...info,
-              birthdate: birthdate,
-            });
-          }}
-        />
       </InputAndButton>
 
       <AuthButton
