@@ -93,6 +93,7 @@ export default function OtherUserData (props) {
                       <ListText onClick={() => {
                         window.open(`/map?page=1&place=${data.place_name}`)
                         localStorage.setItem("place_name", data.place_name);
+                        localStorage.setItem("value", 1);
                         }}>{data.place_name}</ListText>
                     </List>
                   ))}
