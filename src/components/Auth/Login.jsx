@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { LoginContext } from "../../contexts/LoginContexts";
 import { useNavigate } from "react-router";
@@ -31,8 +31,17 @@ const Login = () => {
   const [info, setInfo] = useState({ email: "" });
   const [fail, setFail] = useState(false);
   const [login, setLogin] = useContext(LoginContext);
-
+  const token = localStorage.getItem("accessTK");
   const navigate = useNavigate();
+  
+  useEffect(()=>{
+    const loginCheck = () => {
+      if (token) {
+        navigate("/notexistpage", {state: {message: "유효한 접근이 아닙니다.", path: "/"}});
+      }
+    }
+    loginCheck();
+  },[])
 
   // 이메일 체크
   const isEmail = (email) => {

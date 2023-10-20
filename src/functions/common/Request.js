@@ -80,7 +80,6 @@ export default function Request (navigate) {
                     },
                 }
             );
-            console.log("request test => ", response);
             return response;
         });
     }
@@ -97,11 +96,6 @@ export default function Request (navigate) {
                     },
                 }
             );
-            console.log("headers", {
-                Authorization: headerValue,
-                ...headers,
-            });
-            console.log("request test => ", response);
             return response;
         });
     }
@@ -118,7 +112,6 @@ export default function Request (navigate) {
                     },
                 }
             );
-            console.log("request test => ", response);
             return response;
         });
     }
@@ -136,7 +129,6 @@ export default function Request (navigate) {
                     },
                 }
             );
-            console.log("request test => ", response);
             return response;
         });
     }
@@ -153,7 +145,6 @@ export default function Request (navigate) {
                     },
                 }
             );
-            console.log("request test => ", response);
             return response;
         });
     }
