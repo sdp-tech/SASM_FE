@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { RenderAfterNavermapsLoaded, NaverMap, Marker } from "react-naver-maps";
+import { Container as MapDiv, NaverMap, Marker, useNavermaps, NavermapsProvider } from "react-naver-maps";
 import styled from "styled-components";
 import SpotDetail from "./SpotDetail";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -248,7 +248,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
 const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const navermaps = window.naver.maps;
+  const navermaps = useNavermaps();
 
   const [zoom, setZoom] = useState(14);
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
@@ -337,48 +337,42 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
           </label>
         </ZoomSliderWrapper>
       </ControllerWrapper>
-      <NaverMap
-        mapDivId={"SASM_map"}
-        style={{
-          width: "100%",
-          height: "100%",
-          outline: "none",
-        }}
-        center={temp}
-        zoom={zoom}
-        minZoom={11}
-        maxZoom={19}
-        onZoomChanged={(zoom) => { setZoom(zoom) }}
-        zoomControl={false}
-        onCenterChanged={(center) => { handleCenterChanged(center) }}
-      >
-        {/* markers */}
-        {placeData.map((itemdata) => (
-            <Markers
-              categoryNum={categoryNum}
-              setTemp={setTemp}
-              left={itemdata.left}
-              right={itemdata.right}
-              title={itemdata.title}
-              id={itemdata.id}
-              category={itemdata.category}
-              navermaps={navermaps}
-              key={`marker_${itemdata.id}`}
-            />
-      ))}
-        <Marker
-          key={0}
-          position={state}
-          clickable={false}
-          title={"현재 위치"}
-          icon={{
-            url: "/img/red_dot.png",
-            size: new navermaps.Size(20, 20),
-            origin: new navermaps.Point(190, 190),
-            anchor: new navermaps.Point(10, 10),
-          }}
-        />
-      </NaverMap>
+        <NaverMap
+          center={temp}
+          zoom={zoom}
+          minZoom={11}
+          maxZoom={19}
+          onZoomChanged={(zoom) => { setZoom(zoom) }}
+          zoomControl={false}
+          onCenterChanged={(center) => { handleCenterChanged(center) }}
+        >
+          {/* markers */}
+          {placeData.map((itemdata) => (
+              <Markers
+                categoryNum={categoryNum}
+                setTemp={setTemp}
+                left={itemdata.left}
+                right={itemdata.right}
+                title={itemdata.title}
+                id={itemdata.id}
+                category={itemdata.category}
+                navermaps={navermaps}
+                key={`marker_${itemdata.id}`}
+              />
+        ))}
+          <Marker
+            key={0}
+            position={state}
+            clickable={false}
+            title={"현재 위치"}
+            icon={{
+              url: "/img/red_dot.png",
+              size: new navermaps.Size(20, 20),
+              origin: new navermaps.Point(190, 190),
+              anchor: new navermaps.Point(10, 10),
+            }}
+          />
+        </NaverMap>
     </>
   );
 };
@@ -396,20 +390,28 @@ export default function Map({ placeData, temp, setTemp, setSearchHere, categoryN
     });
 
   return (
-    <MapSection>
-      <RenderAfterNavermapsLoaded
-        ncpClientId={"aef7a2wcmn"}
-        error={<p>Maps Load Error</p>}
-        loading={<p>Maps Loading…</p>}
-      >
-        <NaverMapAPI
-          categoryNum={categoryNum}
-          placeData={markerData}
-          temp={temp}
-          setTemp={setTemp}
-          setSearchHere={setSearchHere}
-        />
-      </RenderAfterNavermapsLoaded>
-    </MapSection>
+    
+    <NavermapsProvider
+      ncpClientId={"aef7a2wcmn"}
+      error={<p>Maps Load Error</p>}
+      loading={<p>Maps Loading…</p>}
+    >
+      <MapSection>
+          <MapDiv
+          id={"SASM_map"}
+          style={{
+            width: "100%",
+            height: "100%",
+            outline: "none"}}>
+            <NaverMapAPI
+              categoryNum={categoryNum}
+              placeData={markerData}
+              temp={temp}
+              setTemp={setTemp}
+              setSearchHere={setSearchHere}
+            />
+          </MapDiv>
+      </MapSection>
+    </NavermapsProvider>
   );
 }
