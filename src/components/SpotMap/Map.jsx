@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, createRef, forwardRef } from "react";
 import { Container as MapDiv, NaverMap, Marker, useNavermaps, NavermapsProvider } from "react-naver-maps";
 import styled from "styled-components";
 import SpotDetail from "./SpotDetail";
@@ -12,6 +12,7 @@ import MarkerbgActive from "../../assets/img/Map/MarkerbgActive.svg";
 import MarkerbgSelect from "../../assets/img/Map/MarkerbgSelect.svg";
 import { MatchCategory } from "../common/Category";
 import qs from 'qs';
+import MarkerCluster from "./MarkerCluster";
 
 const MapSection = styled.div`
   box-sizing: border-box;
@@ -85,7 +86,7 @@ const ControllerWrapper = styled.div`
   }
 `;
 
-const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp }) => {
+const Markers = forwardRef(({ navermaps, left, right, title, id, category, categoryNum, setTemp },ref) => {
   const [modalOpen, setModalOpen] = useState(false);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
@@ -220,6 +221,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   return (
     <div ref={node}>
       <Marker
+        ref={ref}
         key={`marker_${id}`}
         position={new navermaps.LatLng(left, right)}
         title={title}
@@ -243,12 +245,13 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
       </DetailBox>
     </div>
   );
-};
+});
 
 const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const navermaps = useNavermaps();
+  const [elRef, setElRef] = useState([]);
 
   const [zoom, setZoom] = useState(14);
   //Coor -> 현 위치에서 검색을 설정하기 위한 현재 위치
@@ -258,7 +261,7 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
     lat: 37.551229,
     lng: 126.988205,
   });
-
+  
   // Geoloation 사용해서 현재 위치 정보 받아와서 상태값에 업데이트 해주기
   const updateCurLocation = async () => {
     navigator.geolocation.getCurrentPosition(
@@ -295,6 +298,11 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
   useEffect(() => {
     updateCurLocation();
   }, []);
+  useEffect(() => {
+    setElRef(() => Array(placeData.length).fill('').map((_, i) => elRef[i]||createRef())
+    );
+  }, [placeData]);
+  console.log(placeData);
 
   return (
     <>
@@ -346,9 +354,11 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
           zoomControl={false}
           onCenterChanged={(center) => { handleCenterChanged(center) }}
         >
+          <MarkerCluster markers={elRef} markerInfo={placeData}/>
           {/* markers */}
-          {placeData.map((itemdata) => (
+          {placeData.map((itemdata, idx) => (
               <Markers
+                ref={elRef[idx]}
                 categoryNum={categoryNum}
                 setTemp={setTemp}
                 left={itemdata.left}
