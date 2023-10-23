@@ -124,7 +124,8 @@ export default function CommunityUpload({ setMode, board, format }) {
       }
     }
     const response = await request.post("/community/posts/create/", formData, { "Content-Type": "multipart/form-data" });
-    window.location.reload();
+    const id = response.data.data.id;
+    navigate(`/community/${board}/${id}?page=1`);
   }
   const deletePhoto = (data, state, setState) => {
     setState(state.filter((el) => el !== data));
