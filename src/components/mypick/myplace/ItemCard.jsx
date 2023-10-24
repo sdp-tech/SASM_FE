@@ -101,7 +101,7 @@ export default function ItemCard(props) {
           }}
         >
             <PlacenameBox>
-              <Placename to={`/map?page=1&place=${place_name}`} state={{name : place_name}} style={{ textDecoration: 'none' }}>
+              <Placename to={`/map?page=1&place=${place_name}`} state={{name : place_name}} onClick={()=>{localStorage.setItem("place_name", place_name)}} style={{ textDecoration: 'none' }}>
                 {props.place_name}
               </Placename>
               <div style={{ display: 'flex', }}>

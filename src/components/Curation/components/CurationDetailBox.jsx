@@ -444,7 +444,10 @@ export const Storys = ({
               </Button> : <></>
             }
         <ButtonWrapper>
-          <GotoMap onClick={() => { navigate(`/map?page=1&place=${place_name}`, {state: {name: place_name}})}}>
+          <GotoMap onClick={() => { 
+            navigate(`/map?page=1&place=${place_name}`, {state: {name: place_name}});
+            localStorage.setItem("place_name", place_name);
+            }}>
             <Text>위치 확인하기</Text>
           </GotoMap>
           <GotoStory onClick={() => { navigate(`/story/${story_id}`)}}>

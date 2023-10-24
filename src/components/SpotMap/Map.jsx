@@ -205,14 +205,11 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
       MarkerChange();
       setModalOpen(true);
     }
-    const stateName = location.state?.name;
     const localStorageName = localStorage.getItem("place_name");
-
-    if (stateName || localStorageName) {
+    
+    if (localStorageName) {
       openModal();
-      if (localStorageName) {
-        localStorage.removeItem("place_name");
-      }
+      localStorage.removeItem("place_name");
     }
   } ,[]);
 
