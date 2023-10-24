@@ -315,7 +315,8 @@ const StoryDetailBox = (props) => {
   const navigate = useNavigate();
   const request = Request(navigate);
   const handlePageGoToMap = (place_name) => {
-    navigate(`/map?page=1&place=${place_name}`, { state: { name : place_name }})
+    navigate(`/map?page=1&place=${place_name}`, { state: { name : place_name }});
+    localStorage.setItem('place_name', place_name);
   };
   const [refresh, setRefresh] = useState(false);
   const myEmail = localStorage.getItem('email');
