@@ -150,6 +150,10 @@ export default function DataContainer({ Location }) {
         document.getElementById('wrapper').scrollTo(0, 0);
     }, [searchHere, checkedList, queryString.page]);
 
+    useEffect(() => {
+        queryString.page = 1
+    },[checkedList]);
+
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         setCategoryNum(checkedList.length);
