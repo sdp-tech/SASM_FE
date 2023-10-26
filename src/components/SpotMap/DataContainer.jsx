@@ -19,43 +19,24 @@ const ListWrapper = styled.div`
   flex-flow: column;
   margin-top: 10px;
   overflow : hidden;
-  @media screen and (min-width: 769px) {
-  }
 `
 const SearchFilterBar = styled.div`
   // background-color: red;
   margin : 0 auto;
   box-sizing: border-box;
-  @media screen and (max-width: 767px) {
-    width: 95%;  
-  }
+  width: 95%;
   @media screen and (min-width: 768px) and (max-width: 991px) {
     width: 90%;
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
     width: 90%;
-  }
-  @media screen and (min-width: 1200px) {
-    width: 95%;
   }
 `;
 const FilterOptions = styled.div`
   box-sizing: border-box;
   display: flex;
   margin : 0 auto;
-  @media screen and (max-width: 768px) {
-    width: 100%;  
-  }
-  @media screen and (min-width: 768px) and (max-width: 991px) {
-    
-    width: 100%;
-  }
-  @media screen and (min-width: 992px) and (max-width: 1199px) {
-    width: 100%;
-  }
-  @media screen and (min-width: 1200px) {
-    width: 100%;
-  }
+  width: 100%;
 `;
 
 export default function DataContainer({ Location }) {
