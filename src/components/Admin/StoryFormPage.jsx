@@ -67,10 +67,10 @@ const StoryFormPage = (props) => {
         setLoading(false);
     };
 
-    useEffect(async () => {
+    useEffect(() => {
         setLoading(false);
-        await loadStory();
-        await loadPlaces();
+        loadStory();
+        loadPlaces();
     }, []);
 
     const saveStory = async () => {
