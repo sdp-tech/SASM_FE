@@ -254,8 +254,8 @@ export default function CurationForm({id}) {
     }
   }
   
-  useEffect(async() => {
-    await loadCuration();
+  useEffect(() => {
+    loadCuration();
   }, [])
   
   useEffect(() => {

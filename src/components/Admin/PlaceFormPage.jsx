@@ -280,7 +280,7 @@ const PlaceFormPage = (props) => {
     // useEffect(() => {
     //     setSnsData([...snsData, newSnsData]);
     // }, [newSnsData]);
-    useEffect(async () => {
+    useEffect(() => {
         setInfo({
             ...info,
             category: "식당 및 카페",
@@ -289,7 +289,7 @@ const PlaceFormPage = (props) => {
             vegan_category: "null",
             tumblur_category: "null",
         })
-        await loadPlace();
+        loadPlace();
         // await loadSns();
     }, []);
     return (
