@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Request from '../../functions/common/Request';
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useLocation, useSearchParams } from "react-router-dom";
 import Map from './Map';
 import styled from 'styled-components';
@@ -11,7 +11,6 @@ import checkSasmAdmin from '../Admin/Common';
 import AdminButton from '../Admin/components/AdminButton';
 import SearchWhite from '../../assets/img/Map/Search_white.svg';
 import CategorySelector from '../common/Category';
-import { Pc, Tablet, Mobile } from "../../device";
 import qs from 'qs';
 
 const ListWrapper = styled.div`
@@ -113,13 +112,6 @@ export default function DataContainer({ Location }) {
                 lng: response_list.data.data.results[0].longitude,
             });
         }
-        const urlParams = {
-            page: queryString.page
-        }
-        if (search) urlParams.search = search;
-        if (location.state?.name) urlParams.search = location.state.name;
-        if (checkedList) urlParams.checkedList = checkedList;
-        setSearchParams(urlParams);
     }; 
 
     //admin 여부 체크
