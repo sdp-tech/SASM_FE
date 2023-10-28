@@ -13,6 +13,7 @@ import { useMediaQuery } from "react-responsive";
 import { Mobile, Pc, Tablet } from "../../../device"
 import AdminButton from "../../Admin/components/AdminButton";
 import OtherUserData from "../../../functions/common/OtherUserData";
+import StoryInCuration from "./StoryIncludedCuration";
 
 const Wrapper = styled.div`
   background: white;
@@ -306,6 +307,7 @@ const StoryDetailBox = (props) => {
   const id = props.id; 
   const [data, setData] = useState([]);
   const [comment, setComment] = useState([]);
+  const [curation, setCuration] = useState([]);
   const [otherUser, setOtherUser] = useState({});
   const [open, setOpen] = useState(false);
   const [recommend, setRecommend] = useState([]);
@@ -365,9 +367,11 @@ const StoryDetailBox = (props) => {
     const response_detail = await request.get(`/stories/story_detail/${id}/`);
     const response_comment = await request.get("/stories/comments/", { story: id }, null);
     const recommend_story = await request.get("/stories/recommend_story/", { id: id }, null);
+    const included_curation = await request.get(`/stories/story_included_curation/${id}/`);
     setData(response_detail.data.data);
     setComment(response_comment.data.data);
     setRecommend(recommend_story.data.data);
+    setCuration(included_curation.data.data);
     setLoading(false);
   }
   catch (e) {
@@ -478,6 +482,11 @@ const StoryDetailBox = (props) => {
           <WriteComment id={id}></WriteComment>
           {recommend.count ? (
             <Recommends data={recommend}></Recommends>
+          ) : (
+            <></>
+          )}
+          {curation.length ? (
+            <StoryInCuration data={curation}/>
           ) : (
             <></>
           )}
