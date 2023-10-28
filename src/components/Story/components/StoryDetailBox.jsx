@@ -371,7 +371,7 @@ const StoryDetailBox = (props) => {
     setLoading(false);
   }
   catch (e) {
-    navigate("/notexistpage");
+    navigate("/notexistpage", {state : {message : "로딩에 실패했습니다. 잠시 후 다시 시도해주세요"}});
   }
   };
 
@@ -474,9 +474,9 @@ const StoryDetailBox = (props) => {
             <div>{data.story_review}</div>
             <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
           </ImageNContentBox>
-          <Comments data={comment}></Comments>
+          <Comments data={comment} rerender={rerender}></Comments>
           <WriteComment id={id}></WriteComment>
-          {recommend.count != 0 ? (
+          {recommend.count ? (
             <Recommends data={recommend}></Recommends>
           ) : (
             <></>
