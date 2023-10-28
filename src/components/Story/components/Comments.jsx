@@ -10,12 +10,12 @@ const CommentsBox = styled.div`
     }
 `
 
-export default function Comments({data, setMode, setTarget}) {
+export default function Comments({data, setMode, setTarget, rerender}) {
     return (
         <CommentsBox>
             {data.results.map((data, index) => {
                 return (
-                    <Comment data={data} key={index} index={index} setMode={setMode} setTarget={setTarget}/>
+                    <Comment data={data} key={index} index={index} setMode={setMode} setTarget={setTarget} rerender={rerender}/>
                 );
             })}
         </CommentsBox>

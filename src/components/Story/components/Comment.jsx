@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Request from '../../../functions/common/Request';
 import { useNavigate } from 'react-router-dom';
 import OtherUserData from '../../../functions/common/OtherUserData';
+import HeartButton from '../../common/Heart';
 
 const CommentBox = styled.div`
   margin-bottom: 3vh;
@@ -86,16 +87,41 @@ const Image = styled.img`
       opacity: 0.4;
     }
 `
-export default function Comment({ data }) {
-  const date = data.updated_at.slice(0, 10);
+const LikeIconBox = styled.div`
+  width: 30px;
+  height: 30px
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const LikeButton = styled(Button)({
+  boxSizing: "border-box",
+  border: "none",
+  display: "flex",
+  marginRight: "5px"
+});
+export default function Comment({ data, rerender }) {
+  const date = data.created_at.slice(0, 10);
   const [update, setUpdate] = useState(false);
   const [open, setOpen] = useState(false);
   const [otherUser, setOtherUser] = useState({});
+  const [like, setLike] = useState(false);
   const navigate = useNavigate();
   const request = Request(navigate);
   const email = localStorage.getItem('email');
   const [updatetext, setUpdateText] = useState(data.content);
+  const token = localStorage.getItem('accessTK');
 
+  console.log(data);
+  const handleLike = async() => {
+    if(!token) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+    const response = await request.post(`/stories/${data.story}/comments/${data.id}/like/`);
+    rerender();
+  }
   const handleUpdate = () => {
     setUpdate(!update);
   }
@@ -154,6 +180,16 @@ export default function Comment({ data }) {
                   <Button onClick={deleteComment}>삭제</Button>
                 </>}
             </> : null}
+          <LikeIconBox>
+            <LikeButton>
+              {data.user_likes ? (
+                <HeartButton like={!like} onClick={handleLike} />
+              ) : (
+                <HeartButton like={like} onClick={handleLike} />
+              )}
+              {data.like_cnt}
+            </LikeButton>
+          </LikeIconBox>
         </ButtonBox>
       </InfoBox>
       <ContentBox>
