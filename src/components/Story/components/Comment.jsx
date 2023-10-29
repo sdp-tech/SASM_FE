@@ -113,7 +113,6 @@ export default function Comment({ data, rerender }) {
   const [updatetext, setUpdateText] = useState(data.content);
   const token = localStorage.getItem('accessTK');
 
-  console.log(data);
   const handleLike = async() => {
     if(!token) {
       alert('로그인이 필요합니다.');

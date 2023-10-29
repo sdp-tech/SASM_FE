@@ -122,7 +122,6 @@ export default function WriteReview({ targetData, keywordList, id, setValue }) {
       setValue(0);
     }
   }
-  useEffect(() => { console.log(photos) }, [photos]);
   return (
     <FormWrapper>
       <form onSubmit={uploadReview}>

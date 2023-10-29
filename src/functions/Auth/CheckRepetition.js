@@ -22,7 +22,6 @@ export default async function CheckRepetition(type, data) {
 
   await axios.post(url, new_data)
     .then(function (res) {
-      console.log(res);
       // if(res.data === '존재하는 이메일입니다')
       alert(res.data.data)
     })

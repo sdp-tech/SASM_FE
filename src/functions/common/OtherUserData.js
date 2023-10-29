@@ -17,7 +17,6 @@ export default function OtherUserData (props) {
     let params = new URLSearchParams();
     params.append('email', props.userData.email);
     const response = await request.get(`/mypage/other_reviewed_place/?${params.toString()}`);
-    console.log(response);
     setOtherReview(response.data.data.results);
     }
   }

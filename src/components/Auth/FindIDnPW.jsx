@@ -86,7 +86,6 @@ const FindIDnPW = () => {
 
   const TryFindPassword = async () => {
     const res = await FindId(id)
-    console.log(res[0].data)
 
     if (res[0].data === '존재하지 않는 이메일입니다')
       navigate('./IdNotExistonPw')

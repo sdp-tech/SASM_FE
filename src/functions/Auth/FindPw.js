@@ -9,7 +9,7 @@ export default async function FindPw(pw) {
       email: pw.email,
     })
     .then(function (res) {
-      console.log(res);
+      // console.log(res);
     })
     .catch(function (error) {
       console.log(error);

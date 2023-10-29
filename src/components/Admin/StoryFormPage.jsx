@@ -21,7 +21,6 @@ const StoryFormPage = (props) => {
     const uploadImage = async (file) => {
         const formData = new FormData();
         formData.append('image', file);
-        console.log(file);
         for (const place of places) {
             if (place.id == story.place || story.place_name == place.place_name) {
                 formData.append('place_id', place.id);
@@ -63,7 +62,6 @@ const StoryFormPage = (props) => {
         const response = await request.get(`/sdp_admin/places/`, null, null);
 
         setPlaces(response.data.data);
-        console.log(response.data.data);
         setLoading(false);
     };
 
@@ -74,7 +72,6 @@ const StoryFormPage = (props) => {
     }, []);
 
     const saveStory = async () => {
-        console.log("story => ", story);
         const formData = new FormData();
 
         for (let [key, value] of Object.entries(story)) {
@@ -122,8 +119,6 @@ const StoryFormPage = (props) => {
             });
         }
     };
-
-    // useEffect(() => { console.log(typeof (story.rep_pic)) }, [story])
 
     return (
         <>
@@ -257,7 +252,6 @@ const StoryFormPage = (props) => {
                                             return new Promise((resolve, reject) => {
                                                 uploadImage(blobInfo.blob(),
                                                 ).then(location => {
-                                                    console.log(location)
                                                     resolve(location);
                                                 }).catch(error => {
                                                     reject('HTTP Error: ' + error.message);

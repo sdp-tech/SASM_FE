@@ -8,10 +8,7 @@ export default async function TryRegister(info) {
 
   await axios.post(url, info)
     .then(function (res) {
-      console.log(res);
       window.location.href = "/auth";
-
-
     })
     .catch(function (error) {
       console.log(error);
