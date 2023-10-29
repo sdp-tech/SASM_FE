@@ -43,6 +43,7 @@ export default function StoryInCuration(props)
             {data.map((it, index) => (
                 <CurationList key={index}>
                     <Title onClick={(e) => { goToCurationStory(it.id) }}>{it.title}</Title>
+                    <Date>{it.updated.slice(0, 10)}</Date>
                 </CurationList>
             ))}
             <br></br><br></br>
