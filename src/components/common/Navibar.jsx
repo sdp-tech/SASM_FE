@@ -170,7 +170,6 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
     <>
       {isMobile ? <MobilePageTitle
         onClick={() => {
-          console.log("@@@", title);
           PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
           setMenu(false);
         }}
@@ -180,7 +179,6 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
         {title}
       </MobilePageTitle> : <PageTitleCss
         onClick={() => {
-          console.log("@@@", title);
           PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
         }}
         style={style}

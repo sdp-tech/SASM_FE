@@ -121,7 +121,6 @@ const SetNewPassword = () => {
             }}
             onClick={async () => {
               const res = await ResetPw(info);
-              console.log("res!!!!!", res);
               if (res.data.status === "success") {
                 alert(
                   "비밀번호가 새롭게 설정되었습니다. 로그인 후 이용해주세요"

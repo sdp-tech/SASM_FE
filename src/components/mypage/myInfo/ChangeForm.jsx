@@ -17,7 +17,6 @@ const ChangeForm = (props) => {
   const onChangeImage = async (e) => {
     const reader = new FileReader();
     const file = e.target.files[0];
-    // console.log(file);
     state.profile_image = "";
     setInfo({
       ...info,
@@ -26,7 +25,6 @@ const ChangeForm = (props) => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       setImageUrl(reader.result);
-      // console.log("이미지주소", reader.result);
     };
   };
 
@@ -45,9 +43,9 @@ const ChangeForm = (props) => {
     }
 
     //fordata 확인용!!
-    for (let key of formData.keys()) {
-      console.log(key, "::", formData.get(key));
-    }
+    // for (let key of formData.keys()) {
+    //   console.log(key, "::", formData.get(key));
+    // }
     try {
       const response = await request.patch("/mypage/me/update/", formData, {
         "Content-Type": "multipart/form-data",

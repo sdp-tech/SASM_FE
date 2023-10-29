@@ -8,7 +8,6 @@ export default async function FindId(id) {
       email: id.email,
     })
     .then(function (res) {
-      console.log(res.data);
       return [res.data, id];
     })
     .catch(function (error) {

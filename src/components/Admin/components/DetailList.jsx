@@ -45,7 +45,6 @@ const DetailItem = ({sns_type, snsDataUrl, snsselect, setNewSnsData}) => {
 }
 
 const DetailList = (props) => {
-    console.log(props)
     return (
         <>
             {props.countList && props.countList.map((item, i) => (

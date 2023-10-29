@@ -34,7 +34,6 @@ const goToStory = (id) => {
 export default function SamePlaceStory(props) 
 {
     const data = props.data;
-    console.log(data);
     return (
         <div>
             <StoryText>

@@ -376,7 +376,6 @@ const StoryDetailBox = (props) => {
     setRecommend(recommend_story.data.data);
     setCuration(included_curation.data.data);
     setSameStory(samePlaceStory.data.data);
-    console.log(samePlaceStory.data.data);
     setLoading(false);
   }
   catch (e) {

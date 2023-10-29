@@ -151,8 +151,6 @@ const PlaceFormPage = (props) => {
     };
     //select 함수
     const handleChange = (e, type) => {
-        console.log(type);
-        console.log(e.target.value);
         let value = e.target.value;
         //없음 선택 시 null 값 입력 - 나중에 백에서 처리
         if (value === '') {
@@ -176,7 +174,6 @@ const PlaceFormPage = (props) => {
         try {
         const response = await request.get(`/places/place_detail/${id}/`);
         setInfo(response.data.data);
-        console.log(response.data.data)
         setAddess(response.data.data.address);
         imageUrl['rep_pic'] = response.data.data.rep_pic;
         setImageUrl({
@@ -202,7 +199,6 @@ const PlaceFormPage = (props) => {
 
     // const loadSns = async () => {
     //     const response = await request.get(`/places/sns_types/`, {id:id}, null);
-    //     console.log(response);
     //     setSnsselect(response.data.data.results);
     // };
 
@@ -232,7 +228,6 @@ const PlaceFormPage = (props) => {
             formData.append(i, []);
         }
         //info
-        console.log(info);
         for (let [key, value] of Object.entries(info)) {
             if (key === "rep_pic" || key === "placephoto1"
                 || key === "placephoto2" || key === "placephoto3") {
@@ -257,17 +252,15 @@ const PlaceFormPage = (props) => {
             return;
         }
         //formdata 최종 확인
-        for (let key of formData.keys()) {
-            console.log(key, "::", formData.get(key));
-        }
+        // for (let key of formData.keys()) {
+        //     console.log(key, "::", formData.get(key));
+        // }
         try {
             if (!id) {
                 const response = await request.post("/places/create/", formData, { "Content-Type": "multipart/form-data" });
             }
             else {
-                console.log(formData);
                 const response = await request.patch(`/places/place_update/${id}/`, formData, { "Content-Type": "multipart/form-data" });
-                console.log(response);
             }
             alert('장소 생성 성공');
             navigate("/map?page=1");
