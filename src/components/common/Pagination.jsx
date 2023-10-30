@@ -22,8 +22,8 @@ function Pagination({ total, limit }) {
     startPage = Math.max(endPage - pagesToShow + 1, 1);
   }
 
-  const previousPage = currentPage;
-  const nextPage = currentPage < numPages ? currentPage : numPages;
+  const previousPage = currentPage - 1;
+  const nextPage = currentPage + 1
 
   return (
     <>
@@ -33,13 +33,13 @@ function Pagination({ total, limit }) {
         <Nav>
           <StyledLink
             to={`?page=${1}`}
-            style={previousPage === 1 ? { display: "none" } : { display: "inline" }}
+            style={previousPage === 0 ? { display: "none" } : { display: "inline" }}
           >
             &lt;&lt;
           </StyledLink>
           <StyledLink
             to={`?page=${previousPage}`}
-            style={previousPage === 1 ? { display: "none" } : { display: "inline" }}
+            style={previousPage === 0 ? { display: "none" } : { display: "inline" }}
           >
             &lt;
           </StyledLink>
@@ -57,13 +57,13 @@ function Pagination({ total, limit }) {
           })}
           <StyledLink
             to={`?page=${nextPage}`}
-            style={nextPage === numPages ? { display: "none" } : { display: "inline" }}
+            style={nextPage === numPages + 1 ? { display: "none" } : { display: "inline" }}
           >
             &gt;
           </StyledLink>
           <StyledLink
             to={`?page=${numPages}`}
-            style={nextPage === numPages ? { display: "none" } : { display: "inline" }}
+            style={nextPage === numPages + 1 ? { display: "none" } : { display: "inline" }}
           >
             &gt;&gt;
           </StyledLink>
