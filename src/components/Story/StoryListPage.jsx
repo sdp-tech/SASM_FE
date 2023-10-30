@@ -74,7 +74,7 @@ const StoryListSection = styled.div`
 `;
 const FooterSection = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   position: fixed;
   bottom: 0;
   width: 100%;
