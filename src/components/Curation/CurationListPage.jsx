@@ -207,7 +207,6 @@ const Image = styled.img`
 `
 
 const CurationListPage = () => {
-  const [item, setItem] = useState([]);
   const [repCuration, setRepCuration] = useState([]);
   const [verifedCuration, setVerifiedCuration] = useState([]);
   const [toggleOpen, setToggleOpen] = useState(false);
@@ -216,7 +215,6 @@ const CurationListPage = () => {
   const [storyData, setStoryData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [tempSearch, setTempSearch] = useState("");
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
@@ -228,22 +226,21 @@ const CurationListPage = () => {
   };
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setTempSearch(e.target.value);
+    setSearch(e.target.value);
   };
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
     if(e) {e.preventDefault();}
     const response = await request.get("/curations/curation_search/", {
-      search: tempSearch.trim(),
+      search: search.trim(),
     }, null);
-    setSearch(tempSearch);
-    setItem(response.data.data.results);
+    const basePath = orderList ? `/curation/curationlist` : `/curation/usercurationlist`
+    if(search) navigate(`${basePath}?page=1&search=${search}`, {state : {search: search.trim()}});
     setLoading(false);
   };
   
-  const basePath = orderList ? `/curation/curationlist` : `/curation/usercurationlist`
-  if(search) navigate(`${basePath}?page=1&search=${search}`, {state : {search: search}});
+  
   
   const getCurration = async () => {
     try {
@@ -273,13 +270,10 @@ const CurationListPage = () => {
 
   useEffect(() => {
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
+    handleSearchToggle();
     getCurration();
     getStory();
   }, []);
-  
-  useEffect(() => {
-    handleSearchToggle();
-  }, [search]);
 
   return (
     <>
@@ -291,7 +285,7 @@ const CurationListPage = () => {
             <SearchBarSection>
               <SearchFilterBar>
                 <SearchBar
-                  search={tempSearch}
+                  search={search}
                   onChangeSearch={onChangeSearch}
                   handleSearchToggle={handleSearchToggle}
                   placeholder="원하는 장소를 입력해주세요."

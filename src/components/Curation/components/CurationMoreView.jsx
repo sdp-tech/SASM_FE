@@ -9,6 +9,7 @@ import Request from "../../../functions/common/Request";
 import checkSasmAdmin from "../../Admin/Common";
 import Pagination from "../../common/Pagination";
 import qs from 'qs';
+import AdminButton from "../../Admin/components/AdminButton";
 
 const Section = styled.div`
   box-sizing: border-box;
@@ -93,7 +94,7 @@ const SubWrap = styled.div`
 `
 const FooterSection = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   bottom: 0;
   width: 100%;
   position: relative;
@@ -192,6 +193,17 @@ const CurationMoreView = () => {
               limit={limit}
               page={queryString.page}
             />
+            {isSasmAdmin ? (
+              <AdminButton
+                onClick={() => {
+                  navigate("/admin/curation?page=1");
+                }}
+              >
+                큐레이션 생성
+              </AdminButton>
+            ) : (
+              <></>
+            )}
           </FooterSection>
         </div>
       )}

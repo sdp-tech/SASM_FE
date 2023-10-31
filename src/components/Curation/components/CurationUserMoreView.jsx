@@ -10,6 +10,7 @@ import { useCookies } from "react-cookie";
 import checkSasmAdmin from "../../Admin/Common";
 import Pagination from "../../common/Pagination";
 import qs from 'qs';
+import AdminButton from "../../Admin/components/AdminButton";
 
 const Section = styled.div`
   box-sizing: border-box;
@@ -94,7 +95,7 @@ const SubWrap = styled.div`
 `
 const FooterSection = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   bottom: 0;
   width: 100%;
   position: relative;
@@ -112,6 +113,7 @@ const CurationUserMoreView = () => {
   const [pageCount, setPageCount] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const queryString = qs.parse(location.search, {
@@ -124,6 +126,16 @@ const CurationUserMoreView = () => {
     e.preventDefault();
     setSearch(e.target.value);
   };
+
+  const checkVerfied = async() => {
+    try {
+      const response = await request.get("/mypage/me/", null, null);
+      setIsVerified(response.data.data.is_verified);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() =>{
     if (search) queryString.page = 1;
    },[search]) // 검색할 때마다 페이지 번호 1로 수정
@@ -131,6 +143,7 @@ const CurationUserMoreView = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
+    checkVerfied();
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
   }, [queryString.page]);
 
@@ -192,6 +205,17 @@ const CurationUserMoreView = () => {
               limit={limit}
               page={queryString.page}
             />
+            {isSasmAdmin&&isVerified ? (
+              <AdminButton
+                onClick={() => {
+                  navigate("/admin/curation?page=1");
+                }}
+              >
+                큐레이션 생성
+              </AdminButton>
+            ) : (
+              <></>
+            )}
           </FooterSection>
         </div>
       )}
