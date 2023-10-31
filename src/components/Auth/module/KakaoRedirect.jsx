@@ -57,6 +57,7 @@ const KakaoLogin = (code) => {
           access: res.data.data.access,
           nickname: res.data.data.nickname,
         });
+        localStorage.setItem("email", res.data.data.email); //닉네임 따로 저장
         localStorage.setItem("nickname", res.data.data.nickname); //닉네임 따로 저장
         localStorage.setItem("accessTK", res.data.data.access); //access token 따로 저장
         // console.log(res.data.data.nickname, 111);
