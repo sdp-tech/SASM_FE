@@ -27,6 +27,7 @@ const GoogleRedirect = () => {
           access: res.data.data.access,
           nickname: res.data.data.nickname,
         });
+        localStorage.setItem("email", res.data.data.email);
         localStorage.setItem("nickname", res.data.data.nickname);
         localStorage.setItem("accessTK", res.data.data.access);
         localStorage.setItem("refreshTK", res.data.data.refresh);
