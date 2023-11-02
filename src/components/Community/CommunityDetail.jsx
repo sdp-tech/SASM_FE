@@ -120,7 +120,7 @@ export default function CommunityDetail({ board, id, format }) {
       setDetail(response_detail.data);
       setLike(response_detail.data.likes);
       setLoading(false);
-      if (response_detail.data.board != board) navigate("/notexistpage");
+      if (response_detail.data.board != board) navigate("/notexistpage", {state:{path: "/community/1?page=1"}});
     }
     catch(e) {
       navigate("/notexistpage");

@@ -126,8 +126,8 @@ export default function CommunityList({ board, format }) {
       page : queryString.page
     }
     if (search) params.search = search
-    setList(response.data.data.results);
     setSearchParams(params);
+    setList(response.data.data.results);
     setTotal(response.data.data.count);
     setLoading(false);
   }
@@ -149,13 +149,8 @@ export default function CommunityList({ board, format }) {
     if (e) {
       e.preventDefault();
     }
-    if (tempSearch === null || tempSearch === "") {
+    !tempSearch ? setSearch('') : setSearch(tempSearch);
       //검색어 없을 경우 전체 리스트 반환
-      setSearch('');
-    } else {
-      //검색어 있는 경우
-      setSearch(tempSearch);
-    }
   };
 
   const otherUserData = async (email) => {
@@ -190,7 +185,6 @@ export default function CommunityList({ board, format }) {
     setTotal(response.data.data.count);
     setLoading(false);
   }
-
   useEffect(() => {
     getItem();
     setMode(false);
