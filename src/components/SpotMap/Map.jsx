@@ -85,7 +85,7 @@ const ControllerWrapper = styled.div`
   }
 `;
 
-const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp }) => {
+const Markers = ({ navermaps, left, right, title, id, category, categoryNum, setTemp, searchParams }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
@@ -125,7 +125,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   const handleClick = () => {
     MarkerChange();
     setModalOpen(true);
-    navigate(`/map?page=${queryString.page}&place=${title}`);
+    navigate(`?${searchParams.toString()}&place=${title}`);
   };
 
   // 상세보기 모달 닫기 이벤트
@@ -242,7 +242,7 @@ const Markers = ({ navermaps, left, right, title, id, category, categoryNum, set
   );
 };
 
-const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) => {
+const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum, searchParams }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const navermaps = useNavermaps();
@@ -355,6 +355,7 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
                 category={itemdata.category}
                 navermaps={navermaps}
                 key={`marker_${itemdata.id}`}
+                searchParams={searchParams}
               />
         ))}
           <Marker
@@ -374,7 +375,7 @@ const NaverMapAPI = ({ placeData, temp, setTemp, setSearchHere, categoryNum }) =
   );
 };
 
-export default function Map({ placeData, temp, setTemp, setSearchHere, categoryNum }) {
+export default function Map({ placeData, temp, setTemp, setSearchHere, categoryNum, searchParams }) {
   
   const markerData = placeData.map(data => {
      return {
@@ -406,6 +407,7 @@ export default function Map({ placeData, temp, setTemp, setSearchHere, categoryN
               temp={temp}
               setTemp={setTemp}
               setSearchHere={setSearchHere}
+              searchParams={searchParams}
             />
           </MapDiv>
       </MapSection>

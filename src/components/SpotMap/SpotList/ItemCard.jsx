@@ -106,7 +106,7 @@ const DetailBox = styled.div`
   position: absolute;
 `;
 
-export default function ItemCard({ placeData, categoryNum, setTemp }) {
+export default function ItemCard({ placeData, categoryNum, setTemp, searchParams, setSearchParams }) {
   const [like, setLike] = useState(false);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
@@ -194,12 +194,12 @@ export default function ItemCard({ placeData, categoryNum, setTemp }) {
   return (
     <div ref={node}>
       <StyledCard key={Date.now()}>
-        <ImgLink to={`/map?page=${queryString.page}&place=${placeData.place_name}`} onClick={handleClick}>
+        <ImgLink to={`?${searchParams.toString()}&place=${placeData.place_name}`} onClick={handleClick}>
           <img src={placeData.rep_pic} className="itemcard_image" alt="placeImage" width="100%" height="100%" />
         </ImgLink>
         <TextBox>
           <TitleBox>
-            <TitleLink to={`/map?page=${queryString.page}&place=${placeData.place_name}`} onClick={handleClick}>
+            <TitleLink to={`?${searchParams.toString()}&place=${placeData.place_name}`} onClick={handleClick}>
               {placeData.place_name}
             </TitleLink>
             <LikeButton style={{ position: "absolute", right: "5%", bottom: "15%" }}>

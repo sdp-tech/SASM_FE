@@ -180,13 +180,11 @@ export default function CurationForm({id}) {
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState("");
   const location = useLocation();
-  const queryString = qs.parse(location.search, {
-      ignoreQueryPrefix: true
-    });
   const request = Request(navigate);
   const ref = useRef();
   const myEmail = localStorage.getItem('email');
   const [message, setMessage] = useState(false);
+  const [page, setPage] = useState(1);
 
   const uploadCuration = async () => {
     const formData = new FormData();
@@ -260,10 +258,10 @@ export default function CurationForm({id}) {
   
   useEffect(() => {
     handleSearchToggle();
-  }, [open, queryString.page]);
+  }, [open, page]);
 
   useEffect(() =>{
-    queryString.page = 1;
+    setPage(1);
   },[open, search]) // 검색할 때마다 페이지 번호 1로 수정
 
   const handleOpen = value => {
@@ -285,11 +283,11 @@ export default function CurationForm({id}) {
     } //초기화 방지
     setSearchToggle(true);
     const response = await request.get("/stories/story_search/", {
-      page:queryString.page,
+      page:page,
       search: search,
     }, null);
 
-    search ? setSearchParams({page:queryString.page, search: search}) : setSearchParams({page:queryString.page}); 
+    search ? setSearchParams({page:page, search: search}) : setSearchParams({page:page}); 
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
   };
@@ -365,7 +363,8 @@ export default function CurationForm({id}) {
                 <Pagination
                 total={pageCount}
                 limit={limit}
-                page={queryString.page}
+                page={page}
+                setPage={setPage}
               />
               </Modal.Body>
               <Modal.Footer>

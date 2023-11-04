@@ -153,9 +153,7 @@ const MyCuration = (props) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const request = Request(navigate);
-  const queryString = qs.parse(location.search, {
-      ignoreQueryPrefix: true
-    });
+  const [page, setPage] = useState(1);
 
   const onCheckedElement = (checked, item) => {
     checked ? setCheckedList([...checkedList, item]) : setCheckedList(checkedList.filter((el) => el !== item));
@@ -168,7 +166,7 @@ const MyCuration = (props) => {
 
   const pageMyCuration = async () => {
     
-    let newPage = (queryString.page == 1) ? null : queryString.page
+    let newPage = (page == 1) ? null : page
 
     setLoading(true);
 
@@ -178,7 +176,7 @@ const MyCuration = (props) => {
     }, null);
 
     const urlParams = {
-      page: queryString.page
+      page: page
     }
     if (search) urlParams.search = search
 
@@ -189,13 +187,13 @@ const MyCuration = (props) => {
   };
 
   useEffect(() => {
-    if (search) queryString.page = 1;
+    if (search) page = 1;
   }, [search]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyCuration();
-  }, [queryString.page]);
+  }, [page]);
   return (
     <>
       {loading ? (
@@ -271,7 +269,8 @@ const MyCuration = (props) => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={queryString.page}
+              page={page}
+              setPage={setPage}
             />
           </FooterSection>
         </>
