@@ -165,8 +165,6 @@ const Mystory = () => {
   };
 
   const pageMystory = async () => {
-  
-    let newPage = (page == 1) ? null : page
 
     setLoading(true);
     let params = new URLSearchParams();
@@ -174,7 +172,7 @@ const Mystory = () => {
     for (const category of checkedList) params.append('filter', category);
     
     const response = await request.get(`/mypage/mypick_story/?${params.toString()}`, {
-      page: newPage,
+      page: page,
       search: search.trim()
     }, null);
 
@@ -191,7 +189,7 @@ const Mystory = () => {
   };
 
   useEffect(() => {
-    if (search || checkedList) page = 1;
+    if (search || checkedList) setPage(1);
   }, [checkedList, search]);
 
   // 초기에 좋아요 목록 불러오기

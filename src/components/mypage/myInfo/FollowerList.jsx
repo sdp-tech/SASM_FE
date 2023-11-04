@@ -121,14 +121,8 @@ const Follower = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const GetFollower = async () => {
-    let newPage;
-    if (page == 1) {
-      newPage = null;
-    } else {
-      newPage = page;
-    }
     const response = await request.get('/mypage/follower/', {
-      page: newPage,
+      page: page,
       email: myEmail,
       search_email: searchQuery
     });

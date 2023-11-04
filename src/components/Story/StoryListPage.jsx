@@ -150,6 +150,9 @@ const StoryListPage = () => {
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = Request(navigate);
   const [page, setPage] = useState(1);
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   const handleToggleOpen = () => {
     setToggleOpen(!toggleOpen);
@@ -176,13 +179,12 @@ const StoryListPage = () => {
     setSearch(tempSearch);
   }
   const getList = async () => {
-    
+
     setSearchToggle(true);
     setLoading(true);
     let searched;
     if (location.state?.name) {
       searched = location.state.name;
-      location.state.name = "";
       setSearch("비건")
     } else {
       searched = search.trim();
@@ -192,21 +194,20 @@ const StoryListPage = () => {
 
     const response = await request.get("/stories/story_search/", {
       page: page,
-      search: searched,
+      search: search,
       order: order
     }, null);
 
     const params = {
       page: page
     }
-
-    if(search) params.search = search;
+    // navigate로 왔을 때, url 변경할 수 있게 하기...
+    if(search) params.search = searched;
     setSearchParams(params);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
   };
-
 
   return (
     <>
