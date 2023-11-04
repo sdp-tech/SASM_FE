@@ -153,6 +153,7 @@ const Mystory = () => {
   const navigate = useNavigate();
   const request = Request(navigate);
   const [page, setPage] = useState(1);
+  const nickname = localStorage.getItem('nickname');
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
@@ -179,7 +180,8 @@ const Mystory = () => {
     }, null);
 
     const urlParams = {
-      page: page
+      page: page,
+      me: nickname
     }
     if (search) urlParams.search = search
     if (checkedList) urlParams.checkedList = checkedList
