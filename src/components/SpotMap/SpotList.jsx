@@ -77,7 +77,7 @@ const SpotsWrapper = styled.div`
   }
 `;
 
-export default function SpotList({ setTemp, placeData, categoryNum }) {
+export default function SpotList({ setTemp, placeData, categoryNum, searchParams, setSearchParams }) {
   return (
     <SpotListSection>
       {/* 데이터 없을때 장소가 없습니다 띄우기 */}
@@ -92,7 +92,7 @@ export default function SpotList({ setTemp, placeData, categoryNum }) {
             :
             placeData.map((itemdata) => {
               return (
-                <ItemCard categoryNum={categoryNum} setTemp={setTemp} key={`itemcard_${itemdata.id}`} placeData={itemdata} />
+                <ItemCard categoryNum={categoryNum} setTemp={setTemp} key={`itemcard_${itemdata.id}`} placeData={itemdata} searchParams={searchParams} setSearchParams={setSearchParams} />
               );
             })
         }

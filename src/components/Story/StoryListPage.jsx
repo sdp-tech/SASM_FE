@@ -140,10 +140,8 @@ const StoryListPage = () => {
   const [limit, setLimit] = useState(4);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
-  const queryString = qs.parse(location.search, {
-      ignoreQueryPrefix: true
-    });
   const [loading, setLoading] = useState(true);
+  const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [toggleOpen, setToggleOpen] = useState(false);
   const [orderList, setOrderList] = useState(true);
@@ -151,32 +149,36 @@ const StoryListPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = Request(navigate);
+  const [page, setPage] = useState(1);
 
   const handleToggleOpen = () => {
     setToggleOpen(!toggleOpen);
   }
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
   useEffect(() =>{
-    if (search) queryString.page = 1;
+    if (search) setPage(1);
   },[search]) // 검색할 때마다 페이지 번호 1로 수정
   
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
-    handleSearchToggle();
+    getList();
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [queryString.page, orderList]);
+  }, [page, orderList, search]);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
     if (e) {
       e.preventDefault();
     } //초기화 방지
+    setSearch(tempSearch);
+  }
+  const getList = async () => {
+    
     setSearchToggle(true);
     setLoading(true);
-
     let searched;
     if (location.state?.name) {
       searched = location.state.name;
@@ -189,16 +191,22 @@ const StoryListPage = () => {
     const order = orderList ? "latest" : "oldest";
 
     const response = await request.get("/stories/story_search/", {
-      page: queryString.page,
+      page: page,
       search: searched,
       order: order
     }, null);
 
-    if(search) {setSearchParams({page:queryString.page, search: search});}
+    const params = {
+      page: page
+    }
+
+    if(search) params.search = search;
+    setSearchParams(params);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
   };
+
 
   return (
     <>
@@ -210,7 +218,7 @@ const StoryListPage = () => {
             <SearchBarSection>
               <SearchFilterBar>
                 <SearchBar
-                  search={search}
+                  search={tempSearch}
                   onChangeSearch={onChangeSearch}
                   handleSearchToggle={handleSearchToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
@@ -262,7 +270,8 @@ const StoryListPage = () => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={queryString.page}
+              page={page}
+              setPage={setPage} 
             />
             {isSasmAdmin ? (
               <AdminButton

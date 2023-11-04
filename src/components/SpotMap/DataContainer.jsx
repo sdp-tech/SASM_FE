@@ -52,6 +52,7 @@ export default function DataContainer({ Location }) {
     const [checkedList, setCheckedList] = useState('');
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const [page, setPage] = useState(1);
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = Request(navigate);
     const [placeData, setPlaceData] = useState({
@@ -90,7 +91,7 @@ export default function DataContainer({ Location }) {
         const queryParams = {
             left: location.state?.lat || searchHere.lat,
             right: location.state?.lng || searchHere.lng,
-            page: queryString.page,
+            page: page,
             search: location.state?.name || localStorage.getItem("place_name") || search.trim(),
             filter: checkedList
         }    
@@ -101,7 +102,12 @@ export default function DataContainer({ Location }) {
                 search: queryParams.search, // gotomap으로 넘어왔을 때
                 filter: queryParams.filter
             });
-
+        const params = {
+            page: page
+        }
+        if (search) params.search = search;
+        if (checkedList) params.checkedList = checkedList;
+        setSearchParams(params);
         setPlaceData({
             total: response_list.data.data.count,
             MapList: response_list.data.data.results,
@@ -124,8 +130,8 @@ export default function DataContainer({ Location }) {
     }, [searchHere, checkedList, queryString.page]);
 
     useEffect(() => {
-        queryString.page = 1
-    },[checkedList]);
+        setPage(1);
+    },[checkedList, search]);
 
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
@@ -134,7 +140,7 @@ export default function DataContainer({ Location }) {
             setCategoryNum(7);
         }
         getList();
-    }, [searchHere, search, checkedList, queryString.page]);
+    }, [searchHere, search, checkedList, page]);
 
     return (
         <>
@@ -153,8 +159,8 @@ export default function DataContainer({ Location }) {
                 <FilterOptions>
                     <CategorySelector checkedList={checkedList} onCheckedElement={onCheckedElement} />
                 </FilterOptions>
-                <SpotList categoryNum={categoryNum} placeData={placeData.MapList} setTemp={setTemp}></SpotList>
-                <Pagination total={placeData.total} limit={20} page={queryString.page}/>
+                <SpotList categoryNum={categoryNum} placeData={placeData.MapList} setTemp={setTemp} searchParams={searchParams}setSearchParams={setSearchParams}></SpotList>
+                <Pagination total={placeData.total} limit={20} page={page} setPage={setPage}/>
                 {
                     isSasmAdmin &&
                     <AdminButton
@@ -167,7 +173,7 @@ export default function DataContainer({ Location }) {
                     </AdminButton>
                 }
             </ListWrapper>
-            <Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} />
+            <Map categoryNum={categoryNum} placeData={placeData.MapList} temp={temp} setTemp={setTemp} setSearchHere={setSearchHere} searchParams={searchParams} />
         </>
     )
 }

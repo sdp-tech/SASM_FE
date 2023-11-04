@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import Pagination from '../../common/Pagination';
 import Request from '../../../functions/common/Request';
 import SearchBar from '../../common/SearchBar';
@@ -117,22 +117,26 @@ const Follower = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [limit, setLimit] = useState(5);
   const [total, setTotal] = useState(0);
-  const queryString = qs.parse(location.search, {
-    ignoreQueryPrefix: true
-  });
+  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const GetFollower = async () => {
     let newPage;
-    if (queryString.page == 1) {
+    if (page == 1) {
       newPage = null;
     } else {
-      newPage = queryString.page;
+      newPage = page;
     }
     const response = await request.get('/mypage/follower/', {
       page: newPage,
       email: myEmail,
       search_email: searchQuery
     });
+    const params = {
+      page: page
+    } 
+    if (searchQuery) params.search = searchQuery
+    setSearchParams(params);
     setFollowerList(response.data.data.results);
     setTotal(response.data.data.count);
   }
@@ -156,7 +160,7 @@ const Follower = () => {
 
   useEffect(() => {
       GetFollower();
-    }, [searchQuery, queryString.page]);
+    }, [searchQuery, page]);
 
 
   return (
@@ -201,7 +205,8 @@ const Follower = () => {
         <Pagination
           total={total}
           limit={limit}
-          page={queryString.page}
+          page={page}
+          setPage={setPage}
         />
       </FooterSection>
     </InfoBox>

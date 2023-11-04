@@ -148,12 +148,10 @@ const Myplace = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
   const [checkedList, setCheckedList] = useState('');
   const navigate = useNavigate();
   const request = Request(navigate);
-  const queryString = qs.parse(location.search, {
-    ignoreQueryPrefix: true
-  });
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
@@ -167,7 +165,7 @@ const Myplace = () => {
 
   const pageMyplace = async () => {
   
-    let newPage = (queryString.page == 1) ? null : queryString.page
+    let newPage = (page == 1) ? null : page
     setLoading(true);
     let params = new URLSearchParams();
     for (const category of checkedList) params.append('filter', category);
@@ -177,7 +175,7 @@ const Myplace = () => {
     }, null);
 
     const urlParams = {
-      page: queryString.page
+      page: page
     }
     if (search) urlParams.search = search
     if (checkedList) urlParams.checkedList = checkedList
@@ -190,13 +188,13 @@ const Myplace = () => {
 
   
   useEffect(() => {
-    if (search || checkedList) queryString.page = 1;
+    if (search || checkedList) page = 1;
   }, [checkedList, search]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
-  }, [queryString.page, checkedList]);
+  }, [page, checkedList]);
 
   return (
     <>
@@ -274,7 +272,8 @@ const Myplace = () => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={queryString.page}
+              page={page}
+              setPage={setPage}
             />
           </FooterSection>
         </>

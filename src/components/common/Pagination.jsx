@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 
-function Pagination({ total, limit }) {
+function Pagination({ total, limit, page, setPage }) {
   const location = useLocation();
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
@@ -23,7 +22,7 @@ function Pagination({ total, limit }) {
   }
 
   const previousPage = currentPage - 1;
-  const nextPage = currentPage + 1
+  const nextPage = currentPage + 1;
 
   return (
     <>
@@ -32,13 +31,13 @@ function Pagination({ total, limit }) {
       ) : (
         <Nav>
           <StyledLink
-            to={`?page=${1}`}
+            onClick={()=>{setPage(1)}}
             style={previousPage === 0 ? { display: "none" } : { display: "inline" }}
           >
             &lt;&lt;
           </StyledLink>
           <StyledLink
-            to={`?page=${previousPage}`}
+            onClick={()=>{setPage(page-1)}}
             style={previousPage === 0 ? { display: "none" } : { display: "inline" }}
           >
             &lt;
@@ -48,7 +47,7 @@ function Pagination({ total, limit }) {
             return (
               <StyledLink
                 key={page}
-                to={`?page=${page}`}
+                onClick={(e)=>{ setPage(e.target.textContent)}}
                 aria-current={currentPage === page ? "page" : null}
               >
                 {page}
@@ -56,13 +55,13 @@ function Pagination({ total, limit }) {
             );
           })}
           <StyledLink
-            to={`?page=${nextPage}`}
+            onClick={() => {setPage(page+1)}}
             style={nextPage === numPages + 1 ? { display: "none" } : { display: "inline" }}
           >
             &gt;
           </StyledLink>
           <StyledLink
-            to={`?page=${numPages}`}
+            onClick={() => {setPage(numPages)}}
             style={nextPage === numPages + 1 ? { display: "none" } : { display: "inline" }}
           >
             &gt;&gt;
@@ -79,7 +78,7 @@ const Nav = styled.nav`
   align-items: center;
   font-family: pretendard;
 `;
-const StyledLink = styled(Link)`
+const StyledLink = styled.div`
   border: none;
   border-radius: 8px;
   padding: 4px;

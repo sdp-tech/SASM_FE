@@ -117,6 +117,7 @@ const CurationMoreView = () => {
   const queryString = qs.parse(location.search, {
       ignoreQueryPrefix: true
     });
+  const [page, setPage] = useState(1);
   // const token = cookies.name; // 쿠키에서 id 를 꺼내기
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = Request(navigate);
@@ -126,14 +127,14 @@ const CurationMoreView = () => {
     setSearch(e.target.value);
   };
   useEffect(() =>{
-   if (search) queryString.page = 1;
+   if (search) setPage(1);
   },[search]) // 검색할 때마다 페이지 번호 1로 수정
 
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     handleSearchToggle();
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [queryString.page]);
+  }, [page]);
   
 
   const handleSearchToggle = async (e) => {
@@ -148,10 +149,14 @@ const CurationMoreView = () => {
       searched = search.trim();
     }
       const response = await request.get("/curations/admin_curations/", {
-      page: queryString.page,
+      page: page,
       search: searched
     }, null);
-      if(search.length !== 0) {setSearchParams({page:queryString.page, search: search});}
+    const params = {
+      page: page
+    }
+      if(search) params.search = search;
+      setSearchParams(params);
       setItem(response.data.data.results);
       setPageCount(response.data.data.count);
     }
@@ -191,7 +196,8 @@ const CurationMoreView = () => {
             <Pagination
               total={pageCount}
               limit={limit}
-              page={queryString.page}
+              page={page}
+              setPage={setPage}
             />
             {isSasmAdmin ? (
               <AdminButton
