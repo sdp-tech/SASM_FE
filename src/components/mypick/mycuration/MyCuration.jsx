@@ -154,6 +154,7 @@ const MyCuration = (props) => {
   const navigate = useNavigate();
   const request = Request(navigate);
   const [page, setPage] = useState(1);
+  const nickname = localStorage.getItem('nickname');
 
   const onCheckedElement = (checked, item) => {
     checked ? setCheckedList([...checkedList, item]) : setCheckedList(checkedList.filter((el) => el !== item));
@@ -174,7 +175,8 @@ const MyCuration = (props) => {
     }, null);
 
     const urlParams = {
-      page: page
+      page: page,
+      me: nickname, 
     }
     if (search) urlParams.search = search
 

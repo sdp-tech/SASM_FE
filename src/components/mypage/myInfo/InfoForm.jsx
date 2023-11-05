@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
 import Loading from "../../common/Loading";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Request from "../../../functions/common/Request";
 import { Grid } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -177,11 +177,13 @@ export default function InfoForm(props) {
   const [loading, setLoading] = useState(true);
   const [followerNum, setFollowerNum] = useState(0);
   const [followingNum, setFollowingNum] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [myReviewedPlace, setMyReviewedPlace] = useState([]);
   const [myStory, setMyStory] = useState([]);
   const [myCuration, setMyCuration] = useState([]);
   const [myProfileModal, setMyProfileModal] = useState({});
   const request = Request(navigate);
+  const myNickname = localStorage.getItem('nickname');
   //   초기에 mypage data 불러오기
   const updateMypage = async () => {
     const response_info = await request.get("/mypage/me/", null, null);
@@ -198,6 +200,7 @@ export default function InfoForm(props) {
     const response_myStory = await request.get('/mypage/my_story/',null, null);
     const response_myReviewPlace = await request.get('/mypage/my_reviewed_place/',null, null);
 
+    setSearchParams({me: myNickname});
     setMyReviewedPlace(response_myReviewPlace.data.data.results);
     setMyStory(response_myStory.data.data.results);
     setMyCuration(response_myCuration.data.data);

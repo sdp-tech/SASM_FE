@@ -130,6 +130,7 @@ const Following = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [page, setPage] = useState(1);
+  const nickname = localStorage.getItem('nickname');
   const rerender = () => {
     setRefresh(!refresh);
   }
@@ -141,7 +142,8 @@ const Following = () => {
       search_email: searchQuery
     });
     const params = {
-      page: page
+      page: page,
+      me: nickname
     } 
     if (searchQuery) params.search = searchQuery
     setSearchParams(params);

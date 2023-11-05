@@ -119,6 +119,7 @@ const Follower = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
+  const nickname = localStorage.getItem('nickname');
 
   const GetFollower = async () => {
     const response = await request.get('/mypage/follower/', {
@@ -127,7 +128,8 @@ const Follower = () => {
       search_email: searchQuery
     });
     const params = {
-      page: page
+      page: page,
+      me: nickname
     } 
     if (searchQuery) params.search = searchQuery
     setSearchParams(params);
