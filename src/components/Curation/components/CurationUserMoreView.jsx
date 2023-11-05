@@ -107,6 +107,7 @@ const CurationUserMoreView = () => {
   const [item, setItem] = useState([]);
   const [loading, setLoading] = useState(true);
   const [limit, setLimit] = useState(4);
+  const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [pageCount, setPageCount] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -120,7 +121,7 @@ const CurationUserMoreView = () => {
 
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
 
   const checkVerfied = async() => {
@@ -132,20 +133,19 @@ const CurationUserMoreView = () => {
     }
   }
 
+  useEffect(() => {
+    setSearch("");
+  },[location.search]);
+
   useEffect(() =>{
     if (search) setPage(1);
    },[search]) // 검색할 때마다 페이지 번호 1로 수정
 
-  // page가 변경될 때마다 page를 붙여서 api 요청하기
-  useEffect(() => {
-    handleSearchToggle();
-    checkVerfied();
-    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page]);
-
   const handleSearchToggle = async (e) => {
     if(e) e.preventDefault();
-    
+    setSearch(tempSearch);
+  }
+  const getList = async () => {
     let searched
     if (location.state?.search) {
       searched = location.state.search;
@@ -167,6 +167,13 @@ const CurationUserMoreView = () => {
     setPageCount(response.data.data.count);
     setLoading(false);
   };
+  
+  // page가 변경될 때마다 page를 붙여서 api 요청하기
+  useEffect(() => {
+    getList();
+    checkVerfied();
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
+  }, [page, search]);
 
   return (
     <>
@@ -178,7 +185,7 @@ const CurationUserMoreView = () => {
             <SearchBarSection>
               <SearchFilterBar>
                 <SearchBar
-                  search={search}
+                  search={tempSearch}
                   onChangeSearch={onChangeSearch}
                   handleSearchToggle={handleSearchToggle}
                   placeholder="원하는 장소를 입력해주세요."

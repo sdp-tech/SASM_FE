@@ -111,6 +111,7 @@ const CurationMoreView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [limit, setLimit] = useState(4);
   const [search, setSearch] = useState("");
+  const [tempSearch, setTempSearch] = useState("");
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -124,22 +125,18 @@ const CurationMoreView = () => {
 
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
+
   useEffect(() =>{
    if (search) setPage(1);
   },[search]) // 검색할 때마다 페이지 번호 1로 수정
-
-  // page가 변경될 때마다 page를 붙여서 api 요청하기
-  useEffect(() => {
-    handleSearchToggle();
-    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page]);
   
-
   const handleSearchToggle = async (e) => {
     if(e) e.preventDefault();
-
+    setSearch(tempSearch);
+  }
+  const getList = async () => {
     let searched
     if (location.state?.search) {
       searched = location.state.search;
@@ -160,6 +157,12 @@ const CurationMoreView = () => {
       setItem(response.data.data.results);
       setPageCount(response.data.data.count);
     }
+    
+  // page가 변경될 때마다 page를 붙여서 api 요청하기
+  useEffect(() => {
+    getList()
+    checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
+  }, [page, search]);
 
   return (
     <>
@@ -171,7 +174,7 @@ const CurationMoreView = () => {
             <SearchBarSection>
               <SearchFilterBar>
                 <SearchBar
-                  search={search}
+                  search={tempSearch}
                   onChangeSearch={onChangeSearch}
                   handleSearchToggle={handleSearchToggle}
                   placeholder="원하는 장소를 입력해주세요."

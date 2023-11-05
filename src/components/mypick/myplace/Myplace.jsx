@@ -165,12 +165,11 @@ const Myplace = () => {
 
   const pageMyplace = async () => {
   
-    let newPage = (page == 1) ? null : page
     setLoading(true);
     let params = new URLSearchParams();
     for (const category of checkedList) params.append('filter', category);
     const response = await request.get(`/mypage/myplace_search/?${params.toString()}`, {
-      page: newPage,
+      page: page,
       search: search.trim()
     }, null);
 
@@ -188,7 +187,7 @@ const Myplace = () => {
 
   
   useEffect(() => {
-    if (search || checkedList) page = 1;
+    if (search || checkedList) setPage(1);
   }, [checkedList, search]);
 
   // 초기에 좋아요 목록 불러오기

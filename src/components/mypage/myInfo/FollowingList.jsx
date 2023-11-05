@@ -135,15 +135,8 @@ const Following = () => {
   }
 
   const GetFollowing = async () => {
-    let newPage;
-    if (page == 1) {
-      newPage = null;
-    } else {
-      newPage = page;
-    }
-
     const response = await request.get('/mypage/following/', {
-      page: newPage,
+      page: page,
       email: myEmail,
       search_email: searchQuery
     });
@@ -180,7 +173,7 @@ const Following = () => {
 
   useEffect(() => {
       GetFollowing();
-    }, [page, refresh, searchQuery])
+    }, [page, refresh, searchQuery]);
 
   return (
     <InfoBox style={{ backgroundColor: 'white' }}>
