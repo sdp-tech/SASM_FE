@@ -169,7 +169,20 @@ const StoryListPage = () => {
   useEffect(() => {
     getList();
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page, orderList, search]);
+  }, [queryString.page, orderList, search]);
+
+  useEffect(() => {
+  const params = { page: page };
+  if (tempSearch) params.search = tempSearch;
+  if (search) params.search = search;
+  
+  if (location.state?.name && page === 1) {
+    setSearch(location.state.name);
+    location.state.name = null;
+  } else if ((page===1 && search)||page !== 1) {
+    setSearchParams(params);
+  }
+}, [tempSearch, page]);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
@@ -179,31 +192,16 @@ const StoryListPage = () => {
     setSearch(tempSearch);
   }
   const getList = async () => {
-
     setSearchToggle(true);
     setLoading(true);
-    let searched;
-    if (location.state?.name) {
-      searched = location.state.name;
-      setSearch("비건")
-    } else {
-      searched = search.trim();
-    }
-    
+    let searched = location.state?.name || search.trim();
     const order = orderList ? "latest" : "oldest";
-
+    setSearch(searched);
     const response = await request.get("/stories/story_search/", {
-      page: page,
-      search: search,
+      page: queryString.page,
+      search: queryString.search || searched,
       order: order
     }, null);
-
-    const params = {
-      page: page
-    }
-    // navigate로 왔을 때, url 변경할 수 있게 하기...
-    if(search) params.search = searched;
-    setSearchParams(params);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
