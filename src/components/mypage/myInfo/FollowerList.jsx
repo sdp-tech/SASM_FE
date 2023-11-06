@@ -120,19 +120,16 @@ const Follower = () => {
   const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const nickname = localStorage.getItem('nickname');
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   const GetFollower = async () => {
     const response = await request.get('/mypage/follower/', {
-      page: page,
+      page: queryString.page,
       email: myEmail,
       search_email: searchQuery
     });
-    const params = {
-      page: page,
-      me: nickname
-    } 
-    if (searchQuery) params.search = searchQuery
-    setSearchParams(params);
     setFollowerList(response.data.data.results);
     setTotal(response.data.data.count);
   }
@@ -153,6 +150,17 @@ const Follower = () => {
     e.preventDefault();
     setSearchQuery(e.target.value);
   };
+
+  useEffect(() => {
+    const params = {
+       page: page,
+       me: nickname
+    };
+    if (searchQuery) params.search = searchQuery;
+    if ((page===1 && searchQuery)||page !== 1) {
+      setSearchParams(params);
+    }
+  }, [searchQuery, page]);
 
   useEffect(() => {
       GetFollower();

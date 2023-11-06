@@ -177,22 +177,26 @@ const Mystory = () => {
       search: search.trim()
     }, null);
 
-    const urlParams = {
-      page: page,
-      me: nickname
-    }
-    if (search) urlParams.search = search
-    if (checkedList) urlParams.checkedList = checkedList
-
     setPageCount(response.data.data.count);
     setInfo(response.data.data.results);
-    setSearchParams(urlParams);
     setLoading(false);
   };
 
   useEffect(() => {
     if (search || checkedList) setPage(1);
   }, [checkedList, search]);
+
+  useEffect(() => {
+    const params = {
+       page: page,
+       me: nickname
+    };
+    if (search) params.search = search;
+    if (checkedList) params.checkedList = checkedList
+    if ((page===1 && search||page===1 && checkedList)||page !== 1) {
+      setSearchParams(params);
+    }
+  }, [search, page, checkedList]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
@@ -223,13 +227,13 @@ const Mystory = () => {
             <HeaderSection>
               <MoveSection>
                 <MenuSection>
-                  <ChangeModeButton to={`/mypick/myplace?page=1`}>
+                  <ChangeModeButton to={`/mypick/myplace?page=1&me=${nickname}`}>
                     <img src={ChangeMode} style={{ marginRight: '10px' }} />
                     PLACE
                   </ChangeModeButton>
                 </MenuSection>
                 <MenuSection>
-                  <ChangeModeButton to={`/mypick/mycuration?page=1`}>
+                  <ChangeModeButton to={`/mypick/mycuration?page=1&me=${nickname}`}>
                     <img src={ChangeMode} style={{ marginRight: '10px' }} />
                     CURATION
                   </ChangeModeButton>

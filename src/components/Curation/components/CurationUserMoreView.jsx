@@ -9,6 +9,7 @@ import Request from "../../../functions/common/Request";
 import checkSasmAdmin from "../../Admin/Common";
 import Pagination from "../../common/Pagination";
 import AdminButton from "../../Admin/components/AdminButton";
+import qs from "qs";
 
 const Section = styled.div`
   box-sizing: border-box;
@@ -118,6 +119,9 @@ const CurationUserMoreView = () => {
   const [page, setPage] = useState(1);
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = Request(navigate);
+  const queryString = qs.parse(location.search, {
+      ignoreQueryPrefix: true
+    });
 
   const onChangeSearch = (e) => {
     e.preventDefault();
@@ -132,10 +136,6 @@ const CurationUserMoreView = () => {
       console.log(e);
     }
   }
-
-  useEffect(() => {
-    setSearch("");
-  },[location.search]);
 
   useEffect(() =>{
     if (search) setPage(1);
@@ -155,25 +155,33 @@ const CurationUserMoreView = () => {
       searched = search.trim();
     }
     const response = await request.get("/curations/verified_user_curations/", {
-      page: page,
-      search: searched
+      page: queryString.page,
+      search: queryString.search || searched
     }, null);
-    const params = {
-      page: page
-    }
-    if(search) params.search = search;
-    setSearchParams(params);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
     setLoading(false);
   };
+
+  useEffect(() => {
+    const params = { page: page };
+    if (tempSearch) params.search = tempSearch;
+    if (search) params.search = search;
+    
+    if (location.state?.name && page === 1) {
+      setSearch(location.state.name);
+      location.state.name = null;
+    } else if ((page===1 && search)||page !== 1) {
+      setSearchParams(params);
+    }
+  }, [tempSearch, page]);
   
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     getList();
     checkVerfied();
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page, search]);
+  }, [queryString.page, search]);
 
   return (
     <>

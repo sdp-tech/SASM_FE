@@ -110,6 +110,7 @@ export default function CommunityList({ board, format }) {
   const [search, setSearch] = useState('');
   const [tempSearch, setTempSearch] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState(1);
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
@@ -122,11 +123,11 @@ export default function CommunityList({ board, format }) {
       page: queryString.page,
       latest: 'true',
     }, null);
-    const params = {
-      page : queryString.page
-    }
-    if (search) params.search = search
-    setSearchParams(params);
+    // const params = {
+    //   page : queryString.page
+    // }
+    // if (search) params.search = search
+    // setSearchParams(params);
     setList(response.data.data.results);
     setTotal(response.data.data.count);
     setLoading(false);
@@ -186,6 +187,18 @@ export default function CommunityList({ board, format }) {
     setLoading(false);
   }
   useEffect(() => {
+    const params = { page: page };
+    if (tempSearch) params.search = tempSearch;
+    if (search) params.search = search;
+    
+    if (location.state?.name && page === 1) {
+      setSearch(location.state.name);
+      location.state.name = null;
+    } else if ((page===1 && search)||page !== 1) {
+      setSearchParams(params);
+    }
+  }, [tempSearch, page]);
+  useEffect(() => {
     getItem();
     setMode(false);
     return () => setLoading(false);
@@ -242,7 +255,7 @@ export default function CommunityList({ board, format }) {
               글쓰기
             </UploadButton>
           </Section>
-          <Pagination total={total} limit="5" page={queryString.page} />
+          <Pagination total={total} limit="5" page={page} setPage={setPage} />
         </>
       }
     </>

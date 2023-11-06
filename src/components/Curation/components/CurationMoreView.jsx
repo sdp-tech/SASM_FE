@@ -146,23 +146,31 @@ const CurationMoreView = () => {
       searched = search.trim();
     }
       const response = await request.get("/curations/admin_curations/", {
-      page: page,
-      search: searched
+      page: queryString.page,
+      search: queryString.search || searched
     }, null);
-    const params = {
-      page: page
-    }
-      if(search) params.search = search;
-      setSearchParams(params);
       setItem(response.data.data.results);
       setPageCount(response.data.data.count);
     }
+
+    useEffect(() => {
+      const params = { page: page };
+      if (tempSearch) params.search = tempSearch;
+      if (search) params.search = search;
+      
+      if (location.state?.name && page === 1) {
+        setSearch(location.state.name);
+        location.state.name = null;
+      } else if ((page===1 && search)||page !== 1) {
+        setSearchParams(params);
+      }
+    }, [tempSearch, page]);
     
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     getList()
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [page, search]);
+  }, [queryString.page, search]);
 
   return (
     <>
