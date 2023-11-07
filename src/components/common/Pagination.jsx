@@ -47,7 +47,7 @@ function Pagination({ total, limit, page, setPage }) {
             return (
               <StyledLink
                 key={page}
-                onClick={(e)=>{ setPage(e.target.textContent)}}
+                onClick={(e)=>{ setPage(parseInt(e.target.textContent))}}
                 aria-current={currentPage === page ? "page" : null}
               >
                 {page}
