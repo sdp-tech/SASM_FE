@@ -174,17 +174,21 @@ const MyCuration = (props) => {
       search: search.trim()
     }, null);
 
-    const urlParams = {
-      page: page,
-      me: nickname, 
-    }
-    if (search) urlParams.search = search
-
     setPageCount(response.data.data.length);
-    setSearchParams(urlParams);
     setInfo(response.data.data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    const params = {
+       page: page,
+       me: nickname
+    };
+    if (search) params.search = search;
+    if ((page===1 && search)||page !== 1) {
+      setSearchParams(params);
+    }
+  }, [search, page]);
 
   useEffect(() => {
     if (search) setPage(1);
@@ -219,13 +223,13 @@ const MyCuration = (props) => {
             <HeaderSection>
               <MoveSection>
                 <MenuSection>
-                  <ChangeModeButton to={`/mypick/mystory?page=1`}>
+                  <ChangeModeButton to={`/mypick/mystory?page=1&me=${nickname}`}>
                     <img src={ChangeMode} style={{ marginRight: '10px' }} />
                     STORY
                   </ChangeModeButton>
                 </MenuSection>
                 <MenuSection>
-                  <ChangeModeButton to={`/mypick/myplace?page=1`}>
+                  <ChangeModeButton to={`/mypick/myplace?page=1&me=${nickname}`}>
                     <img src={ChangeMode} style={{ marginRight: '10px' }} />
                     PLACE
                   </ChangeModeButton>

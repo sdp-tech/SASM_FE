@@ -200,7 +200,7 @@ export default function InfoForm(props) {
     const response_myStory = await request.get('/mypage/my_story/',null, null);
     const response_myReviewPlace = await request.get('/mypage/my_reviewed_place/',null, null);
 
-    setSearchParams({me: myNickname});
+    // setSearchParams({me: myNickname});
     setMyReviewedPlace(response_myReviewPlace.data.data.results);
     setMyStory(response_myStory.data.data.results);
     setMyCuration(response_myCuration.data.data);

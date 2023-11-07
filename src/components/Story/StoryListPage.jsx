@@ -174,6 +174,7 @@ const StoryListPage = () => {
   useEffect(() => {
   const params = { page: page };
   if (tempSearch) params.search = tempSearch;
+
   if (search) params.search = search;
   
   if (location.state?.name && page === 1) {
@@ -194,12 +195,12 @@ const StoryListPage = () => {
   const getList = async () => {
     setSearchToggle(true);
     setLoading(true);
-    let searched = location.state?.name || search.trim();
+    let searched = search.trim() || queryString.search;
     const order = orderList ? "latest" : "oldest";
     setSearch(searched);
     const response = await request.get("/stories/story_search/", {
       page: queryString.page,
-      search: queryString.search || searched,
+      search:searched,
       order: order
     }, null);
     setItem(response.data.data.results);

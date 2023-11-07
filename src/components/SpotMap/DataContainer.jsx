@@ -102,12 +102,6 @@ export default function DataContainer({ Location }) {
                 search: queryParams.search, // gotomap으로 넘어왔을 때
                 filter: queryParams.filter
             });
-        const params = {
-            page: page
-        }
-        if (search) params.search = search;
-        if (checkedList) params.checkedList = checkedList;
-        setSearchParams(params);
         setPlaceData({
             total: response_list.data.data.count,
             MapList: response_list.data.data.results,
@@ -119,6 +113,17 @@ export default function DataContainer({ Location }) {
             });
         }
     }; 
+
+    useEffect(() => {
+        const params = {
+           page: page
+        };
+        if (search) params.search = search;
+        if (checkedList) params.checkedList = checkedList
+        if ((page===1 && search||page===1 && checkedList)||page !== 1) {
+          setSearchParams(params);
+        }
+      }, [search, page, checkedList]);
 
     //admin 여부 체크
     useEffect(() => {

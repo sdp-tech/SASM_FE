@@ -131,22 +131,19 @@ const Following = () => {
   const [refresh, setRefresh] = useState(false);
   const [page, setPage] = useState(1);
   const nickname = localStorage.getItem('nickname');
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
   const rerender = () => {
     setRefresh(!refresh);
   }
 
   const GetFollowing = async () => {
     const response = await request.get('/mypage/following/', {
-      page: page,
+      page: queryString.page,
       email: myEmail,
       search_email: searchQuery
     });
-    const params = {
-      page: page,
-      me: nickname
-    } 
-    if (searchQuery) params.search = searchQuery
-    setSearchParams(params);
     setFollowingList(response.data.data.results);
     setTotal(response.data.data.count);
   }
@@ -174,8 +171,19 @@ const Following = () => {
   }
 
   useEffect(() => {
+    const params = {
+       page: page,
+       me: nickname
+    };
+    if (searchQuery) params.search = searchQuery;
+    if ((page===1 && searchQuery)||page !== 1) {
+      setSearchParams(params);
+    }
+  }, [searchQuery, page]);
+
+  useEffect(() => {
       GetFollowing();
-    }, [page, refresh, searchQuery]);
+    }, [queryString.page, refresh, searchQuery]);
 
   return (
     <InfoBox style={{ backgroundColor: 'white' }}>
