@@ -53,6 +53,7 @@ export default function DataContainer({ Location }) {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
+    const [pageOneFlag, setPageOneFlag] = useState(false);
     const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
     const request = Request(navigate);
     const [placeData, setPlaceData] = useState({
@@ -121,6 +122,9 @@ export default function DataContainer({ Location }) {
         if (search) params.search = search;
         if (checkedList) params.checkedList = checkedList
         if ((page===1 && search||page===1 && checkedList)||page !== 1) {
+          setSearchParams(params);
+          setPageOneFlag(true);
+        } else if (page===1 && pageOneFlag) {
           setSearchParams(params);
         }
       }, [search, page, checkedList]);

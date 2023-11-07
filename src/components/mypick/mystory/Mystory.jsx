@@ -153,6 +153,7 @@ const Mystory = () => {
   const navigate = useNavigate();
   const request = Request(navigate);
   const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const nickname = localStorage.getItem('nickname');
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
@@ -194,6 +195,9 @@ const Mystory = () => {
     if (search) params.search = search;
     if (checkedList) params.checkedList = checkedList
     if ((page===1 && search||page===1 && checkedList)||page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
   }, [search, page, checkedList]);

@@ -154,6 +154,7 @@ const MyCuration = (props) => {
   const navigate = useNavigate();
   const request = Request(navigate);
   const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const nickname = localStorage.getItem('nickname');
 
   const onCheckedElement = (checked, item) => {
@@ -186,6 +187,9 @@ const MyCuration = (props) => {
     };
     if (search) params.search = search;
     if ((page===1 && search)||page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
   }, [search, page]);

@@ -117,6 +117,7 @@ const CurationUserMoreView = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const token = localStorage.getItem("accessTK"); //localStorage에서 accesstoken꺼내기
   const request = Request(navigate);
   const queryString = qs.parse(location.search, {
@@ -172,6 +173,9 @@ const CurationUserMoreView = () => {
       setSearch(location.state.name);
       location.state.name = null;
     } else if ((page===1 && search)||page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
   }, [tempSearch, page]);

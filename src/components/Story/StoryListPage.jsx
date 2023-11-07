@@ -144,6 +144,7 @@ const StoryListPage = () => {
   const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [toggleOpen, setToggleOpen] = useState(false);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const [orderList, setOrderList] = useState(true);
   const [isSasmAdmin, setIsSasmAdmin] = useState(false);
   const navigate = useNavigate();
@@ -181,6 +182,9 @@ const StoryListPage = () => {
     setSearch(location.state.name);
     location.state.name = null;
   } else if ((page===1 && search)||page !== 1) {
+    setSearchParams(params);
+    setPageOneFlag(true);
+  } else if (page === 1 && pageOneFlag) {
     setSearchParams(params);
   }
 }, [tempSearch, page]);
