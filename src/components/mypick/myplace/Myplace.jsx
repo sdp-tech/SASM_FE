@@ -149,6 +149,7 @@ const Myplace = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const [checkedList, setCheckedList] = useState('');
   const navigate = useNavigate();
   const request = Request(navigate);
@@ -186,6 +187,9 @@ const Myplace = () => {
     if (search) params.search = search;
     if (checkedList) params.checkedList = checkedList
     if ((page===1 && search||page===1 && checkedList)||page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
   }, [search, page, checkedList]);

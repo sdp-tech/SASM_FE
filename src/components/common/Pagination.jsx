@@ -37,7 +37,7 @@ function Pagination({ total, limit, page, setPage }) {
             &lt;&lt;
           </StyledLink>
           <StyledLink
-            onClick={()=>{setPage(page-1)}}
+            onClick={()=>{setPage(prev => prev-1)}}
             style={previousPage === 0 ? { display: "none" } : { display: "inline" }}
           >
             &lt;
@@ -55,7 +55,7 @@ function Pagination({ total, limit, page, setPage }) {
             );
           })}
           <StyledLink
-            onClick={() => {setPage(page+1)}}
+            onClick={() => {setPage(prev => prev+ 1)}}
             style={nextPage === numPages + 1 ? { display: "none" } : { display: "inline" }}
           >
             &gt;

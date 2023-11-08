@@ -111,6 +111,7 @@ export default function CommunityList({ board, format }) {
   const [tempSearch, setTempSearch] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
@@ -195,6 +196,9 @@ export default function CommunityList({ board, format }) {
       setSearch(location.state.name);
       location.state.name = null;
     } else if ((page===1 && search)||page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
   }, [tempSearch, page]);

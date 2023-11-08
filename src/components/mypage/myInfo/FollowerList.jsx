@@ -118,6 +118,7 @@ const Follower = () => {
   const [limit, setLimit] = useState(5);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const nickname = localStorage.getItem('nickname');
   const queryString = qs.parse(location.search, {
@@ -158,6 +159,9 @@ const Follower = () => {
     };
     if (searchQuery) params.search = searchQuery;
     if ((page===1 && searchQuery)||page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
   }, [searchQuery, page]);
