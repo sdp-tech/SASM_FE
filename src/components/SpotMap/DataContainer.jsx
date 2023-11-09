@@ -92,7 +92,7 @@ export default function DataContainer({ Location }) {
         const queryParams = {
             left: location.state?.lat || searchHere.lat,
             right: location.state?.lng || searchHere.lng,
-            page: page,
+            page: queryString.page,
             search: location.state?.name || localStorage.getItem("place_name") || search.trim(),
             filter: checkedList
         }    
@@ -149,7 +149,7 @@ export default function DataContainer({ Location }) {
             setCategoryNum(7);
         }
         getList();
-    }, [searchHere, search, checkedList, page]);
+    }, [searchHere, search, checkedList, queryString.page]);
 
     return (
         <>
