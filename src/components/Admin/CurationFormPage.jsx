@@ -180,6 +180,7 @@ export default function CurationForm({id}) {
   const [open, setOpen] = useState(false);
   const [size, setSize] = useState("");
   const location = useLocation();
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const request = Request(navigate);
   const ref = useRef();
   const myEmail = localStorage.getItem('email');
@@ -286,11 +287,22 @@ export default function CurationForm({id}) {
       page:page,
       search: search,
     }, null);
-
-    search ? setSearchParams({page:page, search: search}) : setSearchParams({page:page}); 
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
   };
+
+  useEffect(() => {
+    const params = {
+      page: page
+    }
+    if (search) params.search = search;
+    if ((page === 1 && search) || (page !== 1)) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
+      setSearchParams(params);
+    }
+  }, [page, search])
 
   const handleInit = (value, editor) => {
     setForm({...form, contents: editor.getContent({format: "html"})});
