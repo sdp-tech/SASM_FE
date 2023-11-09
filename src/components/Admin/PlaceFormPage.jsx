@@ -220,13 +220,13 @@ const PlaceFormPage = (props) => {
             info['id'] = id;
         }
         const formData = new FormData();
-        // if (address.length > 0) {
-        //     cnt++;
-        // }
-        // snsdata 
-        for (var i = 0; i < countList.length; i++) {
-            formData.append(i, []);
+        if (address.length > 0) {
+            cnt++;
         }
+        // snsdata 
+        // for (var i = 0; i < countList.length; i++) {
+        //     formData.append(i, []);
+        // }
         //info
         for (let [key, value] of Object.entries(info)) {
             if (key === "rep_pic" || key === "placephoto1"
@@ -243,7 +243,7 @@ const PlaceFormPage = (props) => {
                 formData.append(`${key}`, `${value}`);
                 cnt++;
             }
-        }
+        };
         if (!id && cnt < 21) {
             alert('입력하지 않은 값이 있습니다');
             return;
