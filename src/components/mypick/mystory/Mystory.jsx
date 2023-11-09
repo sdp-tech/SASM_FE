@@ -155,6 +155,9 @@ const Mystory = () => {
   const [page, setPage] = useState(1);
   const [pageOneFlag, setPageOneFlag] = useState(false);
   const nickname = localStorage.getItem('nickname');
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
@@ -174,7 +177,7 @@ const Mystory = () => {
     for (const category of checkedList) params.append('filter', category);
     
     const response = await request.get(`/mypage/mypick_story/?${params.toString()}`, {
-      page: page,
+      page: queryString.page,
       search: search.trim()
     }, null);
 
@@ -185,8 +188,7 @@ const Mystory = () => {
 
   useEffect(() => {
     if (search || checkedList) setPage(1);
-  }, [checkedList, search]);
-
+  }, [checkedList, search, queryString.page]);
   useEffect(() => {
     const params = {
        page: page,
@@ -205,7 +207,7 @@ const Mystory = () => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMystory();
-  }, [page, checkedList]);
+  }, [queryString.page, checkedList]);
   return (
     <>
       {loading ? (

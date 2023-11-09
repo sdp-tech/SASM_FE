@@ -156,6 +156,9 @@ const MyCuration = (props) => {
   const [page, setPage] = useState(1);
   const [pageOneFlag, setPageOneFlag] = useState(false);
   const nickname = localStorage.getItem('nickname');
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   const onCheckedElement = (checked, item) => {
     checked ? setCheckedList([...checkedList, item]) : setCheckedList(checkedList.filter((el) => el !== item));
@@ -171,7 +174,7 @@ const MyCuration = (props) => {
     setLoading(true);
 
     const response = await request.get("/mypage/my_liked_curation/", {
-      page: page,
+      page: queryString.page,
       search: search.trim()
     }, null);
 
@@ -201,7 +204,7 @@ const MyCuration = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyCuration();
-  }, [page]);
+  }, [queryString.page]);
   return (
     <>
       {loading ? (

@@ -154,6 +154,9 @@ const Myplace = () => {
   const navigate = useNavigate();
   const request = Request(navigate);
   const nickname = localStorage.getItem('nickname');
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
 
   // onChange함수를 사용하여 이벤트 감지, 필요한 값 받아오기
   const onCheckedElement = (checked, item) => {
@@ -171,7 +174,7 @@ const Myplace = () => {
     let params = new URLSearchParams();
     for (const category of checkedList) params.append('filter', category);
     const response = await request.get(`/mypage/myplace_search/?${params.toString()}`, {
-      page: page,
+      page: queryString.page,
       search: search.trim()
     }, null);
     setPageCount(response.data.data.count);
@@ -202,7 +205,7 @@ const Myplace = () => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
-  }, [page, checkedList]);
+  }, [queryString.page, checkedList]);
 
   return (
     <>
