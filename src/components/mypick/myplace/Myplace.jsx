@@ -205,6 +205,7 @@ const Myplace = () => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyplace();
+    if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
   }, [queryString.page, checkedList]);
 
   return (

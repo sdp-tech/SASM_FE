@@ -186,7 +186,10 @@ export default function CurationForm({id}) {
   const myEmail = localStorage.getItem('email');
   const [message, setMessage] = useState(false);
   const [page, setPage] = useState(1);
-
+  const queryString = qs.parse(location.search, {
+    ignoreQueryPrefix: true
+  });
+  
   const uploadCuration = async () => {
     const formData = new FormData();
     for (let i of Object.keys(form)) {
@@ -259,7 +262,8 @@ export default function CurationForm({id}) {
   
   useEffect(() => {
     handleSearchToggle();
-  }, [open, page]);
+    if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
+  }, [open, queryString.page]);
 
   useEffect(() =>{
     setPage(1);
@@ -284,7 +288,7 @@ export default function CurationForm({id}) {
     } //초기화 방지
     setSearchToggle(true);
     const response = await request.get("/stories/story_search/", {
-      page:page,
+      page:queryString.page,
       search: search,
     }, null);
     setItem(response.data.data.results);

@@ -204,6 +204,7 @@ const MyCuration = (props) => {
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {
     pageMyCuration();
+    if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
   }, [queryString.page]);
   return (
     <>

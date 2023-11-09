@@ -204,6 +204,7 @@ export default function CommunityList({ board, format }) {
   }, [tempSearch, page]);
   useEffect(() => {
     getItem();
+    if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
     setMode(false);
     return () => setLoading(false);
   }, [queryString.page, search, board]);
