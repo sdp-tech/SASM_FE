@@ -142,6 +142,9 @@ export default function DataContainer({ Location }) {
         setPage(1);
     },[checkedList, search]);
 
+    useEffect(() => {
+        if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
+    }, [queryString.page])
     //page, 검색어, 체크리스트 변경시 작동
     useEffect(() => {
         setCategoryNum(checkedList.length);

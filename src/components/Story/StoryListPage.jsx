@@ -169,6 +169,7 @@ const StoryListPage = () => {
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
     getList();
+    if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
   }, [queryString.page, orderList, search]);
 

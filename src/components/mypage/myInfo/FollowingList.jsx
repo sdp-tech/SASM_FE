@@ -187,6 +187,7 @@ const Following = () => {
 
   useEffect(() => {
       GetFollowing();
+      if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
     }, [queryString.page, refresh, searchQuery]);
 
   return (
