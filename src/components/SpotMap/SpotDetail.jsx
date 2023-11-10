@@ -10,9 +10,10 @@ import Request from "../../functions/common/Request.js";
 
 const StyledList = styled(List)`
   font-family: pretendard;
-  top: 64px;
-  height: calc(100vh - 64px);
-  left: 28%;
+  top: 70px;
+  height: calc(100vh - 75px);
+  left: 28.5%;
+  border-radius: 10px;
   max-width: 25%;
   @media screen and (max-width : 1024px){
     left: 0%;
@@ -21,6 +22,9 @@ const StyledList = styled(List)`
     max-width: 100%;
   }
   z-index: 102;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export default function SpotDetail({ modalClose, id, setTemp, like, setLike, open_hour }) {
@@ -52,7 +56,7 @@ export default function SpotDetail({ modalClose, id, setTemp, like, setLike, ope
       {
         dataLoading ? <></> :
           <StyledList
-            style={{ overflow: "scroll", position: "fixed" }}
+            style={{ overflowY: "scroll", position: "fixed" }}
             sx={{ padding: "0", boxSizing: "border-box", width: "100%", bgcolor: "#FFFFFF" }}
           >
             <DetailCard detailData={detailData} modalClose={modalClose} like={like} setLike={setLike} open_hour={open_hour} />
