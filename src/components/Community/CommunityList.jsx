@@ -124,11 +124,6 @@ export default function CommunityList({ board, format }) {
       page: queryString.page,
       latest: 'true',
     }, null);
-    // const params = {
-    //   page : queryString.page
-    // }
-    // if (search) params.search = search
-    // setSearchParams(params);
     setList(response.data.data.results);
     setTotal(response.data.data.count);
     setLoading(false);
@@ -189,7 +184,6 @@ export default function CommunityList({ board, format }) {
   }
   useEffect(() => {
     const params = { page: page };
-    if (tempSearch) params.search = tempSearch;
     if (search) params.search = search;
     
     if (location.state?.name && page === 1) {
@@ -201,7 +195,7 @@ export default function CommunityList({ board, format }) {
     } else if (page === 1 && pageOneFlag) {
       setSearchParams(params);
     }
-  }, [tempSearch, page]);
+  }, [search, page]);
   useEffect(() => {
     getItem();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
