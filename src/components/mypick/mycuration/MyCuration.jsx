@@ -145,6 +145,7 @@ const MoveSection = styled.div`
 const MyCuration = (props) => {
   const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
+  const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageCount, setPageCount] = useState(1);

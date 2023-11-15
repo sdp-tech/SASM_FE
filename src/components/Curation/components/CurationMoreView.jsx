@@ -156,7 +156,6 @@ const CurationMoreView = () => {
 
     useEffect(() => {
       const params = { page: page };
-      if (tempSearch) params.search = tempSearch;
       if (search) params.search = search;
       
       if (location.state?.name && page === 1) {
@@ -168,7 +167,7 @@ const CurationMoreView = () => {
       } else if (page === 1 && pageOneFlag) {
         setSearchParams(params);
       }
-    }, [tempSearch, page]);
+    }, [search, page]);
     
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {

@@ -175,8 +175,6 @@ const StoryListPage = () => {
 
   useEffect(() => {
   const params = { page: page };
-  if (tempSearch) params.search = tempSearch;
-
   if (search) params.search = search;
   
   if (location.state?.name && page === 1) {
@@ -188,7 +186,7 @@ const StoryListPage = () => {
   } else if (page === 1 && pageOneFlag) {
     setSearchParams(params);
   }
-}, [tempSearch, page]);
+}, [search, page]);
 
   //검색 요청 api url
   const handleSearchToggle = async (e) => {
