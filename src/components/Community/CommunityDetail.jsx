@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useCookies } from 'react-cookie';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, useLocation, useSearchParams } from 'react-router-dom';
 import Request from '../../functions/common/Request';
 import Loading from '../common/Loading'
 import styled from 'styled-components';
@@ -105,11 +105,14 @@ export default function CommunityDetail({ board, id, format }) {
   const [like, setLike] = useState(false);
   const [report, setReport] = useState(false);
   const [otherUser, setOtherUser] = useState({});
+  const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
+  const [page, setPage] = useState(1);
+  const [pageOneFlag, setPageOneFlag] = useState(false);
   const node = useRef();
   const email = localStorage.getItem('email');
   const navigate = useNavigate()
@@ -174,6 +177,16 @@ export default function CommunityDetail({ board, id, format }) {
   const handleClose = () => {
     setOpen(false);
   }
+  useEffect(() => {
+    const params = { page: page };
+    
+    if (page !== 1) {
+      setSearchParams(params);
+      setPageOneFlag(true);
+    } else if (page === 1 && pageOneFlag) {
+      setSearchParams(params);
+    }
+  }, [page]);
 
   return (
     <>
@@ -246,7 +259,7 @@ export default function CommunityDetail({ board, id, format }) {
                     ))
                   }
                 </CommentsWrapper>
-                <Pagination page={queryString.page} total={review.total} limit={20}/>
+                <Pagination page={page} total={review.total} setPage={setPage} limit={20}/>
               </Section>
             }
           </>
