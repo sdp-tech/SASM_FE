@@ -199,7 +199,7 @@ const StoryListPage = () => {
   const getList = async () => {
     setSearchToggle(true);
     setLoading(true);
-    let searched = queryString.search || search && search.trim() ||'';
+    let searched = queryString.search
     const order = orderList ? "latest" : "oldest";
     setSearch(searched);
     const response = await request.get("/stories/story_search/", {

@@ -119,7 +119,7 @@ export default function CommunityList({ board, format }) {
     setLoading(true);
     const response = await request.get("/community/posts/", {
       board: board,
-      query: queryString.search || search.trim(),
+      query: queryString.search,
       query_type: 'default',
       page: queryString.page,
       latest: 'true',

@@ -157,7 +157,7 @@ const CurationUserMoreView = () => {
     }
     const response = await request.get("/curations/verified_user_curations/", {
       page: queryString.page,
-      search: queryString.search || searched
+      search: queryString.search
     }, null);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
