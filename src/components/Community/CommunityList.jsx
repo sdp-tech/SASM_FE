@@ -119,7 +119,7 @@ export default function CommunityList({ board, format }) {
     setLoading(true);
     const response = await request.get("/community/posts/", {
       board: board,
-      query: search.trim(),
+      query: queryString.search,
       query_type: 'default',
       page: queryString.page,
       latest: 'true',
@@ -199,9 +199,10 @@ export default function CommunityList({ board, format }) {
   useEffect(() => {
     getItem();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
+    if (queryString.search) setTempSearch(queryString.search);
     setMode(false);
     return () => setLoading(false);
-  }, [queryString.page, search, board]);
+  }, [queryString.page, search, board, queryString.search]);
   return (
     <>
       {mode ?

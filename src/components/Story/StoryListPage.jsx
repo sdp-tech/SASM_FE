@@ -170,8 +170,9 @@ const StoryListPage = () => {
   useEffect(() => {
     getList();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
+    if (queryString.search) setTempSearch(queryString.search);
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [queryString.page, orderList, search]);
+  }, [queryString.page, orderList, queryString.search]);
 
   useEffect(() => {
   const params = { page: page };
@@ -198,7 +199,7 @@ const StoryListPage = () => {
   const getList = async () => {
     setSearchToggle(true);
     setLoading(true);
-    let searched = search && search.trim() || queryString.search;
+    let searched = queryString.search
     const order = orderList ? "latest" : "oldest";
     setSearch(searched);
     const response = await request.get("/stories/story_search/", {

@@ -139,16 +139,16 @@ const CurationMoreView = () => {
   }
   const getList = async () => {
     let searched
-    if (location.state?.search) {
-      searched = location.state.search;
-      setSearch(location.state.search);
-      location.state.search = "";
+    if (localStorage.getItem('place_name')) {
+      searched = localStorage.getItem('place_name');
+      setTempSearch(searched);
+      localStorage.removeItem('place_name');
     } else {
       searched = search.trim();
     }
       const response = await request.get("/curations/admin_curations/", {
       page: queryString.page,
-      search: queryString.search || searched
+      search: queryString.search
     }, null);
       setItem(response.data.data.results);
       setPageCount(response.data.data.count);
@@ -158,10 +158,7 @@ const CurationMoreView = () => {
       const params = { page: page };
       if (search) params.search = search;
       
-      if (location.state?.name && page === 1) {
-        setSearch(location.state.name);
-        location.state.name = null;
-      } else if ((page===1 && search)||page !== 1) {
+      if ((page===1 && search)||page !== 1) {
         setSearchParams(params);
         setPageOneFlag(true);
       } else if (page === 1 && pageOneFlag) {
@@ -173,8 +170,9 @@ const CurationMoreView = () => {
   useEffect(() => {
     getList();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
+    if (queryString.search) setTempSearch(queryString.search);
     checkSasmAdmin(token, setLoading, navigate).then((result) => setIsSasmAdmin(result));
-  }, [queryString.page, search]);
+  }, [queryString.page, search, queryString.search]);
 
   return (
     <>

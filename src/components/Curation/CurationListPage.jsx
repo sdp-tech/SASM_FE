@@ -236,7 +236,10 @@ const CurationListPage = () => {
       search: search.trim(),
     }, null);
     const basePath = orderList ? `/curation/curationlist` : `/curation/usercurationlist`
-    if(search) navigate(`${basePath}?page=1&search=${search}`, {state : {search: search.trim()}});
+    if(search) {
+      navigate(`${basePath}?page=1&search=${search}`);
+      localStorage.setItem('place_name', search);
+    }
     setLoading(false);
   };
   
