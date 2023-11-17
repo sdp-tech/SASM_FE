@@ -242,8 +242,8 @@ export default function InfoForm(props) {
               <ImageBox profile={profile_image} onClick={()=>{myData(info.email)}} />
               {open && <OtherUserData open = {open} userData = {myProfileModal} handleClose={handleClose}/>}
               <TextBox>
-                <FollowText onClick={() =>{navigate('/mypage/follower?page=1')}}>팔로워 {followerNum}</FollowText>
-                <FollowText onClick={() =>{navigate('/mypage/following?page=1')}}>팔로잉 {followingNum}</FollowText>
+                <FollowText onClick={() =>{navigate(`/mypage/follower?page=1&me=${nickname}`)}}>팔로워 {followerNum}</FollowText>
+                <FollowText onClick={() =>{navigate(`/mypage/following?page=1&me=${nickname}`)}}>팔로잉 {followingNum}</FollowText>
               </TextBox>
             </div>
             <InfoContainer>
