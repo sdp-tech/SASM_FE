@@ -180,6 +180,7 @@ const MyCuration = (props) => {
   const pageMyCuration = async () => {
     
     setLoading(true);
+    setSearch(queryString.search);
 
     const response = await request.get("/mypage/my_liked_curation/", {
       page: queryString.page,

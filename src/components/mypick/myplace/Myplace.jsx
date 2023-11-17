@@ -179,6 +179,7 @@ const Myplace = () => {
   const pageMyplace = async () => {
   
     setLoading(true);
+    setSearch(queryString.search);
     let params = new URLSearchParams();
     for (const category of checkedList) params.append('filter', category);
     const response = await request.get(`/mypage/myplace_search/?${params.toString()}`, {

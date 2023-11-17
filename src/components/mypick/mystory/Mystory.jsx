@@ -181,7 +181,7 @@ const Mystory = () => {
 
     setLoading(true);
     let params = new URLSearchParams();
-
+    setSearch(queryString.search);
     for (const category of checkedList) params.append('filter', category);
     
     const response = await request.get(`/mypage/mypick_story/?${params.toString()}`, {
@@ -196,7 +196,7 @@ const Mystory = () => {
 
   useEffect(() => {
     if (search || checkedList) setPage(1);
-  }, [checkedList, search, queryString.page]);
+  }, [checkedList, search]);
   useEffect(() => {
     const params = {
        page: page,
@@ -204,7 +204,7 @@ const Mystory = () => {
     };
     if (search) params.search = search;
     if (checkedList) params.checkedList = checkedList
-    if ((page===1 && search||page===1 && checkedList)||page !== 1) {
+    if ((page===1 && search)||(page===1 && checkedList)||page !== 1) {
       setSearchParams(params);
       setPageOneFlag(true);
     } else if (page === 1 && pageOneFlag) {
