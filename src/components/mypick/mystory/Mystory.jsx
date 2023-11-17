@@ -144,6 +144,7 @@ const MoveSection = styled.div`
 const Mystory = () => {
   const [checkedList, setCheckedList] = useState('');
   const [info, setInfo] = useState([]);
+  const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [pageCount, setPageCount] = useState(1);
@@ -166,8 +167,15 @@ const Mystory = () => {
 
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
+
+  const handleSearchToggle = async (e) => {
+    if (e) {
+      e.preventDefault();
+    } //초기화 방지
+    setSearch(tempSearch);
+  }
 
   const pageMystory = async () => {
 
@@ -178,7 +186,7 @@ const Mystory = () => {
     
     const response = await request.get(`/mypage/mypick_story/?${params.toString()}`, {
       page: queryString.page,
-      search: search.trim()
+      search: queryString.search
     }, null);
 
     setPageCount(response.data.data.count);
@@ -208,7 +216,8 @@ const Mystory = () => {
   useEffect(() => {
     pageMystory();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
-  }, [queryString.page, checkedList]);
+    if (queryString.search) setTempSearch(queryString.search);
+  }, [queryString.page, checkedList, queryString.search]);
   return (
     <>
       {loading ? (
@@ -221,9 +230,9 @@ const Mystory = () => {
             </span>
             <SearchFilterBar>
                 <SearchBar
-                  search={search}
+                  search={tempSearch}
                   onChangeSearch={onChangeSearch}
-                  handleSearchToggle={pageMystory}
+                  handleSearchToggle={handleSearchToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
                   searchIcon={searchBlack}
                   background="white"

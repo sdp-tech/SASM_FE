@@ -143,6 +143,7 @@ const MoveSection = styled.div`
 const Myplace = () => {
   const [info, setInfo] = useState([]);
   const [pageCount, setPageCount] = useState(1);
+  const [tempSearch, setTempSearch] = useState("");
   const [search, setSearch] = useState("");
   const [limit, setLimit] = useState(6);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -165,8 +166,15 @@ const Myplace = () => {
 
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
+
+  const handleSearchToggle = async (e) => {
+    if (e) {
+      e.preventDefault();
+    } //초기화 방지
+    setSearch(tempSearch);
+  }
 
   const pageMyplace = async () => {
   
@@ -175,7 +183,7 @@ const Myplace = () => {
     for (const category of checkedList) params.append('filter', category);
     const response = await request.get(`/mypage/myplace_search/?${params.toString()}`, {
       page: queryString.page,
-      search: search.trim()
+      search: queryString.search
     }, null);
     setPageCount(response.data.data.count);
     setInfo(response.data.data.results);
@@ -206,7 +214,8 @@ const Myplace = () => {
   useEffect(() => {
     pageMyplace();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
-  }, [queryString.page, checkedList]);
+    if (queryString.search) setTempSearch(queryString.search);
+  }, [queryString.page, checkedList, queryString.search]);
 
   return (
     <>
@@ -220,9 +229,9 @@ const Myplace = () => {
             </span>
             <SearchFilterBar>
                 <SearchBar
-                  search={search}
+                  search={tempSearch}
                   onChangeSearch={onChangeSearch}
-                  handleSearchToggle={pageMyplace}
+                  handleSearchToggle={handleSearchToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
                   searchIcon={searchBlack}
                   background="white"

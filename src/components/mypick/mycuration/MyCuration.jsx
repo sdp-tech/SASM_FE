@@ -167,8 +167,15 @@ const MyCuration = (props) => {
 
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
+
+  const handleSearchToggle = async (e) => {
+    if (e) {
+      e.preventDefault();
+    } //초기화 방지
+    setSearch(tempSearch);
+  }
 
   const pageMyCuration = async () => {
     
@@ -176,7 +183,7 @@ const MyCuration = (props) => {
 
     const response = await request.get("/mypage/my_liked_curation/", {
       page: queryString.page,
-      search: search.trim()
+      search: queryString.search
     }, null);
 
     setPageCount(response.data.data.length);
@@ -206,7 +213,8 @@ const MyCuration = (props) => {
   useEffect(() => {
     pageMyCuration();
     if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
-  }, [queryString.page]);
+    if (queryString.search) setTempSearch(queryString.search);
+  }, [queryString.page, queryString.search]);
   return (
     <>
       {loading ? (
@@ -219,9 +227,9 @@ const MyCuration = (props) => {
             </span>
             <SearchFilterBar>
                 <SearchBar
-                  search={search}
+                  search={tempSearch}
                   onChangeSearch={onChangeSearch}
-                  handleSearchToggle={pageMyCuration}
+                  handleSearchToggle={handleSearchToggle}
                   placeholder="어떤 장소의 이야기가 궁금하신가요?"
                   searchIcon={searchBlack}
                   background="white"
