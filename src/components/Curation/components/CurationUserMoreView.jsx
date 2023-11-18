@@ -139,8 +139,8 @@ const CurationUserMoreView = () => {
   }
 
   useEffect(() =>{
-    if (search) setPage(1);
-   },[search]) // 검색할 때마다 페이지 번호 1로 수정
+    if (queryString.search||search=="") setPage(1);
+   },[queryString.search]) // 검색할 때마다 페이지 번호 1로 수정
 
   const handleSearchToggle = async (e) => {
     if(e) e.preventDefault();

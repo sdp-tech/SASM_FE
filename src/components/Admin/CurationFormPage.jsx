@@ -173,6 +173,7 @@ export default function CurationForm({id}) {
     title: '',
     contents: '',
   });
+  const [tempSearch, setTempSearch] = useState('');
   const [search, setSearch] = useState('');
   const [searchToggle, setSearchToggle] = useState(false);
   const [selectedStory, setSelectedStory] = useState([]);
@@ -267,7 +268,7 @@ export default function CurationForm({id}) {
 
   useEffect(() =>{
     setPage(1);
-  },[open, search]) // 검색할 때마다 페이지 번호 1로 수정
+  },[open, queryString.search]) // 검색할 때마다 페이지 번호 1로 수정
 
   const handleOpen = value => {
     setOpen(true);
@@ -279,7 +280,7 @@ export default function CurationForm({id}) {
   }
   const onChangeSearch = (e) => {
     e.preventDefault();
-    setSearch(e.target.value);
+    setTempSearch(e.target.value);
   };
 
   const handleSearchToggle = async (e) => {
@@ -287,6 +288,7 @@ export default function CurationForm({id}) {
       e.preventDefault();
     } //초기화 방지
     setSearchToggle(true);
+    setSearch(tempSearch);
     const response = await request.get("/stories/story_search/", {
       page:queryString.page,
       search: search,
@@ -373,7 +375,7 @@ export default function CurationForm({id}) {
             </Modal.Header>
             <Modal.Body>
                 <SearchBarSection>
-                  <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={search} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
+                  <SearchBar style={{ width: '100%', backgroundColor: '#F1F1F1', alignItems: "center" }} placeholder="장소 검색" search={tempSearch} onChangeSearch={onChangeSearch} handleSearchToggle={handleSearchToggle} searchIcon={searchBlack}/>
                 </SearchBarSection>
                 <StoryListModal item = {item} selectedStory={selectedStory} setSelectedStory={setSelectedStory} setMessage={setMessage}/>
                 <Pagination

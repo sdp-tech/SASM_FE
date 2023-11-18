@@ -163,8 +163,8 @@ const StoryListPage = () => {
     setTempSearch(e.target.value);
   };
   useEffect(() =>{
-    if (search) setPage(1);
-  },[search]) // 검색할 때마다 페이지 번호 1로 수정
+    if (queryString.search||search=="") setPage(1);
+  },[queryString.search]) // 검색할 때마다 페이지 번호 1로 수정
   
   // page가 변경될 때마다 page를 붙여서 api 요청하기
   useEffect(() => {
@@ -201,7 +201,7 @@ const StoryListPage = () => {
     setLoading(true);
     let searched = queryString.search
     const order = orderList ? "latest" : "oldest";
-    setSearch(searched);
+    // setSearch(searched);
     const response = await request.get("/stories/story_search/", {
       page: queryString.page,
       search:searched,

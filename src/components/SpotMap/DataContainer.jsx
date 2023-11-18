@@ -139,8 +139,8 @@ export default function DataContainer({ Location }) {
     }, [searchHere, checkedList, queryString.page]);
 
     useEffect(() => {
-        setPage(1);
-    },[checkedList, search]);
+        if(queryString.search||search=="")setPage(1);
+    },[checkedList, queryString.search]);
 
     useEffect(() => {
         if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
