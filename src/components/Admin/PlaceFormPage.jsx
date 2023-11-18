@@ -202,7 +202,7 @@ const PlaceFormPage = (props) => {
     //     setSnsselect(response.data.data.results);
     // };
 
-    const SaveInfo = async () => {
+     const SaveInfo = async () => {
         let cnt = 0;
         if (checkInclude('장소한줄평', info['place_review'], '"')
             || checkInclude('연락처', info['phone_num'], '-')) {
@@ -214,8 +214,7 @@ const PlaceFormPage = (props) => {
         info['longitude'] = 0;
         info['latitude'] = 0;
         info['address'] = address;
-        // info['snscount'] = countList.length;
-        info['snscount'] = 0;
+        info['snscount'] = countList.length;
         if (id) {
             info['id'] = id;
         }
@@ -223,10 +222,10 @@ const PlaceFormPage = (props) => {
         if (address.length > 0) {
             cnt++;
         }
-        // snsdata 
-        // for (var i = 0; i < countList.length; i++) {
-        //     formData.append(i, []);
-        // }
+        //snsdata 
+        for (var i = 0; i < countList.length; i++) {
+            formData.append(i, [snsData[i]['snstype'], snsData[i]['snstype_name'], snsData[i]['url']]);
+        }
         //info
         for (let [key, value] of Object.entries(info)) {
             if (key === "rep_pic" || key === "placephoto1"
@@ -243,7 +242,7 @@ const PlaceFormPage = (props) => {
                 formData.append(`${key}`, `${value}`);
                 cnt++;
             }
-        };
+        }
         if (!id && cnt < 21) {
             alert('입력하지 않은 값이 있습니다');
             return;
@@ -257,17 +256,17 @@ const PlaceFormPage = (props) => {
         // }
         try {
             if (!id) {
-                const response = await request.post("/places/create/", formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.post("/sdp_admin/places/save_place/", formData, { "Content-Type": "multipart/form-data" });
             }
             else {
-                const response = await request.patch(`/places/place_update/${id}/`, formData, { "Content-Type": "multipart/form-data" });
+                const response = await request.put("/sdp_admin/places/update_place/", formData, { "Content-Type": "multipart/form-data" });
             }
             alert('장소 생성 성공');
             navigate("/map?page=1");
         }
         catch (err) {
-            console.log("Error >>", err.response.data.message);
-            alert("장소 생성 실패", err.response.data.message);
+            console.log("Error >>", err);
+            alert("장소 생성 실패", err);
         }
     };
     // useEffect(() => {
