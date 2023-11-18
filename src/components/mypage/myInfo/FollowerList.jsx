@@ -129,7 +129,7 @@ const Follower = () => {
     const response = await request.get('/mypage/follower/', {
       page: queryString.page,
       email: myEmail,
-      search_email: searchQuery
+      search_email: queryString.search || ''
     });
     setFollowerList(response.data.data.results);
     setTotal(response.data.data.count);
@@ -169,8 +169,7 @@ const Follower = () => {
   useEffect(() => {
       GetFollower();
       if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
-    }, [searchQuery, queryString.page]);
-
+    }, [searchQuery, queryString.page, queryString.search]);
 
   return (
     <InfoBox style={{ backgroundColor: 'white' }}>
@@ -179,6 +178,7 @@ const Follower = () => {
           <SearchBar
           search={searchQuery}
           onChangeSearch={onChangeSearch}
+          handleSearchToggle={(e) => e.preventDefault()}
           style={{ width: '90%' }}
           placeholder='궁금한 프로필을 검색해보세요'
           keyboardType='email-address'
