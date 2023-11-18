@@ -167,6 +167,10 @@ const Follower = () => {
   }, [searchQuery, page]);
 
   useEffect(() => {
+    if (queryString.search||searchQuery=="") setPage(1);
+  }, [queryString.search]);
+
+  useEffect(() => {
       GetFollower();
       if (parseInt(queryString.page) !== page) setPage(parseInt(queryString.page));
     }, [searchQuery, queryString.page]);

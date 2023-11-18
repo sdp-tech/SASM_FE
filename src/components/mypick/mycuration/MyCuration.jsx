@@ -180,7 +180,6 @@ const MyCuration = (props) => {
   const pageMyCuration = async () => {
     
     setLoading(true);
-    setSearch(queryString.search);
 
     const response = await request.get("/mypage/my_liked_curation/", {
       page: queryString.page,
@@ -207,8 +206,8 @@ const MyCuration = (props) => {
   }, [search, page]);
 
   useEffect(() => {
-    if (search) setPage(1);
-  }, [search]);
+    if (queryString.search||search=="") setPage(1);
+  }, [queryString.search]);
 
   // 초기에 좋아요 목록 불러오기
   useEffect(() => {

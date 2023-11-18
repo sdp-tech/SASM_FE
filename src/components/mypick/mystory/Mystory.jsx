@@ -181,7 +181,6 @@ const Mystory = () => {
 
     setLoading(true);
     let params = new URLSearchParams();
-    setSearch(queryString.search);
     for (const category of checkedList) params.append('filter', category);
     
     const response = await request.get(`/mypage/mypick_story/?${params.toString()}`, {
@@ -195,8 +194,8 @@ const Mystory = () => {
   };
 
   useEffect(() => {
-    if (search || checkedList) setPage(1);
-  }, [checkedList, search]);
+    if (queryString.search || checkedList||search=="") setPage(1);
+  }, [checkedList, queryString.search]);
   useEffect(() => {
     const params = {
        page: page,
