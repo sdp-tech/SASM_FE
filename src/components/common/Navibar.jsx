@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 import logo from "../../assets/img/sasm_logo.png";
 import { LoginContext } from "../../contexts/LoginContexts";
 import PageRedirection from "../../functions/common/PageRedirection";
@@ -103,6 +104,14 @@ const PageTitleCss = styled.div`
     color: #01A0FC;
     transform: translateY(-2px);
   }
+  &[aria-current] {
+    border: none;
+    background: white;
+    font-weight: bold;
+    cursor: revert;
+    color: #209DF5;
+    transform: revert;
+  }
 `;
 const MobileMenuBox = styled.div`
   width: 10%;
@@ -155,6 +164,14 @@ const MobilePageTitle = styled.div`
     color: #01A0FC;
     transform: translateY(-2px);
   }
+  &[aria-current] {
+    // border: none;
+    background: white;
+    font-weight: bold;
+    cursor: revert;
+    color: #209DF5;
+    transform: revert;
+  }
 `;
 const LogginOutTitle = styled.div`
   font-size: 1rem;
@@ -166,6 +183,7 @@ const LogginOutTitle = styled.div`
 // 페이지 이름 받아서 해당 페이지로 이동하는 링크 타이틀 컴포넌트
 const PageTitle = ({ navigate, title, setMenu, style }) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
+  const location = useLocation();
   return (
     <>
       {isMobile ? <MobilePageTitle
@@ -173,6 +191,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
           PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
           setMenu(false);
         }}
+        aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
         style={style}
       >
         {/* {userID} */}
@@ -181,6 +200,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
         onClick={() => {
           PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
         }}
+        aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
         style={style}
       >
         {/* {userID} */}
