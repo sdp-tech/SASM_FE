@@ -262,7 +262,7 @@ const CurationListPage = () => {
       const response_story = await request.get('/stories/story_search/', {
       // 비건 관련 스토리가 늘어날 때마다 숫자를 변경해야하는 단점이 있음.
       // 페이지 1 고정보단 괜찮은 거 같은데 좋은 방법 있으면 수정 요망
-      page: Math.floor(Math.random()*3+1), 
+      page: Math.floor(Math.random()*5+1), 
       search: '비건',
       latest: true
     });
