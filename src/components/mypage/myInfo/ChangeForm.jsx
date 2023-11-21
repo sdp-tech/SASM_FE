@@ -13,6 +13,7 @@ const ChangeForm = (props) => {
   const [info, setInfo] = useState([]);
   const [imageUrl, setImageUrl] = useState(null);
   const request = Request(navigate);
+  const nickname = localStorage.getItem('nickname');
 
   const onChangeImage = async (e) => {
     const reader = new FileReader();
@@ -50,7 +51,7 @@ const ChangeForm = (props) => {
       const response = await request.patch("/mypage/me/update/", formData, {
         "Content-Type": "multipart/form-data",
       });
-      localStorage.setItem("nickname", info.nickname);
+      info.nickname ? localStorage.setItem("nickname", info.nickname) :localStorage.setItem('nickname', nickname);
       alert("변경되었습니다.");
     }
     catch (err) {
@@ -102,7 +103,7 @@ const ChangeForm = (props) => {
                   </LabelWrapper>
                   <LabelWrapper>
                     <Label>닉네임</Label>
-                    <Text type="text" placeholder={state.nickname}
+                    <Text type="text" defaultValue={state.nickname}
                       onKeyDown={(event) => {
                         if (event.code == "Space") {
                           event.preventDefault();
