@@ -291,7 +291,7 @@ export default function CurationForm({id}) {
     setSearch(tempSearch);
     const response = await request.get("/stories/story_search/", {
       page:queryString.page,
-      search: search,
+      search: tempSearch,
     }, null);
     setItem(response.data.data.results);
     setPageCount(response.data.data.count);
