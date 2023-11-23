@@ -184,11 +184,12 @@ const LogginOutTitle = styled.div`
 const PageTitle = ({ navigate, title, setMenu, style }) => {
   const isMobile = useMediaQuery({ query: "(max-width:768px)" });
   const location = useLocation();
+  
   return (
     <>
       {isMobile ? <MobilePageTitle
         onClick={() => {
-          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
+          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title, location.pathname);
           setMenu(false);
         }}
         aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
@@ -198,7 +199,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
         {title}
       </MobilePageTitle> : <PageTitleCss
         onClick={() => {
-          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
+          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title, location.pathname);
         }}
         aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
         style={style}

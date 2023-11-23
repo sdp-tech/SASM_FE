@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import picture from "../assets/img/Home/LandingPage.png";
 import picture_mobile from "../assets/img/Home/LandingPageMobile.png";
@@ -17,17 +17,22 @@ import sasm_full_logo_blackwhite from "../assets/img/Home/sasm_full_logo_blackwh
 import sdp_logo_blackwhite from "../assets/img/Home/sdp_logo_blackwhite.svg";
 import sdp_full_logo_blackwhite from "../assets/img/Home/sdp_full_logo_blackwhite.svg";
 import { Link } from "react-router-dom";
+import gsap from 'gsap';
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 
 const Wrapper = styled.div`
   overflow: hidden;
   position: relative;
   font-family: pretendard;
+  height: auto;
 `
 
 const IntroImg = styled.img`
   float: right;
   position: absolute;
-  right: 0;
+  right: -1000px;
+  width: 80%;
   @media screen and (max-width: 767px) {
     display: none;
   }
@@ -43,7 +48,7 @@ const IntroImg = styled.img`
 const SASM = styled.div`
   width: 60%;
   height: 550px;
-  margin-left: 10%;
+  margin-left: 30%;
   margin-top: 10%;
   color: black;
   display: block;
@@ -446,98 +451,131 @@ export default function Home() {
   const isMobile = useMediaQuery({
     query: "(max-width:768px)"
   });
+  const ref = useRef(null);
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    const el = ref.current;
+    const t2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: el,
+        start: "top top",
+        // end: "bottom -500%",
+        scrub: 3,
+        pin: true,
+        // anticipatePin: 1
+      }
+    })
+    // t2.fromTo(".first-text", {opacity: 0}, {opacity: 1, duration: 0.2})
+    t2.fromTo(".section01", {opacity: 1}, {opacity: 0, duration: 0.2})
+    t2.fromTo(".section02", {opacity: 0}, {opacity: 1, duration: 0.2})
+    t2.fromTo(".section02", {opacity: 1}, {opacity: 0, duration: 0.2})
+    t2.fromTo(".section03", {opacity: 0}, {opacity: 1, duration: 0.2})
+    t2.fromTo(".section03", {opacity: 1}, {opacity: 0, duration: 0.2})
+    // return () => {
+    //   ref
+    // }
+  },[])
   return (
-    <Wrapper>
-      <IntroImg src={isMobile ? picture_mobile : picture}></IntroImg>
-      <SASM>
-        <TitleBox>
-          <Tittle>SASM</Tittle>
-        </TitleBox>
-        <Mobile>
-          <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPATIAL MAP</div>
-        </Mobile>
-        <Content>
-          <SASMLogo src={sasm_logo} rotate="true" />
-          SASM은 지속가능한 공간을 큐레이팅하여, <br />한국 도시의 지속가능한
-          발전을 돕습니다.
-          <SASMLogo src={sasm_logo} />
-        </Content>
-      </SASM>
-      <SASMDescription>
-        <Pc>
-          <SubLogo>
-            <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
-            <span style={{ color: "#29E48A" }}>A</span>CT<br />
-            <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
-            <span style={{ color: "#29E48A" }}>M</span>AP<br />
-          </SubLogo>
-        </Pc>
-        <Tablet>
-          <SubLogo>
-            <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
-            <span style={{ color: "#29E48A" }}>A</span>CT<br />
-            <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
-            <span style={{ color: "#29E48A" }}>M</span>AP<br />
-          </SubLogo>
-        </Tablet>
-        <SubTitle>
-          SASM은 SDGs 목표 실현에 기여하는 여가 공간을<br />
-          '지속가능한 공간'으로 정의하고,<br />
-          이에 대한 지도화 및 큐레이션을 제공합니다. <br /><br />
-          <b>'음식점 및 카페, 녹색공간, 제로웨이스트샵, 전시 및 체험공간,<br />
-            복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
-          6개의 테마로 분류하여, 다양한 지속가능한 공간을 연결해드립니다.<br /><br />
+    <Wrapper ref = {ref}>
+    <div style={{height: '100vh', alignItems:'center', justifyContent: 'center', textAlign:'center', position: 'relative'}}>
+      <div className="section01" style={{position:"fixed"}}>
+        <IntroImg src={isMobile ? picture_mobile : picture}></IntroImg>
+        <SASM>
+          <TitleBox>
+            <Tittle>SASM</Tittle>
+          </TitleBox>
+          <Mobile>
+            <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPATIAL MAP</div>
+          </Mobile>
+          <Content>
+            <SASMLogo src={sasm_logo} rotate="true" />
+            SASM은 지속가능한 공간을 큐레이팅하여, <br />한국 도시의 지속가능한
+            발전을 돕습니다.
+            <SASMLogo src={sasm_logo} />
+          </Content>
+        </SASM>
+        </div>
+        <div className="section02" style={{position:'fixed', left:'15%', top: '2%'}}>
+        <SASMDescription>
           <Pc>
-            <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
-              건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+            <SubLogo>
+              <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
+              <span style={{ color: "#29E48A" }}>A</span>CT<br />
+              <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
+              <span style={{ color: "#29E48A" }}>M</span>AP<br />
+            </SubLogo>
           </Pc>
           <Tablet>
-            <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
-              건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+            <SubLogo>
+              <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
+              <span style={{ color: "#29E48A" }}>A</span>CT<br />
+              <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
+              <span style={{ color: "#29E48A" }}>M</span>AP<br />
+            </SubLogo>
           </Tablet>
-          <Mobile>
-            SASM은 이를 통해<br />
-            <span style={{ color: '#0068A4', fontSize: '1.2rem', fontWeight: '700' }}>
-              지역 커뮤니티를 활성화하고,<br />
-              건강한 생산과 소비 활동을 촉진시켜<br />
-              일상의 지속가능화를 지향합니다.
-            </span>
-          </Mobile>
-        </SubTitle>
-      </SASMDescription>
-      <ContentBox>
-        <SASMLogo src={sasm_logo} rotate="true" />
-        <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
-        크게 <b>네 가지 기능</b>을 제공하고 있습니다.
-        <SASMLogo src={sasm_logo} />
-      </ContentBox>
-      <br />
-      <Function>
-        <FunctionWrapper>
-          <Link to={'/map?page=1'} style={{ textDecoration: 'none' }}>
-            <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
-          </Link>
-          <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
-        </FunctionWrapper>
-        <FunctionWrapper>
-          <Link to={'/story?page=1'} style={{ textDecoration: 'none' }}>
-            <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
-          </Link>
-          <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
-        </FunctionWrapper>
-        <FunctionWrapper>
-          <Link to={'/curation'} style={{ textDecoration: 'none' }}>
-            <FunctionBox backgroundColor="#8a2be2" >Curation</FunctionBox>
-          </Link>
-          <FunctionDescp>장소를 모아 놓은 코스를 추천받아보세요.</FunctionDescp>
-        </FunctionWrapper>
-        <FunctionWrapper>
-          <Link to={'/mypick/myplace?page=1'} style={{ textDecoration: 'none', marginLeft:"8%" }}>
-            <FunctionBox backgroundColor="#FFE9D0" >My Pick</FunctionBox>
-          </Link>
-          <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
-        </FunctionWrapper>
-      </Function>
+          <SubTitle>
+            SASM은 SDGs 목표 실현에 기여하는 여가 공간을<br />
+            '지속가능한 공간'으로 정의하고,<br />
+            이에 대한 지도화 및 큐레이션을 제공합니다. <br /><br />
+            <b>'음식점 및 카페, 녹색공간, 제로웨이스트샵, 전시 및 체험공간,<br />
+              복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
+            6개의 테마로 분류하여, 다양한 지속가능한 공간을 연결해드립니다.<br /><br />
+            <Pc>
+              <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
+                건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+            </Pc>
+            <Tablet>
+              <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
+                건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+            </Tablet>
+            <Mobile>
+              SASM은 이를 통해<br />
+              <span style={{ color: '#0068A4', fontSize: '1.2rem', fontWeight: '700' }}>
+                지역 커뮤니티를 활성화하고,<br />
+                건강한 생산과 소비 활동을 촉진시켜<br />
+                일상의 지속가능화를 지향합니다.
+              </span>
+            </Mobile>
+          </SubTitle>
+        </SASMDescription>
+        </div>
+        <div className="section03" style={{position:'fixed', top: "-2%"}}>
+        <ContentBox>
+          <SASMLogo src={sasm_logo} rotate="true" />
+          <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
+          크게 <b>네 가지 기능</b>을 제공하고 있습니다.
+          <SASMLogo src={sasm_logo} />
+        </ContentBox>
+        <br />
+        <Function>
+          <FunctionWrapper>
+            <Link to={'/map?page=1'} style={{ textDecoration: 'none' }}>
+              <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
+            </Link>
+            <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
+          </FunctionWrapper>
+          <FunctionWrapper>
+            <Link to={'/story?page=1'} style={{ textDecoration: 'none' }}>
+              <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
+            </Link>
+            <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
+          </FunctionWrapper>
+          <FunctionWrapper>
+            <Link to={'/curation'} style={{ textDecoration: 'none' }}>
+              <FunctionBox backgroundColor="#8a2be2" >Curation</FunctionBox>
+            </Link>
+            <FunctionDescp>장소를 모아 놓은 코스를 추천받아보세요.</FunctionDescp>
+          </FunctionWrapper>
+          <FunctionWrapper>
+            <Link to={'/mypick/myplace?page=1'} style={{ textDecoration: 'none', marginLeft:"8%" }}>
+              <FunctionBox backgroundColor="#FFE9D0" >My Pick</FunctionBox>
+            </Link>
+            <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
+          </FunctionWrapper>
+        </Function>
+        </div>
+      </div>
+      <div>
       <br /><br />
       <MapTitle>
         <div style={{ display: "flex", flexDirection: isMobile ? 'column' : 'row' }}>
@@ -631,6 +669,7 @@ export default function Home() {
           </Tablet>
         </div>
       </Footer>
+      </div>
     </Wrapper >
   );
 }
