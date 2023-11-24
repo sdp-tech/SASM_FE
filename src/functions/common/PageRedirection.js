@@ -1,4 +1,4 @@
-export default function PageRedirection(navigate, title, pathName) {
+export default function PageRedirection(navigate, title) {
   const nickname = localStorage.getItem('nickname');
   const urlHash = {
     SASM: "",
@@ -12,5 +12,5 @@ export default function PageRedirection(navigate, title, pathName) {
     JOIN: "auth/register",
   };
 
-  pathName ==="/" ? window.open(("/" + urlHash[title])) : navigate("/" + urlHash[title]);
+  navigate("/" + urlHash[title]);
 }

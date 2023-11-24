@@ -494,201 +494,203 @@ export default function Home() {
     // }
   },[])
   return (
-    <Wrapper ref = {ref}>
-    <div style={{height: '100vh', alignItems:'center', justifyContent: 'center', textAlign:'center', position: 'relative'}}>
-      <div className="section01" style={{position:"fixed"}}>
-        <IntroImg src={isMobile ? picture_mobile : picture}></IntroImg>
-        <SASM>
-          <TitleBox>
-            <Tittle>SASM</Tittle>
-          </TitleBox>
-          <Mobile>
-            <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPATIAL MAP</div>
-          </Mobile>
-          <Content>
-            <SASMLogo src={sasm_logo} rotate="true" />
-            SASM은 지속가능한 공간을 큐레이팅하여, <br />한국 도시의 지속가능한
-            발전을 돕습니다.
-            <SASMLogo src={sasm_logo} />
-          </Content>
-        </SASM>
-        </div>
-        <div className="section02" style={{position:'fixed', left:'15%', top: '2%'}}>
-        <SASMDescription>
-          <Pc>
-            <SubLogo>
-              <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
-              <span style={{ color: "#29E48A" }}>A</span>CT<br />
-              <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
-              <span style={{ color: "#29E48A" }}>M</span>AP<br />
-            </SubLogo>
-          </Pc>
-          <Tablet>
-            <SubLogo>
-              <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
-              <span style={{ color: "#29E48A" }}>A</span>CT<br />
-              <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
-              <span style={{ color: "#29E48A" }}>M</span>AP<br />
-            </SubLogo>
-          </Tablet>
-          <SubTitle>
-            SASM은 SDGs 목표 실현에 기여하는 여가 공간을<br />
-            '지속가능한 공간'으로 정의하고,<br />
-            이에 대한 지도화 및 큐레이션을 제공합니다. <br /><br />
-            <b>'음식점 및 카페, 녹색공간, 제로웨이스트샵, 전시 및 체험공간,<br />
-              복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
-            6개의 테마로 분류하여, 다양한 지속가능한 공간을 연결해드립니다.<br /><br />
+    <div>
+      <Wrapper ref = {ref}>
+      <div style={{height: '100vh', alignItems:'center', justifyContent: 'center', textAlign:'center', position: 'relative'}}>
+        <div className="section01" style={{position:"fixed"}}>
+          <IntroImg src={isMobile ? picture_mobile : picture}></IntroImg>
+          <SASM>
+            <TitleBox>
+              <Tittle>SASM</Tittle>
+            </TitleBox>
+            <Mobile>
+              <div style={{ width: '100%', fontSize: '1rem', fontWeight: '600' }}>SUSTAINABLE ACT SPATIAL MAP</div>
+            </Mobile>
+            <Content>
+              <SASMLogo src={sasm_logo} rotate="true" />
+              SASM은 지속가능한 공간을 큐레이팅하여, <br />한국 도시의 지속가능한
+              발전을 돕습니다.
+              <SASMLogo src={sasm_logo} />
+            </Content>
+          </SASM>
+          </div>
+          <div className="section02" style={{position:'fixed', left:'15%', top: '2%'}}>
+          <SASMDescription>
             <Pc>
-              <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
-                건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+              <SubLogo>
+                <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
+                <span style={{ color: "#29E48A" }}>A</span>CT<br />
+                <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
+                <span style={{ color: "#29E48A" }}>M</span>AP<br />
+              </SubLogo>
             </Pc>
             <Tablet>
-              <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
-                건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+              <SubLogo>
+                <span style={{ color: "#44ADF7" }}>S</span>USTAINABLE<br />
+                <span style={{ color: "#29E48A" }}>A</span>CT<br />
+                <span style={{ color: "#44ADF7" }}>S</span>PATIAL<br />
+                <span style={{ color: "#29E48A" }}>M</span>AP<br />
+              </SubLogo>
             </Tablet>
-            <Mobile>
-              SASM은 이를 통해<br />
-              <span style={{ color: '#0068A4', fontSize: '1.2rem', fontWeight: '700' }}>
-                지역 커뮤니티를 활성화하고,<br />
-                건강한 생산과 소비 활동을 촉진시켜<br />
-                일상의 지속가능화를 지향합니다.
-              </span>
-            </Mobile>
-          </SubTitle>
-        </SASMDescription>
+            <SubTitle>
+              SASM은 SDGs 목표 실현에 기여하는 여가 공간을<br />
+              '지속가능한 공간'으로 정의하고,<br />
+              이에 대한 지도화 및 큐레이션을 제공합니다. <br /><br />
+              <b>'음식점 및 카페, 녹색공간, 제로웨이스트샵, 전시 및 체험공간,<br />
+                복합문화공간, 도시재생 및 친환경 건축물'<br /><br /></b>
+              6개의 테마로 분류하여, 다양한 지속가능한 공간을 연결해드립니다.<br /><br />
+              <Pc>
+                <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
+                  건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+              </Pc>
+              <Tablet>
+                <b>SASM은 이를 통해 지역 커뮤니티를 활성화하고,<br />
+                  건강한 생산과 소비 활동을 촉진시켜 일상의 지속가능화를 지향합니다.</b>
+              </Tablet>
+              <Mobile>
+                SASM은 이를 통해<br />
+                <span style={{ color: '#0068A4', fontSize: '1.2rem', fontWeight: '700' }}>
+                  지역 커뮤니티를 활성화하고,<br />
+                  건강한 생산과 소비 활동을 촉진시켜<br />
+                  일상의 지속가능화를 지향합니다.
+                </span>
+              </Mobile>
+            </SubTitle>
+          </SASMDescription>
+          </div>
+          <div className="section03" style={{position:'fixed', top: "-2%"}}>
+          <ContentBox>
+            <SASMLogo src={sasm_logo} rotate="true" />
+            <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
+            크게 <b>네 가지 기능</b>을 제공하고 있습니다.
+            <SASMLogo src={sasm_logo} />
+          </ContentBox>
+          <br />
+          <Function>
+            <FunctionWrapper>
+              <Link to={'/map?page=1'} style={{ textDecoration: 'none' }}>
+                <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
+              </Link>
+              <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
+            </FunctionWrapper>
+            <FunctionWrapper>
+              <Link to={'/story?page=1'} style={{ textDecoration: 'none' }}>
+                <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
+              </Link>
+              <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
+            </FunctionWrapper>
+            <FunctionWrapper>
+              <Link to={'/curation'} style={{ textDecoration: 'none' }}>
+                <FunctionBox backgroundColor="#8a2be2" >Curation</FunctionBox>
+              </Link>
+              <FunctionDescp>장소를 모아 놓은 코스를 추천받아보세요.</FunctionDescp>
+            </FunctionWrapper>
+            <FunctionWrapper>
+              <Link to={'/mypick/myplace?page=1'} style={{ textDecoration: 'none', marginLeft:"8%" }}>
+                <FunctionBox backgroundColor="#FFE9D0" >My Pick</FunctionBox>
+              </Link>
+              <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
+            </FunctionWrapper>
+          </Function>
+          </div>
+          <ScrollImg src="/img/icon_scroll.png"/>
         </div>
-        <div className="section03" style={{position:'fixed', top: "-2%"}}>
-        <ContentBox>
-          <SASMLogo src={sasm_logo} rotate="true" />
-          <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
-          크게 <b>네 가지 기능</b>을 제공하고 있습니다.
-          <SASMLogo src={sasm_logo} />
-        </ContentBox>
-        <br />
-        <Function>
-          <FunctionWrapper>
-            <Link to={'/map?page=1'} style={{ textDecoration: 'none' }}>
-              <FunctionBox backgroundColor="#3AE894">Map</FunctionBox>
-            </Link>
-            <FunctionDescp>지속가능한 공간을 탐색하고 방문해보세요.</FunctionDescp>
-          </FunctionWrapper>
-          <FunctionWrapper>
-            <Link to={'/story?page=1'} style={{ textDecoration: 'none' }}>
-              <FunctionBox backgroundColor="#01A0FC" marginLeft="8%">Story</FunctionBox>
-            </Link>
-            <FunctionDescp>공간에 대한 자세한 정보와 인사이트를 얻어가세요.</FunctionDescp>
-          </FunctionWrapper>
-          <FunctionWrapper>
-            <Link to={'/curation'} style={{ textDecoration: 'none' }}>
-              <FunctionBox backgroundColor="#8a2be2" >Curation</FunctionBox>
-            </Link>
-            <FunctionDescp>장소를 모아 놓은 코스를 추천받아보세요.</FunctionDescp>
-          </FunctionWrapper>
-          <FunctionWrapper>
-            <Link to={'/mypick/myplace?page=1'} style={{ textDecoration: 'none', marginLeft:"8%" }}>
-              <FunctionBox backgroundColor="#FFE9D0" >My Pick</FunctionBox>
-            </Link>
-            <FunctionDescp>마음에 드는 공간들의 컬렉션을 만들 수 있어요.</FunctionDescp>
-          </FunctionWrapper>
-        </Function>
+        <div>
+        <br /><br />
+        <MapTitle>
+          <div style={{ display: "flex", flexDirection: isMobile ? 'column' : 'row' }}>
+            <MapSubtitle>
+              SASM 아니면 몰랐을<b>지도</b><br />
+              이렇게나 많은 지속가능성
+            </MapSubtitle>
+            <MapText>
+              <ContentTitle>Map</ContentTitle>
+              <b>식당/카페, 전시/체험, 제로웨이스트<br />
+                건축물, 복합문화, 녹색공간<br /></b>
+              <br />
+              SASM은 총 여섯 종류의 지속가능한 공간을 소개합니다. <br />
+              필터를 선택해서 원하는 유형의 공간을 찾거나,<Mobile><br /></Mobile> 지역이나 장소를 검색할 수 있어요.<br />
+              하트를 클릭하면 My Pick에 해당 공간을 저장할 수 있습니다.<br />
+            </MapText>
+          </div>
+          <MapImage>
+            <Mobile><img src={isMobile ? map_categoryMobile : map_category} /></Mobile>
+            <img src={isMobile ? map_Mobile : map} style={{ width: '90%' }} />
+            <Pc><img src={isMobile ? map_categoryMobile : map_category} /></Pc>
+            <Tablet><img src={isMobile ? map_categoryMobile : map_category} /></Tablet>
+          </MapImage>
+        </MapTitle>
+        <StoryTitle>
+          <div style={{ width: isMobile ? '100%' : '40%' }} >
+            <StorySubtitle>
+              공간에 대한 깊은 이해를 원한다면
+            </StorySubtitle>
+            <StoryText>
+              <ContentTitle style={{ marginBottom: '5vh' }}>Story</ContentTitle>
+              Story에서는 지속가능한 공간에 대한<Mobile><br /></Mobile>  구체적인 이야기를 들을 수 있어요. <br />
+              <br />
+              SASM 서비스를 제작한 SDP 구성원들이<Mobile><br /></Mobile>  직접 공간을 답사한 작성하는데요, <br />
+              <br />
+              <b>공간의 인테리어, 특징, 컨텐츠 등<Mobile><br /></Mobile>  온라인에서는 확인하기 어려운<Mobile><br /></Mobile>  다양한 디테일과 알찬 인사이트를<Mobile><br /></Mobile>  사진과 함께 설명해드려요.</b>
+            </StoryText>
+          </div>
+          <div style={{ width: isMobile ? '100%' : '60%', padding: '0 3vh' }}>
+            <StoryImage src={story}></StoryImage>
+          </div>
+        </StoryTitle>
+        <MyPickTitle>
+          <div style={{ display: "flex", flexDirection: 'column', textAlign: 'center' }}>
+            <MyPickSubtitle>
+              나만의 지속가능성
+            </MyPickSubtitle>
+            <ContentTitle>My Pick</ContentTitle>
+          </div>
+          <MyPickImage src={mypick}></MyPickImage>
+          <MyPickText>
+            Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
+            My Pick에서 저장하고 확인할 수 있어요. <br /><br />
+            <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '1rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
+          </MyPickText>
+        </MyPickTitle>
+        <Footer>
+          <Contact>Contact</Contact>
+          <div style={{ display: 'flex' }}>
+            <ContactText>
+              <ContactSection>
+                <Mobile><ContactLogo src={sdp_logo_blackwhite} /></Mobile>
+                <ContactTitle>SDP</ContactTitle>
+                <ContactLinkWrapper>
+                  <ContactLink href="https://blog.naver.com/sdpofficial">Naver Blog</ContactLink>
+                  <ContactLink href="https://www.instagram.com/_sdp_official/">Instagram</ContactLink>
+                </ContactLinkWrapper>
+                <Mobile><ContactFullLogo src={sdp_full_logo_blackwhite} /></Mobile>
+              </ContactSection>
+              <ContactSection>
+                <Mobile><ContactLogo src={sasm_logo_blackwhite} /></Mobile>
+                <ContactTitle>SASM</ContactTitle>
+                <ContactLinkWrapper>
+                  <ContactLink href="https://sasm.co.kr">Homepage</ContactLink>
+                  <ContactLink href="https://www.instagram.com/sasmofficial/">Instagram</ContactLink>
+                </ContactLinkWrapper>
+                <Mobile><ContactFullLogo src={sasm_full_logo_blackwhite} /></Mobile>
+              </ContactSection>
+            </ContactText>
+            <Pc>
+              <ContactImage>
+                <ContactFullLogo src={sdp_full_logo_blackwhite} />
+                <ContactFullLogo src={sasm_full_logo_blackwhite} />
+              </ContactImage>
+            </Pc>
+            <Tablet>
+              <ContactImage>
+                <ContactFullLogo src={sdp_full_logo_blackwhite} />
+                <ContactFullLogo src={sasm_full_logo_blackwhite} />
+              </ContactImage>
+            </Tablet>
+          </div>
+        </Footer>
         </div>
-        <ScrollImg src="/img/icon_scroll.png"/>
-      </div>
-      <div>
-      <br /><br />
-      <MapTitle>
-        <div style={{ display: "flex", flexDirection: isMobile ? 'column' : 'row' }}>
-          <MapSubtitle>
-            SASM 아니면 몰랐을<b>지도</b><br />
-            이렇게나 많은 지속가능성
-          </MapSubtitle>
-          <MapText>
-            <ContentTitle>Map</ContentTitle>
-            <b>식당/카페, 전시/체험, 제로웨이스트<br />
-              건축물, 복합문화, 녹색공간<br /></b>
-            <br />
-            SASM은 총 여섯 종류의 지속가능한 공간을 소개합니다. <br />
-            필터를 선택해서 원하는 유형의 공간을 찾거나,<Mobile><br /></Mobile> 지역이나 장소를 검색할 수 있어요.<br />
-            하트를 클릭하면 My Pick에 해당 공간을 저장할 수 있습니다.<br />
-          </MapText>
-        </div>
-        <MapImage>
-          <Mobile><img src={isMobile ? map_categoryMobile : map_category} /></Mobile>
-          <img src={isMobile ? map_Mobile : map} style={{ width: '90%' }} />
-          <Pc><img src={isMobile ? map_categoryMobile : map_category} /></Pc>
-          <Tablet><img src={isMobile ? map_categoryMobile : map_category} /></Tablet>
-        </MapImage>
-      </MapTitle>
-      <StoryTitle>
-        <div style={{ width: isMobile ? '100%' : '40%' }} >
-          <StorySubtitle>
-            공간에 대한 깊은 이해를 원한다면
-          </StorySubtitle>
-          <StoryText>
-            <ContentTitle style={{ marginBottom: '5vh' }}>Story</ContentTitle>
-            Story에서는 지속가능한 공간에 대한<Mobile><br /></Mobile>  구체적인 이야기를 들을 수 있어요. <br />
-            <br />
-            SASM 서비스를 제작한 SDP 구성원들이<Mobile><br /></Mobile>  직접 공간을 답사한 작성하는데요, <br />
-            <br />
-            <b>공간의 인테리어, 특징, 컨텐츠 등<Mobile><br /></Mobile>  온라인에서는 확인하기 어려운<Mobile><br /></Mobile>  다양한 디테일과 알찬 인사이트를<Mobile><br /></Mobile>  사진과 함께 설명해드려요.</b>
-          </StoryText>
-        </div>
-        <div style={{ width: isMobile ? '100%' : '60%', padding: '0 3vh' }}>
-          <StoryImage src={story}></StoryImage>
-        </div>
-      </StoryTitle>
-      <MyPickTitle>
-        <div style={{ display: "flex", flexDirection: 'column', textAlign: 'center' }}>
-          <MyPickSubtitle>
-            나만의 지속가능성
-          </MyPickSubtitle>
-          <ContentTitle>My Pick</ContentTitle>
-        </div>
-        <MyPickImage src={mypick}></MyPickImage>
-        <MyPickText>
-          Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
-          My Pick에서 저장하고 확인할 수 있어요. <br /><br />
-          <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '1rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
-        </MyPickText>
-      </MyPickTitle>
-      <Footer>
-        <Contact>Contact</Contact>
-        <div style={{ display: 'flex' }}>
-          <ContactText>
-            <ContactSection>
-              <Mobile><ContactLogo src={sdp_logo_blackwhite} /></Mobile>
-              <ContactTitle>SDP</ContactTitle>
-              <ContactLinkWrapper>
-                <ContactLink href="https://blog.naver.com/sdpofficial">Naver Blog</ContactLink>
-                <ContactLink href="https://www.instagram.com/_sdp_official/">Instagram</ContactLink>
-              </ContactLinkWrapper>
-              <Mobile><ContactFullLogo src={sdp_full_logo_blackwhite} /></Mobile>
-            </ContactSection>
-            <ContactSection>
-              <Mobile><ContactLogo src={sasm_logo_blackwhite} /></Mobile>
-              <ContactTitle>SASM</ContactTitle>
-              <ContactLinkWrapper>
-                <ContactLink href="https://sasm.co.kr">Homepage</ContactLink>
-                <ContactLink href="https://www.instagram.com/sasmofficial/">Instagram</ContactLink>
-              </ContactLinkWrapper>
-              <Mobile><ContactFullLogo src={sasm_full_logo_blackwhite} /></Mobile>
-            </ContactSection>
-          </ContactText>
-          <Pc>
-            <ContactImage>
-              <ContactFullLogo src={sdp_full_logo_blackwhite} />
-              <ContactFullLogo src={sasm_full_logo_blackwhite} />
-            </ContactImage>
-          </Pc>
-          <Tablet>
-            <ContactImage>
-              <ContactFullLogo src={sdp_full_logo_blackwhite} />
-              <ContactFullLogo src={sasm_full_logo_blackwhite} />
-            </ContactImage>
-          </Tablet>
-        </div>
-      </Footer>
-      </div>
-    </Wrapper >
+      </Wrapper>
+    </div>
   );
 }

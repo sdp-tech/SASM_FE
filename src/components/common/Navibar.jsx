@@ -189,7 +189,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
     <>
       {isMobile ? <MobilePageTitle
         onClick={() => {
-          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title, location.pathname);
+          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
           setMenu(false);
         }}
         aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
@@ -199,7 +199,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
         {title}
       </MobilePageTitle> : <PageTitleCss
         onClick={() => {
-          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title, location.pathname);
+          PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
         }}
         aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
         style={style}
