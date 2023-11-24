@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import picture from "../assets/img/Home/LandingPage.png";
 import picture_mobile from "../assets/img/Home/LandingPageMobile.png";
 import { Pc, Tablet, Mobile } from "../device"
@@ -20,6 +20,14 @@ import { Link } from "react-router-dom";
 import gsap from 'gsap';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+const imgAnimation  = keyframes`
+from { 
+  transform: translateY(0);
+}
+to   { 
+  transform: translateY(20px) ;
+}
+`
 
 const Wrapper = styled.div`
   overflow: hidden;
@@ -447,6 +455,16 @@ const ContactImage = styled.div`
   width: 50%;
 `
 
+const ScrollImg = styled.img`
+  width: 30px;
+  position: absolute;
+  height: 64px;
+  bottom: 5%;
+  opacity: 0.5;
+  animation: ${imgAnimation} 1s infinite alternate;
+`
+
+
 export default function Home() {
   const isMobile = useMediaQuery({
     query: "(max-width:768px)"
@@ -574,6 +592,7 @@ export default function Home() {
           </FunctionWrapper>
         </Function>
         </div>
+        <ScrollImg src="/img/icon_scroll.png"/>
       </div>
       <div>
       <br /><br />
