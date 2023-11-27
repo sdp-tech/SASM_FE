@@ -201,7 +201,7 @@ const PageTitle = ({ navigate, title, setMenu, style }) => {
         onClick={() => {
           PageRedirection(navigate, title.includes("님") ? "MY PAGE" : title);
         }}
-        aria-current={location.pathname.includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
+        aria-current={location.pathname.slice(0,10).includes(`${title.replace(" ","").toLowerCase()}`)?"page":null}
         style={style}
       >
         {/* {userID} */}
