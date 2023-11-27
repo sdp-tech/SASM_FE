@@ -254,7 +254,7 @@ const MapTitle = styled.div`
   background: linear-gradient(222.99deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100.52%), #00613E;
   padding-top: 10vh;
   width: 100%;
-  height: auto;
+  height: 100vh;
 `
 const MapSubtitle = styled.div`
   text-align: center;
@@ -302,8 +302,8 @@ const StoryTitle = styled.div`
   display: flex;
   color: #FFFFFF;
   padding-top: 10vh;
-  width: 100%;
-  height: auto;
+  width: 115%;
+  height: 100vh;
   background: linear-gradient(119.48deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 96.37%), #03216C;
   position: relative;
   @media screen and (max-width: 768px) {
@@ -314,7 +314,6 @@ const StoryImage = styled.img`
   width: 100%;
 `
 const StorySubtitle = styled.div`
-  margin-top: 20vh;
   padding: 1vw 0 1vw 3vw;
   width: 75%;
   font-size: 2vw;
@@ -340,9 +339,9 @@ const StoryText = styled.div`
 const MyPickTitle = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10vh 0;
+  padding: 5vh 0;
   width: 100%;
-  height: auto;
+  height: 100vh;
   background: linear-gradient(246.63deg, #FFFFFF 2.13%, rgba(255, 255, 255, 0) 96.85%), rgba(255, 240, 224, 0.6);
   position: relative;
 `
@@ -356,11 +355,11 @@ const MyPickSubtitle = styled.div`
 `
 const MyPickImage = styled.img`
   width: 100%;
-  margin: 5vh 0;
+  // margin: 5vh 0;
 `
 const MyPickText = styled.div`
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: 600;
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
@@ -462,6 +461,7 @@ const ScrollImg = styled.img`
   bottom: 5%;
   opacity: 0.5;
   animation: ${imgAnimation} 1s infinite alternate;
+  z-index: 3;
 `
 
 
@@ -484,11 +484,17 @@ export default function Home() {
       }
     })
     // t2.fromTo(".first-text", {opacity: 0}, {opacity: 1, duration: 0.2})
-    t2.fromTo(".section01", {opacity: 1}, {opacity: 0, duration: 0.2})
-    t2.fromTo(".section02", {opacity: 0}, {opacity: 1, duration: 0.2})
-    t2.fromTo(".section02", {opacity: 1}, {opacity: 0, duration: 0.2})
-    t2.fromTo(".section03", {opacity: 0}, {opacity: 1, duration: 0.2})
-    t2.fromTo(".section03", {opacity: 1}, {opacity: 0, duration: 0.2})
+    t2.fromTo(".section01", {opacity: 1}, {opacity: 0, duration: 0.4})
+    t2.fromTo(".section02", {opacity: 0}, {opacity: 1, duration: 0.4})
+    t2.fromTo(".section02", {opacity: 1}, {opacity: 0, duration: 0.4})
+    t2.fromTo(".section03", {opacity: 0}, {opacity: 1, duration: 0.4})
+    t2.fromTo(".section03", {opacity: 1}, {opacity: 0, duration: 0.4})
+    t2.fromTo(".section04", {opacity: 0}, {opacity: 1, duration: 0.4})
+    t2.fromTo(".section04", {opacity: 1}, {opacity: 0, duration: 0.4})
+    t2.fromTo(".section05", {opacity: 0}, {opacity: 1, duration: 0.4})
+    t2.fromTo(".section05", {opacity: 1}, {opacity: 0, duration: 0.4})
+    t2.fromTo(".section06", {opacity: 0}, {opacity: 1, duration: 0.4})
+    t2.fromTo(".section06", {opacity: 1}, {opacity: 0, scale:1.2, duration: 0.5})
     // return () => {
     //   ref
     // }
@@ -558,7 +564,7 @@ export default function Home() {
             </SubTitle>
           </SASMDescription>
           </div>
-          <div className="section03" style={{position:'fixed', top: "-2%"}}>
+          <div className="section03" style={{position:'fixed', top: "-8%"}}>
           <ContentBox>
             <SASMLogo src={sasm_logo} rotate="true" />
             <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
@@ -594,32 +600,36 @@ export default function Home() {
           </Function>
           </div>
           <ScrollImg src="/img/icon_scroll.png"/>
-        </div>
-        <div>
+        
         <br /><br />
+        <div className="section04" style={{position:"fixed"}}>
         <MapTitle>
           <div style={{ display: "flex", flexDirection: isMobile ? 'column' : 'row' }}>
-            <MapSubtitle>
-              SASM 아니면 몰랐을<b>지도</b><br />
-              이렇게나 많은 지속가능성
-            </MapSubtitle>
-            <MapText>
-              <ContentTitle>Map</ContentTitle>
-              <b>식당/카페, 전시/체험, 제로웨이스트<br />
-                건축물, 복합문화, 녹색공간<br /></b>
-              <br />
-              SASM은 총 여섯 종류의 지속가능한 공간을 소개합니다. <br />
-              필터를 선택해서 원하는 유형의 공간을 찾거나,<Mobile><br /></Mobile> 지역이나 장소를 검색할 수 있어요.<br />
-              하트를 클릭하면 My Pick에 해당 공간을 저장할 수 있습니다.<br />
-            </MapText>
+            <MapImage style={{width:"50%"}}>
+              <Mobile><img src={isMobile ? map_categoryMobile : map_category} /></Mobile>
+              <img src={isMobile ? map_Mobile : map} style={{ width: '80%'}} />
+              <Pc><img src={isMobile ? map_categoryMobile : map_category} style={{width: '7%'}} /></Pc>
+              <Tablet><img src={isMobile ? map_categoryMobile : map_category} /></Tablet>
+            </MapImage>
+            <div style={{width:"50%"}}>
+              <MapSubtitle>
+                SASM 아니면 몰랐을<b>지도</b><br />
+                이렇게나 많은 지속가능성
+              </MapSubtitle>
+              <MapText>
+                <ContentTitle>Map</ContentTitle>
+                <b>식당/카페, 전시/체험, 제로웨이스트<br />
+                  건축물, 복합문화, 녹색공간<br /></b>
+                <br />
+                SASM은 총 여섯 종류의 지속가능한 공간을 소개합니다. <br />
+                필터를 선택해서 원하는 유형의 공간을 찾거나,<Mobile><br /></Mobile> 지역이나 장소를 검색할 수 있어요.<br />
+                하트를 클릭하면 My Pick에 해당 공간을 저장할 수 있습니다.<br />
+              </MapText>
+            </div>
           </div>
-          <MapImage>
-            <Mobile><img src={isMobile ? map_categoryMobile : map_category} /></Mobile>
-            <img src={isMobile ? map_Mobile : map} style={{ width: '90%' }} />
-            <Pc><img src={isMobile ? map_categoryMobile : map_category} /></Pc>
-            <Tablet><img src={isMobile ? map_categoryMobile : map_category} /></Tablet>
-          </MapImage>
         </MapTitle>
+        </div>
+        <div className="section05" style={{position:"fixed"}}>
         <StoryTitle>
           <div style={{ width: isMobile ? '100%' : '40%' }} >
             <StorySubtitle>
@@ -634,24 +644,30 @@ export default function Home() {
               <b>공간의 인테리어, 특징, 컨텐츠 등<Mobile><br /></Mobile>  온라인에서는 확인하기 어려운<Mobile><br /></Mobile>  다양한 디테일과 알찬 인사이트를<Mobile><br /></Mobile>  사진과 함께 설명해드려요.</b>
             </StoryText>
           </div>
-          <div style={{ width: isMobile ? '100%' : '60%', padding: '0 3vh' }}>
+          <div style={{ width: isMobile ? '100%' : '35%', padding: '0 3vh', position: 'absolute', bottom:0, right:'10px' }}>
             <StoryImage src={story}></StoryImage>
           </div>
         </StoryTitle>
-        <MyPickTitle>
-          <div style={{ display: "flex", flexDirection: 'column', textAlign: 'center' }}>
-            <MyPickSubtitle>
-              나만의 지속가능성
-            </MyPickSubtitle>
-            <ContentTitle>My Pick</ContentTitle>
-          </div>
-          <MyPickImage src={mypick}></MyPickImage>
-          <MyPickText>
-            Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
-            My Pick에서 저장하고 확인할 수 있어요. <br /><br />
-            <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '1rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
-          </MyPickText>
-        </MyPickTitle>
+        </div>
+        
+        <div className="section06" style={{position:"fixed"}}>
+          <MyPickTitle>
+            <div style={{ display: "flex", flexDirection: 'column', textAlign: 'center' }}>
+              <MyPickSubtitle>
+                나만의 지속가능성
+              </MyPickSubtitle>
+              <ContentTitle>My Pick</ContentTitle>
+              <MyPickText>
+              Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
+              My Pick에서 저장하고 확인할 수 있어요. <br />
+              <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '0.7rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
+            </MyPickText>
+            </div>
+            <MyPickImage src={mypick}></MyPickImage>
+          </MyPickTitle>
+        </div>
+        </div>
+        <div>
         <Footer>
           <Contact>Contact</Contact>
           <div style={{ display: 'flex' }}>
