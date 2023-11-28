@@ -72,7 +72,7 @@ const SASM = styled.div`
     width: 35%
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
-    width: 38%
+    width: 40%
     margin-left: 0;
     margin-top: 20vh;
     padding-left: 6vw;
@@ -93,10 +93,16 @@ const SASMDescription = styled.div`
     width: 140%;
     font-size: 0.9rem;
   }
+  @media screen and (min-width: 992px) and (max-width: 1200px) {
+    padding-left: 6vw;
+    margin-top: 5vh;
+    width: 140%;
+    font-size: 0.7rem;
+  }
 `
 const SASMLogo = styled.img`
   position: absolute;
-  width: 1.5vw;
+  width: 4vw;
   @media screen and (max-width: 768px) {
     width: 4vw;
   }
@@ -105,6 +111,7 @@ const SASMLogo = styled.img`
 
 const SubLogo = styled.div`
   font-size: 1.5vw;
+  padding-top: 5%;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     font-size: 2vw;
   } 
@@ -116,14 +123,15 @@ const SubTitle = styled.div`
   margin-left: 10%;
   line-height: 150%;
   font-size: 1.5vw;
+  padding-top: 10%;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
-    margin-left: 10%;
-    font-size: 2vw;
-    width: 30%;
+  margin-left: 10%;
+  font-size: 2vw;
+  width: 30%;
   } 
   @media screen and (max-width: 768px) {
-    font-size: 0.8rem;
     margin: 0;
+    font-size: 1rem;
   }
 `
 const TitleBox = styled.div`
@@ -153,7 +161,7 @@ const Content = styled.div`
   line-height: 1.5;
   position: relative;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
-    font-size: 3vw;
+    font-size: 4vw;
   } 
   @media screen and (max-width: 768px) {
     font-size: 0.9rem;
@@ -167,7 +175,7 @@ const ContentBox = styled.div`
   font-size: 2vw;
   position: relative;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
-    font-size: 3vw;
+    font-size: 1rem;
   } 
   @media screen and (max-width: 768px) {
     margin-top: 10vh;
@@ -253,7 +261,7 @@ const MapTitle = styled.div`
   color: #FFFFFF;
   background: linear-gradient(222.99deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100.52%), #00613E;
   padding-top: 10vh;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 `
 const MapSubtitle = styled.div`
@@ -263,6 +271,8 @@ const MapSubtitle = styled.div`
   border-right: 4px solid #FFFFFF;
   @media screen and (min-width: 769px) and (max-width: 1023px) {
     font-size: 3vw;
+    width: 100%;
+    margin-bottom: 30px;
   } 
   width: 20%;
   @media screen and (max-width: 768px) {
@@ -280,7 +290,7 @@ const MapImage = styled.div`
   width: 100%;
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    padding: 5vh 0;
+    // padding: 1vh 0;
     align-items: center;
   }
   @media screen and (min-width: 769px) and (max-width: 1023px) {
@@ -291,18 +301,23 @@ const MapImage = styled.div`
 const MapText = styled.div`
   line-height: 150%;
   font-size: 1.5vw;
-  padding-left: 1.5vw;
+  padding-left: 0.5vw;
   @media screen and (max-width: 768px) {
     width: 100%;
     font-size: 0.8rem;
     margin-left: 10vw;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1024px) {
+    width: 80%;
+    font-size: 1rem;
+    margin-left: 5vw;
   }
 `
 const StoryTitle = styled.div`
   display: flex;
   color: #FFFFFF;
   padding-top: 10vh;
-  width: 115%;
+  width: 100vw;
   height: 100vh;
   background: linear-gradient(119.48deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 96.37%), #03216C;
   position: relative;
@@ -328,10 +343,15 @@ const StorySubtitle = styled.div`
 `
 const StoryText = styled.div`
   margin: 5vh 5vw;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   line-height: 150%;
   @media screen and (max-width: 768px) {
     font-size: 0.8rem;
+    margin: 5vh 3vw;
+    text-align: center;
+  }
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    font-size: 1.2rem;
     margin: 5vh 3vw;
     text-align: center;
   }
@@ -339,8 +359,8 @@ const StoryText = styled.div`
 const MyPickTitle = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5vh 0;
-  width: 100%;
+  padding: 5vh;
+  width: 100vw;
   height: 100vh;
   background: linear-gradient(246.63deg, #FFFFFF 2.13%, rgba(255, 255, 255, 0) 96.85%), rgba(255, 240, 224, 0.6);
   position: relative;
@@ -356,13 +376,16 @@ const MyPickSubtitle = styled.div`
 const MyPickImage = styled.img`
   width: 100%;
   // margin: 5vh 0;
+  @media screen and (max-width: 768px) {
+    margin-top: 150px;
+  }
 `
 const MyPickText = styled.div`
   text-align: center;
   font-size: 1.3rem;
   font-weight: 600;
   @media screen and (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 `
 const Footer = styled.div`
@@ -458,7 +481,7 @@ const ScrollImg = styled.img`
   width: 30px;
   position: absolute;
   height: 64px;
-  bottom: 5%;
+  bottom: 10%;
   opacity: 0.5;
   animation: ${imgAnimation} 1s infinite alternate;
   z-index: 3;
@@ -520,7 +543,7 @@ export default function Home() {
             </Content>
           </SASM>
           </div>
-          <div className="section02" style={{position:'fixed', left:'15%', top: '2%'}}>
+          <div className="section02" style={{position:'fixed', left:'15%', top: '4%'}}>
           <SASMDescription>
             <Pc>
               <SubLogo>
@@ -564,7 +587,7 @@ export default function Home() {
             </SubTitle>
           </SASMDescription>
           </div>
-          <div className="section03" style={{position:'fixed', top: "-8%"}}>
+          <div className="section03" style={{position:'fixed', top:isMobile ? "0%": "-8%"}}>
           <ContentBox>
             <SASMLogo src={sasm_logo} rotate="true" />
             <b>SASM</b>은 공간 큐레이션 플랫폼으로, <br />
@@ -605,13 +628,13 @@ export default function Home() {
         <div className="section04" style={{position:"fixed"}}>
         <MapTitle>
           <div style={{ display: "flex", flexDirection: isMobile ? 'column' : 'row' }}>
-            <MapImage style={{width:"50%"}}>
+            <MapImage style={{width:isMobile ? '500px':"50%"}}>
               <Mobile><img src={isMobile ? map_categoryMobile : map_category} /></Mobile>
               <img src={isMobile ? map_Mobile : map} style={{ width: '80%'}} />
               <Pc><img src={isMobile ? map_categoryMobile : map_category} style={{width: '7%'}} /></Pc>
-              <Tablet><img src={isMobile ? map_categoryMobile : map_category} /></Tablet>
+              <Tablet><img src={isMobile ? map_categoryMobile : map_category} style={{width: '10%'}} /></Tablet>
             </MapImage>
-            <div style={{width:"50%"}}>
+            <div style={{width:isMobile?"100%":"50%"}}>
               <MapSubtitle>
                 SASM 아니면 몰랐을<b>지도</b><br />
                 이렇게나 많은 지속가능성
@@ -644,7 +667,7 @@ export default function Home() {
               <b>공간의 인테리어, 특징, 컨텐츠 등<Mobile><br /></Mobile>  온라인에서는 확인하기 어려운<Mobile><br /></Mobile>  다양한 디테일과 알찬 인사이트를<Mobile><br /></Mobile>  사진과 함께 설명해드려요.</b>
             </StoryText>
           </div>
-          <div style={{ width: isMobile ? '100%' : '35%', padding: '0 3vh', position: 'absolute', bottom:0, right:'10px' }}>
+          <div style={{ width: isMobile ? '250px' : '40%', padding: '0 3vh', position: 'absolute', bottom: 0, right: isMobile ? '25%' : '10px' }}>
             <StoryImage src={story}></StoryImage>
           </div>
         </StoryTitle>
@@ -660,7 +683,7 @@ export default function Home() {
               <MyPickText>
               Map과 Story에서 '좋아요'를 누른 컨텐츠를<br />
               My Pick에서 저장하고 확인할 수 있어요. <br />
-              <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '0.7rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
+              <span style={{ color: '#843700', fontWeight: '700', fontSize: isMobile ? '1.3rem' : '2.5rem' }}>SASM과 함께 나만의 지속가능한 영역을 확장시켜보세요!</span>
             </MyPickText>
             </div>
             <MyPickImage src={mypick}></MyPickImage>
