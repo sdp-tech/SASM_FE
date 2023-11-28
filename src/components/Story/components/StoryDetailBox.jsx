@@ -11,7 +11,7 @@ import Comments from "./Comments";
 import Recommends from "./StoryRecommend";
 import { useMediaQuery } from "react-responsive";
 import { Mobile, Pc, Tablet } from "../../../device"
-import AdminButton from "../../Admin/components/AdminButton";
+import { Button as Rbutton} from "rsuite";
 import OtherUserData from "../../../functions/common/OtherUserData";
 import StoryInCuration from "./StoryIncludedCuration";
 import SamePlaceStory from "./SamePlaceStory";
@@ -430,9 +430,9 @@ const StoryDetailBox = (props) => {
                 </InfoBox>
                 <FollowBox>
                 {
-                  myEmail !== data.writer ? <AdminButton style={{width:"100%"}} onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
+                  myEmail !== data.writer ? <Rbutton style={{width:"100%"}} onClick={()=>{following(data.writer)}}>{data.writer_is_followed ? 
                 <Text>팔로우 취소</Text>:
-                <Text>+ 팔로잉</Text>}</AdminButton> : <></>
+                <Text>+ 팔로잉</Text>}</Rbutton> : <></>
                 }
                 </FollowBox>
                 </div>
