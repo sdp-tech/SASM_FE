@@ -112,9 +112,14 @@ export default function CommunityList({ board, format }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
   const [pageOneFlag, setPageOneFlag] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [targetEmail, setTargetEmail] = useState('');
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
+  const rerender = () => {
+    setRefresh(!refresh);
+  }
   const getItem = async () => {
     setLoading(true);
     const response = await request.get("/community/posts/", {
@@ -203,6 +208,9 @@ export default function CommunityList({ board, format }) {
     setMode(false);
     return () => setLoading(false);
   }, [queryString.page, search, board, queryString.search]);
+  useEffect(() => {
+    open && otherUserData(targetEmail);
+  },[refresh]);
   return (
     <>
       {mode ?
@@ -226,7 +234,7 @@ export default function CommunityList({ board, format }) {
           </SearchFilterBar>
           <Section>
             <ListWrapper>
-            {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+            {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
               <List>
                 <Title>제목</Title>
                 <Info>좋아요/댓글</Info>
@@ -243,7 +251,11 @@ export default function CommunityList({ board, format }) {
                       {data.likeCount}
                       -
                       {data.commentCount}</Info>
-                    <CommunityWriter onClick={() => {otherUserData(data.email)}}>{data.nickname}</CommunityWriter>
+                    <CommunityWriter onClick={() => 
+                    {
+                      setTargetEmail(data.email);
+                      otherUserData(data.email)
+                    }}>{data.nickname}</CommunityWriter>
                     <CreatedAt>{data.created.slice(0, 10)}</CreatedAt>
                   </List>
                 ))

@@ -11,6 +11,18 @@ export default function OtherUserData (props) {
   const [otherReview, setOtherReview] = useState([]);
   const [otherStory, setOtherStory] = useState([]);
   const [otherCuration, setOtherCuration] = useState([]);
+  const myEmail = localStorage.getItem('email');
+
+
+  const following = async (email) => {
+    const response = await request.post('/mypage/follow/',
+      {
+        targetEmail: email
+      })
+
+    if(response.data.status == 'fail') alert(response.data.message)
+    props.rerender();
+  }
 
   const getOtherUserReview = async() => {
     if(token) {
@@ -58,6 +70,12 @@ export default function OtherUserData (props) {
               <ProfileText>이메일 : {props.userData.email}</ProfileText>
               <ProfileText>한 줄 소개: {props.userData.introduction ? props.userData.introduction : "안녕하세요."}</ProfileText>
             </TextWrapper>
+            {
+              myEmail !== props.userData.email ? <Button style={{position: 'absolute', right:'20px'}}onClick={()=>{following(props.userData.email)}}>{props.userData.is_followed ? 
+              <p>팔로우 취소</p>:
+              <p>+ 팔로잉</p>}</Button> : <></>
+            }
+            {console.log(props)}
           </ProfileWrapper>
           <ButtonWrapper>
             <SelectButton>{props.userData.nickname}의 스토리
@@ -116,6 +134,7 @@ export default function OtherUserData (props) {
 const ProfileWrapper = styled.div`
   display: flex;
   height: 100%;
+  position: relative;
 `
 
 const TextWrapper = styled.div`

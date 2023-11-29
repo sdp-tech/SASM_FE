@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import Request from '../../../functions/common/Request';
 import { useNavigate } from 'react-router-dom';
@@ -112,7 +112,7 @@ export default function Comment({ data, rerender }) {
   const email = localStorage.getItem('email');
   const [updatetext, setUpdateText] = useState(data.content);
   const token = localStorage.getItem('accessTK');
-
+  const [commentFresh, setCommentFresh] = useState(otherUser.is_followed);
   const handleLike = async() => {
     if(!token) {
       alert('로그인이 필요합니다.');
@@ -149,9 +149,18 @@ export default function Comment({ data, rerender }) {
   const handleClose = () => {
     setOpen(false);
   }
+
+  const commentRerender = () => {
+    setCommentFresh(!commentFresh);
+  }
+
+  useEffect(() => {
+    open && otherUserData(data.email);
+  }, [commentFresh])
+
   return (
     <CommentBox>
-      {open && <OtherUserData open={open} userData={otherUser} handleClose = {handleClose}/>}
+      {open && <OtherUserData open={open} userData={otherUser} handleClose = {handleClose} rerender={commentRerender}/>}
       <InfoBox>
         <UserBox>
           <Image src={data.profile_image} onClick={() => {otherUserData(data.email)}} style={{ width: '45px', height: '45px', borderRadius: '50%', marginRight: '20px' }} />

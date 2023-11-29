@@ -113,10 +113,14 @@ export default function CommunityDetail({ board, id, format }) {
   });
   const [page, setPage] = useState(1);
   const [pageOneFlag, setPageOneFlag] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const node = useRef();
   const email = localStorage.getItem('email');
   const navigate = useNavigate()
   const request = Request(navigate);
+  const rerender = () => {
+    setRefresh(!refresh);
+  }
   const getDetail = async () => {
     try {
       const response_detail = await request.get(`/community/posts/${id}`);
@@ -188,6 +192,10 @@ export default function CommunityDetail({ board, id, format }) {
     }
   }, [page]);
 
+  useEffect(() => {
+    otherUserData(detail.email);
+  }, [refresh]);
+
   return (
     <>
       {
@@ -211,7 +219,7 @@ export default function CommunityDetail({ board, id, format }) {
                   <LikeCount>좋아요 : {detail.likeCount}</LikeCount>
                 </Info>
                 <Content>
-                {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+                {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
                   {detail.board == '2' ?
                     <>
                       {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -29,9 +29,13 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
     const [open, setOpen] = useState(false);
     const [otherUser, setOtherUser] = useState({});
     const navigate = useNavigate();
+    const [refresh, setRefresh] = useState(false);
     const request = Request(navigate);
     const handleToggle = () => {
         setToggle(!toggle);
+    }
+    const rerender = () => {
+        setRefresh(!refresh);
     }
     const deleteReview = async () => {
         const response_delete = await request.del(`/places/place_review/${reviewData.id}/`);
@@ -52,9 +56,12 @@ export default function UserReview({ reviewData, setReviewOpen, setTargetData, w
     const handleClose = () => {
     setOpen(false);
     }
+    useEffect(() => {
+        open && otherUserData(reviewData.writer);
+    }, [refresh])
     return (
         <>
-          {open && <OtherUserData open={open} userData = {otherUser} handleClose = {handleClose}/>}
+          {open && <OtherUserData open={open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
             <div style={{ padding: '5px', borderBottom: '1px black solid', position: 'relative' }}>
                 <NicknameWrapper onClick={() => {otherUserData(reviewData.writer)}}>{reviewData.nickname}</NicknameWrapper>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>

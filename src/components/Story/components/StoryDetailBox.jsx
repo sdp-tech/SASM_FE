@@ -397,6 +397,7 @@ const StoryDetailBox = (props) => {
 
   useEffect(() => {
     loadItem();
+    otherUserData(data.writer);
   }, [refresh]);
 
   return (
@@ -477,7 +478,7 @@ const StoryDetailBox = (props) => {
               </Tablet>
             </StoreNameBox>
           </MainTitleNStoreNameBox>
-          {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+          {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
           <ImageNContentBox>
             <div>{data.story_review}</div>
             <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
