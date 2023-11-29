@@ -390,7 +390,7 @@ export default function Map({ placeData, temp, setTemp, setSearchHere, categoryN
   return (
     
     <NavermapsProvider
-      ncpClientId={"aef7a2wcmn"}
+      ncpClientId={"y39fk0uctu"}
       error={<p>Maps Load Error</p>}
       loading={<p>Maps Loading…</p>}
     >

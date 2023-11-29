@@ -9,7 +9,7 @@ export default async function TrySocialLogin(site) {
     window.location.href = `https://accounts.google.com/o/oauth2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`
   }
   if (site === "naver") {
-    const NAVER_CLIENT_ID = "MPnY9ztwWhnUTEk5HXdO";
+    const NAVER_CLIENT_ID = "JiovqrNJCEIhuZuNveWJ";
     const NAVER_REDIRECT_URI = "https://www.sasm.co.kr/auth/naver/callback";
     const NAVER_STATE = "test";
     window.location.href = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${NAVER_CLIENT_ID}&redirect_uri=${NAVER_REDIRECT_URI}&state=${NAVER_STATE}`;
