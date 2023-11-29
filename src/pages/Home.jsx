@@ -45,10 +45,11 @@ const IntroImg = styled.img`
     display: none;
   }
   @media screen and (min-width: 768px) and (max-width: 991px) {
-    width: 40%
+    width: 50%;
+    right:-300px;
   }
   @media screen and (min-width: 992px) and (max-width: 1199px) {
-    width: 38%
+    right:-700px;
   }
 `;
 
@@ -492,6 +493,9 @@ export default function Home() {
   const isMobile = useMediaQuery({
     query: "(max-width:768px)"
   });
+  const isTablet = useMediaQuery({
+    query: "(max-width:1023px)"
+  });
   const ref = useRef(null);
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -667,7 +671,7 @@ export default function Home() {
               <b>공간의 인테리어, 특징, 컨텐츠 등<Mobile><br /></Mobile>  온라인에서는 확인하기 어려운<Mobile><br /></Mobile>  다양한 디테일과 알찬 인사이트를<Mobile><br /></Mobile>  사진과 함께 설명해드려요.</b>
             </StoryText>
           </div>
-          <div style={{ width: isMobile ? '250px' : '40%', padding: '0 3vh', position: 'absolute', bottom: 0, right: isMobile ? '25%' : '10px' }}>
+          <div style={{ width: isMobile ? '250px' : isTablet ? '450px' : '550px', padding: '0 3vh', position: 'absolute', bottom: 0, right: isMobile ? '33%' : isTablet ? '10px' : '4%' }}>
             <StoryImage src={story}></StoryImage>
           </div>
         </StoryTitle>
