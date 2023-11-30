@@ -273,6 +273,7 @@ export default function CurationDetailBox() {
   useEffect(() => {
     getCurationDetail();
     getCurationStoryDetail();
+    open && otherUserData(curationDetail.writer_email);
   }, [refresh])
   
   const following = async (email) => {
@@ -310,7 +311,7 @@ export default function CurationDetailBox() {
           <View style={{ position: 'relative' }}>
             <TitleBox>
               <Title>{curationDetail.title}</Title>
-              {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+              {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
               <CurationInfoBox>
                 <IconView>
                   <ProfileImage src={ curationDetail.profile_image } onClick={() => {otherUserData(curationDetail.writer_email)}}/>
@@ -388,6 +389,11 @@ export const Storys = ({
   const navigate = useNavigate();
   const request = Request(navigate);
   const myEmail = localStorage.getItem('email');
+  const [storyFresh, setStoryFresh] = useState(false);
+
+  const storyRerender = () => {
+    setStoryFresh(!storyFresh);
+  }
 
   const handleLike = async () => {
     const response_like = await request.post(`/stories/${story_id}/story_like/`);
@@ -410,6 +416,7 @@ export const Storys = ({
     const response = await request.get('/mypage/user/', {
       email: email
     });
+    setRefresh(!refresh);
     setOtherUser(response.data.data);
     setOpen(true);
   }
@@ -423,11 +430,15 @@ export const Storys = ({
     setLike(like_story);
   }, [])
 
+  useEffect(() => {
+    open && otherUserData(writer_email);
+  }, [storyFresh])
+
   return (
     <StorySection>
       <StoryInfoBox>
         <StoryTitleBox>
-          <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>
+          <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={storyRerender}/>
             <StoryPlaceName style={{color: "#000", marginRight:'30px'}}>{place_name}</StoryPlaceName>
             <StoryProfileInfoBox>
               <StoryProfileImage src={`${profile_image}`} onClick={() => {otherUserData(writer_email)}}/>

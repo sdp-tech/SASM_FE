@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Request from '../../../functions/common/Request';
@@ -60,9 +60,13 @@ export default function Comment({ data, id, format }) {
   const [otherUser, setOtherUser] = useState({});
   const [open, setOpen] = useState(false);
   const [report, setReport] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   const email = localStorage.getItem('email');
   const request = Request(navigate);
+  const rerender = () => {
+    setRefresh(!refresh);
+  }
   const handleReply = () => {
     setReply(!reply);
     setUpdate(false);
@@ -93,9 +97,12 @@ export default function Comment({ data, id, format }) {
   const handleClose = () => {
     setOpen(false);
   }
+  useEffect(() => {
+    open && otherUserData(data.email);
+  },[refresh])
   return (
     <>
-    {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+    {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
       {update ?
         <UpdateComment data={data} setUpdate={setUpdate} /> :
         <CommentWrapper>

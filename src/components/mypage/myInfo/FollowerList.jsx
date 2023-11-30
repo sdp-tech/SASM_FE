@@ -113,17 +113,23 @@ const Follower = () => {
   const myEmail = localStorage.getItem("email");
   const [otherUser, setOtherUser] = useState({});
   const [open, setOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [followerList, setFollowerList] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [limit, setLimit] = useState(5);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
+  const [targetEmail, setTargetEmail] = useState('');
   const [pageOneFlag, setPageOneFlag] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const nickname = localStorage.getItem('nickname');
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
   });
+
+  const rerender = () => {
+    setRefresh(!refresh);
+  }
 
   const GetFollower = async () => {
     const response = await request.get('/mypage/follower/', {
@@ -151,6 +157,10 @@ const Follower = () => {
     e.preventDefault();
     setSearchQuery(e.target.value);
   };
+
+  useEffect(() => {
+    open && otherUserData(targetEmail);
+  },[refresh]);
 
   useEffect(() => {
     const params = {
@@ -193,7 +203,7 @@ const Follower = () => {
         <p style={{ fontSize: 16, letteringSpace: -0.6 }} >Back To Mypage</p>
       </BackButton>
       <FollowerSection>
-      {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+      {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
         {
           followerList.length == 0 ? 
             <Wrapper>
@@ -203,8 +213,14 @@ const Follower = () => {
             {
               followerList.map((user, index) => (
                 <InfoWrapper>
-                  <FollowerImg src={user.profile_image} onClick={() => {otherUserData(user.email)}}/>
-                  <FollowWrapper onClick={() => {otherUserData(user.email)}}>
+                  <FollowerImg src={user.profile_image} onClick={() => {
+                    setTargetEmail(user.email)
+                    otherUserData(user.email)
+                    }}/>
+                  <FollowWrapper onClick={() => {
+                    setTargetEmail(user.email)
+                    otherUserData(user.email)
+                    }}>
                     <p>{user.nickname}</p>
                     <p>{user.email}</p>
                   </FollowWrapper>

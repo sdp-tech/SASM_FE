@@ -131,6 +131,7 @@ const Following = () => {
   const [refresh, setRefresh] = useState(false);
   const [page, setPage] = useState(1);
   const [pageOneFlag, setPageOneFlag] = useState(false);
+  const [targetEmail, setTargetEmail] = useState('');
   const nickname = localStorage.getItem('nickname');
   const queryString = qs.parse(location.search, {
     ignoreQueryPrefix: true
@@ -169,6 +170,10 @@ const Following = () => {
   const handleClose = () => {
     setOpen(false);
   }
+
+  useEffect(() => {
+    open && otherUserData(targetEmail);
+  },[refresh]);
 
   useEffect(() => {
     const params = {
@@ -211,7 +216,7 @@ const Following = () => {
         <p style={{ fontSize: 16, letteringSpace: -0.6 }} >Back To Mypage</p>
       </BackButton>
       <FollowingSection>
-      {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose}/>}
+      {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
         {
           followingList.length == 0 ? 
             <Wrapper>
@@ -221,8 +226,14 @@ const Following = () => {
             {
               followingList.map((user, index) => (
                 <InfoWrapper>
-                  <FollowingImg src={user.profile_image} onClick={() => {otherUserData(user.email)}}/>
-                  <FollowWrapper onClick={() => {otherUserData(user.email)}}>
+                  <FollowingImg src={user.profile_image} onClick={() => {
+                    setTargetEmail(user.email)
+                    otherUserData(user.email)
+                    }}/>
+                  <FollowWrapper onClick={() => {
+                    otherUserData(user.email)
+                    setTargetEmail(user.email)
+                    }}>
                     <p>{user.nickname}</p>
                     <p>{user.email}</p>
                   </FollowWrapper>
