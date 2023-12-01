@@ -249,11 +249,17 @@ const MapButton = styled(Button)({
   borderRadius: "29px",
   boxShadow:
     "0px 3.25367px 3.25367px rgba(0, 0, 0, 0.25), 0px 3.25367px 3.25367px rgba(0, 0, 0, 0.25)" /* 그림자 */,
-  backgroundColor: "#3AE89480",
+    backgroundImage: 'linear-gradient(to left, #47FF9C, 	#00BFFF)',
   fontWeight: "600",
   display: "flex",
   width: "137px",
+  opacity: "0.7",
   height: "30px",
+  marginBottom: "10px",
+  '&:hover': {
+    transform: "scale(1.03)",
+    textDecoration: "underline",
+  }
 });
 
 const ButtonText = styled.div`
@@ -261,6 +267,7 @@ const ButtonText = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: auto;
+  color: #000;
 `;
 const LikeButton = styled(Button)({
   boxSizing: "border-box",
