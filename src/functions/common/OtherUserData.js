@@ -75,7 +75,6 @@ export default function OtherUserData (props) {
               <p>팔로우 취소</p>:
               <p>+ 팔로잉</p>}</Button> : <></>
             }
-            {console.log(props)}
           </ProfileWrapper>
           <ButtonWrapper>
             <SelectButton>{props.userData.nickname}의 스토리
