@@ -58,7 +58,9 @@ const StoreNameBox = styled.div`
     width:110%;
     font-size: 1.25rem;
   }
-  
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const CategoryBox = styled.div`
@@ -171,9 +173,6 @@ const StyledCard = styled(Card)`
   @media screen and (min-width: 1200px) {
     min-height: 30vh;
   }
-  &:hover{
-    transform: scale(1.01)
-  }
 `
 
 export default function ItemCard(props) {
@@ -206,7 +205,7 @@ export default function ItemCard(props) {
           boxShadow: "none",
         }}
       >
-        <Link to={`/story/${props.id}`} style={{ textDecoration: "none" }}>
+        <Link to={`/story/${props.id}`} style={{ textDecoration: "none", overflow: "hidden", borderRadius: "10%" }}>
           <CardMedia
             component="img"
             sx={{
@@ -217,6 +216,10 @@ export default function ItemCard(props) {
               maxWidth: width,
               display: "flex",
               borderRadius: "10%",
+              transition: "all 0.1s",
+              "&:hover" : {
+                transform: "scale(1.05)"
+              }
             }}
             image={props.rep_pic}
             alt="placeImage"
