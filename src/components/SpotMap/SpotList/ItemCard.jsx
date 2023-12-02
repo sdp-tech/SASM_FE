@@ -39,7 +39,7 @@ const ImgLink = styled(Link)`
     max-width: 25vmin;
     max-height: 25vmin;
   }
-  transition: transform 1s ease-in-out;
+  transition: transform .1s ease-in-out;
   :hover {
     transform: scale(1.1);
   }
