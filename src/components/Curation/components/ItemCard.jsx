@@ -30,9 +30,7 @@ const CardWrapper = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  &:hover {
-    transform: scale(1.02);
-  }
+  overflow: hidden;
 `
 
 export default function ItemCard(props) {
@@ -48,6 +46,11 @@ export default function ItemCard(props) {
         maxWidth: '15vw',
         // display: "flex",
         borderRadius: "10%",
+        // transition: "all 0.1s",
+        "&:hover": {
+          borderRadius: "13%",
+          transform: "scale(1.02)"
+        }
       }}
       image={props.rep_pic}
       alt="placeImage"
