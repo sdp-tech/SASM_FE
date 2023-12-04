@@ -23,6 +23,9 @@ const Title = styled.div`
     @media screen and (max-width: 768px) {
         width: 65%;
     }
+    &:hover {
+        text-decoration: underline;
+    }
 `
 const Date = styled.div`
     margin-left: auto;
@@ -37,7 +40,7 @@ export default function StoryInCuration(props)
     return (
         <div>
             <CurationText>
-                <div>&nbsp;이 스토리가 포함된 큐레이션을 확인해보세요</div>
+                <div style={{fontWeight:700}}>&nbsp;이 스토리가 포함된 큐레이션을 확인해보세요</div>
             </CurationText>
             <br></br><br></br>
             {data.map((it, index) => (
