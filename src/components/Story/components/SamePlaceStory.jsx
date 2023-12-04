@@ -23,6 +23,9 @@ const Title = styled.div`
     @media screen and (max-width: 768px) {
         width: 65%;
     }
+    &:hover {
+        text-decoration: underline;
+    }
 `
 const Date = styled.div`
     margin-left: auto;
@@ -37,7 +40,7 @@ export default function SamePlaceStory(props)
     return (
         <div>
             <StoryText>
-                <div>&nbsp;이 장소의 다른 스토리도 둘러보세요</div>
+                <div style={{fontWeight:700}}>&nbsp;이 장소의 다른 스토리도 둘러보세요</div>
             </StoryText>
             <br></br><br></br>
             {data.map((it, index) => (

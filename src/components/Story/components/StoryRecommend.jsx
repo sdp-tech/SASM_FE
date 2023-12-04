@@ -23,6 +23,9 @@ const Title = styled.div`
     @media screen and (max-width: 768px) {
         width: 65%;
     }
+    &:hover {
+        text-decoration: underline;
+    }
 `
 const Date = styled.div`
     margin-left: auto;
@@ -37,7 +40,7 @@ export default function Recommends(props) {
         <div>
             <RecommendText>
                 <div style={{ color: "#44ADF7" }}>{data[0].category}</div>
-                <div>&nbsp;카테고리의 다른 글도 확인해보세요</div>
+                <div style={{fontWeight:700}}>&nbsp;카테고리의 다른 글도 확인해보세요</div>
             </RecommendText>
             <br></br><br></br>
             {data.map((it, index) => (

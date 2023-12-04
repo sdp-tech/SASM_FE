@@ -56,17 +56,21 @@ const TextArea = styled.textarea`
 
 const SubmitBtn = styled.button`
     cursor: pointer;
-    border: none;
+    border: 2px solid #3c3c3c;
     font-size: 1.25rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    background-color: #767676;
+    font-weight: 600;
+    color: #3c3c3c;
+    background-color: #FFF;
     border-radius: 1000px;
-    width: 15%;
+    width: 20%;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     @media screen and (max-width: 768px) {
         font-size: 1rem;
         width: 30%;
+    }
+    &:hover {
+        color: #FFF;
+        background-color: #3c3c3c;
     }
 `
 
@@ -81,12 +85,16 @@ export default function WriteComment({ id }) {
             navigate('/auth');
         }
         else {
-            const response = await request.post("/stories/comments/create/", {
+            try {
+                const response = await request.post("/stories/comments/create/", {
                 story: id,
                 content: event.target.text.value,
             });
+            window.location.reload();
+        } catch (e) {
+            alert("내용을 입력해주세요");
         }
-        window.location.reload();
+        }
     }
 
     return (
