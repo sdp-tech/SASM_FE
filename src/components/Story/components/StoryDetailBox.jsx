@@ -330,10 +330,15 @@ const StoryDetailBox = (props) => {
     localStorage.setItem('place_name', place_name);
   };
   const [refresh, setRefresh] = useState(false);
+  const [otherUserFresh, setOtherUserFresh] = useState(false);
   const myEmail = localStorage.getItem('email');
 
   const rerender = () => {
     setRefresh(!refresh);
+  }
+
+  const otherUserRerender = () => {
+    setOtherUserFresh(!otherUserFresh);
   }
 
   const following = async (email) => {
@@ -404,8 +409,12 @@ const StoryDetailBox = (props) => {
 
   useEffect(() => {
     loadItem();
-    otherUserData(data.writer);
   }, [refresh]);
+
+  useEffect(() => {
+    loadItem();
+    otherUserData(data.writer);
+  }, [otherUserFresh]);
 
   return (
     <>
@@ -485,7 +494,7 @@ const StoryDetailBox = (props) => {
               </Tablet>
             </StoreNameBox>
           </MainTitleNStoreNameBox>
-          {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={rerender}/>}
+          {open && <OtherUserData open = {open} userData = {otherUser} handleClose = {handleClose} rerender={otherUserRerender}/>}
           <ImageNContentBox>
             <div>{data.story_review}</div>
             <MarkupBox dangerouslySetInnerHTML={markup()}></MarkupBox>
