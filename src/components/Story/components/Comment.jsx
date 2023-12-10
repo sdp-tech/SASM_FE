@@ -42,7 +42,7 @@ const ButtonBox = styled.div`
   justify-content: center;
   position: absolute;
   right: 0;
-  width: 12%;
+  width: 25%;
   box-sizing: border-box;
   @media screen and (max-width: 768px) {
     width: auto;
@@ -52,12 +52,21 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   outline: none;
+  margin: 5px;
   background-color: white;
   height: 100%;
   font-size: 1rem;
   font-weight: 600;
   @media screen and (max-width: 768px) {
     font-size: 0.75rem;
+  }
+  @media screen and (min-width: 769px) and (max-width: 1023px) {
+    font-size: 0.8rem;
+  }
+  &:hover {
+    transform: scale(1.02);
+    text-decoration: underline;
+    color: #00A5FF
   }
 `
 const TextArea = styled.textarea`
@@ -99,7 +108,10 @@ const LikeButton = styled(Button)({
   boxSizing: "border-box",
   border: "none",
   display: "flex",
-  marginRight: "5px"
+  marginRight: "5px",
+  "&:hover": {
+    transform: 'none'
+  }
 });
 export default function Comment({ data, rerender }) {
   const date = data.created_at.slice(0, 10);
