@@ -141,7 +141,7 @@ const Tag = styled.div`
   font-weight: 600;
   font-size: 1rem;
   line-height: 50px;
-  padding: 10px;
+  padding: 5px;
   margin-left: 2%;
   @media screen and (max-width: 768px) {
     margin: 0;
@@ -151,7 +151,7 @@ const Tag = styled.div`
   }
   @media screen and (min-width: 768px) and (max-width: 1024px) {
     // display: none;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 `;
 const ButtonDiv = styled.div`
@@ -173,8 +173,9 @@ const LikeIconBox = styled.div`
 const ImageNContentBox = styled.div`
   width: 100%;
   box-sizing: border-box;
-  height: 95%;
+  height: auto;
   display: flex;
+  // position: absolute;
   justify-content: center;
   padding-top: 8px;
   flex-direction: column;
@@ -182,14 +183,14 @@ const ImageNContentBox = styled.div`
   font-weight: 400;
   @media screen and (max-width: 767px) {
     zoom: 1;
-    height: 97%;
   }
   @media screen and (min-width: 768px) and (max-width:1023px) {
+    padding-top: 30px;
     font-size: 0.8rem;
   }
   @media screen and (min-width: 1024px) {
     // zoom: 1;
-    padding-top: 20px;
+    padding-top: 50px;
   }
 `;
 // 기존에 존재하는 버튼에 재스타일
