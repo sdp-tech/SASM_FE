@@ -43,6 +43,9 @@ const Button = styled.button`
     border-left: 1px black solid;
   }
   padding: 0.5vh 1vw;
+  &:hover {
+    text-decoration: underline;
+  }
 `
 const Writer = styled.span`
   cursor: pointer;

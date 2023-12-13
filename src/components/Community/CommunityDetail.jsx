@@ -75,7 +75,7 @@ const Button = styled.button`
   // transition: all 0.5s ease;
   &:hover {
     color: #1E90FF;
-    transform: scale(1.02);
+    text-decoration: underline;
   }
 `
 const CommentsWrapper = styled.div`
